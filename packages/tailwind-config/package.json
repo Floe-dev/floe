@@ -1,0 +1,10 @@
+{
+  "name": "@floe/tailwind-config",
+  "version": "0.0.0",
+  "private": true,
+  "main": "index.js",
+  "devDependencies": {
+    "@tailwindcss/forms": "^0.5.4",
+    "tailwindcss": "^3.3.3"
+  }
+}

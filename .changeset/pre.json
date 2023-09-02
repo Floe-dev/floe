@@ -1,0 +1,24 @@
+{
+  "mode": "pre",
+  "tag": "alpha",
+  "initialVersions": {
+    "@floe/app": "0.1.0",
+    "@floe/web": "1.0.0-alpha.0",
+    "eslint-config-custom": "0.0.0",
+    "@floe/next": "1.0.0-alpha.0",
+    "@floe/server": "1.0.0-alpha.0",
+    "@floe/tailwind-config": "0.0.0",
+    "tsconfig": "0.0.0",
+    "@floe/ui": "0.0.0"
+  },
+  "changesets": [
+    "few-shrimps-bake",
+    "flat-spies-glow",
+    "light-zoos-pump",
+    "rotten-seals-train",
+    "soft-suns-accept",
+    "thick-parents-leave",
+    "tough-pets-sleep",
+    "two-dots-add"
+  ]
+}

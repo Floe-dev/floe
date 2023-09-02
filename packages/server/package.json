@@ -1,0 +1,44 @@
+{
+  "name": "@floe/server",
+  "version": "1.0.0-alpha.6",
+  "description": "Floe client for server-side rendering",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "prepublishOnly": "pnpm run build",
+    "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf lib"
+  },
+  "author": "",
+  "license": "LGPL-3.0-or-later",
+  "files": [
+    "dist",
+    "src"
+  ],
+  "devDependencies": {
+    "@types/js-yaml": "^4.0.5",
+    "@types/react": "^18.2.18",
+    "@types/react-dom": "^18.2.7",
+    "eslint-config-custom": "workspace:*",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "tsconfig": "workspace:*",
+    "typescript": "^5.1.6",
+    "undici": "^5.23.0"
+  },
+  "dependencies": {
+    "@markdoc/markdoc": "^0.3.0",
+    "@types/node": "^20.5.9",
+    "js-yaml": "^4.1.0"
+  },
+  "peerDependencies": {
+    "react": ">=18",
+    "react-dom": ">=18"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "name": "@floe/web",
+  "version": "1.0.0-alpha.8",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf .next",
+    "check-types": "npx tsc --project ./tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@floe/next": "workspace:*",
+    "@floe/ui": "workspace:*",
+    "@heroicons/react": "^2.0.18",
+    "@hookform/resolvers": "^3.1.1",
+    "@mailchimp/mailchimp_marketing": "^3.0.80",
+    "@radix-ui/react-accordion": "^1.1.2",
+    "@vercel/analytics": "^1.0.1",
+    "classnames": "^2.3.2",
+    "js-yaml": "^4.1.0",
+    "next": "^13.4.19",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-hook-form": "^7.45.2",
+    "sharp": "^0.32.4",
+    "yup": "^1.2.0"
+  },
+  "devDependencies": {
+    "@floe/tailwind-config": "workspace:*",
+    "@svgr/webpack": "^8.0.1",
+    "@tailwindcss/typography": "^0.5.9",
+    "@types/js-yaml": "^4.0.5",
+    "@types/mailchimp__mailchimp_marketing": "^3.0.10",
+    "@types/node": "^17.0.12",
+    "@types/react": "^18.0.22",
+    "@types/react-dom": "^18.0.7",
+    "autoprefixer": "^10.4.14",
+    "eslint-config-custom": "workspace:*",
+    "postcss": "^8.4.26",
+    "tailwindcss": "^3.3.3",
+    "tsconfig": "workspace:*",
+    "typescript": "^5.1.6"
+  }
+}
