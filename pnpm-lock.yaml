@@ -269,6 +269,22 @@ importers:
         specifier: ^3.3.3
         version: 3.3.3
 
+  packages/trpc:
+    dependencies:
+      '@trpc/client':
+        specifier: ^10.38.1
+        version: 10.38.1(@trpc/server@10.38.1)
+      '@trpc/server':
+        specifier: ^10.38.1
+        version: 10.38.1
+    devDependencies:
+      ts-node:
+        specifier: ^10.9.1
+        version: 10.9.1(@types/node@20.5.9)(typescript@5.2.2)
+      typescript:
+        specifier: ^5.2.2
+        version: 5.2.2
+
   packages/tsconfig: {}
 
   packages/ui:
@@ -2647,6 +2663,18 @@ packages:
       postcss-selector-parser: 6.0.10
       tailwindcss: 3.3.3
     dev: true
+
+  /@trpc/client@10.38.1(@trpc/server@10.38.1):
+    resolution: {integrity: sha512-kY7ZV7Eco5SeFIGJX6OBg7AAKkiMt5+1N+GC7N1lTZszrw95ZiNgtkZ5TI6+Un4O+RqrOcqqast6MeExCoyZhQ==}
+    peerDependencies:
+      '@trpc/server': 10.38.1
+    dependencies:
+      '@trpc/server': 10.38.1
+    dev: false
+
+  /@trpc/server@10.38.1:
+    resolution: {integrity: sha512-59mM0Jk3cnWBExSv4Z4cw/776MPwa+rcVNywnV5gyHyK/p5qHtis1b1JPYdTEQZ0zhR+6zeto14rTR51hg+Nuw==}
+    dev: false
 
   /@trysound/sax@0.2.0:
     resolution: {integrity: sha512-L7z9BgrNEcYyUYtF+HaEfiS5ebkh9jXqbszz7pC0hRBPaatV0XjSD3+eHrpqFemQfgwiFF0QPIarnIihIDn7OA==}
