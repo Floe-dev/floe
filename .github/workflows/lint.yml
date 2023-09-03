@@ -7,8 +7,8 @@ on:
 
 jobs:
   env:
-    NEXT_PUBLIC_FLOE_API_KEY_ID: ${{ vars.NEXT_PUBLIC_FLOE_API_KEY_ID }}
-    FLOE_API_KEY_SECRET: ${{ vars.FLOE_API_KEY_SECRET }}
+    NEXT_PUBLIC_FLOE_API_KEY_ID: ${{ secrets.NEXT_PUBLIC_FLOE_API_KEY_ID }}
+    FLOE_API_KEY_SECRET: ${{ secrets.FLOE_API_KEY_SECRET }}
   lint:
     name: ⬣ ESLint
     runs-on: ubuntu-latest
