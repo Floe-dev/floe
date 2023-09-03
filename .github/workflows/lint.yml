@@ -1,4 +1,4 @@
-name: 💅 Lint
+name: 💅 Code quality
 on:
   push:
     branches:
