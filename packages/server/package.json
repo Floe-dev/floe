@@ -31,7 +31,8 @@
   "dependencies": {
     "@markdoc/markdoc": "^0.3.0",
     "@types/node": "^20.5.9",
-    "js-yaml": "^4.1.0"
+    "js-yaml": "^4.1.0",
+    "prism-react-renderer": "^2.0.6"
   },
   "peerDependencies": {
     "react": ">=18",
