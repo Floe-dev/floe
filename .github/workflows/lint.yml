@@ -5,10 +5,6 @@ on:
       - main
   pull_request:
 
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
-
 jobs:
   lint:
     name: ⬣ ESLint
@@ -45,7 +41,7 @@ jobs:
         run: pnpm install
 
       - name: 🔬 Lint
-        run: pnpm run lint
+        run: pnpm lint
 
   typecheck:
     name: ʦ TypeScript
@@ -82,4 +78,4 @@ jobs:
         run: pnpm install
 
       - name: 🔬 Typecheck
-        run: pnpm run typecheck
+        run: pnpm typecheck
