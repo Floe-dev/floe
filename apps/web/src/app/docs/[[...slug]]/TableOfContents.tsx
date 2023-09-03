@@ -18,18 +18,9 @@ const TableOfContents = ({ fileTree }: FileTree) => {
   const pathname = usePathname();
 
   return (
-    <Accordion.Root
-      className="AccordionRoot"
-      type="single"
-      defaultValue="root"
-      collapsible
-    >
-      <Accordion.Item className="AccordionItem" value="root">
-        <ul className="prose-sm prose dark:prose-invert">
-          {buildRecursiveTree(fileTree, pathname)}
-        </ul>
-      </Accordion.Item>
-    </Accordion.Root>
+    <ul className="prose-sm prose dark:prose-invert">
+      {buildRecursiveTree(fileTree, pathname)}
+    </ul>
   );
 };
 
@@ -63,7 +54,6 @@ const buildRecursiveTree = (ft: FileTree | FileTreeNode, pathname: string) => {
       return null;
     }
 
-    
     if ((value as FileTreeNode).filename) {
       return (
         <li
@@ -93,8 +83,8 @@ const buildRecursiveTree = (ft: FileTree | FileTreeNode, pathname: string) => {
         className="AccordionRoot"
         type="single"
         collapsible
-        defaultValue={key}
         key={key}
+        defaultValue={key}
       >
         <Accordion.Item className="AccordionItem" value={key}>
           <li className="m-0 list-none prose-li">
@@ -102,7 +92,9 @@ const buildRecursiveTree = (ft: FileTree | FileTreeNode, pathname: string) => {
             <div className="flex justify-between my-2 rounded-lg hover:bg-zinc-700">
               {(value as FileTree)["index.md"] ? (
                 <Link
-                  href={"/" + (value as FileTree)["index.md"].filename as string}
+                  href={
+                    ("/" + (value as FileTree)["index.md"].filename) as string
+                  }
                   className={`flex-1 px-2 py-1 no-underline ${
                     decodeURIComponent(pathname).includes(
                       (value as FileTree)["index.md"].filename as string
