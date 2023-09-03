@@ -10,7 +10,7 @@ const InterFont = Inter({
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode;
+  children: null;
 }) {
   return (
     <html lang="en" className="dark">

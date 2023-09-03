@@ -16,7 +16,7 @@ type InputProps = {
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(
   ({ icon, label, subtext, className, errortext, textarea, ...args }, ref) => {
-    const inputId = useId();
+    let inputId = useId();
     const Icon = icon;
     const InputEl = textarea ? `textarea` : `input`;
 

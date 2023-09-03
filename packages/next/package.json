@@ -11,7 +11,8 @@
     "prepublishOnly": "pnpm run build",
     "build:cjs": "tsc --module commonjs --outDir dist/cjs",
     "lint": "eslint \"**/*.ts*\"",
-    "clean": "rm -rf .turbo && rm -rf node_modules"
+    "clean": "rm -rf .turbo && rm -rf node_modules",
+    "typecheck": "npx tsc --project ./tsconfig.json --noEmit"
   },
   "files": [
     "dist"
