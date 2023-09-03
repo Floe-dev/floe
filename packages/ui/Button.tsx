@@ -74,15 +74,18 @@ export const Button = forwardRef<
         ref={ref}
         disabled={disabled}
         type={type}
-        className={cn(`
+        className={cn(
+          `
           ${classes.base}
           ${classes.size[size]}
           ${classes.variant[variant]}
-      `, {
-        [className as string]: className,
-        [classes.pill]: pill,
-        [classes.disabled]: disabled,
-      })}
+      `,
+          {
+            [className as string]: className,
+            [classes.pill]: pill,
+            [classes.disabled]: disabled,
+          }
+        )}
         {...props}
       >
         {Icon && <Icon className={cn(`${classes.iconSize[size]}`)} />}

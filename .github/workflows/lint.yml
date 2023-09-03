@@ -6,6 +6,9 @@ on:
   pull_request:
 
 jobs:
+  env:
+    NEXT_PUBLIC_FLOE_API_KEY_ID: ${{ vars.NEXT_PUBLIC_FLOE_API_KEY_ID }}
+    FLOE_API_KEY_SECRET: ${{ vars.FLOE_API_KEY_SECRET }}
   lint:
     name: ⬣ ESLint
     runs-on: ubuntu-latest
