@@ -30,6 +30,15 @@ export class FloeClientFactory {
   get post() {
     return {
       getListOrNode: async (path: string, datasourceId?: string) => {
+        try {
+          // @ts-ignore
+          console.log(11111, typeof window === "undefined");
+          const x = await trpc.userList.query();
+          // console.log(1111, x);
+        } catch (e) {
+          console.log(222222, e);
+        }
+
         const queryParams = new URLSearchParams({
           path,
           ...(datasourceId && { datasourceId }),

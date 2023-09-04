@@ -11,7 +11,6 @@
   "dependencies": {
     "@floe/db": "workspace:*",
     "@trpc/client": "^10.38.1",
-    "@trpc/react-query": "^10.38.1",
     "@trpc/server": "^10.38.1"
   },
   "devDependencies": {
