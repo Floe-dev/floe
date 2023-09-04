@@ -13,7 +13,8 @@
     "db:studio": "prisma studio",
     "clean": "rm -rf node_modules && rm -rf dist && rm -rf .next",
     "check-types": "npx tsc --project ./tsconfig.json --noEmit",
-    "postinstall": "prisma generate"
+    "postinstall": "prisma generate",
+    "typecheck": "npx tsc --project ./tsconfig.json --noEmit"
   },
   "dependencies": {
     "@headlessui/react": "^1.7.16",
