@@ -11,5 +11,7 @@ export const appRouter = router({
   }),
 });
 
-export type AppRouter = typeof appRouter;
+export * from "./context";
 export * from "@trpc/server";
+export type AppRouter = typeof appRouter;
+export * as trpcNext from "@trpc/server/adapters/next";

@@ -29,6 +29,7 @@
     "undici": "^5.23.0"
   },
   "dependencies": {
+    "@floe/trpc": "workspace:*",
     "@markdoc/markdoc": "^0.3.0",
     "@types/node": "^20.5.9",
     "js-yaml": "^4.1.0"
