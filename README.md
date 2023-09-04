@@ -4,7 +4,7 @@
   <h3 align="center">The Open-Source Product Engagement Platform</h3>
 
   <p align="center">
-    Make product releases easier, with tools for crafting posts (changelogs, docs, blogs), announcing them, and getting feedback.
+    Tools for crafting product release content (changelogs, docs, blogs), announcements, and feedback.
     <br />
     <a href="https://www.notion.so/floe-dev/Welcome-to-Floe-3db77b5e72a74c86a7756deb4bb2eb45?pvs=4"><strong>Learn more »</strong></a>
     <br />
@@ -27,9 +27,21 @@
 
 > ℹ️ Floe is currently in alpha. You will probably experience bugs, and in the interest of moving quickly I may introduce breaking changes.
 
-## About
+## Features
 
-Floe helps you create markdown-based content for your product release (changelogs, docs, and blogs), and provision it with dynamic features like reactions. In the near future, Floe will help you announce that content and get feedback. Check out the [Roadmap](https://floe.canny.io/feature-requests/p/docs-support) for more.
+- ✅ Write changelogs, blogs, and docs (coming soon) in [Markdoc](https://markdoc.dev/)
+- ✅ Git-backed
+- ✅ Open source
+- ✅ Reactions
+- ✅ Multi-repo support (co-locate content with code)
+- ✅ React Primitives
+- 🔜 Feedback forms
+- 🔜 Emails
+- 🔜 Slack integration
+- 🔜 AI writer
+- 🔜 Analytics
+
+Check out the [Roadmap](https://floe.canny.io/feature-requests/p/docs-support) for more.
 
 Examples:
 
@@ -46,25 +58,29 @@ Examples:
 - [Radix UI](https://www.radix-ui.com/primitives?ref=floe.dev)
 - [Prisma.io](https://prisma.io/?ref=floe.dev)
 - [Turborepo](https://turbo.build/repo/primitives?ref=floe.dev)
+- [Markdoc](https://markdoc.dev/?ref=floe.dev)
 
 ## Getting started
 
 Check out the [tutorial](https://www.notion.so/floe-dev/Docs-UI-Templates-ef503e987aaa4dabb1e388cac9e14d62?pvs=4) in the (temporary) docs to get started.
 
-## Why Floe?
+## Motivation
 
-**Product release comms are hard.** Beamer, Canny, Product Board and a dozen other companies offer great some solutions for rolling content for a release, annoucements, and getting feedback. But when it comes to control and customization, they fall that. Not only that, but these tools don't enforce a single source of truth; instead your changelogs, blogs, and docs get spread across multiple services.
+**Product release comms are hard.** Beamer, Canny, Product Board and a dozen other companies offer some great solutions for rolling content for a release, annoucements, and getting feedback. But when it comes to control and customization, they fall flat. Not only that, but these tools don't enforce a single source of truth; instead your changelogs, blogs, and docs get spread across multiple services.
 
 That's where Floe comes in:
 
 **Open source**
-I started Floe with the hypothesis that
+Great products are built through collaboration and feedback. That's why Floe is completely open source.
 
 **Single source of truth**
+Floe is backed by git. Use your codebase as your single source of truth.
 
-**Data <> UI de-coupling**
+**Content <> UI de-coupling**
+Treat your content for what it really is: data. Co-locate your data with code across multiple repositories. Plus, there's no need to redeploy your templates everytime you ship a data change.
 
 **Built on React**
+Get started quickly with a pre-built Floe template. Or use Floe's Primitives library to create your own.
 
 ## Project status
 
@@ -73,3 +89,5 @@ Floe is in alpha. While in alpha, you can expect bugs, and breaking changes to t
 I am actively looking for feedback and open to contributors (please reach out in [contributing](https://discord.gg/EHwDvBhKHk) channel).
 
 ## Contributing
+
+To contribute check out the guidelines [here](/CONTRIBUTING.md).
