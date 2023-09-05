@@ -2,9 +2,20 @@ import {
   NextApiRequestExtension,
   NextApiResponseExtension,
 } from "@/lib/types/middleware";
-import { defaultResponder } from "@/lib/helpers/defaultResponder";
-import { getFileTree } from "@floe/utils";
+import {
+  Markdoc,
+  markdocConfig,
+  Octokit,
+  filenameToSlug,
+  getFileTree,
+  getRepositoryContent,
+  getUser,
+} from "@floe/utils";
+import { z } from "zod";
+import yaml from "js-yaml";
 import { prisma } from "@/lib/db/client";
+import { DataSource, Post } from "@floe/db";
+import { defaultResponder } from "@/lib/helpers/defaultResponder";
 
 async function handler(
   { query, project, octokit, keyId }: NextApiRequestExtension,
@@ -75,39 +86,107 @@ async function handler(
   // if multiple files are returned for a "node", return the first one
   // (and later the one matching the default data source)
   if (isNode) {
-    return res.status(200).json({
+    return {
       data: indexPost || content[0],
-    });
+    };
   }
 
   const sortedContent = content.sort((a, b) =>
     new Date(a?.metadata.date) < new Date(b?.metadata.date) ? 1 : -1
   );
 
-  res.status(200).json({ data: sortedContent });
+  return { data: sortedContent };
+}
+
+/**
+ * Fetch content from GitHub Content API
+ * Parse file content with Markdoc
+ * Transform Markdoc
+ * Add metadata
+ * Return content
+ */
+async function generatePostContent(
+  octokit: Octokit,
+  datasource: DataSource,
+  post: Post,
+  imageBasePath: string
+) {
+  /**
+   * TODO: This can be optimized to only make one API call per datasource
+   */
+  const fileContent = await getRepositoryContent(octokit, {
+    owner: datasource.owner,
+    repo: datasource.repo,
+    path: post.filename,
+    ref: datasource.baseBranch,
+  });
+
+  /**
+   * API data transformations:
+   * - Get image path
+   * - Get deploy date (TODO)
+   * - ...
+   */
+  const ast = Markdoc.parse(fileContent);
+  const metadata = (
+    ast.attributes.frontmatter ? yaml.load(ast.attributes.frontmatter) : {}
+  ) as any;
+
+  /**
+   * Replace image paths with absolute API path
+   */
+  if (metadata.image && metadata.image.startsWith("/")) {
+    metadata.image = encodeURI(`${imageBasePath}&fn=${metadata.image}`);
+  }
+
+  /**
+   * Generate human-friendly date
+   */
+  if (metadata.date && z.date().safeParse(metadata.date).success) {
+    metadata.date = new Date(metadata.date).toLocaleDateString("en-us", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    });
+  }
+
+  /**
+   * Get author data
+   */
+  if (metadata.authors) {
+    const authors = await Promise.all(
+      metadata.authors.map(async (author: string) => {
+        const user = await getUser(octokit, {
+          username: author,
+        });
+
+        if (!user) {
+          return;
+        }
+
+        return {
+          name: user.name,
+          username: user.login,
+          avatar: user.avatar_url,
+        };
+      })
+    );
+
+    metadata.authors = authors.filter((a) => a);
+  }
+
+  const transform = Markdoc.transform(ast, markdocConfig);
+
+  return {
+    owner: datasource.owner,
+    repo: datasource.repo,
+    datasourceId: datasource.id,
+    imageBasePath,
+    fileName: post.filename,
+    metadata,
+    transform,
+    slug: filenameToSlug(post.filename),
+  };
 }
 
 export default defaultResponder(handler);
-function generatePostContent(
-  octokit: {
-    id: string;
-    repo: string;
-    owner: string;
-    baseBranch: string;
-    path: string;
-    projectId: string | null;
-    createdAt: Date;
-    updatedAt: Date | null;
-  },
-  datasource: {
-    id: string;
-    filename: string;
-    datasourceId: string;
-    createdAt: Date;
-    updatedAt: Date;
-  },
-  post: string,
-  imageBasePath: unknown
-): any {
-  throw new Error("Function not implemented.");
-}

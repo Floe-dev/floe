@@ -18,6 +18,7 @@
     "typescript": "^5.2.2"
   },
   "dependencies": {
+    "@markdoc/markdoc": "^0.3.0",
     "@octokit/auth-app": "^6.0.0",
     "@prisma/client": "^5.2.0",
     "minimatch": "^9.0.3",

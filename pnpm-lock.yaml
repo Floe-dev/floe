@@ -47,6 +47,9 @@ importers:
       eslint-config-next:
         specifier: 13.4.19
         version: 13.4.19(eslint@8.48.0)(typescript@5.2.2)
+      js-yaml:
+        specifier: ^4.1.0
+        version: 4.1.0
       next:
         specifier: 13.4.19
         version: 13.4.19(@babel/core@7.22.11)(react-dom@18.2.0)(react@18.2.0)
@@ -56,10 +59,16 @@ importers:
       typescript:
         specifier: 5.2.2
         version: 5.2.2
+      zod:
+        specifier: ^3.21.4
+        version: 3.21.4
     devDependencies:
       '@types/bcrypt':
         specifier: ^5.0.0
         version: 5.0.0
+      '@types/js-yaml':
+        specifier: ^4.0.5
+        version: 4.0.5
       eslint-config-custom:
         specifier: workspace:*
         version: link:../../packages/eslint-config-custom
@@ -72,6 +81,9 @@ importers:
       '@floe/db':
         specifier: workspace:*
         version: link:../../packages/db
+      '@floe/utils':
+        specifier: workspace:*
+        version: link:../../packages/utils
       '@headlessui/react':
         specifier: ^1.7.16
         version: 1.7.16(react-dom@18.2.0)(react@18.2.0)
@@ -238,6 +250,9 @@ importers:
       '@floe/ui':
         specifier: workspace:*
         version: link:../../packages/ui
+      '@floe/utils':
+        specifier: workspace:*
+        version: link:../../packages/utils
       '@heroicons/react':
         specifier: ^2.0.18
         version: 2.0.18(react@18.2.0)
@@ -478,6 +493,9 @@ importers:
 
   packages/utils:
     dependencies:
+      '@markdoc/markdoc':
+        specifier: ^0.3.0
+        version: 0.3.0(@types/react@18.2.18)(react@18.2.0)
       '@octokit/auth-app':
         specifier: ^6.0.0
         version: 6.0.0

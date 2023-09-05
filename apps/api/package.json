@@ -18,12 +18,15 @@
     "bcrypt": "^5.1.0",
     "eslint": "8.48.0",
     "eslint-config-next": "13.4.19",
+    "js-yaml": "^4.1.0",
     "next": "13.4.19",
     "next-api-middleware": "^2.0.1",
-    "typescript": "5.2.2"
+    "typescript": "5.2.2",
+    "zod": "^3.21.4"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.0",
+    "@types/js-yaml": "^4.0.5",
     "eslint-config-custom": "workspace:*",
     "tsconfig": "workspace:*"
   }
