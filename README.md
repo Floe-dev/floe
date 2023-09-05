@@ -49,6 +49,10 @@ Examples:
 - [✍️ Blog](https://www.floe.dev/blog)
 - 📖 Docs (coming soon)
 
+## Getting started
+
+Check out the [tutorial](https://www.notion.so/floe-dev/Docs-UI-Templates-ef503e987aaa4dabb1e388cac9e14d62?pvs=4) in the (temporary) docs to get started.
+
 ## Built with
 
 - [Next.js](https://nextjs.org/?ref=floe.dev)
@@ -59,10 +63,6 @@ Examples:
 - [Prisma.io](https://prisma.io/?ref=floe.dev)
 - [Turborepo](https://turbo.build/repo/primitives?ref=floe.dev)
 - [Markdoc](https://markdoc.dev/?ref=floe.dev)
-
-## Getting started
-
-Check out the [tutorial](https://www.notion.so/floe-dev/Docs-UI-Templates-ef503e987aaa4dabb1e388cac9e14d62?pvs=4) in the (temporary) docs to get started.
 
 ## Motivation
 
@@ -85,8 +85,6 @@ That's where Floe comes in:
 ## Project status
 
 Floe is in alpha. While in alpha, you can expect bugs, and breaking changes to the API may occur. That being said, the project is starting to reach a point of stability. If you need more stability, I would recommend waiting for the beta. Check the [changelog](https://www.floe.dev/changelog) for status updates.
-
-I am actively looking for feedback and open to contributors (please reach out in [contributing](https://discord.gg/EHwDvBhKHk) channel).
 
 ## Contributing
 
