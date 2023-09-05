@@ -13,6 +13,7 @@
   "dependencies": {
     "@floe/next": "workspace:*",
     "@floe/ui": "workspace:*",
+    "@floe/utils": "workspace:*",
     "@heroicons/react": "^2.0.18",
     "@hookform/resolvers": "^3.1.1",
     "@mailchimp/mailchimp_marketing": "^3.0.80",

@@ -1,5 +1,4 @@
-import { Octokit } from "octokit";
-import { createAppAuth } from "@octokit/auth-app";
+import { createAppAuth, Octokit } from "@floe/utils";
 import { CustomMiddleware } from "@/lib/types/middleware";
 
 export const octokit: CustomMiddleware = async (req, res, next) => {

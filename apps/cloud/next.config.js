@@ -1,5 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  transpilePackages: ["@floe/db", "@floe/utils"],
+
   async headers() {
     return [
       {

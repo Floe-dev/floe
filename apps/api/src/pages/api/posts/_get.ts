@@ -51,6 +51,7 @@ async function handler(
         return Promise.all(
           posts.map(async (post) => {
             return generatePostContent(
+              // @ts-ignore
               octokit,
               datasource,
               post,
