@@ -1,7 +1,7 @@
 import { defaultHandler } from "@/lib/helpers/defaultHandler";
-import { withMiddleware } from "@/lib/helpers/withMiddlware";
+import { withPrivateMiddleware } from "@/lib/helpers/withPrivateMiddlware";
 
-export default withMiddleware()(
+export default withPrivateMiddleware()(
   defaultHandler({
     GET: {
       1: import("./_get"),

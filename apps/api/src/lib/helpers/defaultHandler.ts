@@ -24,10 +24,6 @@ export const defaultHandler =
       });
     }
 
-    /**
-     * Handle multiple versions here
-     */
-
     const handler = (
       await handlers[req.method as keyof typeof handlers]?.[versionNumber]
     )?.default;

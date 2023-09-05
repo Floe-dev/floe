@@ -4,7 +4,7 @@ import { authenticate } from "./authenticate";
 import { captureErrors } from "./captureErrors";
 import { HTTP_DELETE, HTTP_GET, HTTP_PATCH, HTTP_POST } from "./httpMethods";
 
-const withMiddleware = label(
+const withPrivateMiddleware = label(
   {
     HTTP_GET,
     HTTP_PATCH,
@@ -18,4 +18,4 @@ const withMiddleware = label(
   ["captureErrors", "authenticate", "octokit"]
 );
 
-export { withMiddleware };
+export { withPrivateMiddleware };

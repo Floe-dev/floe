@@ -1,0 +1,22 @@
+{
+  "name": "@floe/utils",
+  "version": "0.1.0",
+  "description": "",
+  "private": true,
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "scripts": {},
+  "author": "",
+  "devDependencies": {
+    "@types/node": "^20.5.9",
+    "eslint": "^7.32.0",
+    "eslint-config-custom": "workspace:*",
+    "prisma": "^5.2.0",
+    "ts-node": "^10.9.1",
+    "tsconfig": "workspace:*",
+    "typescript": "^5.2.2"
+  },
+  "dependencies": {
+    "@prisma/client": "^5.2.0"
+  }
+}

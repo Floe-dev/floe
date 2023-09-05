@@ -13,14 +13,10 @@
     "postinstall": "prisma generate"
   },
   "author": "",
-  "license": "ISC",
   "devDependencies": {
     "@types/node": "^20.5.9",
-    "prisma": "^5.2.0",
     "ts-node": "^10.9.1",
     "typescript": "^5.2.2"
   },
-  "dependencies": {
-    "@prisma/client": "^5.2.0"
-  }
+  "dependencies": {}
 }
