@@ -4,7 +4,6 @@
   "main": "./dist/cjs/index.jsx",
   "module": "./dist/esm/index.jsx",
   "types": "./dist/esm/index.d.ts",
-  "license": "LGPL-3.0-or-later",
   "scripts": {
     "build": "yarn build:esm && yarn build:cjs",
     "build:esm": "tsc",

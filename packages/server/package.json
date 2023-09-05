@@ -12,7 +12,6 @@
     "typecheck": "npx tsc --project ./tsconfig.json --noEmit"
   },
   "author": "",
-  "license": "LGPL-3.0-or-later",
   "files": [
     "dist",
     "src"

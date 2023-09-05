@@ -7,12 +7,20 @@
       "outputs": [".next/**", "!.next/cache/**"],
       "env": [
         "NODE_ENV",
+
         "MAILCHIMP_API_KEY",
         "MAILCHIMP_SERVER",
         "MAILCHIMP_AUDIENCE_ID",
         "NEXT_PUBLIC_FLOE_API_KEY_ID",
         "FLOE_API_KEY_SECRET",
-        "NEXT_PUBLIC_FLOE_BASE_URL"
+        "NEXT_PUBLIC_FLOE_BASE_URL",
+
+        "GITHUB_CLIENT_ID",
+        "GITHUB_CLIENT_SECRET",
+        "APP_ID",
+        "PRIVATE_KEY",
+        "VERCEL_URL",
+        "PORT"
       ]
     },
     "clean": {
