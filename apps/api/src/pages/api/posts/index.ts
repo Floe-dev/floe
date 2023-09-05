@@ -5,7 +5,6 @@ export default withPrivateMiddleware()(
   defaultHandler({
     GET: {
       1: import("./_get"),
-      2: import("./_get-v2"),
     },
   })
 );

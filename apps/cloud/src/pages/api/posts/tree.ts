@@ -10,7 +10,7 @@ import { DataSource } from "@prisma/client";
 type TreeFiles = {
   file: string;
   datasourceId: string;
-}
+};
 
 export default async function handler(
   req: NextApiRequest,
@@ -110,12 +110,10 @@ export default async function handler(
           rules: [`.floe/${path}/**/*.md`],
         });
 
-        return files.map((file) =>
-          ({
-            file: file.split("/").slice(1).join("/"),
-            datasourceId: datasource.id,
-          })
-        );
+        return files.map((file) => ({
+          file: file.split("/").slice(1).join("/"),
+          datasourceId: datasource.id,
+        }));
       } catch (e: any) {
         return res.status(400).json({
           error: e.message,
@@ -125,18 +123,6 @@ export default async function handler(
   );
 
   const files = (await contents).flat() as TreeFiles[];
-  
-  // Need to merge from multiplate datasources
-  const mergedFiles = files.reduce((acc, file) => {
-    const existingFile = acc.find((f) => f.file === file.file);
-
-    if (existingFile) {
-      // TODO: Replace it by datasourceId once default functionality is built out
-      return acc;
-    }
-
-    return [...acc, file];
-  }, [] as TreeFiles[]);
 
   const fileTree = buildFileTree(files);
 
@@ -144,9 +130,7 @@ export default async function handler(
 }
 
 // @ts-ignore
-function buildFileTree(
-  treeFiles: TreeFiles[],
-) {
+function buildFileTree(treeFiles: TreeFiles[]) {
   return treeFiles.reduce((tree, treeFile) => {
     const fileSegments = treeFile.file.split("/");
 
