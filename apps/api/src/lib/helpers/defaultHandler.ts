@@ -2,7 +2,7 @@ import type {
   NextApiHandler,
   NextApiRequestExtension,
   NextApiResponseExtension,
-} from "@/lib/types/middleware";
+} from "@/lib/types/privateMiddleware";
 
 type Handlers = {
   [method in "GET" | "POST" | "PATCH" | "PUT" | "DELETE"]?: {

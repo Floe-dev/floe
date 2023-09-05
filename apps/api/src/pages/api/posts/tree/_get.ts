@@ -1,7 +1,7 @@
 import {
   NextApiRequestExtension,
   NextApiResponseExtension,
-} from "@/lib/types/middleware";
+} from "@/lib/types/privateMiddleware";
 import { getFileTree } from "@floe/utils";
 import { defaultResponder } from "@/lib/helpers/defaultResponder";
 
@@ -50,7 +50,7 @@ async function handler(
 
   const fileTree = buildFileTree(files);
 
-  res.status(200).json({ data: fileTree });
+  return { data: fileTree };
 }
 
 // @ts-ignore

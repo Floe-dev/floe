@@ -1,4 +1,4 @@
-import { CustomMiddleware } from "@/lib/types/middleware";
+import { CustomMiddleware } from "@/lib/types/privateMiddleware";
 
 export const apiID: CustomMiddleware = async (req, res, next) => {
   const keyId = req.headers["x-api-id"] as string | undefined;

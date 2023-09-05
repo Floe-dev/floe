@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt";
 import { prisma } from "@/lib/db/client";
-import { CustomMiddleware } from "@/lib/types/middleware";
+import { CustomMiddleware } from "@/lib/types/privateMiddleware";
 
 export const authenticate: CustomMiddleware = async (req, res, next) => {
   const query = req.query as { datasourceId?: string };

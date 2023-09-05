@@ -2,7 +2,7 @@ import { label } from "next-api-middleware";
 import { captureErrors } from "./captureErrors";
 import { HTTP_DELETE, HTTP_GET, HTTP_PATCH, HTTP_POST } from "./httpMethods";
 
-const withPrivateMiddleware = label(
+const withPublicMiddleware = label(
   {
     HTTP_GET,
     HTTP_PATCH,
@@ -14,4 +14,4 @@ const withPrivateMiddleware = label(
   ["captureErrors"]
 );
 
-export { withPrivateMiddleware };
+export { withPublicMiddleware };

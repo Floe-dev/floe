@@ -1,7 +1,7 @@
 import type {
   NextApiRequestExtension,
   NextApiResponseExtension,
-} from "@/lib/types/middleware";
+} from "@/lib/types/privateMiddleware";
 
 type Handle<T> = (
   req: NextApiRequestExtension,

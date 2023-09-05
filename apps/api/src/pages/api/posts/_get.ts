@@ -1,7 +1,7 @@
 import {
   NextApiRequestExtension,
   NextApiResponseExtension,
-} from "@/lib/types/middleware";
+} from "@/lib/types/privateMiddleware";
 import {
   Markdoc,
   markdocConfig,
