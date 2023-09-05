@@ -70,21 +70,17 @@ Check out the [tutorial](https://www.notion.so/floe-dev/Docs-UI-Templates-ef503e
 
 That's where Floe comes in:
 
-#### Open source
+- **Open source**
+  Great products are built through collaboration and feedback. That's why Floe is completely open source.
 
-Great products are built through collaboration and feedback. That's why Floe is completely open source.
+- **Single source of truth**
+  Floe is backed by git. Use your codebase as your single source of truth.
 
-#### Single source of truth
+- **Content <> UI de-coupling**
+  Treat your content for what it really is: data. Co-locate your data with code across multiple repositories. Plus, there's no need to redeploy your templates everytime you ship a data change.
 
-Floe is backed by git. Use your codebase as your single source of truth.
-
-#### Content <> UI de-coupling
-
-Treat your content for what it really is: data. Co-locate your data with code across multiple repositories. Plus, there's no need to redeploy your templates everytime you ship a data change.
-
-#### Built on React
-
-Get started quickly with a pre-built Floe template. Or use Floe's Primitives library to create your own.
+- **Built on React**
+  Get started quickly with a pre-built Floe template. Or use Floe's Primitives library to create your own.
 
 ## Project status
 
