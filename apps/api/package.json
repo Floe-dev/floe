@@ -1,0 +1,25 @@
+{
+  "name": "@floe/api",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev -p 4000",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf .next",
+    "typecheck": "npx tsc --project ./tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@types/node": "20.5.9",
+    "eslint": "8.48.0",
+    "eslint-config-next": "13.4.19",
+    "next": "13.4.19",
+    "next-api-middleware": "^2.0.1",
+    "typescript": "5.2.2"
+  },
+  "devDependencies": {
+    "eslint-config-custom": "workspace:*",
+    "tsconfig": "workspace:*"
+  }
+}
