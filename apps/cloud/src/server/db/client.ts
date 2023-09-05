@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient } from "@floe/db";
 
 declare global {
   // allow global `var` declarations
