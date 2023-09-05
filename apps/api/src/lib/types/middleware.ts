@@ -1,11 +1,16 @@
-import { Project } from "@floe/db";
+import { Prisma } from "@floe/db";
+import { Octokit } from "@floe/utils";
 import { NextApiRequest, NextApiResponse, NextApiHandler } from "next";
 import { Middleware } from "next-api-middleware";
-import { Octokit } from "octokit";
+
+type ProjectsWithDatasources = Prisma.ProjectGetPayload<{
+  include: { datasources: true };
+}>;
 
 export type NextApiRequestExtension = NextApiRequest & {
-  project?: Project;
-  octokit?: Octokit;
+  project: ProjectsWithDatasources;
+  octokit: Octokit;
+  keyId: string;
 };
 
 export type NextApiResponseExtension = NextApiResponse;

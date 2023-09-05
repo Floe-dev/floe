@@ -3,7 +3,7 @@ import { prisma } from "@/lib/db/client";
 import { CustomMiddleware } from "@/lib/types/middleware";
 
 export const authenticate: CustomMiddleware = async (req, res, next) => {
-  const query = req.query as { path: string; datasourceId?: string };
+  const query = req.query as { datasourceId?: string };
   const { datasourceId } = query;
 
   const keyId = req.headers["x-api-id"] as string | undefined;
@@ -67,6 +67,7 @@ export const authenticate: CustomMiddleware = async (req, res, next) => {
   }
 
   req.project = project;
+  req.keyId = keyId;
 
   await next();
 };

@@ -8,6 +8,7 @@
   "scripts": {},
   "author": "",
   "devDependencies": {
+    "@octokit/types": "^11.1.0",
     "@types/node": "^20.5.9",
     "eslint": "^7.32.0",
     "eslint-config-custom": "workspace:*",
@@ -17,6 +18,9 @@
     "typescript": "^5.2.2"
   },
   "dependencies": {
-    "@prisma/client": "^5.2.0"
+    "@octokit/auth-app": "^6.0.0",
+    "@prisma/client": "^5.2.0",
+    "minimatch": "^9.0.3",
+    "octokit": "^3.0.0"
   }
 }
