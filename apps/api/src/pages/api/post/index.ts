@@ -3,6 +3,9 @@ import { withMiddleware } from "@/lib/helpers/withMiddlware";
 
 export default withMiddleware()(
   defaultHandler({
-    GET: import("./_get"),
+    GET: {
+      1: import("./_get"),
+      2: import("./_get-v2"),
+    },
   })
 );
