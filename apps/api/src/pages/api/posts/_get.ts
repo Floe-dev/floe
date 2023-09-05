@@ -35,7 +35,7 @@ async function handler(
     project.datasources.map(async (datasource) => {
       const baseURL =
         process.env.NEXT_PUBLIC_FLOE_BASE_URL ?? "https://app.floe.dev/api/";
-      const imageBasePath = `${baseURL}images?id=${project.apiKeyId}&did=${datasource.id}`;
+      const imageBasePath = `${baseURL}images?keyId=${project.apiKeyId}&datasourceId=${datasource.id}`;
 
       try {
         const files = await getFileTree(octokit, {
@@ -136,7 +136,7 @@ async function generatePostContent(
    * Replace image paths with absolute API path
    */
   if (metadata.image && metadata.image.startsWith("/")) {
-    metadata.image = encodeURI(`${imageBasePath}&fn=${metadata.image}`);
+    metadata.image = encodeURI(`${imageBasePath}&fileName=${metadata.image}`);
   }
 
   /**

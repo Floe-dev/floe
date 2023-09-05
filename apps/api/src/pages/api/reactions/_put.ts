@@ -19,8 +19,6 @@ async function handler(
 
   const ip = (headers["x-real-ip"] || socket.remoteAddress) as string;
 
-  console.log(111111, body);
-
   /**
    * TODO: Can use Zod here instead
    */
