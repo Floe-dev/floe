@@ -11,14 +11,20 @@
     "typecheck": "npx tsc --project ./tsconfig.json --noEmit"
   },
   "dependencies": {
+    "@floe/db": "workspace:*",
+    "@octokit/auth-app": "^6.0.0",
+    "@sentry/nextjs": "^7.66.0",
     "@types/node": "20.5.9",
+    "bcrypt": "^5.1.0",
     "eslint": "8.48.0",
     "eslint-config-next": "13.4.19",
     "next": "13.4.19",
     "next-api-middleware": "^2.0.1",
+    "octokit": "^3.0.0",
     "typescript": "5.2.2"
   },
   "devDependencies": {
+    "@types/bcrypt": "^5.0.0",
     "eslint-config-custom": "workspace:*",
     "tsconfig": "workspace:*"
   }
