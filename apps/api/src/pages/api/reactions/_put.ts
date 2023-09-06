@@ -12,7 +12,7 @@ async function handler(
 ) {
   const body = b as {
     type: any;
-    value: string;
+    value: boolean;
     datasourceId: string;
     fileName: string;
   };
@@ -73,11 +73,11 @@ async function handler(
       ipAddress: hashedIp,
       postDataSourceId: body.datasourceId,
       postFilename: body.fileName,
-      value: body.value === "true",
+      value: body.value,
       type: body.type,
     },
     update: {
-      value: body.value === "true",
+      value: body.value,
     },
   });
 
