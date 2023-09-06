@@ -41,9 +41,9 @@ async function handler(
    * Note: Referential integrity is NOT enforced here.
    * https://www.prisma.io/docs/concepts/components/prisma-schema/relations/relation-mode#which-foreign-key-constraints-are-emulated
    *
-   * So, we should manually check if the changelog exists.
+   * So, we should manually check if the post exists.
    */
-  const changelog = await prisma.post.findUnique({
+  const post = await prisma.post.findUnique({
     where: {
       unique_post: {
         datasourceId: body.datasourceId,
@@ -52,10 +52,10 @@ async function handler(
     },
   });
 
-  if (!changelog) {
+  if (!post) {
     return res.status(400).json({
       error: {
-        message: "Changelog not found",
+        message: "Post not found",
       },
     });
   }

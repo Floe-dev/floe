@@ -5,9 +5,10 @@ import {
 import { prisma } from "@/lib/db/client";
 import Jimp from "jimp";
 import { defaultResponder } from "@/lib/helpers/defaultResponder";
+import { createAppAuth, Octokit } from "@floe/utils";
 
 async function handler(
-  { query, octokit }: NextApiRequestExtension,
+  { query }: NextApiRequestExtension,
   res: NextApiResponseExtension
 ) {
   const { keyId, datasourceId, fileName } = query as {
@@ -46,6 +47,21 @@ async function handler(
       },
     });
   }
+
+  const auth = createAppAuth({
+    appId: process.env.APP_ID!,
+    privateKey: process.env.PRIVATE_KEY!,
+  });
+
+  // Retrieve installation access token
+  const installationAuthentication = await auth({
+    type: "installation",
+    installationId: project.installationId,
+  });
+
+  const octokit = new Octokit({
+    auth: installationAuthentication.token,
+  });
 
   const response = await octokit.request(
     "GET /repos/{owner}/{repo}/contents/{path}",

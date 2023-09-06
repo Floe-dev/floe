@@ -10,10 +10,9 @@ const withPublicMiddleware = label(
     HTTP_POST,
     HTTP_DELETE,
     captureErrors,
-    octokit,
   },
   // The order matters
-  ["captureErrors", "octokit"]
+  ["captureErrors"]
 );
 
 export { withPublicMiddleware };

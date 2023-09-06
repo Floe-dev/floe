@@ -15,7 +15,7 @@ async function fetchReactions(datasourceId: string, fileName: string) {
     fileName,
   });
 
-  const data = await fetch(`${baseURL}reactions/count?${urlSearchParams}`, {
+  const data = await fetch(`${baseURL}v1/reactions/count?${urlSearchParams}`, {
     method: "GET",
   });
 
@@ -28,7 +28,7 @@ async function postReaction(
   type: string,
   value: boolean
 ) {
-  const data = await fetch(`${baseURL}reactions/post`, {
+  const data = await fetch(`${baseURL}v1/reactions`, {
     method: "PUT",
     body: JSON.stringify({
       type,

@@ -15,6 +15,10 @@ type Handlers = {
 export const defaultHandler =
   (handlers: Handlers) =>
   async (req: NextApiRequestExtension, res: NextApiResponseExtension) => {
+    if (req.method === "OPTIONS") {
+      return res.status(200).end();
+    }
+
     const query = req.query as { version: string };
     const versionNumber = parseInt(query.version, 10);
 
