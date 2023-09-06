@@ -31,4 +31,16 @@ export const markdocConfig: Config = {
       },
     },
   },
+  nodes: {
+    fence: {
+      render: "CodeBlock",
+      children: [],
+      attributes: {
+        lang: {
+          type: String,
+          default: "text",
+        },
+      },
+    },
+  },
 };
