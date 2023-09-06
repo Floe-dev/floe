@@ -47,7 +47,7 @@ jobs:
     name: ʦ TypeScript
     runs-on: ubuntu-latest
     env:
-      NEXT_PUBLIC_FLOE_API_KEY_ID: ${{ secrets.NEXT_PUBLIC_FLOE_API_KEY_ID }}
+      NEXT_PUBLIC_FLOE_SLUG: ${{ secrets.NEXT_PUBLIC_FLOE_SLUG }}
       FLOE_API_KEY_SECRET: ${{ secrets.FLOE_API_KEY_SECRET }}
     steps:
       - name: ⬇️ Checkout repo

@@ -2,7 +2,14 @@
 
 import { useState, useEffect } from "react";
 import { FolderIcon } from "@heroicons/react/24/outline";
-import { EmptyState, Card, Modal, Input, ToggleGroup, Spinner } from "@/components";
+import {
+  EmptyState,
+  Card,
+  Modal,
+  Input,
+  ToggleGroup,
+  Spinner,
+} from "@/components";
 import { useProjectContext } from "@/context/project";
 import Link from "next/link";
 import * as yup from "yup";
@@ -162,7 +169,7 @@ export default function Dashboard() {
 
               if (cloneTemplate) {
                 window.open(
-                  `https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2FFloe-dev%2Ffloe-starter-basic&env=NEXT_PUBLIC_FLOE_API_KEY_ID,FLOE_API_KEY_SECRET&envDescription=You%20can%20find%20your%20keys%20by%20navigating%20back%20to%20your%20Floe%20dashboard.&project-name=floe-template-basic&repository-name=floe-template-basic&redirect-url=${
+                  `https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2FFloe-dev%2Ffloe-starter-basic&env=NEXT_PUBLIC_FLOE_SLUG,FLOE_API_KEY_SECRET&envDescription=You%20can%20find%20your%20keys%20by%20navigating%20back%20to%20your%20Floe%20dashboard.&project-name=floe-template-basic&repository-name=floe-template-basic&redirect-url=${
                     process.env.NODE_ENV === "production"
                       ? "https%3A%2F%2Fapp.floe.dev"
                       : "http%3A%2F%2Flocalhost%3A3001"

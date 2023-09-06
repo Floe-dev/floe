@@ -10,7 +10,7 @@ type ProjectsWithDatasources = Prisma.ProjectGetPayload<{
 export type NextApiRequestExtension = NextApiRequest & {
   project: ProjectsWithDatasources;
   octokit: Octokit;
-  keyId: string;
+  slug: string;
 };
 
 export type NextApiResponseExtension = NextApiResponse;

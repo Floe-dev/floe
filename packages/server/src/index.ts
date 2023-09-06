@@ -4,7 +4,7 @@ import { Components, render } from "./utils/render";
 import { isNode } from "./utils/isNode";
 
 export interface Auth {
-  apiKeyId: string;
+  projectSlug: string;
   apiKeySecret: string;
 }
 
@@ -13,17 +13,17 @@ export interface Options {
 }
 
 export class FloeClientFactory {
-  apiKeyId: string;
+  projectSlug: string;
   apiKeySecret: string;
   options?: Options;
   private api;
 
   constructor(auth: Auth, options?: Options) {
-    this.apiKeyId = auth.apiKeyId;
+    this.projectSlug = auth.projectSlug;
     this.apiKeySecret = auth.apiKeySecret;
     this.options = options;
 
-    this.api = api(auth.apiKeyId, auth.apiKeySecret);
+    this.api = api(auth.projectSlug, auth.apiKeySecret);
   }
 
   get post() {

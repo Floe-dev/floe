@@ -11,15 +11,15 @@ async function handler(
   { query }: NextApiRequestExtension,
   res: NextApiResponseExtension
 ) {
-  const { keyId, datasourceId, fileName } = query as {
-    keyId: string;
+  const { slug, datasourceId, fileName } = query as {
+    slug: string;
     datasourceId: string;
     fileName: string;
   };
 
   const project = await prisma.project.findUnique({
     where: {
-      apiKeyId: keyId,
+      slug,
     },
     include: {
       datasources: {
@@ -30,10 +30,10 @@ async function handler(
     },
   });
 
-  if (!keyId || !project) {
-    return res.status(403).json({
+  if (!slug || !project) {
+    return res.status(401).json({
       error: {
-        message: "Invalid API key",
+        message: "Invalid project slug",
       },
     });
   }
