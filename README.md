@@ -15,7 +15,7 @@
     ·
     <a href="https://github.com/calcom/cal.com/issues">🐛 Bugs</a>
     ·
-    <a href="https://floe.canny.io/feature-requests/p/docs-support">🗺️ Roadmap</a>
+    <a href="https://floe.canny.io/">🗺️ Roadmap</a>
   </p>
 </p>
 
