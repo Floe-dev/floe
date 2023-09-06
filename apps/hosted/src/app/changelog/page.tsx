@@ -1,7 +1,6 @@
 import React from "react";
 import Changelog from "./Changelog";
 import AmorphousBlob from "../AmorphousBlob";
-import Subscribe from "../Subscribe";
 import { floeClient } from "../floe-client";
 import { RenderedPostContent } from "@floe/next";
 import NotFound from "../NotFound";
@@ -25,12 +24,16 @@ export default async function ChangelogListPage() {
 
   const renderChangelogOrChangelogs = () => {
     if (changelogOrChangelogs.isNode) {
-      return <Changelog changelog={changelogOrChangelogs.data as RenderedPostContent} />;
+      return (
+        <Changelog
+          changelog={changelogOrChangelogs.data as RenderedPostContent}
+        />
+      );
     }
 
-    return (changelogOrChangelogs.data as RenderedPostContent[]).map((changelog) => (
-      <Changelog changelog={changelog} key={changelog.slug} />
-    ));
+    return (changelogOrChangelogs.data as RenderedPostContent[]).map(
+      (changelog) => <Changelog changelog={changelog} key={changelog.slug} />
+    );
   };
 
   return (
@@ -45,8 +48,6 @@ export default async function ChangelogListPage() {
               <h2 className="mt-2 mb-10 text-lg leading-8 dark:text-gray-300">
                 Latest updates and improvements
               </h2>
-
-              <Subscribe className="max-w-sm" />
             </div>
           </div>
         </section>

@@ -1,7 +1,6 @@
 import { Pill } from "@floe/ui";
 import Nav from "./Nav";
 import AmorphousBlob from "./AmorphousBlob";
-import Subscribe from "./Subscribe";
 
 export default function Page() {
   return (
@@ -19,15 +18,11 @@ export default function Page() {
               Beautiful changelogs, docs, and blogs that rollout with your code
               changes. No manual orchestration required.
             </h2>
-
-            <Subscribe className="max-w-sm" />
           </div>
         </div>
 
         {/* BLOBS */}
-        <AmorphousBlob
-          className="fixed inset-0 w-64 h-64 -translate-x-1/2 -translate-y-1/2 opacity-50"
-        />
+        <AmorphousBlob className="fixed inset-0 w-64 h-64 -translate-x-1/2 -translate-y-1/2 opacity-50" />
         <AmorphousBlob
           blur={50}
           rotation={0}

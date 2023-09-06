@@ -2,7 +2,6 @@ import React from "react";
 import { withFloeServerPages, FloePageProps } from "@floe/next";
 import Link from "next/link";
 import NotFound from "@/app/NotFound";
-import Subscribe from "@/app/Subscribe";
 import Blog from "./Blog";
 import BlogItem from "./BlogItem";
 import AmorphousBlob from "../../AmorphousBlob";
@@ -48,8 +47,6 @@ function BlogPage({ isError, isNode, post, posts, isNotFound }: FloePageProps) {
               <h2 className="mt-2 mb-10 text-lg leading-8 dark:text-gray-300">
                 Ideas and articles on building lean startups and better software
               </h2>
-
-              <Subscribe className="max-w-sm" />
             </div>
           </div>
         </section>
