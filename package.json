@@ -3,7 +3,7 @@
   "scripts": {
     "build": "turbo run build",
     "clean": "turbo run clean && rm -rf node_modules",
-    "dev": "turbo run dev",
+    "dev": "turbo run dev --filter=@floe/cloud --filter=@floe/api --filter=@floe/web",
     "db:generate": "prisma generate",
     "db:push": "prisma db push --skip-generate",
     "db:studio": "prisma studio",

@@ -26,7 +26,7 @@ i. Scroll to the bottom and generate a private key (save this for later)
 
 3. Configure your database. The product app uses a MySQL database with [PlanetScale](https://planetscale.com/), but you can use whatever MySQL database you like. Get the database connection URL and save for later.
 
-4. Add environment variables to `.env` inside `apps/cloud` and `apps/web`. You can copy the `.env.example` files to see which are required. Here is a break down for how to populate them:
+4. Add environment variables to `.env` inside `apps/cloud`, `apps/api`, and `apps/web`. You can copy the `.env.example` files to see which are required. Here is a break down for how to populate them:
 
 (Inside `apps/cloud/.env`)
 a. Set `APP_ID` to the value from Step 2g.
@@ -37,7 +37,7 @@ e. Set `GITHUB_CLIENT_SECRET` to the value from Step 2h.
 f. Set `DATABASE_URL` to the value from Step 3.
 g. Set `NEXTAUTH_URL` to `http://localhost:3001`
 h. Create a random value for `NEXTAUTH_SECRET`. You can use `openssl rand -base64 32`;
-i. Set `NEXT_PUBLIC_FLOE_BASE_URL` to `http://localhost:3001/api/`
+i. Set `NEXT_PUBLIC_FLOE_BASE_URL` to `http://localhost:4000/`
 
 5. Install deps:
 
@@ -51,6 +51,6 @@ pnpm i
 pnpm dev
 ```
 
-Your dashboard should be running on port `localhost:3001`, and your website on `localhost:3000`. If not...🤷‍♂️
+Your dashboard should be running on port `localhost:3001`, api on `localhost:4000`, and your website on `localhost:3000`. If not...🤷‍♂️
 
 7. You can now configure the web application according to the [usual setup instructions](https://www.notion.so/floe-dev/Docs-UI-Templates-ef503e987aaa4dabb1e388cac9e14d62?pvs=4) 🎉
