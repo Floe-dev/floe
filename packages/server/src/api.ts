@@ -1,4 +1,5 @@
-export const baseURL = process.env.NEXT_PUBLIC_FLOE_BASE_URL ?? "https://app.floe.dev/api/";
+export const baseURL =
+  process.env.NEXT_PUBLIC_FLOE_BASE_URL ?? "https://api.floe.dev/";
 
 const api =
   (apiKeyId: string, secretKey: string) =>

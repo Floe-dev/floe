@@ -7,7 +7,7 @@ import { useQuery, useMutation, useQueryClient } from "react-query";
 import React, { useContext, useState } from "react";
 
 export const baseURL =
-  process.env.NEXT_PUBLIC_FLOE_BASE_URL ?? "https://app.floe.dev/api/";
+  process.env.NEXT_PUBLIC_FLOE_BASE_URL ?? "https://api.floe.dev/";
 
 async function fetchReactions(datasourceId: string, fileName: string) {
   const urlSearchParams = new URLSearchParams({

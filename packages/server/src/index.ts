@@ -31,27 +31,29 @@ export class FloeClientFactory {
       getListOrNode: async (path: string, datasourceId?: string) => {
         const queryParams = new URLSearchParams({
           path,
-          ...(datasourceId && { datasourceId })
+          ...(datasourceId && { datasourceId }),
         });
-    
-        const response = await this.api<PostAPIResponse>(`posts?${queryParams}`);
-    
+
+        const response = await this.api<PostAPIResponse>(
+          `v1/posts?${queryParams}`
+        );
+
         if (!response) {
           return undefined;
         }
-    
+
         const { data } = response;
-    
+
         if (isNode(data)) {
           return {
             isNode: true,
             data: {
               ...data,
               content: render(data.transform, data.imageBasePath, this.options),
-            }
+            },
           };
         }
-    
+
         return {
           isNode: false,
           data: data.map((file) => ({
@@ -64,17 +66,19 @@ export class FloeClientFactory {
       getTree: async (path: string, datasourceId?: string) => {
         const queryParams = new URLSearchParams({
           path,
-          ...(datasourceId && { datasourceId })
+          ...(datasourceId && { datasourceId }),
         });
-    
-        const response = await this.api<PostTreeAPIResponse>(`posts/tree?${queryParams}`);
-    
+
+        const response = await this.api<PostTreeAPIResponse>(
+          `v1/posts/tree?${queryParams}`
+        );
+
         if (!response) {
           return undefined;
         }
-    
+
         const { data } = response;
-    
+
         return data;
       },
     };

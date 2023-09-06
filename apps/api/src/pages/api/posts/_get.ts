@@ -33,9 +33,10 @@ async function handler(
 
   const contents = Promise.all(
     project.datasources.map(async (datasource) => {
+      const imagesVersion = "v1";
       const baseURL =
-        process.env.NEXT_PUBLIC_FLOE_BASE_URL ?? "https://app.floe.dev/api/";
-      const imageBasePath = `${baseURL}images?keyId=${project.apiKeyId}&datasourceId=${datasource.id}`;
+        process.env.NEXT_PUBLIC_FLOE_BASE_URL ?? "https://api.floe.dev/";
+      const imageBasePath = `${baseURL}${imagesVersion}/images?keyId=${project.apiKeyId}&datasourceId=${datasource.id}`;
 
       try {
         const files = await getFileTree(octokit, {
