@@ -20,7 +20,6 @@
 </p>
 
 <p align="center">
-   <a href="https://discord.gg/7TteWgp4rw"><img src="https://img.shields.io/badge/Discord-go.cal.com%2Fdiscord-%234A154B" alt="Join Floe Discord"></a>
    <a href="https://github.com/Floe-dev/floe/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-AGPLv3-purple" alt="License"></a>
    <a href="https://github.com/Floe-dev/floe/issues?q=is:open+is:issue+label:%22help+wanted%22"><img src="https://img.shields.io/badge/Help%20Wanted-Contribute-blue"></a>
 </p>
