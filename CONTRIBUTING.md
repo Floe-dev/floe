@@ -26,9 +26,8 @@ i. Scroll to the bottom and generate a private key (save this for later)
 
 3. Configure your database. The product app uses a MySQL database with [PlanetScale](https://planetscale.com/), but you can use whatever MySQL database you like. Get the database connection URL and save for later.
 
-4. Add environment variables to `.env` inside `apps/cloud`, `apps/api`, and `apps/web`. You can copy the `.env.example` files to see which are required. Here is a break down for how to populate them:
+4. Add environment variables to `.env` inside `apps/app`, `apps/api`, and `apps/web`. You can copy the `.env.example` files to see which are required. Here is a break down for how to populate them:
 
-(Inside `apps/cloud/.env`)
 a. Set `APP_ID` to the value from Step 2g.
 b. Set `PRIVATE_KEY` to the value from Step 2i.
 c. Set `WEBHOOK_SECRET` to the value from Step 2e.
