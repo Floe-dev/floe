@@ -1,7 +1,7 @@
 import { TRPCError } from "@trpc/server";
 import { prisma } from "@/server/db/client";
 import { Context } from "../context";
-import { getUserInstallations } from "../shared/installations";
+import { getUserInstallations } from "@floe/utils";
 
 export const validateUserHasProject = async ({
   ctx,
@@ -11,7 +11,10 @@ export const validateUserHasProject = async ({
   input: { projectId: string; [key: string]: unknown };
 }) => {
   const { projectId } = input;
-  const installations = await getUserInstallations(ctx);
+  const installations = await getUserInstallations(
+    ctx.octokit,
+    ctx.session?.profile.id
+  );
   const userInstallationIds = installations.map((i) => i.id);
 
   try {

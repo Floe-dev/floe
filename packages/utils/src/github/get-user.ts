@@ -9,7 +9,8 @@ export const getUser = async (
     username: string;
   }
 ) => {
-  let res: Endpoints["GET /users/{username}"]["response"] | undefined = undefined;
+  let res: Endpoints["GET /users/{username}"]["response"] | undefined =
+    undefined;
 
   try {
     res = await octokit.request("GET /users/{username}", {

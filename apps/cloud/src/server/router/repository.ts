@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { TRPCError } from "@trpc/server";
-import { Endpoints } from "@octokit/types";
+import { Endpoints } from "@floe/utils";
 import { protectedProcedure, router } from "@/server/trpc";
 
 type InstallationRepositoriesResponse =
@@ -43,7 +43,11 @@ export const repositoryRouter = router({
           ];
 
           const linkHeader = repositoriesResponse?.headers.link;
-          if (!linkHeader || !linkHeader.includes('rel="next"') || page >= maxPage) {
+          if (
+            !linkHeader ||
+            !linkHeader.includes('rel="next"') ||
+            page >= maxPage
+          ) {
             hasNextPage = false;
           } else {
             page++;

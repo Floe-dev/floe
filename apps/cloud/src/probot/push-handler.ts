@@ -1,7 +1,7 @@
 import { Context } from "probot";
 import { prisma } from "@/server/db/client";
 import { minimatch } from "minimatch";
-import { Endpoints } from "@octokit/types";
+import { Endpoints } from "@floe/utils";
 
 export async function handlePushEvents(context: Context<"push">) {
   const installationId = context.payload?.installation?.id;
