@@ -10,6 +10,7 @@ export interface FloePageProps {
   isNotFound: boolean;
   post: RenderedPostContent;
   posts: RenderedPostContent[];
+  floeClient: FloeClientFactory;
 }
 
 export function withFloeServerPages(
@@ -25,14 +26,18 @@ export function withFloeServerPages(
 ) {
   // eslint-disable-next-line react/display-name
   return async ({ params }: { params: FloePageProps["params"] }) => {
-    let postOrPosts: Awaited<ReturnType<typeof floeClient["post"]["getListOrNode"]>>;
+    let postOrPosts: Awaited<
+      ReturnType<typeof floeClient["post"]["getListOrNode"]>
+    >;
     let posts: RenderedPostContent[];
     let post: RenderedPostContent;
     let isError = false;
 
     try {
       postOrPosts = await floeClient.post.getListOrNode(
-        decodeURIComponent(basePath + (params.slug ? `/${params.slug.join("/")}` : ""))
+        decodeURIComponent(
+          basePath + (params.slug ? `/${params.slug.join("/")}` : "")
+        )
       );
     } catch (e) {
       isError = true;
@@ -55,6 +60,7 @@ export function withFloeServerPages(
         isError={isError}
         isNotFound={!post && !posts?.length}
         isNode={postOrPosts?.isNode}
+        floeClient={floeClient}
       />
     );
   };

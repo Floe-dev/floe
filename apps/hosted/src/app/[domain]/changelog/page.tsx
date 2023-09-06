@@ -1,13 +1,18 @@
 import React from "react";
 import Changelog from "./Changelog";
-import AmorphousBlob from "../AmorphousBlob";
-import { floeClient } from "../floe-client";
+import AmorphousBlob from "../../AmorphousBlob";
+import { getFloeClient } from "../../floe-client";
 import { RenderedPostContent } from "@floe/next";
-import NotFound from "../NotFound";
+import NotFound from "../../NotFound";
 
 export const revalidate = 10;
 
-export default async function ChangelogListPage() {
+export default async function ChangelogListPage({
+  params,
+}: {
+  params: { domain: string };
+}) {
+  const floeClient = getFloeClient(params.domain);
   let changelogOrChangelogs: Awaited<
     ReturnType<typeof floeClient.post.getListOrNode>
   >;

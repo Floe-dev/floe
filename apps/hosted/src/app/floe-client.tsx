@@ -2,7 +2,7 @@ import { FloeClient } from "@floe/next";
 import { ReactNode } from "react";
 
 export const getFloeClient = (slug: string) =>
-  FloeClient(process.env.NEXT_PUBLIC_FLOE_SLUG, {
+  FloeClient(slug, {
     components: {
       Callout: (props: {
         children: ReactNode;
