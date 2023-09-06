@@ -16,7 +16,20 @@ function validURL(str: string) {
 
 export type Components = {
   Image: ({ src, alt }: { src: string; alt?: string }) => JSX.Element;
-  Callout: ({ children, type }: { children: React.ReactNode; type?: "caution" | "check" | "info" |"warning" | "docs" | "tada"}) => JSX.Element;
+  Callout: ({
+    children,
+    type,
+  }: {
+    children: React.ReactNode;
+    type?: "caution" | "check" | "info" | "warning" | "docs" | "tada";
+  }) => JSX.Element;
+  CodeBlock: ({
+    children,
+    lang,
+  }: {
+    children: React.ReactNode;
+    lang?: string;
+  }) => JSX.Element;
 };
 
 export const render = (
@@ -34,10 +47,18 @@ export const render = (
       return CustomImage ? (
         <CustomImage src={imagePath} alt={alt} />
       ) : (
-        <img src={imagePath} alt={alt} style={{ borderRadius: "12px" }} className="floe-image" />
+        <img
+          src={imagePath}
+          alt={alt}
+          style={{ borderRadius: "12px" }}
+          className="floe-image"
+        />
       );
     },
-    Callout: (props: { children: React.ReactNode; type?: "caution" | "check" | "info" |"warning" | "docs" | "tada" }) => {
+    Callout: (props: {
+      children: React.ReactNode;
+      type?: "caution" | "check" | "info" | "warning" | "docs" | "tada";
+    }) => {
       const icons = {
         caution: "⚠️",
         check: "✅",
@@ -48,13 +69,32 @@ export const render = (
       };
       const CustomCallout = options?.components?.Callout;
 
-      return CustomCallout ? <CustomCallout {...props} /> : (
+      return CustomCallout ? (
+        <CustomCallout {...props} />
+      ) : (
         <div className="floe-callout">
           <div className="floe-callout-icon">{icons[props.type ?? "info"]}</div>
           <div className="floe-callout-text">{props.children}</div>
         </div>
-      )
-    }
+      );
+    },
+    CodeBlock: (props: {
+      children: React.ReactNode;
+      lang?: string;
+    }): JSX.Element => {
+      const CustomCodeBlock = options?.components?.CodeBlock;
+
+      /**
+       * Temporary
+       */
+      return CustomCodeBlock ? (
+        <CustomCodeBlock {...props} />
+      ) : (
+        <pre className="floe-code-block">
+          <code>{props.children}</code>
+        </pre>
+      );
+    },
   };
 
   return Markdoc.renderers.react(transform, React, {

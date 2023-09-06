@@ -1,34 +1,36 @@
-import type { NextApiRequest, NextApiResponse } from "next";
-import { prisma } from "@/server/db/client";
-import { Octokit } from "octokit";
-import { createAppAuth } from "@octokit/auth-app";
+import {
+  NextApiRequestExtension,
+  NextApiResponseExtension,
+} from "@/lib/types/publicMiddleware";
+import { prisma } from "@/lib/db/client";
 import Jimp from "jimp";
+import { defaultResponder } from "@/lib/helpers/defaultResponder";
+import { createAppAuth, Octokit } from "@floe/utils";
 
-/**
- * Note: This is a PUBLIC endpoint
- * It will expose images in the .floe/public/ directory
- */
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse
+async function handler(
+  { query }: NextApiRequestExtension,
+  res: NextApiResponseExtension
 ) {
-  // Get data source id and filename from query params
-  const { id, did, fn } = req.query as {
-    id: string;
-    did: string;
-    fn: string;
+  const { keyId, datasourceId, fileName } = query as {
+    keyId: string;
+    datasourceId: string;
+    fileName: string;
   };
 
   const project = await prisma.project.findUnique({
     where: {
-      apiKeyId: id,
+      apiKeyId: keyId,
     },
     include: {
-      datasources: true,
+      datasources: {
+        where: {
+          id: datasourceId,
+        },
+      },
     },
   });
 
-  if (!id || !project) {
+  if (!keyId || !project) {
     return res.status(403).json({
       error: {
         message: "Invalid API key",
@@ -36,11 +38,7 @@ export default async function handler(
     });
   }
 
-  const datasource = await prisma.dataSource.findUnique({
-    where: {
-      id: did,
-    },
-  });
+  const datasource = project.datasources[0];
 
   if (!datasource) {
     return res.status(404).json({
@@ -50,10 +48,6 @@ export default async function handler(
     });
   }
 
-  /**
-   * Generate JWT
-   * See Step 1: https://docs.github.com/en/apps/creating-github-apps/authenticating-with-a-github-app/generating-an-installation-access-token-for-a-github-app#generating-an-installation-access-token
-   */
   const auth = createAppAuth({
     appId: process.env.APP_ID!,
     privateKey: process.env.PRIVATE_KEY!,
@@ -74,7 +68,7 @@ export default async function handler(
     {
       owner: datasource.owner,
       repo: datasource.repo,
-      path: `.floe/public${fn}`,
+      path: `.floe/public${fileName}`,
       ref: datasource.baseBranch,
       headers: {
         "X-GitHub-Api-Version": "2022-11-28",
@@ -97,3 +91,5 @@ export default async function handler(
   res.setHeader("Content-Type", imageType);
   res.status(200).send(buffer);
 }
+
+export default defaultResponder(handler);

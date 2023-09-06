@@ -1,30 +1,24 @@
+import {
+  NextApiRequestExtension,
+  NextApiResponseExtension,
+} from "@/lib/types/publicMiddleware";
 import { createHash } from "crypto";
-import { prisma } from "@/server/db/client";
-import { NextApiRequest, NextApiResponse } from "next";
+import { prisma } from "@/lib/db/client";
+import { defaultResponder } from "@/lib/helpers/defaultResponder";
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse
+async function handler(
+  { body: b, headers, socket }: NextApiRequestExtension,
+  res: NextApiResponseExtension
 ) {
-  if (req.method === "OPTIONS") {
-    return res.status(200).json({});
-  }
-
-  if (req.method !== "PUT") {
-    return res.status(405).json({
-      error: {
-        message: "Method not allowed",
-      },
-    });
-  }
-
-  const ip = (req.headers["x-real-ip"] || req.socket.remoteAddress) as string;
-  const body = req.body as {
+  const body = b as {
     type: any;
     value: boolean;
     datasourceId: string;
     fileName: string;
   };
+
+  const ip = (headers["x-real-ip"] || socket.remoteAddress) as string;
+
   /**
    * TODO: Can use Zod here instead
    */
@@ -46,22 +40,22 @@ export default async function handler(
   /**
    * Note: Referential integrity is NOT enforced here.
    * https://www.prisma.io/docs/concepts/components/prisma-schema/relations/relation-mode#which-foreign-key-constraints-are-emulated
-   * 
-   * So, we should manually check if the changelog exists.
+   *
+   * So, we should manually check if the post exists.
    */
-  const changelog = await prisma.post.findUnique({
+  const post = await prisma.post.findUnique({
     where: {
       unique_post: {
         datasourceId: body.datasourceId,
         filename: body.fileName,
       },
-    }
+    },
   });
 
-  if (!changelog) {
+  if (!post) {
     return res.status(400).json({
       error: {
-        message: "Changelog not found",
+        message: "Post not found",
       },
     });
   }
@@ -87,12 +81,14 @@ export default async function handler(
     },
   });
 
-  return res.status(200).json({
+  return {
     data: {
       userReaction: {
         type: userReaction.type,
         value: userReaction.value,
       },
     },
-  });
+  };
 }
+
+export default defaultResponder(handler);

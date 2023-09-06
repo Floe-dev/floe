@@ -30,13 +30,11 @@ export const getFileTree = async (
 
   const paths = res.data.tree.map((obj) => obj.path);
 
-  return paths.filter(
-    (path) => {
-      return (
-        path &&
-        rules.some((rule) => minimatch(path, rule)) &&
-        !minimatch(path, ".floe/public/*")
-      );
-    }
-  ) as string[];
+  return paths.filter((path) => {
+    return (
+      path &&
+      rules.some((rule) => minimatch(path, rule)) &&
+      !minimatch(path, ".floe/public/*")
+    );
+  }) as string[];
 };

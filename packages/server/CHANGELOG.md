@@ -1,5 +1,11 @@
 # @floe/server
 
+## 1.0.0-alpha.7
+
+### Minor Changes
+
+- Create new external API.
+
 ## 1.0.0-alpha.6
 
 ### Minor Changes

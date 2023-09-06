@@ -1,6 +1,8 @@
 import { protectedProcedure, router } from "@/server/trpc";
-import { getUserInstallations } from "@/server/shared/installations";
+import { getUserInstallations } from "@floe/utils";
 
 export const installationRouter = router({
-  list: protectedProcedure.query(async ({ ctx }) => getUserInstallations(ctx)),
+  list: protectedProcedure.query(async ({ ctx }) =>
+    getUserInstallations(ctx.octokit, ctx.session?.profile.id)
+  ),
 });

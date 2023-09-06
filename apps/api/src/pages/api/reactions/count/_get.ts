@@ -1,22 +1,20 @@
-import { prisma } from "@/server/db/client";
-import { NextApiRequest, NextApiResponse } from "next";
+import {
+  NextApiRequestExtension,
+  NextApiResponseExtension,
+} from "@/lib/types/publicMiddleware";
 import { createHash } from "crypto";
+import { prisma } from "@/lib/db/client";
+import { defaultResponder } from "@/lib/helpers/defaultResponder";
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse
+async function handler(
+  { query, headers, socket }: NextApiRequestExtension,
+  res: NextApiResponseExtension
 ) {
-  if (req.method !== "GET") {
-    return res.status(405).json({
-      error: {
-        message: "Method not allowed",
-      },
-    });
-  }
-
-  const query = req.query as { datasourceId: string; fileName: string };
-  const { datasourceId, fileName } = query;
-  const ip = (req.headers["x-real-ip"] || req.socket.remoteAddress) as string;
+  const { datasourceId, fileName } = query as {
+    datasourceId: string;
+    fileName: string;
+  };
+  const ip = (headers["x-real-ip"] || socket.remoteAddress) as string;
 
   if (!datasourceId || !fileName) {
     return res.status(400).json({
@@ -48,7 +46,7 @@ export default async function handler(
     },
   });
 
-  return res.status(200).json({
+  return {
     data: {
       reactions: reactions.map((r) => ({
         type: r.type,
@@ -59,5 +57,7 @@ export default async function handler(
         value: r.value,
       })),
     },
-  });
+  };
 }
+
+export default defaultResponder(handler);

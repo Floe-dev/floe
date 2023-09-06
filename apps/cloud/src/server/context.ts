@@ -3,11 +3,9 @@ import { inferAsyncReturnType } from "@trpc/server";
 import * as trpcNext from "@trpc/server/adapters/next";
 import { getServerSession } from "next-auth";
 import { getToken } from "next-auth/jwt";
-import { Octokit } from "octokit";
+import { Octokit } from "@floe/utils";
 
-export async function createContext(
-  opts: trpcNext.CreateNextContextOptions
-) {
+export async function createContext(opts: trpcNext.CreateNextContextOptions) {
   const { req, res } = opts;
   // Fixed with: https://github.com/vercel/next.js/issues/46356#issuecomment-1491822686
   const session = await getServerSession(req, res, authOptions);

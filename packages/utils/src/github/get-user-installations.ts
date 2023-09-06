@@ -1,8 +1,9 @@
 import { Endpoints } from "@octokit/types";
-import { Context } from "@/server/context";
+import { Octokit } from "octokit";
 
 export const getUserInstallations = async (
-  ctx: Context,
+  octokit: Octokit,
+  userId: string
 ) => {
   let userOrgs: Endpoints["GET /user/orgs"]["response"] | undefined;
 
@@ -11,13 +12,13 @@ export const getUserInstallations = async (
     | undefined;
 
   try {
-    userOrgs = await ctx.octokit.request("GET /user/orgs", {
+    userOrgs = await octokit.request("GET /user/orgs", {
       headers: {
         "X-GitHub-Api-Version": "2022-11-28",
       },
     });
 
-    installationsResponse = await ctx.octokit.request(
+    installationsResponse = await octokit.request(
       "GET /user/installations",
       {}
     );
@@ -34,7 +35,7 @@ export const getUserInstallations = async (
    */
   const validInstallations = [
     ...(userOrgs?.data.map((uo) => uo.id) || []),
-    ctx.session?.profile.id,
+    userId,
   ];
 
   const installations =

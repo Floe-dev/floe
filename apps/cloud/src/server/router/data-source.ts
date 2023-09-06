@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { prisma } from "@/server/db/client";
 import { protectedProcedure, router } from "@/server/trpc";
-import { getFileTree } from "../shared/get-file-tree";
+import { getFileTree } from "@floe/utils";
 
 export const dataSourceRouter = router({
   create: protectedProcedure
@@ -21,7 +21,7 @@ export const dataSourceRouter = router({
         rules: [".floe/**/*.md"],
       });
 
-      const posts = files.map(f => ({ filename: f }));
+      const posts = files.map((f) => ({ filename: f }));
 
       const dataSource = await prisma.dataSource.create({
         data: {

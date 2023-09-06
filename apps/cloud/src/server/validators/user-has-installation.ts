@@ -1,6 +1,6 @@
 import { Context } from "../context";
 import { TRPCError } from "@trpc/server";
-import { getUserInstallations } from "@/server/shared/installations";
+import { getUserInstallations } from "@floe/utils";
 
 export const validateUserHasInstallation = async ({
   ctx,
@@ -10,7 +10,10 @@ export const validateUserHasInstallation = async ({
   input: { installationId: number; [key: string]: unknown };
 }) => {
   const { installationId } = input;
-  const installations = await getUserInstallations(ctx);
+  const installations = await getUserInstallations(
+    ctx.octokit,
+    ctx.session?.profile.id
+  );
   const userInstallationIds = installations.map((i) => i.id);
 
   if (!userInstallationIds.includes(installationId)) {

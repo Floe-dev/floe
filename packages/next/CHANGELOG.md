@@ -1,5 +1,16 @@
 # @floe/next
 
+## 1.0.0-alpha.9
+
+### Minor Changes
+
+- Create new external API.
+
+### Patch Changes
+
+- Updated dependencies
+  - @floe/server@1.0.0-alpha.7
+
 ## 1.0.0-alpha.8
 
 ### Minor Changes

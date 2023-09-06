@@ -2,14 +2,17 @@
   "mode": "pre",
   "tag": "alpha",
   "initialVersions": {
-    "@floe/app": "0.1.0",
+    "@floe/app": "1.0.0-alpha.0",
     "@floe/web": "1.0.0-alpha.0",
-    "eslint-config-custom": "0.0.0",
+    "eslint-config-custom": "1.0.0-alpha.0",
     "@floe/next": "1.0.0-alpha.0",
     "@floe/server": "1.0.0-alpha.0",
-    "@floe/tailwind-config": "0.0.0",
-    "tsconfig": "0.0.0",
-    "@floe/ui": "0.0.0"
+    "@floe/tailwind-config": "1.0.0-alpha.0",
+    "tsconfig": "1.0.0-alpha.0",
+    "@floe/ui": "1.0.0-alpha.0",
+    "@floe/api": "1.0.0-alpha.0",
+    "@floe/db": "1.0.0-alpha.0",
+    "@floe/utils": "1.0.0-alpha.0"
   },
   "changesets": [
     "few-shrimps-bake",
@@ -17,6 +20,7 @@
     "light-zoos-pump",
     "rotten-seals-train",
     "soft-suns-accept",
+    "spicy-peaches-study",
     "thick-parents-leave",
     "tough-pets-sleep",
     "two-dots-add"

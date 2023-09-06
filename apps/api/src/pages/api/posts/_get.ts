@@ -1,108 +1,42 @@
-import type { NextApiRequest, NextApiResponse } from "next";
-import yaml from "js-yaml";
-import bcrypt from "bcrypt";
-import { Octokit } from "octokit";
-import { prisma } from "@/server/db/client";
-import { createAppAuth } from "@octokit/auth-app";
-import { getUser } from "@/server/shared/get-user";
-import { getRepositoryContent } from "@/server/shared/get-repo-contents";
-import Markdoc from "@markdoc/markdoc";
+import {
+  NextApiRequestExtension,
+  NextApiResponseExtension,
+} from "@/lib/types/privateMiddleware";
+import {
+  Markdoc,
+  markdocConfig,
+  Octokit,
+  filenameToSlug,
+  getFileTree,
+  getRepositoryContent,
+  getUser,
+} from "@floe/utils";
 import { z } from "zod";
-import { getFileTree } from "@/server/shared/get-file-tree";
-import { filenameToSlug } from "@/utils/postSlug";
-import { DataSource, Post } from "@prisma/client";
+import yaml from "js-yaml";
+import { prisma } from "@/lib/db/client";
+import { DataSource, Post } from "@floe/db";
+import { defaultResponder } from "@/lib/helpers/defaultResponder";
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse
+async function handler(
+  { query, project, octokit, keyId }: NextApiRequestExtension,
+  res: NextApiResponseExtension
 ) {
-  if (req.method !== "GET") {
-    return res.status(405).json({
-      error: {
-        message: "Method not allowed",
-      },
-    });
-  }
+  const { path } = query as { path?: string };
 
-  const query = req.query as { path: string; datasourceId?: string };
-  const { path, datasourceId } = query;
-
-  const keyId = req.headers["x-api-id"] as string | undefined;
-  const key = req.headers["x-api-key"] as string | undefined;
-
-  if (!path || !key) {
+  if (!path) {
     return res.status(400).json({
       error: {
-        message: "Missing required query parameters",
+        message: "path parameter is required",
       },
     });
   }
-
-  const project = await prisma.project.findUnique({
-    where: {
-      apiKeyId: keyId,
-    },
-    include: {
-      datasources: datasourceId
-        ? {
-            where: {
-              id: datasourceId,
-            },
-          }
-        : true,
-    },
-  });
-
-  if (!project) {
-    return res.status(403).json({
-      error: {
-        message: "Invalid API key",
-      },
-    });
-  }
-
-  if (datasourceId && !project.datasources.length) {
-    return res.status(400).json({
-      error: {
-        message: "Invalid datasourceId",
-      },
-    });
-  }
-
-  const match = await bcrypt.compare(key, project.encryptedApiKey!);
-
-  if (!match) {
-    res.status(403).json({
-      error: {
-        message: "Invalid API key",
-      },
-    });
-  }
-
-  /**
-   * Generate JWT
-   * See Step 1: https://docs.github.com/en/apps/creating-github-apps/authenticating-with-a-github-app/generating-an-installation-access-token-for-a-github-app#generating-an-installation-access-token
-   */
-  const auth = createAppAuth({
-    appId: process.env.APP_ID!,
-    privateKey: process.env.PRIVATE_KEY!,
-  });
-
-  // Retrieve installation access token
-  const installationAuthentication = await auth({
-    type: "installation",
-    installationId: project.installationId,
-  });
-
-  const octokit = new Octokit({
-    auth: installationAuthentication.token,
-  });
 
   const contents = Promise.all(
     project.datasources.map(async (datasource) => {
+      const imagesVersion = "v1";
       const baseURL =
-        process.env.NEXT_PUBLIC_FLOE_BASE_URL ?? "https://app.floe.dev/api/";
-      const imageBasePath = `${baseURL}images?id=${project.apiKeyId}&did=${datasource.id}`;
+        process.env.NEXT_PUBLIC_FLOE_BASE_URL ?? "https://api.floe.dev/";
+      const imageBasePath = `${baseURL}${imagesVersion}/images?keyId=${project.apiKeyId}&datasourceId=${datasource.id}`;
 
       try {
         const files = await getFileTree(octokit, {
@@ -129,6 +63,7 @@ export default async function handler(
         return Promise.all(
           posts.map(async (post) => {
             return generatePostContent(
+              // @ts-ignore
               octokit,
               datasource,
               post,
@@ -152,16 +87,16 @@ export default async function handler(
   // if multiple files are returned for a "node", return the first one
   // (and later the one matching the default data source)
   if (isNode) {
-    return res.status(200).json({
+    return {
       data: indexPost || content[0],
-    });
+    };
   }
 
   const sortedContent = content.sort((a, b) =>
     new Date(a?.metadata.date) < new Date(b?.metadata.date) ? 1 : -1
   );
 
-  res.status(200).json({ data: sortedContent });
+  return { data: sortedContent };
 }
 
 /**
@@ -202,7 +137,7 @@ async function generatePostContent(
    * Replace image paths with absolute API path
    */
   if (metadata.image && metadata.image.startsWith("/")) {
-    metadata.image = encodeURI(`${imageBasePath}&fn=${metadata.image}`);
+    metadata.image = encodeURI(`${imageBasePath}&fileName=${metadata.image}`);
   }
 
   /**
@@ -241,38 +176,7 @@ async function generatePostContent(
     metadata.authors = authors.filter((a) => a);
   }
 
-  const transform = Markdoc.transform(ast, {
-    variables: {},
-    tags: {
-      image: {
-        render: "Image",
-        children: [],
-        attributes: {
-          src: {
-            type: String,
-            required: true,
-            errorLevel: "critical",
-          },
-          alt: {
-            type: String,
-          },
-        },
-        selfClosing: true,
-      },
-      callout: {
-        render: "Callout",
-        children: ["paragraph", "tag", "list"],
-        attributes: {
-          type: {
-            type: String,
-            default: "info",
-            matches: ["caution", "check", "info", "warning", "docs", "tada"],
-            errorLevel: "critical",
-          },
-        },
-      },
-    },
-  });
+  const transform = Markdoc.transform(ast, markdocConfig);
 
   return {
     owner: datasource.owner,
@@ -285,3 +189,5 @@ async function generatePostContent(
     slug: filenameToSlug(post.filename),
   };
 }
+
+export default defaultResponder(handler);
