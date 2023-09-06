@@ -17,7 +17,7 @@ module.exports = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "app.floe.dev",
+        hostname: "api.floe.dev",
         port: "",
       },
       {
