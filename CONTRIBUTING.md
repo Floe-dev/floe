@@ -54,3 +54,7 @@ pnpm dev
 Your dashboard should be running on port `localhost:3001`, api on `localhost:4000`, and your website on `localhost:3000`. If not...🤷‍♂️
 
 7. You can now configure the web application according to the [usual setup instructions](https://www.notion.so/floe-dev/Docs-UI-Templates-ef503e987aaa4dabb1e388cac9e14d62?pvs=4) 🎉
+
+## Workflow
+
+Floe uses [Changesets](https://github.com/changesets/changesets) for versioning. Be sure to _carefully_ bump your package versions with each PR.
