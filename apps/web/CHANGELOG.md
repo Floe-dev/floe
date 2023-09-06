@@ -1,5 +1,18 @@
 # @floe/web
 
+## 1.0.0-alpha.9
+
+### Minor Changes
+
+- Create new external API.
+
+### Patch Changes
+
+- Updated dependencies
+  - @floe/utils@1.0.0-alpha.1
+  - @floe/next@1.0.0-alpha.9
+  - @floe/ui@1.0.0-alpha.1
+
 ## 1.0.0-alpha.8
 
 ### Patch Changes
