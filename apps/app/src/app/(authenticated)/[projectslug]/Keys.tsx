@@ -48,9 +48,7 @@ const Keys = () => {
         ]}
       >
         <KeyTable
-          apiKeyId={
-            currentProject?.apiKeyId ? currentProject?.apiKeyId : "No value set"
-          }
+          slug={currentProject?.slug ?? "No value set"}
           secretKey={
             currentProject?.encryptedApiKey
               ? "secret_••••••••••••••••••••••••••••••••••••"
