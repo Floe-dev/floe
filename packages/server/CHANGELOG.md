@@ -1,5 +1,11 @@
 # @floe/server
 
+## 1.0.0-alpha.8
+
+### Minor Changes
+
+- aa61152: Use project slugs instead of api key ids.
+
 ## 1.0.0-alpha.7
 
 ### Minor Changes

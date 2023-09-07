@@ -1,5 +1,16 @@
 # @floe/next
 
+## 1.0.0-alpha.10
+
+### Minor Changes
+
+- aa61152: Use project slugs instead of api key ids.
+
+### Patch Changes
+
+- Updated dependencies [aa61152]
+  - @floe/server@1.0.0-alpha.8
+
 ## 1.0.0-alpha.9
 
 ### Minor Changes

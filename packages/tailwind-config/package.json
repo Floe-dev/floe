@@ -1,6 +1,6 @@
 {
   "name": "@floe/tailwind-config",
-  "version": "1.0.0-alpha.1",
+  "version": "1.0.0-alpha.2",
   "private": true,
   "main": "index.js",
   "devDependencies": {
