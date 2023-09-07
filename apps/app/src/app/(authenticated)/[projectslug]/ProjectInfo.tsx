@@ -13,7 +13,7 @@ export const ProjectInfo = () => {
 
   const siteLink =
     process.env.NODE_ENV === "production"
-      ? "https://${currentProject.slug}.floe.dev"
+      ? `https://${currentProject.slug}.floe.dev`
       : `http://localhost:3000/${currentProject.slug}`;
 
   return (
