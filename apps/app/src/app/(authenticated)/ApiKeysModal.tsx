@@ -7,12 +7,10 @@ import { useProjectContext } from "@/context/project";
 export const ApiKeysModal = ({
   open,
   setOpen,
-  publicKeyId,
   secretKey,
 }: {
   open: boolean;
   setOpen: (open: boolean) => void;
-  publicKeyId: string;
   secretKey: string;
 }) => {
   const { currentProject } = useProjectContext();

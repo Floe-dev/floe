@@ -5,11 +5,11 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import { RootProps } from "./types";
 import { RootElementContext } from "./context";
 
-const FloeProvider = (props: Omit<RootProps, "publicAccessKeyId">) => {
+const FloeProvider = (props: Omit<RootProps, "projectSlug">) => {
   const [queryClient] = React.useState(() => new QueryClient());
-  const publicAccessKeyId = process.env.NEXT_PUBLIC_FLOE_SLUG;
+  const projectSlug = process.env.NEXT_PUBLIC_FLOE_SLUG;
 
-  if (!publicAccessKeyId) {
+  if (!projectSlug) {
     throw new Error(
       "FloeProvider: NEXT_PUBLIC_FLOE_SLUG is not defined in .env.local"
     );
@@ -18,7 +18,7 @@ const FloeProvider = (props: Omit<RootProps, "publicAccessKeyId">) => {
   return (
     <RootElementContext.Provider
       value={{
-        publicAccessKeyId,
+        projectSlug,
       }}
     >
       <QueryClientProvider client={queryClient}>
