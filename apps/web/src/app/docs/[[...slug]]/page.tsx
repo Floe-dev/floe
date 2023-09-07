@@ -1,6 +1,6 @@
 import React from "react";
 import AmorphousBlob from "../../AmorphousBlob";
-import { floeClient } from "../../floe-client";
+import { getFloeClient } from "../../floe-client";
 import { withFloeServerPages, FloePageProps } from "@floe/next";
 import TableOfContents from "./TableOfContents";
 import Link from "next/link";
@@ -15,6 +15,7 @@ async function DocsPage({
   post,
   posts,
   isNotFound,
+  floeClient,
 }: FloePageProps) {
   let fileTree: Awaited<ReturnType<typeof floeClient.post.getTree>>;
 
@@ -73,4 +74,8 @@ async function DocsPage({
   );
 }
 
-export default withFloeServerPages(DocsPage, floeClient, "docs");
+export default ({ params }: { params: any }) => {
+  const floeClient = getFloeClient(process.env.NEXT_PUBLIC_FLOE_SLUG);
+
+  return withFloeServerPages(DocsPage, floeClient, "docs")({ params });
+};

@@ -6,7 +6,7 @@ import Subscribe from "@/app/Subscribe";
 import Blog from "./Blog";
 import BlogItem from "./BlogItem";
 import AmorphousBlob from "../../AmorphousBlob";
-import { floeClient } from "../../floe-client";
+import { getFloeClient } from "../../floe-client";
 
 export const revalidate = 10;
 
@@ -69,4 +69,8 @@ function BlogPage({ isError, isNode, post, posts, isNotFound }: FloePageProps) {
   );
 }
 
-export default withFloeServerPages(BlogPage, floeClient, "blog");
+export default ({ params }: { params: any }) => {
+  const floeClient = getFloeClient(process.env.NEXT_PUBLIC_FLOE_SLUG);
+
+  return withFloeServerPages(BlogPage, floeClient, "blog")({ params });
+};

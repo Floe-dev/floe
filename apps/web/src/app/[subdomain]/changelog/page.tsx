@@ -1,9 +1,9 @@
 import React from "react";
 import Changelog from "./Changelog";
-import AmorphousBlob from "../../../../../hosted/src/app/AmorphousBlob";
-import { getFloeClient } from "../../../../../hosted/src/app/floe-client";
+import AmorphousBlob from "@/app/AmorphousBlob";
+import NotFound from "@/app/NotFound";
+import { getFloeClient } from "@/app/floe-client";
 import { RenderedPostContent } from "@floe/next";
-import NotFound from "../../../../../hosted/src/app/NotFound";
 
 export const revalidate = 10;
 

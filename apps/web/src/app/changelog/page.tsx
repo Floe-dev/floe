@@ -2,13 +2,14 @@ import React from "react";
 import Changelog from "./Changelog";
 import AmorphousBlob from "../AmorphousBlob";
 import Subscribe from "../Subscribe";
-import { floeClient } from "../floe-client";
+import { getFloeClient } from "../floe-client";
 import { RenderedPostContent } from "@floe/next";
 import NotFound from "../NotFound";
 
 export const revalidate = 10;
 
 export default async function ChangelogListPage() {
+  const floeClient = getFloeClient(process.env.NEXT_PUBLIC_FLOE_SLUG);
   let changelogOrChangelogs: Awaited<
     ReturnType<typeof floeClient.post.getListOrNode>
   >;
@@ -25,12 +26,16 @@ export default async function ChangelogListPage() {
 
   const renderChangelogOrChangelogs = () => {
     if (changelogOrChangelogs.isNode) {
-      return <Changelog changelog={changelogOrChangelogs.data as RenderedPostContent} />;
+      return (
+        <Changelog
+          changelog={changelogOrChangelogs.data as RenderedPostContent}
+        />
+      );
     }
 
-    return (changelogOrChangelogs.data as RenderedPostContent[]).map((changelog) => (
-      <Changelog changelog={changelog} key={changelog.slug} />
-    ));
+    return (changelogOrChangelogs.data as RenderedPostContent[]).map(
+      (changelog) => <Changelog changelog={changelog} key={changelog.slug} />
+    );
   };
 
   return (
