@@ -1,4 +1,4 @@
-import Nav from "../../../Nav";
+import Nav from "../../../../../hosted/src/app/Nav";
 
 export default function ChangelogLayout({
   children,

@@ -1,1 +1,0 @@
-module.exports = require("@floe/tailwind-config/postcss.config.js");
