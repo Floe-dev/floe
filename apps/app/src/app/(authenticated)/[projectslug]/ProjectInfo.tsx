@@ -27,13 +27,15 @@ export const ProjectInfo = () => {
           )}
         </div>
         <div className="flex flex-col">
-          <div className="flex justify-center gap-2">
+          <div className="flex items-center gap-2 px-0">
             <h2 className="text-lg font-medium leading-6 capitalize text-zinc-700">
               {currentProject.name}{" "}
             </h2>
             <Pill text={currentProject.slug} color="gray" fontStlye="mono" />
           </div>
-          <p className="text-sm text-gray-200">{currentProject.description}</p>
+          <p className="my-1 text-sm text-gray-500">
+            {currentProject.description || "No description added."}
+          </p>
         </div>
       </div>
       <dl className="px-6 py-4 -my-3 text-sm leading-6 divide-y divide-gray-100">
