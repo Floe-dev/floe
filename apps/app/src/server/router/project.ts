@@ -22,7 +22,7 @@ export const projectRouter = router({
 
       const projects = await prisma.project.findMany({
         where: {
-          installationId
+          installationId,
         },
         include: {
           datasources: true,
@@ -40,7 +40,8 @@ export const projectRouter = router({
         installationId: z.number(),
         description: z.string().optional(),
       })
-    ).mutation(async ({ input, ctx }) => {
+    )
+    .mutation(async ({ input, ctx }) => {
       // TODO: VALIDATE
       const project = await prisma.project.create({
         data: {
@@ -59,7 +60,8 @@ export const projectRouter = router({
       z.object({
         projectId: z.string(),
       })
-    ).mutation(async (args) => {
+    )
+    .mutation(async (args) => {
       await validateUserHasProject(args);
 
       return prisma.project.delete({
@@ -70,38 +72,35 @@ export const projectRouter = router({
     }),
 
   rollKey: protectedProcedure
-  .input(
-    z.object({
-      projectId: z.string(),
-    })
-  )
-  .mutation(async ({ input }) => {
-    // TODO: VALIDATE
+    .input(
+      z.object({
+        projectId: z.string(),
+      })
+    )
+    .mutation(async ({ input }) => {
+      // TODO: VALIDATE
 
-    const rounds = 10;
-    // Use the user id as the primrary key
-    const apiKeyId = `public_${crypto.randomUUID()}`;
-    const token = `secret_${crypto.randomUUID()}`;
+      const rounds = 10;
+      // Use the user id as the primrary key
+      const token = `secret_${crypto.randomUUID()}`;
 
-    bcrypt.hash(token, rounds, async (err, hash) => {
-      if (err) {
-        throw err;
-      }
+      bcrypt.hash(token, rounds, async (err, hash) => {
+        if (err) {
+          throw err;
+        }
 
-      await prisma.project.update({
-        data: {
-          apiKeyId,
-          encryptedApiKey: hash,
-        },
-        where: {
-          id: input.projectId,
-        },
+        await prisma.project.update({
+          data: {
+            encryptedApiKey: hash,
+          },
+          where: {
+            id: input.projectId,
+          },
+        });
       });
-    });
 
-    return {
-      apiKeyId,
-      token,
-    };
-  }),
+      return {
+        token,
+      };
+    }),
 });

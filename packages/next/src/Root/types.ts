@@ -1,4 +1,4 @@
 export type RootProps = {
-  publicAccessKeyId: string;
+  projectSlug: string;
   children?: React.ReactNode;
 };

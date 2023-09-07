@@ -7,6 +7,7 @@ import { useSearchParams, useRouter } from "next/navigation";
 import { useQueryClient } from "@tanstack/react-query";
 import { api } from "@/utils/trpc";
 import { useProjectContext } from "@/context/project";
+import { ProjectInfo } from "./ProjectInfo";
 
 export default function Project() {
   const router = useRouter();
@@ -41,6 +42,7 @@ export default function Project() {
 
   return (
     <>
+      <ProjectInfo />
       <DataSources />
       <Keys />
     </>

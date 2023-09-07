@@ -11,21 +11,27 @@ datasource db {
   relationMode = "prisma"
 }
 
+enum Appearance {
+  LIGHT
+  DARK
+  SYSTEM
+}
+
 model Project {
   id              String       @id @default(cuid())
   slug            String       @unique
   name            String
   description     String?
-  image           String?
+  logo            String?
+  homepageURL     String?
+  appearance      Appearance   @default(LIGHT)
   installationId  Int
-  apiKeyId        String?
   encryptedApiKey String?
   datasources     DataSource[]
   createdAt       DateTime     @default(now())
   updatedAt       DateTime     @updatedAt
 
-  @@unique([apiKeyId])
-  @@index([installationId, apiKeyId])
+  @@index([installationId, slug])
 }
 
 model DataSource {

@@ -12,7 +12,6 @@ const Keys = () => {
   const queryClient = useQueryClient();
   const [open, setOpen] = useState(false);
   const [secretKey, setSecretKey] = useState("");
-  const [publicKeyId, setPublicKeyId] = useState("");
   const { currentProject, queryKey } = useProjectContext();
   const { mutateAsync } = api.project.rollKey.useMutation({
     onSuccess: () => queryClient.invalidateQueries({ queryKey }),
@@ -28,7 +27,6 @@ const Keys = () => {
         projectId: currentProject!.id,
       });
 
-      setPublicKeyId(resp.apiKeyId);
       setSecretKey(resp.token);
       setOpen(true);
     }
@@ -56,12 +54,7 @@ const Keys = () => {
           }
         />
       </Card>
-      <ApiKeysModal
-        open={open}
-        setOpen={setOpen}
-        publicKeyId={publicKeyId}
-        secretKey={secretKey}
-      />
+      <ApiKeysModal open={open} setOpen={setOpen} secretKey={secretKey} />
     </div>
   );
 };
