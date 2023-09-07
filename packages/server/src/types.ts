@@ -44,6 +44,9 @@ export type ProjectAPIResponse = {
   data: {
     name: string;
     slug: string;
+    logo: string | null;
+    homepageURL: null;
+    appearance: "LIGHT" | "DARK" | "SYSTEM";
     datasources: {
       id: string;
       branch: string;

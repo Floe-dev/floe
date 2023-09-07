@@ -10,11 +10,14 @@ export default async function ChangelogLayout({
 }) {
   const floeClient = getFloeClient(params.subdomain);
   const project = await floeClient.project.get();
-  console.log(11111, project);
 
   return (
     <>
-      <Nav projectName={project.name} />
+      <Nav
+        logo={project.logo}
+        projectName={project.name}
+        homepageURL={project.homepageURL}
+      />
       {children}
     </>
   );
