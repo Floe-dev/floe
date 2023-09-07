@@ -3,11 +3,15 @@ import Image from "next/image";
 import cn from "classnames";
 import Link from "next/link";
 
-const Nav = ({ hideBackground = false }) => (
+interface NavProps {
+  projectName: string;
+}
+
+const Nav = ({ projectName }: NavProps) => (
   <header
-    className={cn("fixed inset-x-0 top-0 z-50", {
-      "backdrop-blur-2xl bg-zinc-900/80": !hideBackground,
-    })}
+    className={cn(
+      "fixed inset-x-0 top-0 z-50 backdrop-blur-2xl bg-zinc-900/80"
+    )}
   >
     <nav
       className="flex items-center justify-between px-6 py-4 md:px-8"
@@ -15,16 +19,8 @@ const Nav = ({ hideBackground = false }) => (
     >
       <div className="flex items-center justify-between flex-1">
         <Link href="/" className="-m-1.5 p-1.5">
-          {/* TODO */}
-          My App
-          {/* <Image
-            priority
-            src="/logo-title.svg"
-            height={24}
-            width={72}
-            alt="Follow us on Twitter"
-            className="dark:invert"
-          /> */}
+          {/* TODO Add logo image*/}
+          {projectName}
         </Link>
       </div>
     </nav>
