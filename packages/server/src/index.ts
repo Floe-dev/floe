@@ -1,5 +1,9 @@
 import api from "./api";
-import { PostAPIResponse, PostTreeAPIResponse } from "./types";
+import {
+  PostAPIResponse,
+  PostTreeAPIResponse,
+  ProjectAPIResponse,
+} from "./types";
 import { Components, render } from "./utils/render";
 import { isNode } from "./utils/isNode";
 
@@ -24,6 +28,22 @@ export class FloeClientFactory {
     this.options = options;
 
     this.api = api(auth.projectSlug, auth.apiKeySecret);
+  }
+
+  get project() {
+    return {
+      get: async () => {
+        const response = await this.api<ProjectAPIResponse>(`v1/projects`);
+
+        if (!response) {
+          return undefined;
+        }
+
+        const { data } = response;
+
+        return data;
+      },
+    };
   }
 
   get post() {
