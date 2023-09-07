@@ -66,5 +66,9 @@ function BlogPage({ isError, isNode, post, posts, isNotFound }: FloePageProps) {
   );
 }
 
-export default ({ params }: { params: { domain: string } }) =>
-  withFloeServerPages(BlogPage, getFloeClient(params.domain), "blog");
+// eslint-disable-next-line import/no-anonymous-default-export
+export default ({ params }: { params: any }) => {
+  const floeClient = getFloeClient(params.domain);
+
+  return withFloeServerPages(BlogPage, floeClient, "blog")({ params });
+};
