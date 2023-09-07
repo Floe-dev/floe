@@ -19,7 +19,7 @@ export const ProjectInfo = () => {
   return (
     <div className="w-full mb-4 overflow-hidden bg-white rounded-lg shadow md:w-1/3">
       <div className="flex items-center p-6 bg-white border-b gap-x-4 border-gray-900/5">
-        <div className="flex items-center justify-center object-cover w-12 h-12 bg-gray-100 rounded-lg shadow-sm ring-1 ring-gray-900/10">
+        <div className="flex items-center justify-center object-cover w-12 h-12 bg-gray-100 rounded-lg shadow-sm shrink-0 ring-1 ring-gray-900/10">
           {currentProject.logo ? (
             <img src={currentProject.logo} alt={currentProject.name} />
           ) : (
