@@ -1,13 +1,12 @@
 import Image from "next/image";
 import { Options, FloeClientFactory } from "@floe/server";
 
-export const FloeClient = (options?: Options) => {
-  const apiKeyId = process.env.NEXT_PUBLIC_FLOE_API_KEY_ID!;
+export const FloeClient = (projectSlug: string, options?: Options) => {
   const apiKeySecret = process.env.FLOE_API_KEY_SECRET!;
 
-  if (!apiKeyId) {
+  if (!projectSlug) {
     throw new Error(
-      "FloeProvider: NEXT_PUBLIC_FLOE_API_KEY_ID is not defined in .env.local"
+      "FloeProvider: NEXT_PUBLIC_FLOE_SLUG is not defined in .env.local"
     );
   }
 
@@ -20,7 +19,7 @@ export const FloeClient = (options?: Options) => {
   return new FloeClientFactory(
     // AUTH
     {
-      apiKeyId,
+      projectSlug,
       apiKeySecret,
     },
 
@@ -29,17 +28,19 @@ export const FloeClient = (options?: Options) => {
       ...options,
       components: {
         ...options?.components,
-        Image: options?.components?.Image ?? (({ src, alt }: { src: string; alt?: string }) => (
-          <div className="relative w-full h-56 m-0 mt-2 overflow-hidden md:h-96 rounded-xl">
-            <Image
-              fill
-              src={src}
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 55vw"
-              alt={alt ?? ""}
-              className="object-cover m-0"
-            />
-          </div>
-        )),
+        Image:
+          options?.components?.Image ??
+          (({ src, alt }: { src: string; alt?: string }) => (
+            <div className="relative w-full h-56 m-0 mt-2 overflow-hidden md:h-96 rounded-xl">
+              <Image
+                fill
+                src={src}
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 55vw"
+                alt={alt ?? ""}
+                className="object-cover m-0"
+              />
+            </div>
+          )),
       },
     }
   );

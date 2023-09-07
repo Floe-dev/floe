@@ -2,6 +2,7 @@
 
 import { Modal } from "@/components/Modal";
 import { KeyTable } from "./KeyTable";
+import { useProjectContext } from "@/context/project";
 
 export const ApiKeysModal = ({
   open,
@@ -14,6 +15,8 @@ export const ApiKeysModal = ({
   publicKeyId: string;
   secretKey: string;
 }) => {
+  const { currentProject } = useProjectContext();
+
   return (
     <Modal
       open={open}
@@ -33,7 +36,12 @@ export const ApiKeysModal = ({
           className="flex flex-col items-start gap-6"
           onSubmit={(e) => e.preventDefault()}
         >
-          <KeyTable apiKeyId={publicKeyId} secretKey={secretKey} hideAccessCol secretKeyCopiable />
+          <KeyTable
+            slug={currentProject?.slug ?? "No value set"}
+            secretKey={secretKey}
+            hideAccessCol
+            secretKeyCopiable
+          />
         </form>
       }
     />

@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse, NextApiHandler } from "next";
 import { Middleware } from "next-api-middleware";
 
 export type NextApiRequestExtension = NextApiRequest & {
-  keyId: string;
+  slug: string;
 };
 
 export type NextApiResponseExtension = NextApiResponse;

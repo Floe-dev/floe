@@ -18,7 +18,7 @@ import { DataSource, Post } from "@floe/db";
 import { defaultResponder } from "@/lib/helpers/defaultResponder";
 
 async function handler(
-  { query, project, octokit, keyId }: NextApiRequestExtension,
+  { query, project, octokit, slug }: NextApiRequestExtension,
   res: NextApiResponseExtension
 ) {
   const { path } = query as { path?: string };
@@ -36,7 +36,7 @@ async function handler(
       const imagesVersion = "v1";
       const baseURL =
         process.env.NEXT_PUBLIC_FLOE_BASE_URL ?? "https://api.floe.dev/";
-      const imageBasePath = `${baseURL}${imagesVersion}/images?keyId=${project.apiKeyId}&datasourceId=${datasource.id}`;
+      const imageBasePath = `${baseURL}${imagesVersion}/images?slug=${project.slug}&datasourceId=${datasource.id}`;
 
       try {
         const files = await getFileTree(octokit, {
@@ -54,7 +54,7 @@ async function handler(
             datasourceId: datasource.id,
             datasource: {
               project: {
-                apiKeyId: keyId,
+                slug,
               },
             },
           },

@@ -6,8 +6,17 @@ export const authenticate: CustomMiddleware = async (req, res, next) => {
   const query = req.query as { datasourceId?: string };
   const { datasourceId } = query;
 
-  const keyId = req.headers["x-api-id"] as string | undefined;
+  const slug = req.headers["x-api-slug"] as string | undefined;
   const key = req.headers["x-api-key"] as string | undefined;
+
+  let admin = false;
+
+  /**
+   * Authenticate as an admin for access to all projects
+   */
+  if (key === process.env.ADMIN_API_KEY) {
+    admin = true;
+  }
 
   if (!key) {
     return res.status(401).json({
@@ -17,17 +26,17 @@ export const authenticate: CustomMiddleware = async (req, res, next) => {
     });
   }
 
-  if (!keyId) {
+  if (!slug) {
     return res.status(401).json({
       error: {
-        message: "No api key id provided",
+        message: "No project slug provided",
       },
     });
   }
 
   const project = await prisma.project.findUnique({
     where: {
-      apiKeyId: keyId,
+      slug,
     },
     include: {
       datasources: datasourceId
@@ -56,18 +65,20 @@ export const authenticate: CustomMiddleware = async (req, res, next) => {
     });
   }
 
-  const match = await bcrypt.compare(key, project.encryptedApiKey!);
+  if (!admin) {
+    const match = await bcrypt.compare(key, project.encryptedApiKey!);
 
-  if (!match) {
-    res.status(401).json({
-      error: {
-        message: "Invalid API key",
-      },
-    });
+    if (!match) {
+      return res.status(401).json({
+        error: {
+          message: "Invalid API key",
+        },
+      });
+    }
   }
 
   req.project = project;
-  req.keyId = keyId;
+  req.slug = slug;
 
   await next();
 };

@@ -7,11 +7,11 @@ import { RootElementContext } from "./context";
 
 const FloeProvider = (props: Omit<RootProps, "publicAccessKeyId">) => {
   const [queryClient] = React.useState(() => new QueryClient());
-  const publicAccessKeyId = process.env.NEXT_PUBLIC_FLOE_API_KEY_ID;
+  const publicAccessKeyId = process.env.NEXT_PUBLIC_FLOE_SLUG;
 
   if (!publicAccessKeyId) {
     throw new Error(
-      "FloeProvider: NEXT_PUBLIC_FLOE_API_KEY_ID is not defined in .env.local"
+      "FloeProvider: NEXT_PUBLIC_FLOE_SLUG is not defined in .env.local"
     );
   }
 

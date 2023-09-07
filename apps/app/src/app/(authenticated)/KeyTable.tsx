@@ -2,12 +2,12 @@ import { Pill } from "@/components/Pill";
 import { Clipboard } from "@/components";
 
 export const KeyTable = ({
-  apiKeyId,
+  slug,
   secretKey,
   hideAccessCol = false,
-  secretKeyCopiable = false
+  secretKeyCopiable = false,
 }: {
-  apiKeyId: string;
+  slug: string;
   secretKey: string;
   hideAccessCol?: boolean;
   secretKeyCopiable?: boolean;
@@ -40,7 +40,7 @@ export const KeyTable = ({
     <tbody className="divide-y divide-gray-200">
       <tr>
         <td className="py-4 pl-4 pr-3 text-sm font-medium text-gray-900 whitespace-nowrap sm:pl-0">
-          API Key ID
+          Slug
         </td>
         {!hideAccessCol && (
           <td className="px-3 py-4 text-sm text-gray-500 whitespace-nowrap">
@@ -48,8 +48,8 @@ export const KeyTable = ({
           </td>
         )}
         <td className="flex items-center gap-1 px-3 py-4 text-sm text-gray-500 whitespace-nowrap">
-          <Pill color="gray" fontStlye="mono" text={apiKeyId} />
-          <Clipboard text={apiKeyId} />
+          <Pill color="gray" fontStlye="mono" text={slug} />
+          <Clipboard text={slug} />
         </td>
       </tr>
       <tr>
@@ -63,9 +63,7 @@ export const KeyTable = ({
         )}
         <td className="flex items-center gap-1 px-3 py-4 text-sm text-gray-500 whitespace-nowrap">
           <Pill color="gray" fontStlye="mono" text={secretKey} />
-          {secretKeyCopiable && (
-            <Clipboard text={secretKey} />
-          )}
+          {secretKeyCopiable && <Clipboard text={secretKey} />}
         </td>
       </tr>
     </tbody>

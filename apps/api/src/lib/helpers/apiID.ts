@@ -1,12 +1,12 @@
 import { CustomMiddleware } from "@/lib/types/privateMiddleware";
 
 export const apiID: CustomMiddleware = async (req, res, next) => {
-  const keyId = req.headers["x-api-id"] as string | undefined;
+  const slug = req.headers["x-api-slug"] as string | undefined;
 
-  if (!keyId) {
+  if (!slug) {
     return res.status(401).json({
       error: {
-        message: "No api key id provided",
+        message: "No project slug provided",
       },
     });
   }

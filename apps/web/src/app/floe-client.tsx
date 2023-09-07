@@ -1,9 +1,12 @@
 import { FloeClient } from "@floe/next";
 import { ReactNode } from "react";
 
-export const floeClient = FloeClient({
+export const floeClient = FloeClient(process.env.NEXT_PUBLIC_FLOE_SLUG, {
   components: {
-    Callout: (props: { children: ReactNode; type?: "caution" | "check" | "info" |"warning" | "docs" | "tada" }) => {
+    Callout: (props: {
+      children: ReactNode;
+      type?: "caution" | "check" | "info" | "warning" | "docs" | "tada";
+    }) => {
       const icons = {
         caution: "⚠️",
         check: "✅",
@@ -18,7 +21,7 @@ export const floeClient = FloeClient({
           <div className="m-0">{icons[props.type ?? "info"]}</div>
           <div className="[&>p]:m-0">{props.children}</div>
         </div>
-      )
-    }
-  }
+      );
+    },
+  },
 });
