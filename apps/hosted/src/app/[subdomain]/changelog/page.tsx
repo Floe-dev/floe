@@ -10,9 +10,9 @@ export const revalidate = 10;
 export default async function ChangelogListPage({
   params,
 }: {
-  params: { domain: string };
+  params: { subdomain: string };
 }) {
-  const floeClient = getFloeClient(params.domain);
+  const floeClient = getFloeClient(params.subdomain);
   let changelogOrChangelogs: Awaited<
     ReturnType<typeof floeClient.post.getListOrNode>
   >;

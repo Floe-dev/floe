@@ -76,7 +76,7 @@ async function DocsPage({
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default ({ params }: { params: any }) => {
-  const floeClient = getFloeClient(params.domain);
+  const floeClient = getFloeClient(params.subdomain);
 
   return withFloeServerPages(DocsPage, floeClient, "docs")({ params });
 };
