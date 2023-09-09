@@ -2,9 +2,7 @@
 
 import { Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import {
-  XMarkIcon,
-} from "@heroicons/react/24/outline";
+import { XMarkIcon } from "@heroicons/react/24/outline";
 import { Button, ButtonProps } from "./Button";
 
 export interface ModalProps {
@@ -16,13 +14,20 @@ export interface ModalProps {
   actions: {
     text: string;
     type?: ButtonProps["type"];
-    disbaled?: boolean;
+    disabled?: boolean;
     variant?: ButtonProps["variant"];
     onClick: () => void;
   }[];
 }
 
-export const Modal = ({ open, setOpen, title, subTitle, content, actions }: ModalProps) => {
+export const Modal = ({
+  open,
+  setOpen,
+  title,
+  subTitle,
+  content,
+  actions,
+}: ModalProps) => {
   return (
     <Transition.Root show={open} as={Fragment}>
       <Dialog as="div" className="relative z-10" onClose={setOpen}>
@@ -91,7 +96,7 @@ export const Modal = ({ open, setOpen, title, subTitle, content, actions }: Moda
                       }}
                       key={action.text}
                       type={action.type}
-                      disabled={action.disbaled}
+                      disabled={action.disabled}
                       variant={action.variant}
                     >
                       {action.text}

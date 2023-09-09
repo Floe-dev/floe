@@ -20,16 +20,22 @@ export const dataSourceRouter = router({
       })
     )
     .mutation(async ({ input, ctx }) => {
+      console.log(22222, input.createOrUpdateRepo);
       if (input.createOrUpdateRepo === "CREATE") {
-        createRepoFromTemplate(ctx.octokit, {
-          templateOwner: FLOE_TEMPLATE_OWNER,
-          templateRepo: FLOE_TEMPLATE_REPO,
-          owner: input.owner,
-          name: input.repository,
-          description: "Floe data source",
-          includeAllBranches: false,
-          privateRepo: true,
-        });
+        try {
+          const x = await createRepoFromTemplate(ctx.octokit, {
+            templateOwner: FLOE_TEMPLATE_OWNER,
+            templateRepo: FLOE_TEMPLATE_REPO,
+            owner: input.owner,
+            name: input.repository,
+            description: "Floe data source",
+            includeAllBranches: false,
+            privateRepo: true,
+          });
+        } catch (e) {
+          console.log(11111, e);
+          throw e;
+        }
       }
 
       const files = await getFileTree(ctx.octokit, {

@@ -135,7 +135,7 @@ export default function Dashboard() {
           {
             text: loading ? "Creating..." : "Create project",
             type: "submit",
-            disbaled: !isValid || loading,
+            disabled: !isValid || loading,
             onClick: async () => {
               setLoading(true);
               const project = await mutateAsync({
