@@ -37,6 +37,7 @@ f. Set `DATABASE_URL` to the value from Step 3.
 g. Set `NEXTAUTH_URL` to `http://localhost:3001`
 h. Create a random value for `NEXTAUTH_SECRET`. You can use `openssl rand -base64 32`;
 i. Set `NEXT_PUBLIC_FLOE_BASE_URL` to `http://localhost:4000/`
+j. Set `NEXT_PUBLIC_APP_NAME` to the name of your GitHub App.
 
 5. Install deps:
 

@@ -92,7 +92,9 @@ const NavSelector = () => {
               <Menu.Item>
                 {({ active }) => (
                   <a
-                    href="https://github.com/apps/floe-app/installations/select_target"
+                    href={`https://github.com/apps/${
+                      process.env.NEXT_PUBLIC_APP_NAME ?? "floe-app"
+                    }/installations/select_target`}
                     className={cn(
                       "flex justify-between px-4 py-2 text-sm w-full border-t items-center",
                       {
@@ -101,7 +103,8 @@ const NavSelector = () => {
                       }
                     )}
                   >
-                    New Installation <ArrowUpRightIcon className="flex-shrink-0 w-5 h-5 ml-2 text-gray-500" />
+                    New Installation{" "}
+                    <ArrowUpRightIcon className="flex-shrink-0 w-5 h-5 ml-2 text-gray-500" />
                   </a>
                 )}
               </Menu.Item>

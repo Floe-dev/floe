@@ -1,7 +1,10 @@
 "use client";
 
 import DashboardLayout from "./DashboardLayout";
-import { InstallationsProvider, useInstallationsContext } from "@/context/installations";
+import {
+  InstallationsProvider,
+  useInstallationsContext,
+} from "@/context/installations";
 import { ProjectProvider } from "@/context/project";
 import Onboarding from "./Onboarding";
 import { Spinner } from "@/components";
@@ -29,9 +32,9 @@ export default function AuthenticatedLayout({
       <div className="grid h-full place-items-center">
         <Spinner />
       </div>
-    )
+    );
   }
-  
+
   return (
     <InstallationsProvider>
       <AuthenticatedLayoutChildren>{children}</AuthenticatedLayoutChildren>
@@ -51,7 +54,7 @@ const AuthenticatedLayoutChildren = ({
       <div className="grid h-full place-items-center">
         <Spinner />
       </div>
-    )
+    );
   }
 
   if (!installations?.length) {

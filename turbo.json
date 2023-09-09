@@ -21,7 +21,8 @@
         "PRIVATE_KEY",
         "VERCEL_URL",
         "PORT",
-        "ADMIN_API_KEY"
+        "ADMIN_API_KEY",
+        "NEXT_PUBLIC_APP_NAME"
       ]
     },
     "clean": {

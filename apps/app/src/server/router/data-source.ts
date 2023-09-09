@@ -20,7 +20,6 @@ export const dataSourceRouter = router({
       })
     )
     .mutation(async ({ input, ctx }) => {
-      console.log(22222, input.createOrUpdateRepo);
       if (input.createOrUpdateRepo === "CREATE") {
         try {
           const x = await createRepoFromTemplate(ctx.octokit, {
