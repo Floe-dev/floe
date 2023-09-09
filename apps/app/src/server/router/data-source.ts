@@ -1,7 +1,10 @@
 import { z } from "zod";
 import { prisma } from "@/server/db/client";
 import { protectedProcedure, router } from "@/server/trpc";
-import { getFileTree } from "@floe/utils";
+import { getFileTree, createRepoFromTemplate } from "@floe/utils";
+
+const FLOE_TEMPLATE_OWNER = "Floe-dev";
+const FLOE_TEMPLATE_REPO = "floe-sample-data";
 
 export const dataSourceRouter = router({
   create: protectedProcedure
@@ -11,9 +14,24 @@ export const dataSourceRouter = router({
         owner: z.string(),
         repository: z.string(),
         baseBranch: z.string(),
+        createOrUpdateRepo: z
+          .union([z.literal("CREATE"), z.literal("UPDATE")])
+          .optional(),
       })
     )
     .mutation(async ({ input, ctx }) => {
+      if (input.createOrUpdateRepo === "CREATE") {
+        createRepoFromTemplate(ctx.octokit, {
+          templateOwner: FLOE_TEMPLATE_OWNER,
+          templateRepo: FLOE_TEMPLATE_REPO,
+          owner: input.owner,
+          name: input.repository,
+          description: "Floe data source",
+          includeAllBranches: false,
+          privateRepo: true,
+        });
+      }
+
       const files = await getFileTree(ctx.octokit, {
         owner: input.owner,
         repo: input.repository,
