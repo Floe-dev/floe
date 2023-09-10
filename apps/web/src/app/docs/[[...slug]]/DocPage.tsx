@@ -6,7 +6,7 @@ import type { RenderedPostContent } from "@floe/next";
 
 const DocPage = ({ doc }: { doc: RenderedPostContent }) => (
   <PostPrimitive.Root post={doc}>
-    <div className="relative mb-4 prose no-underline border-b last:pb-0 last:border-0 border-zinc-700 dark:prose-invert">
+    <div className="relative z-10 mb-4 prose no-underline border-b last:pb-0 last:border-0 border-zinc-700 dark:prose-invert">
       {/* TITLE */}
       <PostPrimitive.Title className="mt-0 text-4xl" />
 

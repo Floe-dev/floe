@@ -87,6 +87,9 @@ importers:
       '@floe/db':
         specifier: workspace:*
         version: link:../../packages/db
+      '@floe/ui':
+        specifier: workspace:*
+        version: link:../../packages/ui
       '@floe/utils':
         specifier: workspace:*
         version: link:../../packages/utils

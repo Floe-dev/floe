@@ -5,9 +5,11 @@ import { ClipboardDocumentIcon } from "@heroicons/react/24/outline";
 import { ClipboardDocumentCheckIcon } from "@heroicons/react/24/solid";
 
 export const Clipboard = ({
-  text
+  text,
+  className,
 }: {
   text: string;
+  className?: string;
 }) => {
   const [copied, setCopied] = useState(false);
 
@@ -24,7 +26,7 @@ export const Clipboard = ({
   };
 
   return (
-    <button onClick={() => copyToClipboard()}>
+    <button onClick={() => copyToClipboard()} className={className}>
       {!copied ? (
         <ClipboardDocumentIcon className="w-5 h-5 text-gray-400 animate-fade-in" />
       ) : (

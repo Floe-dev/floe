@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@floe/db": "workspace:*",
+    "@floe/ui": "workspace:*",
     "@floe/utils": "workspace:*",
     "@headlessui/react": "^1.7.16",
     "@heroicons/react": "^2.0.18",
