@@ -6,14 +6,14 @@ import { nightOwl } from "react-syntax-highlighter/dist/esm/styles/hljs";
 
 export const CodeBlock = ({
   children,
-  lang = "javascript",
+  language = "javascript",
 }: {
   children: string;
-  lang?: string;
+  language?: string;
 }) => (
   <div className="relative">
     <SyntaxHighlighter
-      language={lang}
+      language={language}
       customStyle={{
         padding: "1rem",
       }}

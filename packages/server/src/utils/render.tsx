@@ -27,10 +27,10 @@ export type Components = {
 
   CodeBlock: ({
     children,
-    lang,
+    language,
   }: {
     children: React.ReactNode;
-    lang?: string;
+    language?: string;
   }) => JSX.Element;
 
   Loom: ({ src }: { src: string }) => JSX.Element;
@@ -86,7 +86,7 @@ export const render = (
     },
     CodeBlock: (props: {
       children: React.ReactNode;
-      lang?: string;
+      language?: string;
     }): JSX.Element => {
       const CustomCodeBlock = options?.components?.CodeBlock;
 
