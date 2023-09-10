@@ -13,7 +13,7 @@
     ·
     <a href="https://floe.dev">🌐 Website</a>
     ·
-    <a href="https://github.com/calcom/cal.com/issues">🐛 Bugs</a>
+    <a href="https://github.com/Floe-dev/floe/issues">🐛 Bugs</a>
     ·
     <a href="https://floe.canny.io/">🗺️ Roadmap</a>
   </p>
