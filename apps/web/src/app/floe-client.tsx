@@ -1,3 +1,4 @@
+import { CodeBlock } from "@/components/CodeBlock";
 import { FloeClient } from "@floe/next";
 import { ReactNode } from "react";
 
@@ -24,5 +25,7 @@ export const getFloeClient = (slug: string) =>
           </div>
         );
       },
+
+      CodeBlock,
     },
   });
