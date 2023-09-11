@@ -26,10 +26,22 @@ const Nav = ({ hideBackground = false }) => (
         </Link>
 
         <div className="flex gap-4">
-          <Link href="/blog" className="text-sm text-white">
+          <Link
+            href={`/${process.env.NEXT_PUBLIC_FLOE_SLUG}/docs`}
+            className="text-sm text-white"
+          >
+            Docs
+          </Link>
+          <Link
+            href={`/${process.env.NEXT_PUBLIC_FLOE_SLUG}/blog`}
+            className="text-sm text-white"
+          >
             Blog
           </Link>
-          <Link href="/changelog" className="text-sm text-white">
+          <Link
+            href={`/${process.env.NEXT_PUBLIC_FLOE_SLUG}/changelog`}
+            className="text-sm text-white"
+          >
             Changelog
           </Link>
         </div>
