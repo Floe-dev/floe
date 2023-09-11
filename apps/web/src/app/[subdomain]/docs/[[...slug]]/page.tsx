@@ -7,6 +7,7 @@ import Link from "next/link";
 import DocItem from "./DocPage";
 import NotFound from "@/app/NotFound";
 import { MobileNav } from "./MobileNav";
+import { Footer } from "../../_components/Footer";
 
 export const revalidate = 10;
 
@@ -63,6 +64,7 @@ async function DocsPage({
               </Link>
             ))
           )}
+          <Footer />
         </section>
       </>
     );
