@@ -4,9 +4,11 @@ import cn from "classnames";
 import Link from "next/link";
 
 const Nav = ({ hideBackground = false }) => (
-  <header className={cn("fixed inset-x-0 top-0 z-50", {
-    "backdrop-blur-2xl bg-zinc-900/80": !hideBackground,
-  })}>
+  <header
+    className={cn("fixed inset-x-0 top-0 z-50", {
+      "backdrop-blur-2xl bg-zinc-950/80": !hideBackground,
+    })}
+  >
     <nav
       className="flex items-center justify-between px-6 py-4 md:px-8"
       aria-label="Global"

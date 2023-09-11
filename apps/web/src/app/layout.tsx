@@ -17,7 +17,7 @@ export default function RootLayout({ children }: { children: null }) {
           content="width=device-width, initial-scale=1, maximum-scale=1"
         ></meta>
       </head>
-      <body className={`${InterFont.className} bg-white dark:bg-zinc-900`}>
+      <body className={`${InterFont.className} bg-white dark:bg-zinc-950`}>
         <FloeProvider>
           {children}
           <Analytics />
