@@ -47,7 +47,7 @@ async function DocsPage({
             </div>
           </div>
         </section>
-        <section className="w-full mt-12 prose dark:prose-invert border-zinc-700">
+        <section className="w-full mt-12 prose md:mt-0 dark:prose-invert border-zinc-700">
           {isNode ? (
             <div className="w-full max-w-5xl prose dark:prose-invert">
               <DocItem doc={post} />
