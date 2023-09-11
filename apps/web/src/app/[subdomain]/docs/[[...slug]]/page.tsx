@@ -47,9 +47,9 @@ async function DocsPage({
             </div>
           </div>
         </section>
-        <section className="w-full mt-12 prose md:mt-0 dark:prose-invert border-zinc-700">
+        <section className="w-full m-auto mt-12 md:mt-0 border-zinc-700">
           {isNode ? (
-            <div className="w-full max-w-5xl prose dark:prose-invert">
+            <div className="w-full">
               <DocItem doc={post} />
             </div>
           ) : (
@@ -70,7 +70,7 @@ async function DocsPage({
 
   return (
     <main className="relative z-10 flex flex-col">
-      <div className="flex flex-col-reverse w-full max-w-screen-xl gap-16 px-6 pt-24 pb-8 mx-auto md:px-8 md:flex-row">
+      <div className="flex flex-col-reverse w-full max-w-screen-xl gap-8 px-6 pt-24 pb-8 mx-auto md:px-8 md:flex-row">
         {renderDocOrDocs()}
       </div>
       <AmorphousBlob
