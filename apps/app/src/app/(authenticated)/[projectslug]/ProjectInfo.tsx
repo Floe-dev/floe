@@ -66,14 +66,13 @@ export const ProjectInfo = () => {
         <div className="flex justify-between py-3 gap-x-4">
           <dt className="text-gray-500">Docs</dt>
           <dd className="flex items-start text-gray-700 gap-x-2">
-            Coming soon
-            {/* <Link
+            <Link
               href={siteLink + "/docs"}
               className="flex text-indigo-500"
               target="_blank"
             >
               Visit <ArrowUpRightIcon className="flex-shrink-0 w-5 h-5 ml-1" />
-            </Link> */}
+            </Link>
           </dd>
         </div>
       </dl>
