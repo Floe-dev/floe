@@ -69,7 +69,7 @@ const buildRecursiveTree = (ft: FileTree | FileTreeNode, pathname: string) => {
     if ((value as FileTreeNode).filename) {
       return (
         <li
-          className="flex my-2 list-none rounded-lg prose-li hover:bg-zinc-700"
+          className="flex my-2 list-none rounded-lg prose-li hover:bg-white/20"
           key={key}
         >
           <Link
@@ -101,7 +101,7 @@ const buildRecursiveTree = (ft: FileTree | FileTreeNode, pathname: string) => {
         <Accordion.Item className="AccordionItem" value={key}>
           <li className="m-0 list-none prose-li">
             {/* Section title */}
-            <div className="flex justify-between my-2 rounded-lg hover:bg-zinc-700">
+            <div className="flex justify-between my-2 rounded-lg hover:bg-white/20">
               {(value as FileTree)["index.md"] ? (
                 <Link
                   href={
