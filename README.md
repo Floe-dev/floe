@@ -1,10 +1,10 @@
 ![banner](https://github.com/Floe-dev/floe/assets/9045634/41c40819-5c26-4593-b2a0-5057b24dc98b)
 
 <p align="center">
-  <h3 align="center">The Open-Source Product Engagement Platform</h3>
+  <h3 align="center">Product Release Comms Made Easy</h3>
 
   <p align="center">
-    Tools for crafting product release content (changelogs, docs, blogs), announcements, and feedback.
+    Open-source product release content (changelogs, docs, blogs), announcements, and feedback.
     <br />
     <a href="https://www.notion.so/floe-dev/Welcome-to-Floe-3db77b5e72a74c86a7756deb4bb2eb45?pvs=4"><strong>Learn more »</strong></a>
     <br />
@@ -28,7 +28,7 @@
 
 ## Features
 
-- ✅ Write changelogs, blogs, and docs (coming soon) in [Markdoc](https://markdoc.dev/)
+- ✅ Write changelogs, blogs, and docs in [Markdoc](https://markdoc.dev/)
 - ✅ Git-backed
 - ✅ Open source
 - ✅ Reactions
@@ -44,13 +44,13 @@ Check out the [Roadmap](https://floe.canny.io/feature-requests/p/docs-support) f
 
 Examples:
 
-- [🚢 Changelog](https://www.floe.dev/changelog)
-- [✍️ Blog](https://www.floe.dev/blog)
-- 📖 Docs (coming soon)
+- [🚢 Changelog](https://www.floe.dev/floe-1072/changelog)
+- [✍️ Blog](https://www.floe.dev/floe-1072/blog)
+- [📖 Docs](https://www.floe.dev/floe-1072/docs)
 
 ## Getting started
 
-Check out the [tutorial](https://www.notion.so/floe-dev/Docs-UI-Templates-ef503e987aaa4dabb1e388cac9e14d62?pvs=4) in the (temporary) docs to get started.
+Check out the [getting started page](https://www.floe.dev/floe-1072/docs/02-getting-started.md) in the docs to get setup.
 
 ## Built with
 
@@ -72,11 +72,14 @@ That's where Floe comes in:
 - **Open source**
   Great products are built through collaboration and feedback. That's why Floe is completely open source.
 
+- **Content as data**
+  Treat your content for what it really is: data. Stop worrying about managing UI templates. Just write Markdown, ship, repeat.
+
+- **Co-locate Content + Code**
+  Write your content where it's relevant. Use the same repository for your content as your source code.
+
 - **Single source of truth**
   Floe is backed by git. Use your codebase as your single source of truth.
-
-- **Content <> UI de-coupling**
-  Treat your content for what it really is: data. Co-locate your data with code across multiple repositories. Plus, there's no need to redeploy your templates everytime you ship a data change.
 
 - **Built on React**
   Get started quickly with a pre-built Floe template. Or use Floe's Primitives library to create your own.
