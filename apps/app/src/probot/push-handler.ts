@@ -40,12 +40,16 @@ export async function handlePushEvents(context: Context<"push">) {
 
   const files = commits.map((c) => c.data.files).flat();
 
+  console.log(111111, files);
+
   files.forEach(async (file) => {
     if (!file) return;
 
     const isValidPost =
       minimatch(file.filename, ".floe/**/*.md") &&
       !minimatch(file.filename, ".floe/public/*");
+
+    console.log(222222, isValidPost, datasources);
 
     /**
      * POST HANDLERS
@@ -70,30 +74,34 @@ async function handlePush(
    * HANDLE FILE ADDED
    */
   if (file.status === "added") {
-    await prisma.post.upsert({
-      where: {
-        unique_post: {
+    await prisma.post
+      .upsert({
+        where: {
+          unique_post: {
+            datasourceId,
+            filename: file.filename,
+          },
+        },
+        create: {
           datasourceId,
           filename: file.filename,
         },
-      },
-      create: {
-        datasourceId,
-        filename: file.filename,
-      },
-      // This case shouldn't ever happen, but just in case
-      update: {
-        filename: file.filename,
-      },
-    });
+        // This case shouldn't ever happen, but just in case
+        update: {
+          filename: file.filename,
+        },
+      })
+      .catch((e) => {
+        console.error("COULD NOT CREATE POST: ", e);
+      });
   }
 
   /**
    * HANDLE FILE RENAMED
    */
   if (file.status === "renamed" && file.previous_filename) {
-    try {
-      await prisma.post.upsert({
+    await prisma.post
+      .upsert({
         where: {
           unique_post: {
             datasourceId,
@@ -107,10 +115,10 @@ async function handlePush(
         update: {
           filename: file.filename,
         },
+      })
+      .catch((e) => {
+        console.error("COULD NOT UPDATE POST: ", e);
       });
-    } catch (e) {
-      console.log(111111, e, file, datasourceId);
-    }
   }
 
   /**
@@ -123,13 +131,17 @@ async function handlePush(
    * HANDLE FILE REMOVED
    */
   if (file.status === "removed") {
-    await prisma.post.delete({
-      where: {
-        unique_post: {
-          datasourceId,
-          filename: file.filename,
+    await prisma.post
+      .delete({
+        where: {
+          unique_post: {
+            datasourceId,
+            filename: file.filename,
+          },
         },
-      },
-    });
+      })
+      .catch((e) => {
+        console.error("COULD NOT DELETE POST: ", e);
+      });
   }
 }
