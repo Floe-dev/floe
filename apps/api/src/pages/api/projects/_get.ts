@@ -3,6 +3,7 @@ import { defaultResponder } from "@/lib/helpers/defaultResponder";
 
 async function handler({ project }: NextApiRequestExtension) {
   const { name, slug, logo, appearance, homepageURL, datasources } = project;
+
   const datasourceFields = datasources.map((datasource) => ({
     id: datasource.id,
     branch: datasource.baseBranch,

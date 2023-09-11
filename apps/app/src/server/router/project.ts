@@ -4,6 +4,7 @@ import { prisma } from "@/server/db/client";
 import { protectedProcedure, router } from "@/server/trpc";
 import { validateUserHasInstallation } from "@/server/validators/user-has-installation";
 import { validateUserHasProject } from "../validators/user-has-project";
+import { getFileTree } from "@floe/utils";
 
 export const projectRouter = router({
   listByInstallationId: protectedProcedure
@@ -43,12 +44,38 @@ export const projectRouter = router({
     )
     .mutation(async ({ input, ctx }) => {
       // TODO: VALIDATE
+      const STARTER_OWNER = "Floe-dev";
+      const STARTER_REPO = "floe-sample-data";
+      const STARTER_BRANCH = "main";
+
+      const files = await getFileTree(ctx.octokit, {
+        owner: STARTER_OWNER,
+        repo: STARTER_REPO,
+        ref: STARTER_BRANCH,
+        rules: [".floe/**/*.md"],
+      });
+
+      const posts = files.map((f) => ({ filename: f }));
+
       const project = await prisma.project.create({
         data: {
           name: input.name,
           slug: input.slug,
           description: input.description,
           installationId: input.installationId,
+          datasources: {
+            create: [
+              {
+                owner: STARTER_OWNER,
+                repo: STARTER_REPO,
+                baseBranch: STARTER_BRANCH,
+                path: "/",
+                posts: {
+                  create: posts,
+                },
+              },
+            ],
+          },
         },
       });
 
