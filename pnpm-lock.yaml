@@ -235,6 +235,9 @@ importers:
       '@floe/utils':
         specifier: workspace:*
         version: link:../../packages/utils
+      '@headlessui/react':
+        specifier: ^1.7.16
+        version: 1.7.16(react-dom@18.2.0)(react@18.2.0)
       '@heroicons/react':
         specifier: ^2.0.18
         version: 2.0.18(react@18.2.0)

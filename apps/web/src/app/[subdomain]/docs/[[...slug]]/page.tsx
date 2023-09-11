@@ -6,6 +6,7 @@ import TableOfContents from "./TableOfContents";
 import Link from "next/link";
 import DocItem from "./DocPage";
 import NotFound from "@/app/NotFound";
+import { MobileNav } from "./MobileNav";
 
 export const revalidate = 10;
 
@@ -32,14 +33,17 @@ async function DocsPage({
   const renderDocOrDocs = () => {
     return (
       <>
-        <section className="relative w-full md:w-60 shrink-0">
+        <div className="flex mr-6 md:hidden">
+          <MobileNav fileTree={fileTree} />
+        </div>
+        <section className="relative hidden w-full md:w-60 shrink-0 md:block">
           <div className="relative inset-0 md:absolute">
             <div className="relative w-full md:fixed md:w-60">
               <TableOfContents fileTree={fileTree} />
             </div>
           </div>
         </section>
-        <section className="w-full pt-16 mt-12 prose border-t dark:prose-invert md:pt-0 md:mt-0 border-zinc-700 md:border-0">
+        <section className="w-full mt-12 prose dark:prose-invert border-zinc-700">
           {isNode ? (
             <div className="w-full max-w-5xl prose dark:prose-invert">
               <DocItem doc={post} />
