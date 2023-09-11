@@ -1,5 +1,5 @@
 import React from "react";
-import AmorphousBlob from "@/app/AmorphousBlob";
+import AmorphousBlob from "@/components/AmorphousBlob";
 import { getFloeClient } from "@/app/floe-client";
 import { withFloeServerPages, FloePageProps } from "@floe/next";
 import TableOfContents from "./TableOfContents";
