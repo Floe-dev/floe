@@ -32,4 +32,19 @@ module.exports = {
       },
     ],
   },
+
+  async redirects() {
+    return [
+      {
+        source: "/changelog",
+        destination: `/${process.env.NEXT_PUBLIC_FLOE_SLUG}/changelog`,
+        permanent: true,
+      },
+      {
+        source: "/blog",
+        destination: `/${process.env.NEXT_PUBLIC_FLOE_SLUG}/blog`,
+        permanent: true,
+      },
+    ];
+  },
 };
