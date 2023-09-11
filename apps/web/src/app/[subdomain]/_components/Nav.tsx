@@ -12,7 +12,7 @@ interface NavProps {
 const Nav = ({ logo, projectName, homepageURL }: NavProps) => (
   <header
     className={cn(
-      "fixed inset-x-0 top-0 z-50 backdrop-blur-2xl bg-zinc-900/80"
+      "fixed inset-x-0 top-0 z-50 backdrop-blur-2xl bg-zinc-950/80 max-w-screen-xl m-auto"
     )}
   >
     <nav

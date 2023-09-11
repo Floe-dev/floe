@@ -7,11 +7,7 @@ const InterFont = Inter({
   subsets: ["latin"],
 });
 
-export default function RootLayout({
-  children,
-}: {
-  children: null;
-}) {
+export default function RootLayout({ children }: { children: null }) {
   return (
     <html lang="en" className="dark">
       <head>
@@ -21,7 +17,7 @@ export default function RootLayout({
           content="width=device-width, initial-scale=1, maximum-scale=1"
         ></meta>
       </head>
-      <body className={`${InterFont.className} bg-white dark:bg-zinc-900`}>
+      <body className={`${InterFont.className} bg-white dark:bg-zinc-950`}>
         <FloeProvider>
           {children}
           <Analytics />

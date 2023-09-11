@@ -1,6 +1,6 @@
 import React from "react";
 import Changelog from "./Changelog";
-import AmorphousBlob from "@/app/AmorphousBlob";
+import AmorphousBlob from "@/components/AmorphousBlob";
 import NotFound from "@/app/NotFound";
 import { getFloeClient } from "@/app/floe-client";
 import { RenderedPostContent } from "@floe/next";

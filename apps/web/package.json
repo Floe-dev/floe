@@ -14,6 +14,7 @@
     "@floe/next": "workspace:*",
     "@floe/ui": "workspace:*",
     "@floe/utils": "workspace:*",
+    "@headlessui/react": "^1.7.16",
     "@heroicons/react": "^2.0.18",
     "@hookform/resolvers": "^3.1.1",
     "@mailchimp/mailchimp_marketing": "^3.0.80",
@@ -25,6 +26,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.45.2",
+    "react-syntax-highlighter": "^15.5.0",
     "sharp": "^0.32.4",
     "yup": "^1.2.0"
   },
@@ -37,6 +39,7 @@
     "@types/node": "^17.0.12",
     "@types/react": "^18.0.22",
     "@types/react-dom": "^18.0.7",
+    "@types/react-syntax-highlighter": "^15.5.7",
     "autoprefixer": "^10.4.14",
     "eslint-config-custom": "workspace:*",
     "postcss": "^8.4.26",

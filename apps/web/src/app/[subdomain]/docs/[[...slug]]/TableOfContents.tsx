@@ -14,22 +14,27 @@ type FileTree = {
   [key: string]: FileTree | FileTreeNode;
 };
 
-const TableOfContents = ({ fileTree }: FileTree) => {
+interface TableOfContentsProps {
+  fileTree: FileTree;
+  fontSize?: "sm" | "lg";
+  basePath?: string;
+}
+
+const TableOfContents = ({
+  fileTree,
+  fontSize = "sm",
+  basePath = "/",
+}: TableOfContentsProps) => {
   const pathname = usePathname();
 
   return (
-    <Accordion.Root
-      className="AccordionRoot"
-      type="single"
-      defaultValue="root"
-      collapsible
+    <ul
+      className={`w-full prose dark:prose-invert ${
+        fontSize === "sm" ? "prose-sm" : "prose-lg"
+      }`}
     >
-      <Accordion.Item className="AccordionItem" value="root">
-        <ul className="prose-sm prose dark:prose-invert">
-          {buildRecursiveTree(fileTree, pathname)}
-        </ul>
-      </Accordion.Item>
-    </Accordion.Root>
+      {buildRecursiveTree(fileTree, pathname, basePath)}
+    </ul>
   );
 };
 
@@ -55,7 +60,11 @@ const transformFileToTitle = (filename: string) => {
   return array.map((item) => capitalize(item)).join(" ");
 };
 
-const buildRecursiveTree = (ft: FileTree | FileTreeNode, pathname: string) => {
+const buildRecursiveTree = (
+  ft: FileTree | FileTreeNode,
+  pathname: string,
+  basePath: string
+) => {
   return Object.entries(ft).map(([key, value]) => {
     const title = transformFileToTitle(key);
 
@@ -63,15 +72,14 @@ const buildRecursiveTree = (ft: FileTree | FileTreeNode, pathname: string) => {
       return null;
     }
 
-    
     if ((value as FileTreeNode).filename) {
       return (
         <li
-          className="flex my-2 list-none rounded-lg prose-li hover:bg-zinc-700"
+          className="flex my-2 list-none rounded-lg prose-li hover:bg-white/20"
           key={key}
         >
           <Link
-            href={"/" + (value as FileTreeNode).filename}
+            href={basePath + (value as FileTreeNode).filename}
             className={`flex-1 px-2 py-1 font-normal no-underline ${
               decodeURIComponent(pathname).includes(value.filename)
                 ? "font-semibold text-white"
@@ -99,10 +107,13 @@ const buildRecursiveTree = (ft: FileTree | FileTreeNode, pathname: string) => {
         <Accordion.Item className="AccordionItem" value={key}>
           <li className="m-0 list-none prose-li">
             {/* Section title */}
-            <div className="flex justify-between my-2 rounded-lg hover:bg-zinc-700">
+            <div className="flex justify-between my-2 rounded-lg hover:bg-white/20">
               {(value as FileTree)["index.md"] ? (
                 <Link
-                  href={"/" + (value as FileTree)["index.md"].filename as string}
+                  href={
+                    (basePath +
+                      (value as FileTree)["index.md"].filename) as string
+                  }
                   className={`flex-1 px-2 py-1 no-underline ${
                     decodeURIComponent(pathname).includes(
                       (value as FileTree)["index.md"].filename as string
@@ -126,7 +137,7 @@ const buildRecursiveTree = (ft: FileTree | FileTreeNode, pathname: string) => {
             {/* List */}
             <ul className="pl-4 my-0 border-l border-white/20 prose-ul">
               <Accordion.AccordionContent>
-                {buildRecursiveTree(value, pathname)}
+                {buildRecursiveTree(value, pathname, basePath)}
               </Accordion.AccordionContent>
             </ul>
           </li>

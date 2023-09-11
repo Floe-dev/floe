@@ -16,6 +16,7 @@ function validURL(str: string) {
 
 export type Components = {
   Image: ({ src, alt }: { src: string; alt?: string }) => JSX.Element;
+
   Callout: ({
     children,
     type,
@@ -23,13 +24,18 @@ export type Components = {
     children: React.ReactNode;
     type?: "caution" | "check" | "info" | "warning" | "docs" | "tada";
   }) => JSX.Element;
+
   CodeBlock: ({
     children,
-    lang,
+    language,
   }: {
     children: React.ReactNode;
-    lang?: string;
+    language?: string;
   }) => JSX.Element;
+
+  Loom: ({ src }: { src: string }) => JSX.Element;
+
+  Youtube: ({ src }: { src: string }) => JSX.Element;
 };
 
 export const render = (
@@ -80,7 +86,7 @@ export const render = (
     },
     CodeBlock: (props: {
       children: React.ReactNode;
-      lang?: string;
+      language?: string;
     }): JSX.Element => {
       const CustomCodeBlock = options?.components?.CodeBlock;
 
@@ -93,6 +99,69 @@ export const render = (
         <pre className="floe-code-block">
           <code>{props.children}</code>
         </pre>
+      );
+    },
+
+    Loom: (props: { src: string }): JSX.Element => {
+      const CustomLoom = options?.components?.Loom;
+
+      return CustomLoom ? (
+        <CustomLoom {...props} />
+      ) : (
+        <div
+          style={{
+            position: "relative",
+            paddingBottom: "56.25%",
+            marginBottom: "1rem",
+            width: "100%",
+            height: 0,
+          }}
+          className="floe-loom"
+        >
+          <iframe
+            src={props.src}
+            allowFullScreen
+            style={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              width: "100%",
+              height: "100%",
+            }}
+          ></iframe>
+        </div>
+      );
+    },
+
+    Youtube: (props: { src: string }): JSX.Element => {
+      const CustomYoutube = options?.components?.Youtube;
+
+      return CustomYoutube ? (
+        <CustomYoutube {...props} />
+      ) : (
+        <div
+          style={{
+            position: "relative",
+            paddingBottom: "56.25%",
+            marginBottom: "1rem",
+            width: "100%",
+            height: "0",
+          }}
+          className="floe-youtube"
+        >
+          <iframe
+            src={props.src}
+            allowFullScreen
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            style={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              width: "100%",
+              height: "100%",
+            }}
+          ></iframe>
+        </div>
       );
     },
   };

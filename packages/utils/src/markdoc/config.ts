@@ -30,6 +30,30 @@ export const markdocConfig: Config = {
         },
       },
     },
+    loom: {
+      render: "Loom",
+      children: [],
+      attributes: {
+        src: {
+          type: String,
+          required: true,
+          errorLevel: "critical",
+        },
+      },
+      selfClosing: true,
+    },
+    youtube: {
+      render: "Youtube",
+      children: [],
+      attributes: {
+        src: {
+          type: String,
+          required: true,
+          errorLevel: "critical",
+        },
+      },
+      selfClosing: true,
+    },
   },
   nodes: {
     fence: {

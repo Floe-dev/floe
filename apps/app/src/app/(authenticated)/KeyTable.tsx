@@ -1,5 +1,5 @@
 import { Pill } from "@/components/Pill";
-import { Clipboard } from "@/components";
+import { Clipboard } from "@floe/ui";
 
 export const KeyTable = ({
   slug,

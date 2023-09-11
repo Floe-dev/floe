@@ -1,6 +1,6 @@
 import { Pill } from "@floe/ui";
 import Nav from "./Nav";
-import AmorphousBlob from "./AmorphousBlob";
+import AmorphousBlob from "../components/AmorphousBlob";
 import Subscribe from "./Subscribe";
 
 export default function Page() {
@@ -25,9 +25,7 @@ export default function Page() {
         </div>
 
         {/* BLOBS */}
-        <AmorphousBlob
-          className="fixed inset-0 w-64 h-64 -translate-x-1/2 -translate-y-1/2 opacity-50"
-        />
+        <AmorphousBlob className="fixed inset-0 w-64 h-64 -translate-x-1/2 -translate-y-1/2 opacity-50" />
         <AmorphousBlob
           blur={50}
           rotation={0}

@@ -61,7 +61,7 @@ module.exports = {
           "100%": {
             opacity: 0,
           },
-        }
+        },
       },
     },
   },
