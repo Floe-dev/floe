@@ -22,9 +22,9 @@ export const MobileNav = ({ fileTree }: { [key: string]: any }) => {
       <Dialog
         open={isOpen}
         onClose={() => setIsOpen(false)}
-        className="fixed inset-0 z-50 flex items-start w-full p-6 pt-20 overflow-y-auto bg-zinc-900/50 backdrop-blur md:hidden"
+        className="fixed inset-0 z-50 flex items-start w-full p-6 pt-20 overflow-y-auto bg-zinc-900/60 backdrop-blur md:hidden"
       >
-        <TableOfContents fileTree={fileTree} fontSize="lg" />
+        <TableOfContents fileTree={fileTree} fontSize="lg" basePath="docs/" />
         <button
           type="button"
           onClick={() => setIsOpen(false)}

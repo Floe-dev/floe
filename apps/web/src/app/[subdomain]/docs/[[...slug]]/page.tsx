@@ -17,6 +17,7 @@ async function DocsPage({
   posts,
   isNotFound,
   floeClient,
+  params,
 }: FloePageProps) {
   let fileTree: Awaited<ReturnType<typeof floeClient.post.getTree>>;
 
@@ -39,7 +40,10 @@ async function DocsPage({
         <section className="relative hidden w-full md:w-60 shrink-0 md:block">
           <div className="relative inset-0 md:absolute">
             <div className="relative w-full md:fixed md:w-60">
-              <TableOfContents fileTree={fileTree} />
+              <TableOfContents
+                fileTree={fileTree}
+                basePath={"/" + params.subdomain + "/"}
+              />
             </div>
           </div>
         </section>

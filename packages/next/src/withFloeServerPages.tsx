@@ -2,8 +2,10 @@ import { FloeClientFactory, RenderedPostContent } from "@floe/server";
 
 export interface FloePageProps {
   params: {
-    slug?: string[] | undefined;
-    searchParams?: unknown;
+    [key in string]?: string[] | undefined;
+  };
+  searchParams: {
+    [key in string]?: string[] | undefined;
   };
   isError: boolean;
   isNode: boolean;

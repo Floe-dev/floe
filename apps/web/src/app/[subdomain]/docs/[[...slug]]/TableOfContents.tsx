@@ -17,11 +17,13 @@ type FileTree = {
 interface TableOfContentsProps {
   fileTree: FileTree;
   fontSize?: "sm" | "lg";
+  basePath?: string;
 }
 
 const TableOfContents = ({
   fileTree,
   fontSize = "sm",
+  basePath = "/",
 }: TableOfContentsProps) => {
   const pathname = usePathname();
 
@@ -31,7 +33,7 @@ const TableOfContents = ({
         fontSize === "sm" ? "prose-sm" : "prose-lg"
       }`}
     >
-      {buildRecursiveTree(fileTree, pathname)}
+      {buildRecursiveTree(fileTree, pathname, basePath)}
     </ul>
   );
 };
@@ -58,7 +60,11 @@ const transformFileToTitle = (filename: string) => {
   return array.map((item) => capitalize(item)).join(" ");
 };
 
-const buildRecursiveTree = (ft: FileTree | FileTreeNode, pathname: string) => {
+const buildRecursiveTree = (
+  ft: FileTree | FileTreeNode,
+  pathname: string,
+  basePath: string
+) => {
   return Object.entries(ft).map(([key, value]) => {
     const title = transformFileToTitle(key);
 
@@ -73,7 +79,7 @@ const buildRecursiveTree = (ft: FileTree | FileTreeNode, pathname: string) => {
           key={key}
         >
           <Link
-            href={"/" + (value as FileTreeNode).filename}
+            href={basePath + (value as FileTreeNode).filename}
             className={`flex-1 px-2 py-1 font-normal no-underline ${
               decodeURIComponent(pathname).includes(value.filename)
                 ? "font-semibold text-white"
@@ -105,7 +111,8 @@ const buildRecursiveTree = (ft: FileTree | FileTreeNode, pathname: string) => {
               {(value as FileTree)["index.md"] ? (
                 <Link
                   href={
-                    ("/" + (value as FileTree)["index.md"].filename) as string
+                    (basePath +
+                      (value as FileTree)["index.md"].filename) as string
                   }
                   className={`flex-1 px-2 py-1 no-underline ${
                     decodeURIComponent(pathname).includes(
@@ -130,7 +137,7 @@ const buildRecursiveTree = (ft: FileTree | FileTreeNode, pathname: string) => {
             {/* List */}
             <ul className="pl-4 my-0 border-l border-white/20 prose-ul">
               <Accordion.AccordionContent>
-                {buildRecursiveTree(value, pathname)}
+                {buildRecursiveTree(value, pathname, basePath)}
               </Accordion.AccordionContent>
             </ul>
           </li>
