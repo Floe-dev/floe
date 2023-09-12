@@ -11,7 +11,7 @@ const Blog = ({ blog }: { blog: RenderedPostContent }) => (
       {/* DATE */}
       <PostPrimitive.Date className="w-40 mt-6 font-normal leading-8 text-gray-400" />
 
-      <div className="flex-1 col-span-3 p-8 md:p-6 rounded-none md:rounded-lg hover:bg-white/[0.04] -mx-8 md:mx-0">
+      <div className="flex-1 col-span-3 p-8 md:p-6 rounded-none md:rounded-lg hover:bg-white/[0.04] -mx-8 md:mx-0 overflow-hidden">
         {/* TITLE */}
         <PostPrimitive.Title className="mt-0 mb-0 prose-lg" />
 
