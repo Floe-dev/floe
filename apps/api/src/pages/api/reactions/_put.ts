@@ -14,7 +14,7 @@ async function handler(
     type: any;
     value: boolean;
     datasourceId: string;
-    fileName: string;
+    filename: string;
   };
 
   const ip = (headers["x-real-ip"] || socket.remoteAddress) as string;
@@ -24,7 +24,7 @@ async function handler(
    */
   if (
     body.datasourceId === undefined ||
-    body.fileName === undefined ||
+    body.filename === undefined ||
     body.value === undefined ||
     body.type === undefined
   ) {
@@ -47,7 +47,7 @@ async function handler(
     where: {
       unique_post: {
         datasourceId: body.datasourceId,
-        filename: body.fileName,
+        filename: body.filename,
       },
     },
   });
@@ -66,13 +66,13 @@ async function handler(
         type: body.type,
         ipAddress: hashedIp,
         postDataSourceId: body.datasourceId,
-        postFilename: body.fileName,
+        postFilename: body.filename,
       },
     },
     create: {
       ipAddress: hashedIp,
       postDataSourceId: body.datasourceId,
-      postFilename: body.fileName,
+      postFilename: body.filename,
       value: body.value,
       type: body.type,
     },

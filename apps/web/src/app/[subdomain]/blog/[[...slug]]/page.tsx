@@ -14,6 +14,8 @@ function BlogPage({ isError, isNode, post, posts, isNotFound }: FloePageProps) {
     return <NotFound />;
   }
 
+  console.log(111111, posts);
+
   const renderBlogOrBlogs = () => {
     if (isNode) {
       return (

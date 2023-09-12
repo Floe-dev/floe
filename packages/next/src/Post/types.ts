@@ -13,7 +13,7 @@ export type RootProps = {
         username: string;
       }[];
     };
-    fileName: string;
+    filename: string;
     datasourceId: string;
   };
   children?: React.ReactNode;

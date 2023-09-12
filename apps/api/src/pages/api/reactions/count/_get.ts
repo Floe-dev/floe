@@ -10,13 +10,13 @@ async function handler(
   { query, headers, socket }: NextApiRequestExtension,
   res: NextApiResponseExtension
 ) {
-  const { datasourceId, fileName } = query as {
+  const { datasourceId, filename } = query as {
     datasourceId: string;
-    fileName: string;
+    filename: string;
   };
   const ip = (headers["x-real-ip"] || socket.remoteAddress) as string;
 
-  if (!datasourceId || !fileName) {
+  if (!datasourceId || !filename) {
     return res.status(400).json({
       error: {
         message: "Missing required query parameters",
@@ -34,7 +34,7 @@ async function handler(
     where: {
       value: true,
       postDataSourceId: datasourceId,
-      postFilename: fileName,
+      postFilename: filename,
     },
   });
 
@@ -42,7 +42,7 @@ async function handler(
     where: {
       ipAddress: hashedIp,
       postDataSourceId: datasourceId,
-      postFilename: fileName,
+      postFilename: filename,
     },
   });
 

@@ -2,7 +2,7 @@ import {
   NextApiRequestExtension,
   NextApiResponseExtension,
 } from "@/lib/types/privateMiddleware";
-import { getFileTree } from "@floe/utils";
+import { filenameToSlug, getFileTree } from "@floe/utils";
 import { defaultResponder } from "@/lib/helpers/defaultResponder";
 
 type TreeFiles = {
@@ -53,7 +53,6 @@ async function handler(
   return { data: fileTree };
 }
 
-// @ts-ignore
 function buildFileTree(treeFiles: TreeFiles[]) {
   return treeFiles.reduce((tree, treeFile) => {
     const fileSegments = treeFile.file.split("/");
@@ -74,6 +73,7 @@ function buildFileTree(treeFiles: TreeFiles[]) {
           ...treeSegment,
           [firstSegment]: {
             filename: treeFile.file,
+            slug: filenameToSlug(treeFile.file),
             datasourceId: treeFile.datasourceId,
           },
         };

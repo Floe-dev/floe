@@ -6,7 +6,7 @@ import { ChevronRightIcon } from "@heroicons/react/24/outline";
 import { usePathname } from "next/navigation";
 
 type FileTreeNode = {
-  filename: string;
+  slug: string;
   datasourceId: string;
 };
 
@@ -42,8 +42,8 @@ const capitalize = (s: string) => {
   return s.charAt(0).toUpperCase() + s.slice(1);
 };
 
-const transformFileToTitle = (filename: string) => {
-  const array = filename.replace(".md", "").split("-");
+const transformFileToTitle = (slug: string) => {
+  const array = slug.replace(".md", "").split("-");
 
   /**
    * Remove first item if it's a number
@@ -72,16 +72,16 @@ const buildRecursiveTree = (
       return null;
     }
 
-    if ((value as FileTreeNode).filename) {
+    if ((value as FileTreeNode).slug) {
       return (
         <li
           className="flex my-2 list-none rounded-lg prose-li hover:bg-white/20"
           key={key}
         >
           <Link
-            href={basePath + (value as FileTreeNode).filename}
+            href={basePath + (value as FileTreeNode).slug}
             className={`flex-1 px-2 py-1 font-normal no-underline ${
-              decodeURIComponent(pathname).includes(value.filename)
+              decodeURIComponent(pathname).includes(value.slug)
                 ? "font-semibold text-white"
                 : "font-normal text-gray-200"
             }`}
@@ -111,12 +111,11 @@ const buildRecursiveTree = (
               {(value as FileTree)["index.md"] ? (
                 <Link
                   href={
-                    (basePath +
-                      (value as FileTree)["index.md"].filename) as string
+                    (basePath + (value as FileTree)["index.md"].slug) as string
                   }
                   className={`flex-1 px-2 py-1 no-underline ${
                     decodeURIComponent(pathname).includes(
-                      (value as FileTree)["index.md"].filename as string
+                      (value as FileTree)["index.md"].slug as string
                     )
                       ? "font-semibold text-white"
                       : "font-normal text-gray-200"

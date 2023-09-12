@@ -40,16 +40,12 @@ export async function handlePushEvents(context: Context<"push">) {
 
   const files = commits.map((c) => c.data.files).flat();
 
-  console.log(111111, files);
-
   files.forEach(async (file) => {
     if (!file) return;
 
     const isValidPost =
       minimatch(file.filename, ".floe/**/*.md") &&
       !minimatch(file.filename, ".floe/public/*");
-
-    console.log(222222, isValidPost, datasources);
 
     /**
      * POST HANDLERS

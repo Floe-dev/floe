@@ -5,7 +5,7 @@ export type PostContent = {
   repo: string;
   datasourceId: string;
   imageBasePath: string;
-  fileName: string;
+  filename: string;
   transform: RenderableTreeNode;
   slug: string;
   metadata: {

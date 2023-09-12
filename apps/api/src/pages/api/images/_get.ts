@@ -11,10 +11,10 @@ async function handler(
   { query }: NextApiRequestExtension,
   res: NextApiResponseExtension
 ) {
-  const { slug, datasourceId, fileName } = query as {
+  const { slug, datasourceId, filename } = query as {
     slug: string;
     datasourceId: string;
-    fileName: string;
+    filename: string;
   };
 
   const project = await prisma.project.findUnique({
@@ -68,7 +68,7 @@ async function handler(
     {
       owner: datasource.owner,
       repo: datasource.repo,
-      path: `.floe/public${fileName}`,
+      path: `.floe/public${filename}`,
       ref: datasource.baseBranch,
       headers: {
         "X-GitHub-Api-Version": "2022-11-28",

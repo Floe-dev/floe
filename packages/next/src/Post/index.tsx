@@ -9,10 +9,10 @@ import React, { useContext, useState } from "react";
 export const baseURL =
   process.env.NEXT_PUBLIC_FLOE_BASE_URL ?? "https://api.floe.dev/";
 
-async function fetchReactions(datasourceId: string, fileName: string) {
+async function fetchReactions(datasourceId: string, filename: string) {
   const urlSearchParams = new URLSearchParams({
     datasourceId,
-    fileName,
+    filename,
   });
 
   const data = await fetch(`${baseURL}v1/reactions/count?${urlSearchParams}`, {
@@ -24,7 +24,7 @@ async function fetchReactions(datasourceId: string, fileName: string) {
 
 async function postReaction(
   datasourceId: string,
-  fileName: string,
+  filename: string,
   type: string,
   value: boolean
 ) {
@@ -33,7 +33,7 @@ async function postReaction(
     body: JSON.stringify({
       type,
       value,
-      fileName,
+      filename,
       datasourceId,
     }),
     headers: { "Content-Type": "application/json" },
@@ -248,13 +248,13 @@ const Reactions = ({
     "reactions",
     {
       datasourceId: post.datasourceId,
-      fileName: post.fileName,
+      filename: post.filename,
     },
   ];
   const { data, isLoading, isError, error } = useQuery<ReactionsResponse>(
     queryKey,
     async () => {
-      const response = await fetchReactions(post.datasourceId, post.fileName);
+      const response = await fetchReactions(post.datasourceId, post.filename);
 
       return response;
     }
@@ -344,7 +344,7 @@ const ReactionTrigger = ({
 
   const { mutate, isLoading } = useMutation({
     mutationFn: () =>
-      postReaction(post.datasourceId, post.fileName, type, !selected),
+      postReaction(post.datasourceId, post.filename, type, !selected),
     onMutate: async () => {
       // Cancel any outgoing refetches
       // (so they don't overwrite our optimistic update)

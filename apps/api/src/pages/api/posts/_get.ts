@@ -43,7 +43,11 @@ async function handler(
           owner: datasource.owner,
           repo: datasource.repo,
           ref: datasource.baseBranch,
-          rules: [`.floe/${path}/*`, `.floe/${path}`, `.floe/${path}/index.md`],
+          rules: [
+            `.floe/${path}/*.md`,
+            `.floe/${path}.md`,
+            `.floe/${path}/index.md`,
+          ],
         });
 
         const posts = await prisma.post.findMany({
@@ -80,15 +84,15 @@ async function handler(
   );
 
   const content = (await contents).flat(2);
-
-  const indexPost = content.find((c) => c && c.fileName.includes("index.md"));
-  const isNode = indexPost || path.endsWith(".md");
+  const node = content.find(
+    (c) => c && (c.filename.includes("index.md") || c.filename === `${path}.md`)
+  );
 
   // if multiple files are returned for a "node", return the first one
-  // (and later the one matching the default data source)
-  if (isNode) {
+  // (TODO and later the one matching the default data source)
+  if (node) {
     return {
-      data: indexPost || content[0],
+      data: node,
     };
   }
 
@@ -137,7 +141,7 @@ async function generatePostContent(
    * Replace image paths with absolute API path
    */
   if (metadata.image && metadata.image.startsWith("/")) {
-    metadata.image = encodeURI(`${imageBasePath}&fileName=${metadata.image}`);
+    metadata.image = encodeURI(`${imageBasePath}&filename=${metadata.image}`);
   }
 
   /**
@@ -183,7 +187,7 @@ async function generatePostContent(
     repo: datasource.repo,
     datasourceId: datasource.id,
     imageBasePath,
-    fileName: post.filename,
+    filename: post.filename,
     metadata,
     transform,
     slug: filenameToSlug(post.filename),
