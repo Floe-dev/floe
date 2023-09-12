@@ -23,11 +23,9 @@ type FormData = {
 
 const projectSchema = yup
   .object({
-    name: yup.string().min(3).max(64).required("A project name is required."),
+    name: yup.string().min(3).max(24).required("A project name is required."),
   })
   .required();
-
-const randomNum = Math.floor(Math.random() * 9000 + 1000);
 
 export default function Dashboard() {
   const [open, setOpen] = useState(false);
@@ -51,7 +49,7 @@ export default function Dashboard() {
   const { currentInstallation, setCurrentInstallation } =
     useInstallationsContext();
   const slug = watch("name")
-    ? slugify(watch("name") + ` ${randomNum})`, {
+    ? slugify(watch("name"), {
         lower: true,
         strict: true,
       })
@@ -166,7 +164,7 @@ export default function Dashboard() {
             />
             <Input
               label="Slug*"
-              placeholder="acme-inc-1234"
+              placeholder="acme-inc"
               value={slug}
               disabled
               className="bg-gray-100"

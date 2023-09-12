@@ -36,8 +36,8 @@ export const projectRouter = router({
   create: protectedProcedure
     .input(
       z.object({
-        name: z.string().min(3).max(64),
-        slug: z.string().min(7),
+        name: z.string().min(3).max(24),
+        slug: z.string().min(3),
         installationId: z.number(),
         description: z.string().optional(),
       })
