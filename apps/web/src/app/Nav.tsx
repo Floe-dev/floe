@@ -40,7 +40,7 @@ const Nav = ({ hideBackground = false }) => (
             Blog
           </Link>
           <Link
-            href={generateURL(process.env.NEXT_PUBLIC_FLOE_SLUG, "changelong")}
+            href={generateURL(process.env.NEXT_PUBLIC_FLOE_SLUG, "changelog")}
             className="text-sm text-white"
           >
             Changelog
