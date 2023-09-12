@@ -12,11 +12,11 @@ interface NavProps {
 const Nav = ({ logo, projectName, homepageURL }: NavProps) => (
   <header
     className={cn(
-      "fixed inset-x-0 top-0 z-50 backdrop-blur-2xl bg-zinc-950/80 max-w-screen-xl m-auto"
+      "fixed inset-x-0 top-0 z-50 backdrop-blur-2xl bg-zinc-950/80"
     )}
   >
     <nav
-      className="flex items-center justify-between px-6 py-4 md:px-8"
+      className="flex items-center justify-between max-w-screen-xl px-6 py-4 m-auto md:px-8"
       aria-label="Global"
     >
       <div className="flex items-center justify-between flex-1">
