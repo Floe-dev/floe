@@ -24,7 +24,7 @@ export const MobileNav = ({ fileTree }: { [key: string]: any }) => {
         onClose={() => setIsOpen(false)}
         className="fixed inset-0 z-50 flex items-start w-full p-6 pt-20 overflow-y-auto bg-zinc-900/60 backdrop-blur md:hidden"
       >
-        <TableOfContents fileTree={fileTree} fontSize="lg" basePath="docs/" />
+        <TableOfContents fileTree={fileTree} fontSize="lg" subdomain="docs/" />
         <button
           type="button"
           onClick={() => setIsOpen(false)}

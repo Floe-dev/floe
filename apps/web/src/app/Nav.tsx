@@ -2,6 +2,7 @@ import React from "react";
 import Image from "next/image";
 import cn from "classnames";
 import Link from "next/link";
+import { generateURL } from "@/utils/generateURL";
 
 const Nav = ({ hideBackground = false }) => (
   <header
@@ -27,19 +28,19 @@ const Nav = ({ hideBackground = false }) => (
 
         <div className="flex gap-4">
           <Link
-            href={`/${process.env.NEXT_PUBLIC_FLOE_SLUG}/docs`}
+            href={generateURL(process.env.NEXT_PUBLIC_FLOE_SLUG, "docs")}
             className="text-sm text-white"
           >
             Docs
           </Link>
           <Link
-            href={`/${process.env.NEXT_PUBLIC_FLOE_SLUG}/blog`}
+            href={generateURL(process.env.NEXT_PUBLIC_FLOE_SLUG, "blog")}
             className="text-sm text-white"
           >
             Blog
           </Link>
           <Link
-            href={`/${process.env.NEXT_PUBLIC_FLOE_SLUG}/changelog`}
+            href={generateURL(process.env.NEXT_PUBLIC_FLOE_SLUG, "changelong")}
             className="text-sm text-white"
           >
             Changelog
