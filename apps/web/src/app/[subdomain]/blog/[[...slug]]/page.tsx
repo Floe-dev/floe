@@ -7,8 +7,26 @@ import BlogItem from "./BlogItem";
 import AmorphousBlob from "@/components/AmorphousBlob";
 import { getFloeClient } from "@/app/floe-client";
 import { generateURL } from "@/utils/generateURL";
+import type { Metadata, ResolvingMetadata } from "next";
+import { capitalize } from "@floe/utils";
 
 export const revalidate = 10;
+
+type Props = {
+  params: { subdomain: string };
+};
+
+export async function generateMetadata(
+  { params }: Props,
+  parent: ResolvingMetadata
+): Promise<Metadata> {
+  // read route params
+  const subdomain = params.subdomain;
+
+  return {
+    title: capitalize(subdomain) + " Blog",
+  };
+}
 
 function BlogPage({
   isError,

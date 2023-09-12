@@ -8,8 +8,26 @@ import DocItem from "./DocPage";
 import NotFound from "@/app/NotFound";
 import { MobileNav } from "./MobileNav";
 import { Footer } from "../../_components/Footer";
+import { capitalize } from "@floe/utils";
+import { ResolvingMetadata, Metadata } from "next";
 
 export const revalidate = 10;
+
+type Props = {
+  params: { subdomain: string };
+};
+
+export async function generateMetadata(
+  { params }: Props,
+  parent: ResolvingMetadata
+): Promise<Metadata> {
+  // read route params
+  const subdomain = params.subdomain;
+
+  return {
+    title: capitalize(subdomain) + " Changelog",
+  };
+}
 
 async function DocsPage({
   isError,
