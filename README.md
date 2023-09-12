@@ -50,7 +50,7 @@ Examples:
 
 ## Getting started
 
-Check out the [getting started page](https://www.floe.dev/floe-1072/docs/02-getting-started.md) in the docs to get setup.
+Check out the [getting started page](https://floe.floe.dev/docs/02-getting-started) in the docs to get setup.
 
 ## Built with
 
