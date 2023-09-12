@@ -6,10 +6,18 @@ import Blog from "./Blog";
 import BlogItem from "./BlogItem";
 import AmorphousBlob from "@/components/AmorphousBlob";
 import { getFloeClient } from "@/app/floe-client";
+import { generateURL } from "@/utils/generateURL";
 
 export const revalidate = 10;
 
-function BlogPage({ isError, isNode, post, posts, isNotFound }: FloePageProps) {
+function BlogPage({
+  isError,
+  isNode,
+  post,
+  posts,
+  isNotFound,
+  params,
+}: FloePageProps) {
   if (isNotFound || isError) {
     return <NotFound />;
   }
@@ -31,7 +39,10 @@ function BlogPage({ isError, isNode, post, posts, isNotFound }: FloePageProps) {
           {posts.map((blog) => (
             <Link
               key={blog.slug + blog.datasourceId}
-              href={blog.slug}
+              href={generateURL(
+                params.subdomain as unknown as string,
+                blog.slug
+              )}
               className="mb-2 no-underline"
             >
               <BlogItem blog={blog} />

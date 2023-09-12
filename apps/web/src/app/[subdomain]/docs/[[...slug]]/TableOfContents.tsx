@@ -4,6 +4,7 @@ import Link from "next/link";
 import * as Accordion from "@radix-ui/react-accordion";
 import { ChevronRightIcon } from "@heroicons/react/24/outline";
 import { usePathname } from "next/navigation";
+import { generateURL } from "@/utils/generateURL";
 
 type FileTreeNode = {
   slug: string;
@@ -17,13 +18,13 @@ type FileTree = {
 interface TableOfContentsProps {
   fileTree: FileTree;
   fontSize?: "sm" | "lg";
-  basePath?: string;
+  subdomain: string;
 }
 
 const TableOfContents = ({
   fileTree,
   fontSize = "sm",
-  basePath = "/",
+  subdomain,
 }: TableOfContentsProps) => {
   const pathname = usePathname();
 
@@ -33,7 +34,7 @@ const TableOfContents = ({
         fontSize === "sm" ? "prose-sm" : "prose-lg"
       }`}
     >
-      {buildRecursiveTree(fileTree, pathname, basePath)}
+      {buildRecursiveTree(fileTree, pathname, subdomain)}
     </ul>
   );
 };
@@ -63,7 +64,7 @@ const transformFileToTitle = (slug: string) => {
 const buildRecursiveTree = (
   ft: FileTree | FileTreeNode,
   pathname: string,
-  basePath: string
+  subdomain: string
 ) => {
   return Object.entries(ft).map(([key, value]) => {
     const title = transformFileToTitle(key);
@@ -79,7 +80,7 @@ const buildRecursiveTree = (
           key={key}
         >
           <Link
-            href={basePath + (value as FileTreeNode).slug}
+            href={generateURL(subdomain, (value as FileTreeNode).slug)}
             className={`flex-1 px-2 py-1 font-normal no-underline ${
               decodeURIComponent(pathname).includes(value.slug)
                 ? "font-semibold text-white"
@@ -110,9 +111,10 @@ const buildRecursiveTree = (
             <div className="flex justify-between my-2 rounded-lg hover:bg-white/20">
               {(value as FileTree)["index.md"] ? (
                 <Link
-                  href={
-                    (basePath + (value as FileTree)["index.md"].slug) as string
-                  }
+                  href={generateURL(
+                    subdomain,
+                    (value as FileTree)["index.md"].slug as string
+                  )}
                   className={`flex-1 px-2 py-1 no-underline ${
                     decodeURIComponent(pathname).includes(
                       (value as FileTree)["index.md"].slug as string
@@ -136,7 +138,7 @@ const buildRecursiveTree = (
             {/* List */}
             <ul className="pl-4 my-0 border-l border-white/20 prose-ul">
               <Accordion.AccordionContent>
-                {buildRecursiveTree(value, pathname, basePath)}
+                {buildRecursiveTree(value, pathname, subdomain)}
               </Accordion.AccordionContent>
             </ul>
           </li>

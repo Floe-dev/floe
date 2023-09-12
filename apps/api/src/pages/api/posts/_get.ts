@@ -10,6 +10,7 @@ import {
   getFileTree,
   getRepositoryContent,
   getUser,
+  slugToFilename,
 } from "@floe/utils";
 import { z } from "zod";
 import yaml from "js-yaml";
@@ -85,7 +86,9 @@ async function handler(
 
   const content = (await contents).flat(2);
   const node = content.find(
-    (c) => c && (c.filename.includes("index.md") || c.filename === `${path}.md`)
+    (c) =>
+      c &&
+      (c.filename.includes("index.md") || c.filename === slugToFilename(path))
   );
 
   // if multiple files are returned for a "node", return the first one

@@ -4,3 +4,7 @@ export const filenameToSlug = (filename: string) => {
     .replace("index.md", "")
     .replace(".md", "");
 };
+
+export const slugToFilename = (slug: string) => {
+  return ".floe/" + slug + ".md";
+};

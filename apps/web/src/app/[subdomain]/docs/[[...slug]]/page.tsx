@@ -43,7 +43,7 @@ async function DocsPage({
             <div className="relative w-full md:fixed md:w-60">
               <TableOfContents
                 fileTree={fileTree}
-                basePath={"/" + params.subdomain + "/"}
+                subdomain={params.subdomain as unknown as string}
               />
             </div>
           </div>
