@@ -20,7 +20,7 @@ const Nav = ({ logo, projectName, homepageURL }: NavProps) => (
       aria-label="Global"
     >
       <div className="flex items-center justify-between flex-1">
-        <Link href={homepageURL ?? "/"} className="-m-1.5 p-1.5">
+        <Link href={homepageURL ?? ""} className="-m-1.5 p-1.5">
           {/* TODO Add logo image*/}
           {logo ? (
             <Image
