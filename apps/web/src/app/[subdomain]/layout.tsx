@@ -11,6 +11,8 @@ export default async function ChangelogLayout({
   const floeClient = getFloeClient(params.subdomain);
   const project = await floeClient.project.get();
 
+  console.log(111111, project);
+
   return (
     <>
       <Nav

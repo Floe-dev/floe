@@ -39,6 +39,7 @@ export const projectRouter = router({
         name: z.string().min(3).max(24),
         slug: z.string().min(3),
         installationId: z.number(),
+        homepageUrl: z.string().url().optional(),
         description: z.string().optional(),
       })
     )
@@ -63,6 +64,7 @@ export const projectRouter = router({
           slug: input.slug,
           description: input.description,
           installationId: input.installationId,
+          homepageURL: input.homepageUrl,
           datasources: {
             create: [
               {

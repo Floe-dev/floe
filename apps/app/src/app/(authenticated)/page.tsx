@@ -18,12 +18,15 @@ import { redirect, useRouter, useSearchParams } from "next/navigation";
 
 type FormData = {
   name: string;
-  description?: string;
+  description: string | undefined;
+  homepageUrl: string | undefined;
 };
 
 const projectSchema = yup
   .object({
     name: yup.string().min(3).max(24).required("A project name is required."),
+    description: yup.string().max(255),
+    homepageUrl: yup.string().url(),
   })
   .required();
 
@@ -136,10 +139,11 @@ export default function Dashboard() {
             disbaled: !isValid || loading,
             onClick: async () => {
               setLoading(true);
-              const project = await mutateAsync({
+              await mutateAsync({
                 name: getValues("name"),
                 slug,
                 description: getValues("description"),
+                homepageUrl: getValues("homepageUrl"),
                 installationId: currentInstallation!.id,
               });
 
@@ -168,6 +172,15 @@ export default function Dashboard() {
               value={slug}
               disabled
               className="bg-gray-100"
+            />
+            <Input
+              label="Homepage URL"
+              placeholder="https://www.acme.com"
+              {...register("homepageUrl", {
+                required: true,
+              })}
+              errortext={errors.homepageUrl?.message}
+              disabled={isLoading}
             />
             <Input
               label="Description"

@@ -1,1 +1,1 @@
-export * from "./filenameToSlug";
+export * from "./fileNameToSlug";
