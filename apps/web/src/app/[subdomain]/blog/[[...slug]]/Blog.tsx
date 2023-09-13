@@ -14,7 +14,7 @@ import {
   FaceFrownIcon as FaceFrownIconSolid,
   RocketLaunchIcon as RocketLaunchIconSolid,
 } from "@heroicons/react/24/solid";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 const reactions: {
   type: keyof PostPrimitive.ReactionsProps["reactions"];
@@ -40,12 +40,14 @@ const reactions: {
 
 const Blog = ({ blog }: { blog: RenderedPostContent }) => {
   const router = useRouter();
+  const pathname = usePathname();
+  const newPath = pathname.split("/").slice(0, -1).join("/");
 
   return (
     <PostPrimitive.Root post={blog}>
       <button
         type="button"
-        onClick={() => router.back()}
+        onClick={() => router.push(newPath)}
         className="flex items-center mb-2 text-indigo-500 transition ease-in hover:-translate-x-1"
       >
         <ChevronLeftIcon className="w-6 h-6 mr-1" /> Back

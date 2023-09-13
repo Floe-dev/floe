@@ -63,7 +63,7 @@ function BlogPage({
 
     return (
       <div className="z-10 flex flex-col-reverse w-full max-w-5xl gap-8 px-6 pt-32 pb-8 mx-auto md:flex-row">
-        <section className="flex flex-col">
+        <section className="flex flex-col -mt-8 md:-mt-6">
           {posts.map((blog) => (
             <Link
               key={blog.slug + blog.datasourceId}
