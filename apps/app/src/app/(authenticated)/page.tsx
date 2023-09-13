@@ -1,12 +1,12 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { FolderIcon } from "@heroicons/react/24/solid";
+import { useState, useEffect, useCallback } from "react";
+import { CloudArrowUpIcon, FolderIcon } from "@heroicons/react/24/solid";
 import { EmptyState, Card, Modal, Input } from "@/components";
 import { useProjectContext } from "@/context/project";
 import Link from "next/link";
 import * as yup from "yup";
-import { useForm } from "react-hook-form";
+import { set, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import cn from "classnames";
 import { api } from "@/utils/trpc";
@@ -15,7 +15,11 @@ import slugify from "slugify";
 import { ChevronRightIcon } from "@heroicons/react/20/solid";
 import { useQueryClient } from "@tanstack/react-query";
 import { redirect, useRouter, useSearchParams } from "next/navigation";
-import { UploadDropzone } from "@/utils/uploadthing";
+import { FileWithPath, useDropzone } from "react-dropzone";
+import { useUploadThing } from "@/utils/uploadthing";
+import { generateClientDropzoneAccept } from "uploadthing/client";
+import { UploadFileResponse } from "uploadthing/client";
+import { ImageUpload } from "./ImageUpload";
 
 type FormData = {
   name: string;
@@ -58,6 +62,13 @@ export default function Dashboard() {
         strict: true,
       })
     : "";
+
+  const [logoFile, setLogoFile] = useState<UploadFileResponse | undefined>(
+    undefined
+  );
+  const [faviconFile, setFaviconFile] = useState<
+    UploadFileResponse | undefined
+  >(undefined);
 
   /**
    * After installation, redirect to the current installation and open the new
@@ -157,45 +168,41 @@ export default function Dashboard() {
             className={cn("flex flex-col items-start gap-6")}
             onSubmit={(e) => e.preventDefault()}
           >
-            <Input
-              label="Name*"
-              placeholder="Acme Inc"
-              errortext={errors.name?.message}
-              {...register("name", {
-                required: true,
-              })}
-              disabled={isLoading}
-            />
-            <Input
-              label="Slug*"
-              placeholder="acme-inc"
-              value={slug}
-              disabled
-              className="bg-gray-100"
-            />
-            <div className="w-full">
-              <label className="inline-block mb-2 text-sm font-medium leading-6 text-gray-900 dark:text-white">
-                Logo
-              </label>
-              <UploadDropzone
-                endpoint="imageUploader"
-                config={{
-                  mode: "auto",
-                }}
-                onClientUploadComplete={(res) => {
-                  // Do something with the response
-                  console.log("Files: ", res);
-                }}
-                onUploadError={(error: Error) => {
-                  // Do something with the error.
-                  alert(`ERROR! ${error.message}`);
-                }}
-                appearance={{
-                  container: "w-full py-4 mt-0",
-                  label: "mt-1 text-indigo-500",
-                  uploadIcon: "w-10 h-10 text-zinc-400",
-                }}
+            <div className="flex w-full gap-4">
+              <Input
+                label="Name*"
+                placeholder="Acme Inc"
+                errortext={errors.name?.message}
+                {...register("name", {
+                  required: true,
+                })}
+                disabled={isLoading}
               />
+              <Input
+                label="Slug*"
+                placeholder="acme-inc"
+                value={slug}
+                disabled
+                className="bg-gray-100"
+              />
+            </div>
+            <div className="flex w-full gap-4">
+              <div className="flex-1">
+                <ImageUpload
+                  type="logoUploader"
+                  label="Logo"
+                  imageUpload={logoFile}
+                  setImageUpload={setLogoFile}
+                />
+              </div>
+              <div className="flex-1">
+                <ImageUpload
+                  type="faviconUploader"
+                  label="Favicon"
+                  imageUpload={faviconFile}
+                  setImageUpload={setFaviconFile}
+                />
+              </div>
             </div>
             <Input
               label="Homepage URL"
