@@ -6,7 +6,7 @@ import { EmptyState, Card, Modal, Input } from "@/components";
 import { useProjectContext } from "@/context/project";
 import Link from "next/link";
 import * as yup from "yup";
-import { set, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import cn from "classnames";
 import { api } from "@/utils/trpc";
@@ -152,6 +152,7 @@ export default function Dashboard() {
                 name: getValues("name"),
                 slug,
                 logo: logoFile?.url,
+                favicon: faviconFile?.url,
                 description: getValues("description"),
                 installationId: currentInstallation!.id,
               });
