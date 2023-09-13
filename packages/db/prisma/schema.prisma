@@ -23,6 +23,7 @@ model Project {
   name            String
   description     String?
   logo            String?
+  favicon         String?
   homepageURL     String?
   appearance      Appearance   @default(LIGHT)
   installationId  Int

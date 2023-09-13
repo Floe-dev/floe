@@ -21,10 +21,22 @@ export async function generateMetadata(
   parent: ResolvingMetadata
 ): Promise<Metadata> {
   // read route params
-  const subdomain = params.subdomain;
+  const floeClient = getFloeClient(params.subdomain);
+  const project = await floeClient.project.get();
+
+  console.log(11111, project);
 
   return {
-    title: capitalize(subdomain) + " Blog",
+    title: project.name + " blog",
+    icons: {
+      icon: project.favicon,
+      shortcut: project.favicon,
+      apple: project.favicon,
+      // other: {
+      //   rel: project.favicon,
+      //   url: project.favicon,
+      // },
+    },
   };
 }
 

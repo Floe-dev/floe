@@ -45,6 +45,7 @@ export type ProjectAPIResponse = {
     name: string;
     slug: string;
     logo: string | null;
+    favicon: string | null;
     homepageURL: null;
     appearance: "LIGHT" | "DARK" | "SYSTEM";
     datasources: {

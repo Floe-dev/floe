@@ -40,6 +40,7 @@ export const projectRouter = router({
         slug: z.string().min(3),
         installationId: z.number(),
         logo: z.string().url().optional(),
+        favicon: z.string().url().optional(),
         description: z.string().optional(),
         homepageUrl: z.string().url().optional(),
       })
@@ -64,6 +65,7 @@ export const projectRouter = router({
           name: input.name,
           slug: input.slug,
           logo: input.logo,
+          favicon: input.favicon,
           description: input.description,
           homepageURL: input.homepageUrl,
           installationId: input.installationId,
