@@ -24,18 +24,16 @@ export async function generateMetadata(
   const floeClient = getFloeClient(params.subdomain);
   const project = await floeClient.project.get();
 
-  console.log(11111, project);
-
   return {
-    title: project.name + " blog",
+    title: capitalize(project.name) + " blog",
     icons: {
       icon: project.favicon,
       shortcut: project.favicon,
       apple: project.favicon,
-      // other: {
-      //   rel: project.favicon,
-      //   url: project.favicon,
-      // },
+      other: {
+        rel: project.favicon,
+        url: project.favicon,
+      },
     },
   };
 }
@@ -65,7 +63,7 @@ function BlogPage({
 
     return (
       <div className="z-10 flex flex-col-reverse w-full max-w-5xl gap-8 px-6 pt-32 pb-8 mx-auto md:flex-row">
-        <section className="w-full pt-16 mt-12 prose border-t dark:prose-invert md:pt-0 md:mt-0 border-zinc-700 md:border-0">
+        <section className="flex flex-col">
           {posts.map((blog) => (
             <Link
               key={blog.slug + blog.datasourceId}
@@ -73,7 +71,6 @@ function BlogPage({
                 params.subdomain as unknown as string,
                 blog.slug
               )}
-              className="mb-2 no-underline"
             >
               <BlogItem blog={blog} />
             </Link>
