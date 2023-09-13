@@ -15,6 +15,7 @@ import slugify from "slugify";
 import { ChevronRightIcon } from "@heroicons/react/20/solid";
 import { useQueryClient } from "@tanstack/react-query";
 import { redirect, useRouter, useSearchParams } from "next/navigation";
+import { UploadButton } from "@/utils/uploadthing";
 
 type FormData = {
   name: string;
@@ -143,7 +144,6 @@ export default function Dashboard() {
                 name: getValues("name"),
                 slug,
                 description: getValues("description"),
-                homepageUrl: getValues("homepageUrl"),
                 installationId: currentInstallation!.id,
               });
 
@@ -157,6 +157,18 @@ export default function Dashboard() {
             className={cn("flex flex-col items-start gap-6")}
             onSubmit={(e) => e.preventDefault()}
           >
+            <UploadButton
+              endpoint="imageUploader"
+              onClientUploadComplete={(res) => {
+                // Do something with the response
+                console.log("Files: ", res);
+                alert("Upload Completed");
+              }}
+              onUploadError={(error: Error) => {
+                // Do something with the error.
+                alert(`ERROR! ${error.message}`);
+              }}
+            />
             <Input
               label="Name*"
               placeholder="Acme Inc"
