@@ -25,11 +25,12 @@ const Nav = ({ logo, projectName, homepageURL }: NavProps) => (
           {logo ? (
             <Image
               priority
-              src="/logo-title.svg"
-              height={24}
-              width={72}
+              src={logo}
+              width="0"
+              height="0"
+              sizes="100vw"
+              className="w-auto h-6 dark:invert"
               alt="Follow us on Twitter"
-              className="dark:invert"
             />
           ) : (
             <h1 className="text-black dark:text-white">{projectName}</h1>
