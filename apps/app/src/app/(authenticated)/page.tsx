@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { FolderIcon } from "@heroicons/react/24/outline";
+import { FolderIcon } from "@heroicons/react/24/solid";
 import { EmptyState, Card, Modal, Input } from "@/components";
 import { useProjectContext } from "@/context/project";
 import Link from "next/link";
@@ -15,7 +15,7 @@ import slugify from "slugify";
 import { ChevronRightIcon } from "@heroicons/react/20/solid";
 import { useQueryClient } from "@tanstack/react-query";
 import { redirect, useRouter, useSearchParams } from "next/navigation";
-import { UploadButton } from "@/utils/uploadthing";
+import { UploadDropzone } from "@/utils/uploadthing";
 
 type FormData = {
   name: string;
@@ -157,18 +157,6 @@ export default function Dashboard() {
             className={cn("flex flex-col items-start gap-6")}
             onSubmit={(e) => e.preventDefault()}
           >
-            <UploadButton
-              endpoint="imageUploader"
-              onClientUploadComplete={(res) => {
-                // Do something with the response
-                console.log("Files: ", res);
-                alert("Upload Completed");
-              }}
-              onUploadError={(error: Error) => {
-                // Do something with the error.
-                alert(`ERROR! ${error.message}`);
-              }}
-            />
             <Input
               label="Name*"
               placeholder="Acme Inc"
@@ -185,6 +173,30 @@ export default function Dashboard() {
               disabled
               className="bg-gray-100"
             />
+            <div className="w-full">
+              <label className="inline-block mb-2 text-sm font-medium leading-6 text-gray-900 dark:text-white">
+                Logo
+              </label>
+              <UploadDropzone
+                endpoint="imageUploader"
+                config={{
+                  mode: "auto",
+                }}
+                onClientUploadComplete={(res) => {
+                  // Do something with the response
+                  console.log("Files: ", res);
+                }}
+                onUploadError={(error: Error) => {
+                  // Do something with the error.
+                  alert(`ERROR! ${error.message}`);
+                }}
+                appearance={{
+                  container: "w-full py-4 mt-0",
+                  label: "mt-1 text-indigo-500",
+                  uploadIcon: "w-10 h-10 text-zinc-400",
+                }}
+              />
+            </div>
             <Input
               label="Homepage URL"
               placeholder="https://www.acme.com"
