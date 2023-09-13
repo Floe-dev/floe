@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { CloudArrowUpIcon, FolderIcon } from "@heroicons/react/24/solid";
+import { FolderIcon } from "@heroicons/react/24/solid";
 import { EmptyState, Card, Modal, Input } from "@/components";
 import { useProjectContext } from "@/context/project";
 import Link from "next/link";
@@ -15,9 +15,6 @@ import slugify from "slugify";
 import { ChevronRightIcon } from "@heroicons/react/20/solid";
 import { useQueryClient } from "@tanstack/react-query";
 import { redirect, useRouter, useSearchParams } from "next/navigation";
-import { FileWithPath, useDropzone } from "react-dropzone";
-import { useUploadThing } from "@/utils/uploadthing";
-import { generateClientDropzoneAccept } from "uploadthing/client";
 import { UploadFileResponse } from "uploadthing/client";
 import { ImageUpload } from "./ImageUpload";
 
@@ -154,6 +151,7 @@ export default function Dashboard() {
               await mutateAsync({
                 name: getValues("name"),
                 slug,
+                logo: logoFile?.url,
                 description: getValues("description"),
                 installationId: currentInstallation!.id,
               });
