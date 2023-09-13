@@ -25,7 +25,7 @@ export async function generateMetadata(
   const project = await floeClient.project.get();
 
   return {
-    title: capitalize(project.name) + " blog",
+    title: "Blog - " + capitalize(project.name),
     icons: {
       icon: project.favicon,
       shortcut: project.favicon,
@@ -34,6 +34,18 @@ export async function generateMetadata(
         rel: project.favicon,
         url: project.favicon,
       },
+    },
+    openGraph: {
+      title: "Blog - " + capitalize(project.name),
+      description: project?.description,
+      images: [
+        {
+          url: project.logo,
+          width: 800,
+          height: 600,
+          alt: project.name,
+        },
+      ],
     },
   };
 }

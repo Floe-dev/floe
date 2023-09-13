@@ -2,8 +2,16 @@ import { NextApiRequestExtension } from "@/lib/types/privateMiddleware";
 import { defaultResponder } from "@/lib/helpers/defaultResponder";
 
 async function handler({ project }: NextApiRequestExtension) {
-  const { name, slug, logo, favicon, appearance, homepageURL, datasources } =
-    project;
+  const {
+    name,
+    description,
+    slug,
+    logo,
+    favicon,
+    appearance,
+    homepageURL,
+    datasources,
+  } = project;
 
   const datasourceFields = datasources.map((datasource) => ({
     id: datasource.id,
@@ -15,6 +23,7 @@ async function handler({ project }: NextApiRequestExtension) {
   return {
     data: {
       name,
+      description,
       slug,
       logo,
       favicon,
