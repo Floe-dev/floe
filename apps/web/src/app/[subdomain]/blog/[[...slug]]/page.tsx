@@ -7,48 +7,11 @@ import BlogItem from "./BlogItem";
 import AmorphousBlob from "@/components/AmorphousBlob";
 import { getFloeClient } from "@/app/floe-client";
 import { generateURL } from "@/utils/generateURL";
-import type { Metadata, ResolvingMetadata } from "next";
-import { capitalize } from "@floe/utils";
+import { generateMetadata as gm } from "@/utils/generateMetaData";
 
 export const revalidate = 10;
 
-type Props = {
-  params: { subdomain: string };
-};
-
-export async function generateMetadata(
-  { params }: Props,
-  parent: ResolvingMetadata
-): Promise<Metadata> {
-  // read route params
-  const floeClient = getFloeClient(params.subdomain);
-  const project = await floeClient.project.get();
-
-  return {
-    title: "Blog - " + capitalize(project.name),
-    ...(project.favicon && {
-      icon: project.favicon,
-      shortcut: project.favicon,
-      apple: project.favicon,
-      other: {
-        rel: project.favicon,
-        url: project.favicon,
-      },
-    }),
-    openGraph: {
-      title: "Blog - " + capitalize(project.name),
-      description: project?.description,
-      images: [
-        {
-          url: project.logo,
-          width: 800,
-          height: 600,
-          alt: project.name,
-        },
-      ],
-    },
-  };
-}
+export const generateMetadata = gm("Blog");
 
 function BlogPage({
   isError,

@@ -4,26 +4,11 @@ import AmorphousBlob from "@/components/AmorphousBlob";
 import NotFound from "@/app/NotFound";
 import { getFloeClient } from "@/app/floe-client";
 import { RenderedPostContent } from "@floe/next";
-import { capitalize } from "@floe/utils";
-import { ResolvingMetadata, Metadata } from "next";
+import { generateMetadata as gm } from "@/utils/generateMetaData";
 
 export const revalidate = 10;
 
-type Props = {
-  params: { subdomain: string };
-};
-
-export async function generateMetadata(
-  { params }: Props,
-  parent: ResolvingMetadata
-): Promise<Metadata> {
-  // read route params
-  const subdomain = params.subdomain;
-
-  return {
-    title: capitalize(subdomain) + " Changelog",
-  };
-}
+export const generateMetadata = gm("Changelog");
 
 export default async function ChangelogListPage({
   params,
