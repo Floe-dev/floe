@@ -43,8 +43,10 @@ export type PostTreeAPIResponse = {
 export type ProjectAPIResponse = {
   data: {
     name: string;
+    description: string | null;
     slug: string;
     logo: string | null;
+    favicon: string | null;
     homepageURL: null;
     appearance: "LIGHT" | "DARK" | "SYSTEM";
     datasources: {

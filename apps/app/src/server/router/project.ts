@@ -39,8 +39,10 @@ export const projectRouter = router({
         name: z.string().min(3).max(24),
         slug: z.string().min(3),
         installationId: z.number(),
-        homepageUrl: z.string().url().optional(),
+        logo: z.string().url().optional(),
+        favicon: z.string().url().optional(),
         description: z.string().optional(),
+        homepageUrl: z.string().url().optional(),
       })
     )
     .mutation(async ({ input, ctx }) => {
@@ -62,9 +64,11 @@ export const projectRouter = router({
         data: {
           name: input.name,
           slug: input.slug,
+          logo: input.logo,
+          favicon: input.favicon,
           description: input.description,
-          installationId: input.installationId,
           homepageURL: input.homepageUrl,
+          installationId: input.installationId,
           datasources: {
             create: [
               {

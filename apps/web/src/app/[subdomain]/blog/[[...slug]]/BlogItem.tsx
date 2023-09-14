@@ -6,12 +6,12 @@ import type { RenderedPostContent } from "@floe/next";
 import { ChevronRightIcon } from "@heroicons/react/20/solid";
 
 const Blog = ({ blog }: { blog: RenderedPostContent }) => (
-  <PostPrimitive.Root post={blog}>
-    <div className="relative flex flex-col gap-4 mb-4 -mt-8 prose no-underline border-b md:flex-row last:pb-0 last:border-0 border-zinc-700 dark:prose-invert">
+  <div className="flex flex-col gap-0 prose md:gap-4 md:flex-row dark:prose-invert">
+    <PostPrimitive.Root post={blog}>
       {/* DATE */}
       <PostPrimitive.Date className="w-40 mt-6 font-normal leading-8 text-gray-400" />
 
-      <div className="flex-1 col-span-3 p-8 md:p-6 rounded-none md:rounded-lg hover:bg-white/[0.04] -mx-8 md:mx-0 overflow-hidden">
+      <div className="flex-1 col-span-3 rounded-none md:rounded-lg hover:bg-white/[0.04] -mx-8 md:mx-0 overflow-hidden p-8 md:p-6">
         {/* TITLE */}
         <PostPrimitive.Title className="mt-0 mb-0 prose-lg" />
 
@@ -21,8 +21,8 @@ const Blog = ({ blog }: { blog: RenderedPostContent }) => (
           Continue reading <ChevronRightIcon className="w-5 h-5" />
         </p>
       </div>
-    </div>
-  </PostPrimitive.Root>
+    </PostPrimitive.Root>
+  </div>
 );
 
 export default Blog;

@@ -1,6 +1,7 @@
 const sharedConfig = require("@floe/tailwind-config/tailwind.config.js");
+const { withUt } = require("uploadthing/tw");
 
-module.exports = {
+module.exports = withUt({
   darkMode: "class",
   lightMode: "class",
   presets: [sharedConfig],
@@ -11,4 +12,4 @@ module.exports = {
     "../../packages/ui/**/*.{ts,tsx}",
   ],
   plugins: [require("@tailwindcss/typography")],
-};
+});

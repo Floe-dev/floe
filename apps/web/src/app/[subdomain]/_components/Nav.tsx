@@ -21,15 +21,15 @@ const Nav = ({ logo, projectName, homepageURL }: NavProps) => (
     >
       <div className="flex items-center justify-between flex-1">
         <Link href={homepageURL ?? ""} className="-m-1.5 p-1.5">
-          {/* TODO Add logo image*/}
           {logo ? (
             <Image
               priority
-              src="/logo-title.svg"
-              height={24}
-              width={72}
+              src={logo}
+              width="0"
+              height="0"
+              sizes="100vw"
+              className="w-auto h-6 dark:invert"
               alt="Follow us on Twitter"
-              className="dark:invert"
             />
           ) : (
             <h1 className="text-black dark:text-white">{projectName}</h1>

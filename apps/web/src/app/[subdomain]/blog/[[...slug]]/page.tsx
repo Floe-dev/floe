@@ -21,10 +21,32 @@ export async function generateMetadata(
   parent: ResolvingMetadata
 ): Promise<Metadata> {
   // read route params
-  const subdomain = params.subdomain;
+  const floeClient = getFloeClient(params.subdomain);
+  const project = await floeClient.project.get();
 
   return {
-    title: capitalize(subdomain) + " Blog",
+    title: "Blog - " + capitalize(project.name),
+    icons: {
+      icon: project.favicon,
+      shortcut: project.favicon,
+      apple: project.favicon,
+      other: {
+        rel: project.favicon,
+        url: project.favicon,
+      },
+    },
+    openGraph: {
+      title: "Blog - " + capitalize(project.name),
+      description: project?.description,
+      images: [
+        {
+          url: project.logo,
+          width: 800,
+          height: 600,
+          alt: project.name,
+        },
+      ],
+    },
   };
 }
 
@@ -53,7 +75,7 @@ function BlogPage({
 
     return (
       <div className="z-10 flex flex-col-reverse w-full max-w-5xl gap-8 px-6 pt-32 pb-8 mx-auto md:flex-row">
-        <section className="w-full pt-16 mt-12 prose border-t dark:prose-invert md:pt-0 md:mt-0 border-zinc-700 md:border-0">
+        <section className="flex flex-col -mt-8 md:-mt-6">
           {posts.map((blog) => (
             <Link
               key={blog.slug + blog.datasourceId}
@@ -61,7 +83,6 @@ function BlogPage({
                 params.subdomain as unknown as string,
                 blog.slug
               )}
-              className="mb-2 no-underline"
             >
               <BlogItem blog={blog} />
             </Link>

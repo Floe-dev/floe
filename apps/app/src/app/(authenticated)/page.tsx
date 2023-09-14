@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { FolderIcon } from "@heroicons/react/24/outline";
+import { useState, useEffect, useCallback } from "react";
+import { FolderIcon } from "@heroicons/react/24/solid";
 import { EmptyState, Card, Modal, Input } from "@/components";
 import { useProjectContext } from "@/context/project";
 import Link from "next/link";
@@ -15,6 +15,8 @@ import slugify from "slugify";
 import { ChevronRightIcon } from "@heroicons/react/20/solid";
 import { useQueryClient } from "@tanstack/react-query";
 import { redirect, useRouter, useSearchParams } from "next/navigation";
+import { UploadFileResponse } from "uploadthing/client";
+import { ImageUpload } from "./ImageUpload";
 
 type FormData = {
   name: string;
@@ -57,6 +59,13 @@ export default function Dashboard() {
         strict: true,
       })
     : "";
+
+  const [logoFile, setLogoFile] = useState<UploadFileResponse | undefined>(
+    undefined
+  );
+  const [faviconFile, setFaviconFile] = useState<
+    UploadFileResponse | undefined
+  >(undefined);
 
   /**
    * After installation, redirect to the current installation and open the new
@@ -142,8 +151,9 @@ export default function Dashboard() {
               await mutateAsync({
                 name: getValues("name"),
                 slug,
+                logo: logoFile?.url,
+                favicon: faviconFile?.url,
                 description: getValues("description"),
-                homepageUrl: getValues("homepageUrl"),
                 installationId: currentInstallation!.id,
               });
 
@@ -157,22 +167,42 @@ export default function Dashboard() {
             className={cn("flex flex-col items-start gap-6")}
             onSubmit={(e) => e.preventDefault()}
           >
-            <Input
-              label="Name*"
-              placeholder="Acme Inc"
-              errortext={errors.name?.message}
-              {...register("name", {
-                required: true,
-              })}
-              disabled={isLoading}
-            />
-            <Input
-              label="Slug*"
-              placeholder="acme-inc"
-              value={slug}
-              disabled
-              className="bg-gray-100"
-            />
+            <div className="flex w-full gap-4">
+              <Input
+                label="Name*"
+                placeholder="Acme Inc"
+                errortext={errors.name?.message}
+                {...register("name", {
+                  required: true,
+                })}
+                disabled={isLoading}
+              />
+              <Input
+                label="Slug*"
+                placeholder="acme-inc"
+                value={slug}
+                disabled
+                className="bg-gray-100"
+              />
+            </div>
+            <div className="flex w-full gap-4">
+              <div className="flex-1">
+                <ImageUpload
+                  type="logoUploader"
+                  label="Logo"
+                  imageUpload={logoFile}
+                  setImageUpload={setLogoFile}
+                />
+              </div>
+              <div className="flex-1">
+                <ImageUpload
+                  type="faviconUploader"
+                  label="Favicon"
+                  imageUpload={faviconFile}
+                  setImageUpload={setFaviconFile}
+                />
+              </div>
+            </div>
             <Input
               label="Homepage URL"
               placeholder="https://www.acme.com"

@@ -11,7 +11,6 @@ export default function RootLayout({ children }: { children: null }) {
   return (
     <html lang="en" className="dark">
       <head>
-        <title>Floe.dev</title>
         <meta
           name="viewport"
           content="width=device-width, initial-scale=1, maximum-scale=1"
