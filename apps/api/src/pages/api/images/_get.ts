@@ -63,6 +63,8 @@ async function handler(
     auth: installationAuthentication.token,
   });
 
+  console.log(111111, datasource, filename);
+
   const response = await octokit.request(
     "GET /repos/{owner}/{repo}/contents/{path}",
     {

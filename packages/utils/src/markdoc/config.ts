@@ -15,6 +15,9 @@ export const markdocConfig: Config = {
         alt: {
           type: String,
         },
+        caption: {
+          type: String,
+        },
       },
       selfClosing: true,
     },

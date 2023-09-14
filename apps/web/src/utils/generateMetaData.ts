@@ -1,6 +1,6 @@
 import { getFloeClient } from "@/app/floe-client";
 import { capitalize } from "@floe/utils";
-import { ResolvingMetadata, Metadata } from "next";
+import { Metadata } from "next";
 
 type Props = {
   params: { subdomain: string };

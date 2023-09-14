@@ -15,7 +15,15 @@ function validURL(str: string) {
 }
 
 export type Components = {
-  Image: ({ src, alt }: { src: string; alt?: string }) => JSX.Element;
+  Image: ({
+    src,
+    alt,
+    caption,
+  }: {
+    src: string;
+    alt?: string;
+    caption?: string;
+  }) => JSX.Element;
 
   Callout: ({
     children,
@@ -44,27 +52,27 @@ export const render = (
   options?: { components?: Partial<Components> }
 ) => {
   const components: Components = {
-    Image: ({ src, alt }: { src: string; alt?: string }) => {
+    Image: ({ src, alt, caption }) => {
       const imagePath = validURL(src)
         ? src
-        : encodeURI(`${imageBasePath}&fn=${src}`);
+        : encodeURI(`${imageBasePath}&filename=${src}`);
       const CustomImage = options?.components?.Image;
 
       return CustomImage ? (
-        <CustomImage src={imagePath} alt={alt} />
+        <CustomImage src={imagePath} alt={alt} caption={caption} />
       ) : (
-        <img
-          src={imagePath}
-          alt={alt}
-          style={{ borderRadius: "12px" }}
-          className="floe-image"
-        />
+        <>
+          <img
+            src={imagePath}
+            alt={alt}
+            style={{ borderRadius: "12px" }}
+            className="floe-image"
+          />
+          <p className="floe-caption">{caption}</p>
+        </>
       );
     },
-    Callout: (props: {
-      children: React.ReactNode;
-      type?: "caution" | "check" | "info" | "warning" | "docs" | "tada";
-    }) => {
+    Callout: (props) => {
       const icons = {
         caution: "⚠️",
         check: "✅",
@@ -84,10 +92,7 @@ export const render = (
         </div>
       );
     },
-    CodeBlock: (props: {
-      children: React.ReactNode;
-      language?: string;
-    }): JSX.Element => {
+    CodeBlock: (props) => {
       const CustomCodeBlock = options?.components?.CodeBlock;
 
       /**
@@ -102,7 +107,7 @@ export const render = (
       );
     },
 
-    Loom: (props: { src: string }): JSX.Element => {
+    Loom: (props) => {
       const CustomLoom = options?.components?.Loom;
 
       return CustomLoom ? (
@@ -133,7 +138,7 @@ export const render = (
       );
     },
 
-    Youtube: (props: { src: string }): JSX.Element => {
+    Youtube: (props) => {
       const CustomYoutube = options?.components?.Youtube;
 
       return CustomYoutube ? (

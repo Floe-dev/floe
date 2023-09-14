@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { Options, FloeClientFactory } from "@floe/server";
 
 export const FloeClient = (projectSlug: string, options?: Options) => {
@@ -28,19 +27,30 @@ export const FloeClient = (projectSlug: string, options?: Options) => {
       ...options,
       components: {
         ...options?.components,
-        Image:
-          options?.components?.Image ??
-          (({ src, alt }: { src: string; alt?: string }) => (
-            <div className="relative w-full h-56 m-0 mt-2 overflow-hidden md:h-96 rounded-xl">
-              <Image
-                fill
-                src={src}
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 55vw"
-                alt={alt ?? ""}
-                className="object-cover m-0"
-              />
-            </div>
-          )),
+        // TODO: De-couple Image component below from Tailwind
+        // Image:
+        //   options?.components?.Image ??
+        //   (({
+        //     src,
+        //     alt,
+        //     caption,
+        //   }: {
+        //     src: string;
+        //     alt?: string;
+        //     caption?: string;
+        //   }) => (
+        //     <div className="relative m-0 mt-2">
+        //       <Image
+        //         src={src}
+        //         alt={alt ?? ""}
+        //         width="0"
+        //         height="0"
+        //         sizes="100vw"
+        //         className="w-auto h-auto mx-auto rounded-xl"
+        //       />
+        //       <p className="text-center text-gray-500">{caption}</p>
+        //     </div>
+        //   )),
       },
     }
   );
