@@ -17,7 +17,7 @@ export const projectRouter = router({
       /**
        * VALIDATORS
        */
-      validateUserHasInstallation(args);
+      await validateUserHasInstallation(args);
 
       const { installationId } = args.input;
 
@@ -45,8 +45,10 @@ export const projectRouter = router({
         homepageUrl: z.string().url().optional(),
       })
     )
-    .mutation(async ({ input, ctx }) => {
-      // TODO: VALIDATE
+    .mutation(async (args) => {
+      // TODO: Validate once restrictions decided on. For now unlimited project creation is allowed.
+      const { input, ctx } = args;
+
       const STARTER_OWNER = "Floe-dev";
       const STARTER_REPO = "floe-sample-data";
       const STARTER_BRANCH = "main";
@@ -88,6 +90,44 @@ export const projectRouter = router({
       return project;
     }),
 
+  update: protectedProcedure
+    .input(
+      z.object({
+        projectId: z.string(),
+        name: z.string().min(3).max(24).optional(),
+        slug: z.string().min(3).optional(),
+        logo: z.string().url().optional(),
+        favicon: z.string().url().optional(),
+        description: z.string().optional(),
+        homepageUrl: z.string().url().optional(),
+      })
+    )
+    .mutation(async (args) => {
+      /**
+       * VALIDATORS
+       */
+      await validateUserHasProject(args);
+      const { input } = args;
+
+      console.log(111111, input);
+
+      const project = await prisma.project.update({
+        where: {
+          id: input.projectId,
+        },
+        data: {
+          name: input.name,
+          slug: input.slug,
+          logo: input.logo,
+          favicon: input.favicon,
+          description: input.description,
+          homepageURL: input.homepageUrl,
+        },
+      });
+
+      return project;
+    }),
+
   delete: protectedProcedure
     .input(
       z.object({
@@ -110,8 +150,12 @@ export const projectRouter = router({
         projectId: z.string(),
       })
     )
-    .mutation(async ({ input }) => {
-      // TODO: VALIDATE
+    .mutation(async (args) => {
+      /**
+       * VALIDATORS
+       */
+      await validateUserHasProject(args);
+      const { input } = args;
 
       const rounds = 10;
       // Use the user id as the primrary key

@@ -9,15 +9,15 @@ import { Spinner } from "@floe/ui";
 interface ImageUploadProps {
   label: string;
   type: "logoUploader" | "faviconUploader";
-  imageUpload: UploadFileResponse | undefined;
-  setImageUpload: (imageUpload: UploadFileResponse) => void;
+  imageUploadURL: string | undefined;
+  setImageUploadURL: (imageUploadURL: string) => void;
 }
 
 export const ImageUpload = ({
   type,
   label,
-  imageUpload,
-  setImageUpload,
+  imageUploadURL,
+  setImageUploadURL,
 }: ImageUploadProps) => {
   const [isUploading, setIsUploading] = useState(false);
   const { startUpload, permittedFileInfo } = useUploadThing(type, {
@@ -26,7 +26,7 @@ export const ImageUpload = ({
         return;
       }
       setIsUploading(false);
-      setImageUpload(files[0]);
+      setImageUploadURL(files[0]?.url);
     },
     onUploadError: (e) => {
       setIsUploading(false);
@@ -65,8 +65,8 @@ export const ImageUpload = ({
         <div className="flex flex-col items-center justify-center object-cover w-full h-20 rounded-lg shadow-sm cursor-pointer outline-dashed outline-gray-300 outline-1">
           {isUploading ? (
             <Spinner />
-          ) : imageUpload ? (
-            <img src={imageUpload.url} alt="Logo" className="p-2 max-h-14" />
+          ) : imageUploadURL ? (
+            <img src={imageUploadURL} alt="Logo" className="p-2 max-h-14" />
           ) : (
             <div className="flex flex-col items-center justify-center">
               <CloudArrowUpIcon className="w-6 h-6 text-zinc-400" />
