@@ -9,7 +9,7 @@ const InterFont = Inter({
 
 export default function RootLayout({ children }: { children: null }) {
   return (
-    <html lang="en" className="dark">
+    <html lang="en" className="dark" suppressHydrationWarning>
       <head>
         <meta
           name="viewport"
