@@ -54,14 +54,14 @@ const Blog = ({ blog }: { blog: RenderedPostContent }) => {
       </button>
       <div className="w-full">
         {/* DATE */}
-        <PostPrimitive.Date className="mt-8 text-gray-400" />
+        <PostPrimitive.Date className="mt-8 text-gray-500 dark:text-gray-400" />
 
         <div className="flex flex-col gap-4 my-8">
           {/* TITLE */}
           <PostPrimitive.Title className="my-0 text-4xl" />
 
           {/* SUBTITLE */}
-          <PostPrimitive.SubTitle className="my-0 text-xl font-normal text-gray-300" />
+          <PostPrimitive.SubTitle className="my-0 text-xl font-normal text-gray-700 dark:text-gray-300" />
         </div>
 
         {/* IMAGE */}
