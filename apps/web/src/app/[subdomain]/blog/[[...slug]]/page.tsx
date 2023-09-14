@@ -26,7 +26,7 @@ export async function generateMetadata(
 
   return {
     title: "Blog - " + capitalize(project.name),
-    icons: {
+    ...(project.favicon && {
       icon: project.favicon,
       shortcut: project.favicon,
       apple: project.favicon,
@@ -34,7 +34,7 @@ export async function generateMetadata(
         rel: project.favicon,
         url: project.favicon,
       },
-    },
+    }),
     openGraph: {
       title: "Blog - " + capitalize(project.name),
       description: project?.description,
