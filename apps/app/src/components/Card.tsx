@@ -1,20 +1,18 @@
 import { Button, ButtonProps } from "./Button";
 
+export type Action = {
+  text: string;
+  type?: ButtonProps["type"];
+  variant?: ButtonProps["variant"];
+  disabled?: boolean;
+  onClick: () => void;
+};
+
 export interface CardProps {
   title: string;
   subtitle?: string;
-  actions?: {
-    text: string;
-    type?: ButtonProps["type"];
-    variant?: ButtonProps["variant"];
-    onClick: () => void;
-  }[];
-  bottomActions?: {
-    text: string;
-    type?: ButtonProps["type"];
-    variant?: ButtonProps["variant"];
-    onClick: () => void;
-  }[];
+  actions?: Action[];
+  bottomActions?: Action[];
   children: React.ReactNode;
 }
 
@@ -43,6 +41,7 @@ export const Card = ({
               key={action.text}
               type={action.type}
               variant={action.variant}
+              disabled={action.disabled}
             >
               {action.text}
             </Button>
@@ -63,6 +62,7 @@ export const Card = ({
                 key={action.text}
                 type={action.type}
                 variant={action.variant}
+                disabled={action.disabled}
               >
                 {action.text}
               </Button>

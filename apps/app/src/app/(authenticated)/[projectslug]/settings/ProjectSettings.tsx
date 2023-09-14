@@ -1,3 +1,5 @@
+"use client";
+
 import { Card, Input } from "@/components";
 import { ImageUpload } from "../../ImageUpload";
 import { useProjectContext } from "@/context/project";
@@ -9,6 +11,7 @@ import cn from "classnames";
 import { useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { api } from "@/utils/trpc";
+import { useRouter } from "next/navigation";
 
 type FormData = {
   name: string;
@@ -46,6 +49,7 @@ export const ProjectSettings = () => {
         strict: true,
       })
     : "";
+  const router = useRouter();
   const queryClient = useQueryClient();
   const { mutateAsync, isLoading } = api.project.update.useMutation({
     onSuccess: () => queryClient.invalidateQueries({ queryKey }),
@@ -57,6 +61,7 @@ export const ProjectSettings = () => {
   const [faviconFileURL, setFaviconFileURL] = useState<string | undefined>(
     currentProject?.favicon ?? undefined
   );
+  const [isSaving, setIsSaving] = useState(false);
 
   if (!currentProject) {
     return null;
@@ -67,11 +72,16 @@ export const ProjectSettings = () => {
       title="Project settings"
       bottomActions={[
         {
-          text: "Save",
+          text: isSaving ? "Saving..." : "Save",
+          type: "submit",
+          disabled: !isValid || isSaving,
           onClick: async () => {
+            const isNameChange = getValues("name") !== currentProject?.name;
+            setIsSaving(true);
+
             await mutateAsync({
               projectId: currentProject?.id,
-              ...(getValues("name") !== currentProject?.name && {
+              ...(isNameChange && {
                 name: getValues("name"),
                 slug,
               }),
@@ -87,7 +97,14 @@ export const ProjectSettings = () => {
               ...(faviconFileURL !== currentProject?.favicon && {
                 favicon: faviconFileURL,
               }),
-            });
+            })
+              .then(() => {
+                if (isNameChange) {
+                  router.push(`/${slug}/settings`);
+                }
+              })
+              .catch((e) => {})
+              .finally(() => setIsSaving(false));
           },
         },
       ]}
@@ -144,7 +161,7 @@ export const ProjectSettings = () => {
         <Input
           label="Description"
           placeholder="eg. Release notes for new API updates."
-          subtext="Describe how you use this project"
+          subtext="Describe how you use this project."
           errortext={errors.description?.message}
           {...register("description", {
             required: true,

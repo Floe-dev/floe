@@ -38,7 +38,7 @@ export default function Project() {
         baseBranch: "main",
       });
     })();
-  }, [searchParams]);
+  }, [currentProject, mutateAsync, router, searchParams]);
 
   return (
     <>

@@ -100,6 +100,7 @@ export const projectRouter = router({
         favicon: z.string().url().optional(),
         description: z.string().optional(),
         homepageUrl: z.string().url().optional(),
+        appearance: z.enum(["LIGHT", "DARK", "SYSTEM"]).optional(),
       })
     )
     .mutation(async (args) => {
@@ -108,8 +109,6 @@ export const projectRouter = router({
        */
       await validateUserHasProject(args);
       const { input } = args;
-
-      console.log(111111, input);
 
       const project = await prisma.project.update({
         where: {
@@ -122,6 +121,7 @@ export const projectRouter = router({
           favicon: input.favicon,
           description: input.description,
           homepageURL: input.homepageUrl,
+          appearance: input.appearance,
         },
       });
 

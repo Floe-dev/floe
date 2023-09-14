@@ -211,7 +211,7 @@ export default function Dashboard() {
             <Input
               label="Description"
               placeholder="eg. Release notes for new API updates."
-              subtext="Describe how you use this project"
+              subtext="Describe how you use this project."
               errortext={errors.description?.message}
               {...register("description", {
                 required: true,
