@@ -31,7 +31,7 @@ export const ourFileRouter = {
       console.log("file url", file.url);
     }),
 
-    faviconUploader: f({ "image/svg+xml": { maxFileSize: "1MB" } })
+    faviconUploader: f({ "image/png": { maxFileSize: "1MB" } })
     // Set permissions and file types for this FileRoute
     .middleware(async () => {
       // This code runs on your server before upload

@@ -36,9 +36,12 @@ export const ImageUpload = ({
       setIsUploading(true);
     },
   });
-  const onDrop = useCallback((acceptedFiles: FileWithPath[]) => {
-    startUpload(acceptedFiles);
-  }, []);
+  const onDrop = useCallback(
+    (acceptedFiles: FileWithPath[]) => {
+      startUpload(acceptedFiles);
+    },
+    [startUpload]
+  );
 
   const fileTypes = permittedFileInfo?.config
     ? Object.keys(permittedFileInfo?.config)
@@ -49,6 +52,8 @@ export const ImageUpload = ({
     multiple: false,
     accept: fileTypes ? generateClientDropzoneAccept(fileTypes) : undefined,
   });
+
+  const fileTypeText = type === "logoUploader" ? ".svg" : ".png";
 
   return (
     <>
@@ -65,7 +70,9 @@ export const ImageUpload = ({
           ) : (
             <div className="flex flex-col items-center justify-center">
               <CloudArrowUpIcon className="w-6 h-6 text-zinc-400" />
-              <p className="mt-1 text-xs text-gray-700">Image up to 1mb</p>
+              <p className="mt-1 text-xs text-gray-700">
+                <span className="font-mono">{fileTypeText}</span> up to 1mb
+              </p>
             </div>
           )}
         </div>
