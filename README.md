@@ -44,9 +44,9 @@ Check out the [Roadmap](https://floe.canny.io/feature-requests/p/docs-support) f
 
 Examples:
 
-- [🚢 Changelog](https://www.floe.dev/floe-1072/changelog)
-- [✍️ Blog](https://www.floe.dev/floe-1072/blog)
-- [📖 Docs](https://www.floe.dev/floe-1072/docs)
+- [🚢 Changelog](https://floe.floe.dev/changelog)
+- [✍️ Blog](https://floe.floe.dev/blog)
+- [📖 Docs](https://floe.floe.dev/docs)
 
 ## Getting started
 
