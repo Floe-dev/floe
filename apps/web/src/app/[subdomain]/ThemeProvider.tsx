@@ -71,7 +71,7 @@ export function ThemeProvider({
             "--color-background-200": background200,
           } as React.CSSProperties
         }
-        className="bg-background-100 dark:bg-background-200"
+        className="min-h-screen bg-background-100 dark:bg-background-200"
       >
         {children}
       </div>
