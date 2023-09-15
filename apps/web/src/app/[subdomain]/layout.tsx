@@ -14,6 +14,7 @@ export default async function ChangelogLayout({
 
   return (
     <ThemeProvider
+      project={project}
       attribute="class"
       defaultTheme={project.appearance.toLocaleLowerCase()}
       enableSystem

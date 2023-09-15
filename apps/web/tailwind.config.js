@@ -12,4 +12,12 @@ module.exports = {
   darkMode: "class",
   presets: [sharedConfig],
   plugins: [require("@tailwindcss/typography")],
+  theme: {
+    extend: {
+      colors: {
+        primary: "var(--color-primary)",
+        background: "var(--color-background)",
+      },
+    },
+  },
 };

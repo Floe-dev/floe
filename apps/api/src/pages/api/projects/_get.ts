@@ -11,6 +11,12 @@ async function handler({ project }: NextApiRequestExtension) {
     appearance,
     homepageURL,
     datasources,
+    primary,
+    primaryDark,
+    background,
+    backgroundDark,
+    backgroundPattern,
+    customBackground,
   } = project;
 
   const datasourceFields = datasources.map((datasource) => ({
@@ -30,6 +36,12 @@ async function handler({ project }: NextApiRequestExtension) {
       appearance,
       homepageURL,
       datasources: datasourceFields,
+      primary,
+      primaryDark,
+      background,
+      backgroundDark,
+      backgroundPattern,
+      customBackground,
     },
   };
 }
