@@ -15,17 +15,13 @@ type FileTree = {
   [key: string]: FileTree | FileTreeNode;
 };
 
-interface TableOfContentsProps {
+interface SideNavProps {
   fileTree: FileTree;
   fontSize?: "sm" | "lg";
   subdomain: string;
 }
 
-const TableOfContents = ({
-  fileTree,
-  fontSize = "sm",
-  subdomain,
-}: TableOfContentsProps) => {
+const SideNav = ({ fileTree, fontSize = "sm", subdomain }: SideNavProps) => {
   const pathname = usePathname();
 
   return (
@@ -76,7 +72,7 @@ const buildRecursiveTree = (
     if ((value as FileTreeNode).slug) {
       return (
         <li
-          className="flex my-2 list-none rounded-lg prose-li dark:hover:bg-white/20"
+          className="flex my-2 list-none rounded-lg prose-li hover:bg-primary-100/20 dark:hover:bg-primary-200/20"
           key={key}
         >
           <Link
@@ -108,7 +104,7 @@ const buildRecursiveTree = (
         <Accordion.Item className="AccordionItem" value={key}>
           <li className="m-0 list-none prose-li">
             {/* Section title */}
-            <div className="flex justify-between my-2 rounded-lg hover:bg-white/20">
+            <div className="flex justify-between my-2 rounded-lg hover:bg-primary-100/20 dark:hover:bg-primary-100/20">
               {(value as FileTree)["index.md"] ? (
                 <Link
                   href={generateURL(
@@ -119,8 +115,8 @@ const buildRecursiveTree = (
                     decodeURIComponent(pathname).includes(
                       (value as FileTree)["index.md"].slug as string
                     )
-                      ? "font-semibold text-white"
-                      : "font-normal text-gray-200"
+                      ? "font-semibold text-primary-100 dark:primary-200"
+                      : "font-normal text-primary-100"
                   }`}
                 >
                   {title}
@@ -148,4 +144,4 @@ const buildRecursiveTree = (
   });
 };
 
-export default TableOfContents;
+export default SideNav;

@@ -2,7 +2,7 @@
 
 import { Dialog } from "@headlessui/react";
 import { useState } from "react";
-import TableOfContents from "./TableOfContents";
+import TableOfContents from "./SideNav";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/20/solid";
 
 export const MobileNav = ({ fileTree }: { [key: string]: any }) => {

@@ -2,7 +2,7 @@ import React from "react";
 import AmorphousBlob from "@/components/AmorphousBlob";
 import { getFloeClient } from "@/app/floe-client";
 import { withFloeServerPages, FloePageProps } from "@floe/next";
-import TableOfContents from "./TableOfContents";
+import SideNav from "./SideNav";
 import Link from "next/link";
 import DocItem from "./DocPage";
 import NotFound from "@/app/NotFound";
@@ -44,7 +44,7 @@ async function DocsPage({
         <section className="relative hidden w-full md:w-60 shrink-0 md:block">
           <div className="relative inset-0 md:absolute">
             <div className="relative w-full md:fixed md:w-60">
-              <TableOfContents
+              <SideNav
                 fileTree={fileTree}
                 subdomain={params.subdomain as unknown as string}
               />

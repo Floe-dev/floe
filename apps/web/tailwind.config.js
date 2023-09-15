@@ -15,10 +15,10 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        "primary-100": "var(--color-primary-100)",
-        "primary-200": "var(--color-primary-200)",
-        "background-100": "var(--color-background-100)",
-        "background-200": "var(--color-background-200)",
+        "primary-100": "rgb(var(--color-primary-100) / <alpha-value>)",
+        "primary-200": "rgb(var(--color-primary-200) / <alpha-value>)",
+        "background-100": "rgb(var(--color-background-100) / <alpha-value>)",
+        "background-200": "rgb(var(--color-background-200) / <alpha-value>)",
       },
     },
   },

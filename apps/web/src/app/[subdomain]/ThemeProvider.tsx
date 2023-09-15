@@ -4,11 +4,27 @@ import * as React from "react";
 import { ThemeProvider as NextThemesProvider } from "next-themes";
 import type { ThemeProviderProps } from "next-themes/dist/types";
 
+/**
+ * Convert hex codes to appropriate rgb vals for Tailwind
+ * https://tailwindcss.com/docs/customizing-colors#using-css-variables
+ */
+const hex2rgb = (hex: string) => {
+  const r = parseInt(hex.slice(1, 3), 16);
+  const g = parseInt(hex.slice(3, 5), 16);
+  const b = parseInt(hex.slice(5, 7), 16);
+
+  return [r, g, b].join(" ");
+};
+
 export function ThemeProvider({
   project,
   children,
   ...props
 }: any & ThemeProviderProps) {
+  const primary100 = hex2rgb(project.primary);
+  const primary200 = hex2rgb(project.primaryDark);
+  const background100 = hex2rgb(project.background);
+  const background200 = hex2rgb(project.backgroundDark);
   /**
    * Note: This is a hack to get the theme to work. The hack works by:
    * 1) Setting the css var primary and background colours the ones from the
@@ -28,19 +44,19 @@ export function ThemeProvider({
   React.useEffect(() => {
     document.documentElement.style.setProperty(
       "--color-primary-100",
-      project.primary
+      primary100
     );
     document.documentElement.style.setProperty(
       "--color-primary-200",
-      project.primaryDark
+      primary200
     );
     document.documentElement.style.setProperty(
       "--color-background-100",
-      project.background
+      background100
     );
     document.documentElement.style.setProperty(
       "--color-background-200",
-      project.backgroundDark
+      background200
     );
   }, []);
 
@@ -49,10 +65,10 @@ export function ThemeProvider({
       <div
         style={
           {
-            "--color-primary-100": project.primary,
-            "--color-primary-200": project.primaryDark,
-            "--color-background-100": project.background,
-            "--color-background-200": project.backgroundDark,
+            "--color-primary-100": primary100,
+            "--color-primary-200": primary200,
+            "--color-background-100": background100,
+            "--color-background-200": background200,
           } as React.CSSProperties
         }
         className="bg-background-100 dark:bg-background-200"
