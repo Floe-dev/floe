@@ -2,7 +2,8 @@
 
 import { useState, useEffect } from "react";
 import { FolderIcon } from "@heroicons/react/24/solid";
-import { EmptyState, Card, Modal, Input } from "@/components";
+import { EmptyState, Card, Modal } from "@/components";
+import { Input } from "@floe/ui";
 import { useProjectContext } from "@/context/project";
 import Link from "next/link";
 import * as yup from "yup";
@@ -15,7 +16,6 @@ import slugify from "slugify";
 import { ChevronRightIcon } from "@heroicons/react/20/solid";
 import { useQueryClient } from "@tanstack/react-query";
 import { redirect, useRouter, useSearchParams } from "next/navigation";
-import { UploadFileResponse } from "uploadthing/client";
 import { ImageUpload } from "./ImageUpload";
 
 type FormData = {

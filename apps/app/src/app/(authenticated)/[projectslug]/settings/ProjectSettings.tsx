@@ -1,6 +1,7 @@
 "use client";
 
-import { Card, Input } from "@/components";
+import { Card } from "@/components";
+import { Input } from "@floe/ui";
 import { ImageUpload } from "../../ImageUpload";
 import { useProjectContext } from "@/context/project";
 import * as yup from "yup";

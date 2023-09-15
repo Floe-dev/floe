@@ -2,10 +2,14 @@
 
 import { api } from "@/utils/trpc";
 import { Card } from "@/components";
+import { Input } from "@floe/ui";
 import { useProjectContext } from "@/context/project";
 import { useQueryClient } from "@tanstack/react-query";
 import { Project } from "@floe/db";
 import { useState } from "react";
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useForm } from "react-hook-form";
 
 const apperances: {
   name: string;
@@ -33,11 +37,48 @@ const apperances: {
   },
 ];
 
+type FormData = {
+  primary: string | undefined;
+  primaryDark: string | undefined;
+  background: string | undefined;
+  backgroundDark: string | undefined;
+};
+
+const projectSchema = yup
+  .object({
+    primary: yup
+      .string()
+      .matches(/^#[0-9A-F]{6}$/i)
+      .optional(),
+    primaryDark: yup
+      .string()
+      .matches(/^#[0-9A-F]{6}$/i)
+      .optional(),
+    background: yup
+      .string()
+      .matches(/^#[0-9A-F]{6}$/i)
+      .optional(),
+    backgroundDark: yup
+      .string()
+      .matches(/^#[0-9A-F]{6}$/i)
+      .optional(),
+  })
+  .required();
+
 export default function Page() {
   const queryClient = useQueryClient();
   const { currentProject, queryKey } = useProjectContext();
   const { mutateAsync, isLoading } = api.project.update.useMutation({
     onSuccess: () => queryClient.invalidateQueries({ queryKey }),
+  });
+  const {
+    watch,
+    register,
+    getValues,
+    formState: { errors, isValid },
+  } = useForm<FormData>({
+    mode: "onChange",
+    resolver: yupResolver(projectSchema),
   });
   const [selectedAppearance, setSelectedAppearance] = useState<
     Project["appearance"] | undefined
@@ -69,61 +110,119 @@ export default function Page() {
           },
         ]}
       >
-        <div className="flex justify-between w-full">
-          <span className="flex flex-col flex-grow mr-20">
-            <h4 className="text-sm font-medium leading-6 text-gray-900">
-              Theme
-            </h4>
-            <p className="text-sm text-gray-500">Default color scheme.</p>
-          </span>
-          <span className="flex gap-2">
-            {apperances.map((appearance) => (
-              <div
-                key={appearance.value}
-                className="flex flex-col gap-2 text-center"
-              >
-                <button
-                  className={`flex items-center justify-center ring-indigo-600 w-24 h-16 border border-gray-200 rounded-lg shadow-sm ${
-                    appearance.color
-                  } ${
-                    appearance.value === selectedAppearance
-                      ? "ring-2 ring-offset-1 ring-indigo-600"
-                      : ""
-                  }}`}
-                  onClick={() => {
-                    setSelectedAppearance(appearance.value);
-                  }}
+        <div className="flex flex-col gap-8">
+          <div className="flex justify-between w-full">
+            <span className="flex flex-col flex-grow mr-20">
+              <h4 className="text-sm font-medium leading-6 text-gray-900">
+                Theme
+              </h4>
+              <p className="text-sm text-gray-500">Default color scheme.</p>
+            </span>
+            <span className="flex gap-2">
+              {apperances.map((appearance) => (
+                <div
+                  key={appearance.value}
+                  className="flex flex-col gap-2 text-center"
                 >
-                  {appearance.emoji}
-                </button>
-                <p
-                  className={`text-xs ${
-                    appearance.value === selectedAppearance
-                      ? "text-gray-700 font-semibold"
-                      : "text-gray-500"
-                  }`}
-                >
-                  {appearance.name}
-                </p>
-              </div>
-            ))}
-          </span>
-          {/* <Button
-            variant="error"
-            onClick={() => {
-              if (
-                confirm(
-                  "Are you sure you would like to delete this project?"
-                ) === true
-              ) {
-                mutateAsync({
-                  projectId: currentProject.id,
-                });
-              }
-            }}
-          >
-            Delete
-          </Button> */}
+                  <button
+                    className={`flex items-center justify-center ring-indigo-600 w-24 h-16 border border-gray-200 rounded-lg shadow-sm ${
+                      appearance.color
+                    } ${
+                      appearance.value === selectedAppearance
+                        ? "ring-2 ring-offset-1 ring-indigo-600"
+                        : ""
+                    }}`}
+                    onClick={() => {
+                      setSelectedAppearance(appearance.value);
+                    }}
+                  >
+                    {appearance.emoji}
+                  </button>
+                  <p
+                    className={`text-xs ${
+                      appearance.value === selectedAppearance
+                        ? "text-gray-700 font-semibold"
+                        : "text-gray-500"
+                    }`}
+                  >
+                    {appearance.name}
+                  </p>
+                </div>
+              ))}
+            </span>
+          </div>
+          <div className="flex justify-between w-full">
+            <span className="flex flex-col flex-grow mr-20">
+              <h4 className="text-sm font-medium leading-6 text-gray-900">
+                Primary color
+              </h4>
+              <p className="text-sm text-gray-500">
+                The primary color for buttons, links, etc in light mode.
+              </p>
+            </span>
+            <span className="flex gap-2">
+              <Input
+                placeholder="eg. #4138c2"
+                errortext={errors.primary?.message}
+                {...register("primary")}
+                disabled={isLoading}
+              />
+            </span>
+          </div>
+          <div className="flex justify-between w-full">
+            <span className="flex flex-col flex-grow mr-20">
+              <h4 className="text-sm font-medium leading-6 text-gray-900">
+                Primary color (dark)
+              </h4>
+              <p className="text-sm text-gray-500">
+                The primary color for buttons, links, etc in dark mode.
+              </p>
+            </span>
+            <span className="flex gap-2">
+              <Input
+                placeholder="eg. #4138c2"
+                errortext={errors.primaryDark?.message}
+                {...register("primaryDark")}
+                disabled={isLoading}
+              />
+            </span>
+          </div>
+          <div className="flex justify-between w-full">
+            <span className="flex flex-col flex-grow mr-20">
+              <h4 className="text-sm font-medium leading-6 text-gray-900">
+                Background color
+              </h4>
+              <p className="text-sm text-gray-500">
+                The background color in light mode.
+              </p>
+            </span>
+            <span className="flex gap-2">
+              <Input
+                placeholder="eg. #ffffff"
+                errortext={errors.background?.message}
+                {...register("background")}
+                disabled={isLoading}
+              />
+            </span>
+          </div>
+          <div className="flex justify-between w-full">
+            <span className="flex flex-col flex-grow mr-20">
+              <h4 className="text-sm font-medium leading-6 text-gray-900">
+                Background color (dark)
+              </h4>
+              <p className="text-sm text-gray-500">
+                The background color in dark mode.
+              </p>
+            </span>
+            <span className="flex gap-2">
+              <Input
+                placeholder="eg. #09090b"
+                errortext={errors.backgroundDark?.message}
+                {...register("backgroundDark")}
+                disabled={isLoading}
+              />
+            </span>
+          </div>
         </div>
       </Card>
     </div>
