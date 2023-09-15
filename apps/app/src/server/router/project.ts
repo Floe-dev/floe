@@ -101,6 +101,22 @@ export const projectRouter = router({
         description: z.string().optional(),
         homepageUrl: z.string().url().optional(),
         appearance: z.enum(["LIGHT", "DARK", "SYSTEM"]).optional(),
+        primary: z
+          .string()
+          .regex(/^#[0-9A-F]{6}$/i)
+          .optional(),
+        primaryDark: z
+          .string()
+          .regex(/^#[0-9A-F]{6}$/i)
+          .optional(),
+        background: z
+          .string()
+          .regex(/^#[0-9A-F]{6}$/i)
+          .optional(),
+        backgroundDark: z
+          .string()
+          .regex(/^#[0-9A-F]{6}$/i)
+          .optional(),
       })
     )
     .mutation(async (args) => {
@@ -122,6 +138,10 @@ export const projectRouter = router({
           description: input.description,
           homepageURL: input.homepageUrl,
           appearance: input.appearance,
+          primary: input.primary,
+          primaryDark: input.primaryDark,
+          background: input.background,
+          backgroundDark: input.backgroundDark,
         },
       });
 

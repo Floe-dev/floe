@@ -79,6 +79,12 @@ export default function Page() {
   } = useForm<FormData>({
     mode: "onChange",
     resolver: yupResolver(projectSchema),
+    defaultValues: {
+      primary: currentProject?.primary ?? undefined,
+      primaryDark: currentProject?.primaryDark ?? undefined,
+      background: currentProject?.background ?? undefined,
+      backgroundDark: currentProject?.backgroundDark ?? undefined,
+    },
   });
   const [selectedAppearance, setSelectedAppearance] = useState<
     Project["appearance"] | undefined
@@ -104,6 +110,20 @@ export default function Page() {
                 projectId: currentProject?.id,
                 ...(currentProject?.appearance !== selectedAppearance && {
                   appearance: selectedAppearance,
+                }),
+                ...(getValues("primary") !== currentProject?.primary && {
+                  primary: getValues("primary"),
+                }),
+                ...(getValues("primaryDark") !==
+                  currentProject?.primaryDark && {
+                  primaryDark: getValues("primaryDark"),
+                }),
+                ...(getValues("background") !== currentProject?.background && {
+                  background: getValues("background"),
+                }),
+                ...(getValues("backgroundDark") !==
+                  currentProject?.backgroundDark && {
+                  backgroundDark: getValues("backgroundDark"),
                 }),
               }).finally(() => setIsSaving(false));
             },
