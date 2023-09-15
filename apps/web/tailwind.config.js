@@ -15,8 +15,10 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        primary: "var(--color-primary)",
-        background: "var(--color-background)",
+        "primary-100": "var(--color-primary-100)",
+        "primary-200": "var(--color-primary-200)",
+        "background-100": "var(--color-background-100)",
+        "background-200": "var(--color-background-200)",
       },
     },
   },

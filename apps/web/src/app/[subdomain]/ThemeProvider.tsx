@@ -9,13 +9,6 @@ export function ThemeProvider({
   children,
   ...props
 }: any & ThemeProviderProps) {
-  const primary =
-    project.appearance === "LIGHT" ? project.primary : project.primaryDark;
-  const background =
-    project.appearance === "LIGHT"
-      ? project.background
-      : project.backgroundDark;
-
   /**
    * Note: This is a hack to get the theme to work. The hack works by:
    * 1) Setting the css var primary and background colours the ones from the
@@ -33,10 +26,21 @@ export function ThemeProvider({
    * subdomain, and set the colours on the server.
    */
   React.useEffect(() => {
-    document.documentElement.style.setProperty("--color-primary", primary);
     document.documentElement.style.setProperty(
-      "--color-background",
-      background
+      "--color-primary-100",
+      project.primary
+    );
+    document.documentElement.style.setProperty(
+      "--color-primary-200",
+      project.primaryDark
+    );
+    document.documentElement.style.setProperty(
+      "--color-background-100",
+      project.background
+    );
+    document.documentElement.style.setProperty(
+      "--color-background-200",
+      project.backgroundDark
     );
   }, []);
 
@@ -45,11 +49,13 @@ export function ThemeProvider({
       <div
         style={
           {
-            "--color-primary": primary,
-            "--color-background": background,
+            "--color-primary-100": project.primary,
+            "--color-primary-200": project.primaryDark,
+            "--color-background-100": project.background,
+            "--color-background-200": project.backgroundDark,
           } as React.CSSProperties
         }
-        className="bg-background"
+        className="bg-background-100 dark:bg-background-200"
       >
         {children}
       </div>
