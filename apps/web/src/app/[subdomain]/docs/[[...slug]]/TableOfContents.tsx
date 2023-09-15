@@ -76,7 +76,7 @@ const buildRecursiveTree = (
     if ((value as FileTreeNode).slug) {
       return (
         <li
-          className="flex my-2 list-none rounded-lg prose-li hover:bg-white/20"
+          className="flex my-2 list-none rounded-lg prose-li dark:hover:bg-white/20"
           key={key}
         >
           <Link
