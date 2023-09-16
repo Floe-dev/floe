@@ -23,18 +23,30 @@ const reactions: {
 }[] = [
   {
     type: "HOORAY",
-    selectedIcon: <RocketLaunchIconSolid className="w-5 h-5 text-gray-400" />,
-    unselectedIcon: <RocketLaunchIcon className="w-5 h-5 text-gray-400" />,
+    selectedIcon: (
+      <RocketLaunchIconSolid className="w-5 h-5 text-gray-700 dark:text-gray-400" />
+    ),
+    unselectedIcon: (
+      <RocketLaunchIcon className="w-5 h-5 text-gray-700 dark:text-gray-400" />
+    ),
   },
   {
     type: "THUMBS_UP",
-    selectedIcon: <FaceSmileIconSolid className="w-5 h-5 text-gray-400" />,
-    unselectedIcon: <FaceSmileIcon className="w-5 h-5 text-gray-400" />,
+    selectedIcon: (
+      <FaceSmileIconSolid className="w-5 h-5 text-gray-700 dark:text-gray-400" />
+    ),
+    unselectedIcon: (
+      <FaceSmileIcon className="w-5 h-5 text-gray-700 dark:text-gray-400" />
+    ),
   },
   {
     type: "THUMBS_DOWN",
-    selectedIcon: <FaceFrownIconSolid className="w-5 h-5 text-gray-400" />,
-    unselectedIcon: <FaceFrownIcon className="w-5 h-5 text-gray-400" />,
+    selectedIcon: (
+      <FaceFrownIconSolid className="w-5 h-5 text-gray-700 dark:text-gray-400" />
+    ),
+    unselectedIcon: (
+      <FaceFrownIcon className="w-5 h-5 text-gray-700 dark:text-gray-400" />
+    ),
   },
 ];
 
