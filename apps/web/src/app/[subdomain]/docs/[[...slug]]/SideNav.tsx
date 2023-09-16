@@ -81,7 +81,7 @@ const buildRecursiveTree = (
               "bg-primary-100/20 dark:bg-primary-200/20": isNodeActive,
             },
             {
-              "hover:bg-black/20 dark:hover:bg-white/20": !isNodeActive,
+              "hover:bg-black/10 dark:hover:bg-white/20": !isNodeActive,
             }
           )}
           key={key}
@@ -132,7 +132,7 @@ const buildRecursiveTree = (
                     isSubdirectoryActive,
                 },
                 {
-                  "hover:bg-black/20 dark:hover:bg-white/20":
+                  "hover:bg-black/10 dark:hover:bg-white/20":
                     !isSubdirectoryActive,
                 }
               )}
