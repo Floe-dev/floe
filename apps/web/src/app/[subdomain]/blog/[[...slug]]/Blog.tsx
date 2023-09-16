@@ -48,7 +48,7 @@ const Blog = ({ blog }: { blog: RenderedPostContent }) => {
       <button
         type="button"
         onClick={() => router.push(newPath)}
-        className="flex items-center mb-2 text-indigo-500 transition ease-in hover:-translate-x-1"
+        className="flex items-center mb-2 transition ease-in text-primary-100 dark:text-primary-200 hover:-translate-x-1"
       >
         <ChevronLeftIcon className="w-6 h-6 mr-1" /> Back
       </button>

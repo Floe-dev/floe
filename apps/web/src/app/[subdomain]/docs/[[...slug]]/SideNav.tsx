@@ -78,7 +78,7 @@ const buildRecursiveTree = (
           className={classNames(
             "flex my-2 list-none rounded-lg prose-li",
             {
-              "bg-primary-100/20 dark:hover:bg-primary-200/20": isNodeActive,
+              "bg-primary-100/20 dark:bg-primary-200/20": isNodeActive,
             },
             {
               "hover:bg-black/20 dark:hover:bg-white/20": !isNodeActive,
@@ -91,7 +91,7 @@ const buildRecursiveTree = (
             className={`flex-1 px-2 py-1 font-normal no-underline ${
               isNodeActive
                 ? "font-semibold text-primary-100 dark:text-primary-200"
-                : "font-normal text-gray-200"
+                : "font-normal dark:text-gray-200 text-gray-700"
             }`}
           >
             {title}
@@ -128,7 +128,7 @@ const buildRecursiveTree = (
               className={classNames(
                 "flex my-2 list-none rounded-lg prose-li",
                 {
-                  "bg-primary-100/20 dark:hover:bg-primary-200/20":
+                  "bg-primary-100/20 dark:bg-primary-200/20":
                     isSubdirectoryActive,
                 },
                 {
@@ -146,7 +146,7 @@ const buildRecursiveTree = (
                   className={`flex-1 px-2 py-1 no-underline ${
                     isSubdirectoryActive
                       ? "font-semibold text-primary-100 dark:text-primary-200"
-                      : "font-normal text-gray-200"
+                      : "font-normal dark:text-gray-200 text-gray-700"
                   }`}
                 >
                   {title}

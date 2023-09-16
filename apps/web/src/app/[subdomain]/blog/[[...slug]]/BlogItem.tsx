@@ -17,7 +17,7 @@ const Blog = ({ blog }: { blog: RenderedPostContent }) => (
 
         {/* CONTENT */}
         <PostPrimitive.Content className="mt-0 overflow-hidden font-normal prose-base prose-zinc max-h-40" />
-        <p className="flex items-center mb-0 text-indigo-500 transition ease-in hover:translate-x-1">
+        <p className="flex items-center mb-0 transition ease-in text-primary-100 dark:text-primary-200 hover:translate-x-1">
           Continue reading <ChevronRightIcon className="w-5 h-5" />
         </p>
       </div>
