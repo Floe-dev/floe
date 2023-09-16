@@ -5,6 +5,7 @@ import * as Accordion from "@radix-ui/react-accordion";
 import { ChevronRightIcon } from "@heroicons/react/24/outline";
 import { usePathname } from "next/navigation";
 import { generateURL } from "@/utils/generateURL";
+import classNames from "classnames";
 
 type FileTreeNode = {
   slug: string;
@@ -62,6 +63,7 @@ const buildRecursiveTree = (
   pathname: string,
   subdomain: string
 ) => {
+  console.log(11111, ft);
   return Object.entries(ft).map(([key, value]) => {
     const title = transformFileToTitle(key);
 
@@ -70,16 +72,23 @@ const buildRecursiveTree = (
     }
 
     if ((value as FileTreeNode).slug) {
+      const isNodeActive = decodeURIComponent(pathname).includes(value.slug);
+
       return (
         <li
-          className="flex my-2 list-none rounded-lg prose-li hover:bg-primary-100/20 dark:hover:bg-primary-200/20"
+          className={classNames(
+            "flex my-2 list-none rounded-lg prose-li hover:bg-black/20 dark:hover:bg-white/20",
+            {
+              "bg-primary-100/20 dark:hover:bg-primary-200/20": isNodeActive,
+            }
+          )}
           key={key}
         >
           <Link
             href={generateURL(subdomain, (value as FileTreeNode).slug)}
             className={`flex-1 px-2 py-1 font-normal no-underline ${
-              decodeURIComponent(pathname).includes(value.slug)
-                ? "font-semibold text-white"
+              isNodeActive
+                ? "font-semibold text-primary-100 dark:text-primary-200"
                 : "font-normal text-gray-200"
             }`}
           >
@@ -93,6 +102,15 @@ const buildRecursiveTree = (
       (v) => v !== "index.md"
     );
 
+    const isSubdirectoryActive =
+      decodeURIComponent(pathname).replace(/^\/|\/$/g, "") ===
+      (
+        (subdomain + "/" + (value as FileTree)["index.md"].slug) as string
+      ).replace(/^\/|\/$/g, "");
+
+    /**
+     * For rendering sub-directories and their children
+     */
     return (
       <Accordion.Root
         className="AccordionRoot"
@@ -104,7 +122,7 @@ const buildRecursiveTree = (
         <Accordion.Item className="AccordionItem" value={key}>
           <li className="m-0 list-none prose-li">
             {/* Section title */}
-            <div className="flex justify-between my-2 rounded-lg hover:bg-primary-100/20 dark:hover:bg-primary-100/20">
+            <div className="flex justify-between my-2 rounded-lg hover:bg-black/20 dark:hover:bg-white/20">
               {(value as FileTree)["index.md"] ? (
                 <Link
                   href={generateURL(
@@ -112,11 +130,9 @@ const buildRecursiveTree = (
                     (value as FileTree)["index.md"].slug as string
                   )}
                   className={`flex-1 px-2 py-1 no-underline ${
-                    decodeURIComponent(pathname).includes(
-                      (value as FileTree)["index.md"].slug as string
-                    )
-                      ? "font-semibold text-primary-100 dark:primary-200"
-                      : "font-normal text-primary-100"
+                    isSubdirectoryActive
+                      ? "font-semibold text-white"
+                      : "font-normal text-white"
                   }`}
                 >
                   {title}
