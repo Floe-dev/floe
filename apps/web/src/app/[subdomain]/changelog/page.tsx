@@ -53,7 +53,7 @@ export default async function ChangelogListPage({
               <h1 className="mb-3 text-4xl font-semibold tracking-tight sm:font-bold dark:text-white">
                 Changelog
               </h1>
-              <h2 className="mt-2 mb-10 text-lg leading-8 dark:text-gray-300">
+              <h2 className="mt-2 mb-10 text-lg leading-8 text-gray-500 dark:text-gray-300">
                 Latest updates and improvements
               </h2>
             </div>
