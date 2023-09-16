@@ -63,7 +63,6 @@ const buildRecursiveTree = (
   pathname: string,
   subdomain: string
 ) => {
-  console.log(11111, ft);
   return Object.entries(ft).map(([key, value]) => {
     const title = transformFileToTitle(key);
 
@@ -77,9 +76,12 @@ const buildRecursiveTree = (
       return (
         <li
           className={classNames(
-            "flex my-2 list-none rounded-lg prose-li hover:bg-black/20 dark:hover:bg-white/20",
+            "flex my-2 list-none rounded-lg prose-li",
             {
               "bg-primary-100/20 dark:hover:bg-primary-200/20": isNodeActive,
+            },
+            {
+              "hover:bg-black/20 dark:hover:bg-white/20": !isNodeActive,
             }
           )}
           key={key}
@@ -122,7 +124,19 @@ const buildRecursiveTree = (
         <Accordion.Item className="AccordionItem" value={key}>
           <li className="m-0 list-none prose-li">
             {/* Section title */}
-            <div className="flex justify-between my-2 rounded-lg hover:bg-black/20 dark:hover:bg-white/20">
+            <div
+              className={classNames(
+                "flex my-2 list-none rounded-lg prose-li",
+                {
+                  "bg-primary-100/20 dark:hover:bg-primary-200/20":
+                    isSubdirectoryActive,
+                },
+                {
+                  "hover:bg-black/20 dark:hover:bg-white/20":
+                    !isSubdirectoryActive,
+                }
+              )}
+            >
               {(value as FileTree)["index.md"] ? (
                 <Link
                   href={generateURL(
@@ -131,8 +145,8 @@ const buildRecursiveTree = (
                   )}
                   className={`flex-1 px-2 py-1 no-underline ${
                     isSubdirectoryActive
-                      ? "font-semibold text-white"
-                      : "font-normal text-white"
+                      ? "font-semibold text-primary-100 dark:text-primary-200"
+                      : "font-normal text-gray-200"
                   }`}
                 >
                   {title}
