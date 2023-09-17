@@ -3,8 +3,8 @@
 @tailwind utilities;
 
 :root {
-  --color-primary-100: theme("colors.indigo.500");
-  --color-primary-200: theme("colors.indigo.500");
-  --color-background-100: theme("colors.white");
-  --color-background-200: theme("colors.zinc.950");
+  --color-primary-100: 99 102 241;
+  --color-primary-200: 99 102 241;
+  --color-background-100: 255 255 255;
+  --color-background-200: 9 9 11;
 }
