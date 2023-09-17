@@ -39,10 +39,10 @@ export const projectRouter = router({
         name: z.string().min(3).max(24),
         slug: z.string().min(3),
         installationId: z.number(),
-        logo: z.string().url().optional(),
-        favicon: z.string().url().optional(),
-        description: z.string().optional(),
-        homepageUrl: z.string().url().optional(),
+        logo: z.string().url().optional().or(z.literal("")),
+        favicon: z.string().url().optional().or(z.literal("")),
+        description: z.string().optional().or(z.literal("")),
+        homepageUrl: z.string().url().optional().or(z.literal("")),
       })
     )
     .mutation(async (args) => {
@@ -96,10 +96,10 @@ export const projectRouter = router({
         projectId: z.string(),
         name: z.string().min(3).max(24).optional(),
         slug: z.string().min(3).optional(),
-        logo: z.string().url().optional(),
-        favicon: z.string().url().optional(),
-        description: z.string().optional(),
-        homepageUrl: z.string().url().optional(),
+        logo: z.string().url().optional().or(z.literal("")),
+        favicon: z.string().url().optional().or(z.literal("")),
+        description: z.string().optional().or(z.literal("")),
+        homepageUrl: z.string().url().optional().or(z.literal("")),
         appearance: z.enum(["LIGHT", "DARK", "SYSTEM"]).optional(),
         primary: z
           .string()

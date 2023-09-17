@@ -23,13 +23,16 @@ type FormData = {
 const projectSchema = yup
   .object({
     name: yup.string().min(3).max(24).required("A project name is required."),
-    description: yup.string().max(255),
-    homepageUrl: yup.string().url(),
+    description: yup.string().max(255).optional(),
+    homepageUrl: yup.string().url().optional(),
   })
   .required();
 
 export const ProjectSettings = () => {
   const { currentProject, queryKey } = useProjectContext();
+  const initialDescription = currentProject?.description ?? "";
+  const initialHomepageUrl = currentProject?.homepageURL ?? "";
+
   const {
     watch,
     register,
@@ -39,9 +42,9 @@ export const ProjectSettings = () => {
     mode: "onChange",
     resolver: yupResolver(projectSchema),
     defaultValues: {
-      name: currentProject?.name ?? "",
-      description: currentProject?.description ?? "",
-      homepageUrl: currentProject?.homepageURL ?? undefined,
+      name: currentProject?.name,
+      description: initialDescription,
+      homepageUrl: initialHomepageUrl,
     },
   });
   const slug = watch("name")
@@ -86,10 +89,10 @@ export const ProjectSettings = () => {
                 name: getValues("name"),
                 slug,
               }),
-              ...(getValues("description") !== currentProject?.description && {
+              ...(getValues("description") !== initialDescription && {
                 description: getValues("description"),
               }),
-              ...(getValues("homepageUrl") !== currentProject?.homepageURL && {
+              ...(getValues("homepageUrl") !== initialHomepageUrl && {
                 homepageUrl: getValues("homepageUrl"),
               }),
               ...(logoFileURL !== currentProject?.logo && {

@@ -72,7 +72,6 @@ export default function Page() {
     onSuccess: () => queryClient.invalidateQueries({ queryKey }),
   });
   const {
-    watch,
     register,
     getValues,
     formState: { errors, isValid },
@@ -103,7 +102,7 @@ export default function Page() {
           {
             text: isSaving ? "Saving..." : "Save",
             type: "submit",
-            disabled: isSaving,
+            disabled: !isValid || isSaving,
             onClick: async () => {
               setIsSaving(true);
               await mutateAsync({
