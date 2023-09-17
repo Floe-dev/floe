@@ -23,6 +23,12 @@ export const generateMetadata = (page: string) => {
           rel: project.favicon,
           url: project.favicon,
         },
+        icons: [
+          {
+            rel: "icon",
+            url: project.favicon,
+          },
+        ],
       }),
       openGraph: {
         title,
