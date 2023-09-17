@@ -14,7 +14,7 @@ export const Callout = (props: {
   };
 
   return (
-    <div className="flex gap-4 p-4 my-5 rounded-lg shadow bg-zinc-800">
+    <div className="flex gap-4 p-4 my-5 rounded-lg shadow bg-black/5 dark:bg-white/10">
       <div className="m-0">{icons[props.type ?? "info"]}</div>
       <div className="[&>p]:m-0">{props.children}</div>
     </div>

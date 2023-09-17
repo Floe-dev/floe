@@ -51,7 +51,7 @@ const reactions: {
 
 const Changelog = ({ changelog }: { changelog: RenderedPostContent }) => (
   <PostPrimitive.Root post={changelog}>
-    <div className="relative pb-16 mb-20 border-b last:mb-0 last:pb-0 last:border-0 border-zinc-700">
+    <div className="relative pb-16 mb-20 border-b last:mb-0 last:pb-0 last:border-0 border-zinc-200 dark:border-zinc-700">
       {/* DATE */}
       <PostPrimitive.Date className="text-gray-500 dark:text-gray-400" />
 
