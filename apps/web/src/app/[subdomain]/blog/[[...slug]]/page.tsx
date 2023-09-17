@@ -57,9 +57,9 @@ function BlogPage({
               <h1 className="mb-3 text-4xl font-semibold tracking-tight sm:font-bold dark:text-white">
                 Blog
               </h1>
-              <h2 className="mt-2 mb-10 text-lg leading-8 text-gray-500 dark:text-gray-300">
+              {/* <h2 className="mt-2 mb-10 text-lg leading-8 text-gray-500 dark:text-gray-300">
                 Ideas and articles on building lean startups and better software
-              </h2>
+              </h2> */}
             </div>
           </div>
         </section>
