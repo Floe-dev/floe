@@ -8,9 +8,11 @@ import { Bars3Icon, XMarkIcon } from "@heroicons/react/20/solid";
 export const MobileNav = ({
   fileTree,
   subdomain,
+  slugWithBasePath,
 }: {
   [key: string]: any;
   subdomain: string;
+  slugWithBasePath: string;
 }) => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -30,7 +32,12 @@ export const MobileNav = ({
         onClose={() => setIsOpen(false)}
         className="fixed inset-0 z-50 flex items-start w-full p-6 pt-20 overflow-y-auto bg-white/70 dark:bg-zinc-900/60 backdrop-blur md:hidden"
       >
-        <SideNav fileTree={fileTree} fontSize="lg" subdomain={subdomain} />
+        <SideNav
+          fileTree={fileTree}
+          fontSize="lg"
+          subdomain={subdomain}
+          slugWithBasePath={slugWithBasePath}
+        />
         <button
           type="button"
           onClick={() => setIsOpen(false)}

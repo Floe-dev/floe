@@ -20,9 +20,15 @@ interface SideNavProps {
   fileTree: FileTree;
   fontSize?: "sm" | "lg";
   subdomain: string;
+  slugWithBasePath: string;
 }
 
-const SideNav = ({ fileTree, fontSize = "sm", subdomain }: SideNavProps) => {
+const SideNav = ({
+  fileTree,
+  fontSize = "sm",
+  subdomain,
+  slugWithBasePath,
+}: SideNavProps) => {
   const pathname = usePathname();
 
   return (
@@ -31,7 +37,7 @@ const SideNav = ({ fileTree, fontSize = "sm", subdomain }: SideNavProps) => {
         fontSize === "sm" ? "prose-sm" : "prose-lg"
       }`}
     >
-      {buildRecursiveTree(fileTree, pathname, subdomain)}
+      {buildRecursiveTree(fileTree, pathname, subdomain, slugWithBasePath)}
     </ul>
   );
 };
@@ -61,7 +67,8 @@ const transformFileToTitle = (slug: string) => {
 const buildRecursiveTree = (
   ft: FileTree | FileTreeNode,
   pathname: string,
-  subdomain: string
+  subdomain: string,
+  slugWithBasePath: string
 ) => {
   return Object.entries(ft).map(([key, value]) => {
     const title = transformFileToTitle(key);
@@ -71,7 +78,9 @@ const buildRecursiveTree = (
     }
 
     if ((value as FileTreeNode).slug) {
-      const isNodeActive = decodeURIComponent(pathname).includes(value.slug);
+      const isNodeActive =
+        slugWithBasePath?.replace(/^\/|\/$/g, "") ===
+        (value as FileTreeNode).slug.replace(/^\/|\/$/g, "");
 
       return (
         <li
@@ -105,18 +114,8 @@ const buildRecursiveTree = (
     );
 
     const isSubdirectoryActive =
-      decodeURIComponent(pathname).replace(/^\/|\/$/g, "") ===
-      (
-        (subdomain + "/" + (value as FileTree)["index.md"].slug) as string
-      ).replace(/^\/|\/$/g, "");
-
-    console.log(
-      11111,
-      decodeURIComponent(pathname).replace(/^\/|\/$/g, ""),
-      (
-        (subdomain + "/" + (value as FileTree)["index.md"].slug) as string
-      ).replace(/^\/|\/$/g, "")
-    );
+      slugWithBasePath?.replace(/^\/|\/$/g, "") ===
+      ((value as FileTree)["index.md"].slug as string).replace(/^\/|\/$/g, "");
 
     /**
      * For rendering sub-directories and their children
@@ -172,7 +171,12 @@ const buildRecursiveTree = (
             {/* List */}
             <ul className="pl-4 my-0 border-l border-white/20 prose-ul">
               <Accordion.AccordionContent>
-                {buildRecursiveTree(value, pathname, subdomain)}
+                {buildRecursiveTree(
+                  value,
+                  pathname,
+                  subdomain,
+                  slugWithBasePath
+                )}
               </Accordion.AccordionContent>
             </ul>
           </li>

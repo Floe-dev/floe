@@ -14,6 +14,8 @@ export const revalidate = 10;
 
 export const generateMetadata = gm("Docs");
 
+const BASE_PATH = "docs";
+
 async function DocsPage({
   isError,
   isNode,
@@ -25,8 +27,14 @@ async function DocsPage({
 }: FloePageProps) {
   let fileTree: Awaited<ReturnType<typeof floeClient.post.getTree>>;
 
+  const slugWithBasePath = () => {
+    const slug = params.slug as string[] | undefined;
+
+    return `${BASE_PATH}/${slug ? slug.join("/") : ""}`;
+  };
+
   try {
-    fileTree = await floeClient.post.getTree("docs");
+    fileTree = await floeClient.post.getTree(BASE_PATH);
   } catch (e) {
     console.error(e);
   }
@@ -42,6 +50,7 @@ async function DocsPage({
           <MobileNav
             fileTree={fileTree}
             subdomain={params.subdomain as unknown as string}
+            slugWithBasePath={slugWithBasePath()}
           />
         </div>
         <section className="relative hidden w-full md:w-60 shrink-0 md:block">
@@ -50,6 +59,7 @@ async function DocsPage({
               <SideNav
                 fileTree={fileTree}
                 subdomain={params.subdomain as unknown as string}
+                slugWithBasePath={slugWithBasePath()}
               />
             </div>
           </div>
@@ -94,5 +104,5 @@ async function DocsPage({
 export default ({ params }: { params: any }) => {
   const floeClient = getFloeClient(params.subdomain);
 
-  return withFloeServerPages(DocsPage, floeClient, "docs")({ params });
+  return withFloeServerPages(DocsPage, floeClient, BASE_PATH)({ params });
 };
