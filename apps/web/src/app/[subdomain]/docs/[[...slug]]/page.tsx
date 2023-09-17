@@ -39,7 +39,10 @@ async function DocsPage({
     return (
       <>
         <div className="flex mr-6 md:hidden">
-          <MobileNav fileTree={fileTree} />
+          <MobileNav
+            fileTree={fileTree}
+            subdomain={params.subdomain as unknown as string}
+          />
         </div>
         <section className="relative hidden w-full md:w-60 shrink-0 md:block">
           <div className="relative inset-0 md:absolute">
