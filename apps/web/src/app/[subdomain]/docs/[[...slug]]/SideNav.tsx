@@ -110,6 +110,14 @@ const buildRecursiveTree = (
         (subdomain + "/" + (value as FileTree)["index.md"].slug) as string
       ).replace(/^\/|\/$/g, "");
 
+    console.log(
+      11111,
+      decodeURIComponent(pathname).replace(/^\/|\/$/g, ""),
+      (
+        (subdomain + "/" + (value as FileTree)["index.md"].slug) as string
+      ).replace(/^\/|\/$/g, "")
+    );
+
     /**
      * For rendering sub-directories and their children
      */
@@ -132,7 +140,7 @@ const buildRecursiveTree = (
                     isSubdirectoryActive,
                 },
                 {
-                  "hover:bg-black/10 dark:hover:bg-white/20":
+                  "hover:bg-black/20 dark:hover:bg-white/20":
                     !isSubdirectoryActive,
                 }
               )}
