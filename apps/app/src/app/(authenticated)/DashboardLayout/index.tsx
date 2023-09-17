@@ -28,6 +28,10 @@ const DashboardLayout = ({ children }: { children: ReactNode }) => {
       href: `/${currentProject?.slug}`,
     },
     {
+      name: "Appearance",
+      href: `/${currentProject?.slug}/appearance`,
+    },
+    {
       name: "Settings",
       href: `/${currentProject?.slug}/settings`,
     },
@@ -38,7 +42,7 @@ const DashboardLayout = ({ children }: { children: ReactNode }) => {
       name: "Dashboard",
       href: "/",
     },
-  ]
+  ];
 
   return (
     <div className="h-full">
@@ -72,7 +76,11 @@ const DashboardLayout = ({ children }: { children: ReactNode }) => {
                   <Link
                     key={link.name}
                     href={link.href}
-                    className={`inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-900 border-b-2 ${pathname === link.href ? "border-indigo-500" : "border-white"}`}
+                    className={`inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-900 border-b-2 ${
+                      pathname === link.href
+                        ? "border-indigo-500"
+                        : "border-white"
+                    }`}
                   >
                     {link.name}
                   </Link>

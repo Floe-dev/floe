@@ -1,8 +1,9 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import { FolderIcon } from "@heroicons/react/24/solid";
-import { EmptyState, Card, Modal, Input } from "@/components";
+import { EmptyState, Card, Modal } from "@/components";
+import { Input } from "@floe/ui";
 import { useProjectContext } from "@/context/project";
 import Link from "next/link";
 import * as yup from "yup";
@@ -15,7 +16,6 @@ import slugify from "slugify";
 import { ChevronRightIcon } from "@heroicons/react/20/solid";
 import { useQueryClient } from "@tanstack/react-query";
 import { redirect, useRouter, useSearchParams } from "next/navigation";
-import { UploadFileResponse } from "uploadthing/client";
 import { ImageUpload } from "./ImageUpload";
 
 type FormData = {
@@ -60,12 +60,8 @@ export default function Dashboard() {
       })
     : "";
 
-  const [logoFile, setLogoFile] = useState<UploadFileResponse | undefined>(
-    undefined
-  );
-  const [faviconFile, setFaviconFile] = useState<
-    UploadFileResponse | undefined
-  >(undefined);
+  const [logoURL, setLogoURL] = useState<string | undefined>(undefined);
+  const [faviconURL, setFaviconURL] = useState<string | undefined>(undefined);
 
   /**
    * After installation, redirect to the current installation and open the new
@@ -84,7 +80,7 @@ export default function Dashboard() {
       setOpen(true);
       router.push("/");
     }
-  }, [searchParams]);
+  }, [router, searchParams, setCurrentInstallation]);
 
   return (
     <div>
@@ -151,8 +147,8 @@ export default function Dashboard() {
               await mutateAsync({
                 name: getValues("name"),
                 slug,
-                logo: logoFile?.url,
-                favicon: faviconFile?.url,
+                logo: logoURL,
+                favicon: faviconURL,
                 description: getValues("description"),
                 installationId: currentInstallation!.id,
               });
@@ -190,16 +186,16 @@ export default function Dashboard() {
                 <ImageUpload
                   type="logoUploader"
                   label="Logo"
-                  imageUpload={logoFile}
-                  setImageUpload={setLogoFile}
+                  imageUploadURL={logoURL}
+                  setImageUploadURL={setLogoURL}
                 />
               </div>
               <div className="flex-1">
                 <ImageUpload
                   type="faviconUploader"
                   label="Favicon"
-                  imageUpload={faviconFile}
-                  setImageUpload={setFaviconFile}
+                  imageUploadURL={faviconURL}
+                  setImageUploadURL={setFaviconURL}
                 />
               </div>
             </div>
@@ -215,7 +211,7 @@ export default function Dashboard() {
             <Input
               label="Description"
               placeholder="eg. Release notes for new API updates."
-              subtext="Describe how you use this project"
+              subtext="Describe how you use this project."
               errortext={errors.description?.message}
               {...register("description", {
                 required: true,

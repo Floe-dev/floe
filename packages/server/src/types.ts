@@ -49,6 +49,12 @@ export type ProjectAPIResponse = {
     favicon: string | null;
     homepageURL: null;
     appearance: "LIGHT" | "DARK" | "SYSTEM";
+    primary: string;
+    primaryDark: string;
+    background: string;
+    backgroundDark: string;
+    backgroundPattern: string | null;
+    customBackground: string | null;
     datasources: {
       id: string;
       branch: string;

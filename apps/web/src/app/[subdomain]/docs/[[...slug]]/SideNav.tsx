@@ -5,6 +5,7 @@ import * as Accordion from "@radix-ui/react-accordion";
 import { ChevronRightIcon } from "@heroicons/react/24/outline";
 import { usePathname } from "next/navigation";
 import { generateURL } from "@/utils/generateURL";
+import classNames from "classnames";
 
 type FileTreeNode = {
   slug: string;
@@ -15,17 +16,13 @@ type FileTree = {
   [key: string]: FileTree | FileTreeNode;
 };
 
-interface TableOfContentsProps {
+interface SideNavProps {
   fileTree: FileTree;
   fontSize?: "sm" | "lg";
   subdomain: string;
 }
 
-const TableOfContents = ({
-  fileTree,
-  fontSize = "sm",
-  subdomain,
-}: TableOfContentsProps) => {
+const SideNav = ({ fileTree, fontSize = "sm", subdomain }: SideNavProps) => {
   const pathname = usePathname();
 
   return (
@@ -74,17 +71,27 @@ const buildRecursiveTree = (
     }
 
     if ((value as FileTreeNode).slug) {
+      const isNodeActive = decodeURIComponent(pathname).includes(value.slug);
+
       return (
         <li
-          className="flex my-2 list-none rounded-lg prose-li hover:bg-white/20"
+          className={classNames(
+            "flex my-2 list-none rounded-lg prose-li",
+            {
+              "bg-primary-100/20 dark:bg-primary-200/20": isNodeActive,
+            },
+            {
+              "hover:bg-black/10 dark:hover:bg-white/20": !isNodeActive,
+            }
+          )}
           key={key}
         >
           <Link
             href={generateURL(subdomain, (value as FileTreeNode).slug)}
             className={`flex-1 px-2 py-1 font-normal no-underline ${
-              decodeURIComponent(pathname).includes(value.slug)
-                ? "font-semibold text-white"
-                : "font-normal text-gray-200"
+              isNodeActive
+                ? "font-semibold text-primary-100 dark:text-primary-200"
+                : "font-normal dark:text-gray-200 text-gray-700"
             }`}
           >
             {title}
@@ -97,6 +104,15 @@ const buildRecursiveTree = (
       (v) => v !== "index.md"
     );
 
+    const isSubdirectoryActive =
+      decodeURIComponent(pathname).replace(/^\/|\/$/g, "") ===
+      (
+        (subdomain + "/" + (value as FileTree)["index.md"].slug) as string
+      ).replace(/^\/|\/$/g, "");
+
+    /**
+     * For rendering sub-directories and their children
+     */
     return (
       <Accordion.Root
         className="AccordionRoot"
@@ -108,7 +124,19 @@ const buildRecursiveTree = (
         <Accordion.Item className="AccordionItem" value={key}>
           <li className="m-0 list-none prose-li">
             {/* Section title */}
-            <div className="flex justify-between my-2 rounded-lg hover:bg-white/20">
+            <div
+              className={classNames(
+                "flex my-2 list-none rounded-lg prose-li",
+                {
+                  "bg-primary-100/20 dark:bg-primary-200/20":
+                    isSubdirectoryActive,
+                },
+                {
+                  "hover:bg-black/10 dark:hover:bg-white/20":
+                    !isSubdirectoryActive,
+                }
+              )}
+            >
               {(value as FileTree)["index.md"] ? (
                 <Link
                   href={generateURL(
@@ -116,11 +144,9 @@ const buildRecursiveTree = (
                     (value as FileTree)["index.md"].slug as string
                   )}
                   className={`flex-1 px-2 py-1 no-underline ${
-                    decodeURIComponent(pathname).includes(
-                      (value as FileTree)["index.md"].slug as string
-                    )
-                      ? "font-semibold text-white"
-                      : "font-normal text-gray-200"
+                    isSubdirectoryActive
+                      ? "font-semibold text-primary-100 dark:text-primary-200"
+                      : "font-normal dark:text-gray-200 text-gray-700"
                   }`}
                 >
                   {title}
@@ -148,4 +174,4 @@ const buildRecursiveTree = (
   });
 };
 
-export default TableOfContents;
+export default SideNav;

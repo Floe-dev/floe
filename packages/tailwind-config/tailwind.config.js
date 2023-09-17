@@ -10,10 +10,6 @@ module.exports = {
   ],
   theme: {
     extend: {
-      colors: {
-        primary: colors.indigo[500],
-      },
-
       animation: {
         blob: "blob-transform 10s ease-in-out infinite both alternate, blob-movement 10s ease-in-out infinite both alternate",
         "fade-in": "fade-in 0.2s ease",

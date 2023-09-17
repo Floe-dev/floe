@@ -23,18 +23,30 @@ const reactions: {
 }[] = [
   {
     type: "HOORAY",
-    selectedIcon: <RocketLaunchIconSolid className="w-5 h-5 text-gray-400" />,
-    unselectedIcon: <RocketLaunchIcon className="w-5 h-5 text-gray-400" />,
+    selectedIcon: (
+      <RocketLaunchIconSolid className="w-5 h-5 text-gray-700 dark:text-gray-400" />
+    ),
+    unselectedIcon: (
+      <RocketLaunchIcon className="w-5 h-5 text-gray-700 dark:text-gray-400" />
+    ),
   },
   {
     type: "THUMBS_UP",
-    selectedIcon: <FaceSmileIconSolid className="w-5 h-5 text-gray-400" />,
-    unselectedIcon: <FaceSmileIcon className="w-5 h-5 text-gray-400" />,
+    selectedIcon: (
+      <FaceSmileIconSolid className="w-5 h-5 text-gray-700 dark:text-gray-400" />
+    ),
+    unselectedIcon: (
+      <FaceSmileIcon className="w-5 h-5 text-gray-700 dark:text-gray-400" />
+    ),
   },
   {
     type: "THUMBS_DOWN",
-    selectedIcon: <FaceFrownIconSolid className="w-5 h-5 text-gray-400" />,
-    unselectedIcon: <FaceFrownIcon className="w-5 h-5 text-gray-400" />,
+    selectedIcon: (
+      <FaceFrownIconSolid className="w-5 h-5 text-gray-700 dark:text-gray-400" />
+    ),
+    unselectedIcon: (
+      <FaceFrownIcon className="w-5 h-5 text-gray-700 dark:text-gray-400" />
+    ),
   },
 ];
 
@@ -48,20 +60,20 @@ const Blog = ({ blog }: { blog: RenderedPostContent }) => {
       <button
         type="button"
         onClick={() => router.push(newPath)}
-        className="flex items-center mb-2 text-indigo-500 transition ease-in hover:-translate-x-1"
+        className="flex items-center mb-2 transition ease-in text-primary-100 dark:text-primary-200 hover:-translate-x-1"
       >
         <ChevronLeftIcon className="w-6 h-6 mr-1" /> Back
       </button>
       <div className="w-full">
         {/* DATE */}
-        <PostPrimitive.Date className="mt-8 text-gray-400" />
+        <PostPrimitive.Date className="mt-8 text-gray-500 dark:text-gray-400" />
 
         <div className="flex flex-col gap-4 my-8">
           {/* TITLE */}
           <PostPrimitive.Title className="my-0 text-4xl" />
 
           {/* SUBTITLE */}
-          <PostPrimitive.SubTitle className="my-0 text-xl font-normal text-gray-300" />
+          <PostPrimitive.SubTitle className="my-0 text-xl font-normal text-gray-700 dark:text-gray-300" />
         </div>
 
         {/* IMAGE */}

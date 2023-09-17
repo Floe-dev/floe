@@ -17,20 +17,32 @@ enum Appearance {
   SYSTEM
 }
 
+enum BackgroundPattern {
+  DOTS
+  BLOBS
+  CUSTOM
+}
+
 model Project {
-  id              String       @id @default(cuid())
-  slug            String       @unique
-  name            String
-  description     String?
-  logo            String?
-  favicon         String?
-  homepageURL     String?
-  appearance      Appearance   @default(LIGHT)
-  installationId  Int
-  encryptedApiKey String?
-  datasources     DataSource[]
-  createdAt       DateTime     @default(now())
-  updatedAt       DateTime     @updatedAt
+  id                String             @id @default(cuid())
+  slug              String             @unique
+  name              String
+  description       String?
+  logo              String?
+  favicon           String?
+  homepageURL       String?
+  appearance        Appearance         @default(LIGHT)
+  primary           String             @default("#6366f1")
+  primaryDark       String             @default("#6366f1")
+  background        String             @default("#ffffff")
+  backgroundDark    String             @default("#09090b")
+  backgroundPattern BackgroundPattern?
+  customBackground  String?
+  installationId    Int
+  encryptedApiKey   String?
+  datasources       DataSource[]
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @updatedAt
 
   @@index([installationId, slug])
 }

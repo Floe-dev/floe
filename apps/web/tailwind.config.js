@@ -12,4 +12,14 @@ module.exports = {
   darkMode: "class",
   presets: [sharedConfig],
   plugins: [require("@tailwindcss/typography")],
+  theme: {
+    extend: {
+      colors: {
+        "primary-100": "rgb(var(--color-primary-100) / <alpha-value>)",
+        "primary-200": "rgb(var(--color-primary-200) / <alpha-value>)",
+        "background-100": "rgb(var(--color-background-100) / <alpha-value>)",
+        "background-200": "rgb(var(--color-background-200) / <alpha-value>)",
+      },
+    },
+  },
 };

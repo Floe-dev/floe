@@ -1,5 +1,6 @@
 import { getFloeClient } from "@/app/floe-client";
 import Nav from "@/app/[subdomain]/_components/Nav";
+import { ThemeProvider } from "./ThemeProvider";
 
 export default async function ChangelogLayout({
   params,
@@ -12,13 +13,18 @@ export default async function ChangelogLayout({
   const project = await floeClient.project.get();
 
   return (
-    <>
+    <ThemeProvider
+      project={project}
+      attribute="class"
+      defaultTheme={project.appearance.toLocaleLowerCase()}
+      enableSystem
+    >
       <Nav
         logo={project.logo}
         projectName={project.name}
         homepageURL={project.homepageURL}
       />
       {children}
-    </>
+    </ThemeProvider>
   );
 }

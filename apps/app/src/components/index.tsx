@@ -1,6 +1,5 @@
 export { Card } from "./Card";
 export { Pill } from "./Pill";
-export { Input } from "./Input";
 export { Modal } from "./Modal";
 export { Button } from "./Button";
 export { EmptyState } from "./EmptyState";
