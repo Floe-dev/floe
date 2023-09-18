@@ -28,8 +28,8 @@ const DashboardLayout = ({ children }: { children: ReactNode }) => {
       href: `/${currentProject?.slug}`,
     },
     {
-      name: "Appearance",
-      href: `/${currentProject?.slug}/appearance`,
+      name: "Branding",
+      href: `/${currentProject?.slug}/branding`,
     },
     {
       name: "Settings",
