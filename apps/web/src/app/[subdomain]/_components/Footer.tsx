@@ -61,25 +61,27 @@ export const Footer = ({
   };
 
   return (
-    <footer className="flex items-center justify-between pt-16 pb-8 m-auto prose">
-      <div className="flex items-center gap-4">
-        {renderIcon("github", githubURL)}
-        {renderIcon("twitter", twitterURL)}
-        {renderIcon("slack", slackURL)}
-        {renderIcon("discord", discordURL)}
-        {renderIcon("linkedin", linkedinURL)}
-        {renderIcon("facebook", facebookURL)}
-        {renderIcon("instagram", instagramURL)}
-        {renderIcon("youtube", youtubeURL)}
-        {renderIcon("twitch", twitchURL)}
+    <footer className="relative z-10 border-t border-gray-100 dark:border-gray-800 backdrop-blur-2xl bg-background-100/70 dark:bg-background-200/70">
+      <div className="flex items-center justify-between max-w-screen-xl px-6 pt-8 pb-16 m-auto prose md:px-8">
+        <div className="flex items-center gap-4">
+          {renderIcon("github", githubURL)}
+          {renderIcon("twitter", twitterURL)}
+          {renderIcon("slack", slackURL)}
+          {renderIcon("discord", discordURL)}
+          {renderIcon("linkedin", linkedinURL)}
+          {renderIcon("facebook", facebookURL)}
+          {renderIcon("instagram", instagramURL)}
+          {renderIcon("youtube", youtubeURL)}
+          {renderIcon("twitch", twitchURL)}
+        </div>
+        <a
+          href="https://floe.dev"
+          target="_blank"
+          className="text-sm text-gray-500 no-underline transition-all m-left dark:text-gray-500 hover:dark:text-gray-400 hover:text-gray-600"
+        >
+          Powered by Floe
+        </a>
       </div>
-      <a
-        href="https://floe.dev"
-        target="_blank"
-        className="text-sm text-gray-500 no-underline transition-all m-left dark:text-gray-500 hover:dark:text-gray-400 hover:text-gray-600"
-      >
-        Powered by Floe
-      </a>
     </footer>
   );
 };
