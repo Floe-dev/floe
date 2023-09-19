@@ -17,6 +17,14 @@ async function handler({ project }: NextApiRequestExtension) {
     backgroundDark,
     backgroundPattern,
     customBackground,
+    twitterURL,
+    facebookURL,
+    linkedinURL,
+    instagramURL,
+    youtubeURL,
+    discordURL,
+    slackURL,
+    twitchURL,
   } = project;
 
   const datasourceFields = datasources.map((datasource) => ({
@@ -42,6 +50,14 @@ async function handler({ project }: NextApiRequestExtension) {
       backgroundDark,
       backgroundPattern,
       customBackground,
+      twitterURL,
+      facebookURL,
+      linkedinURL,
+      instagramURL,
+      youtubeURL,
+      discordURL,
+      slackURL,
+      twitchURL,
     },
   };
 }

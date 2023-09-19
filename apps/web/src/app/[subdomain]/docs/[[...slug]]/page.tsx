@@ -80,7 +80,6 @@ async function DocsPage({
               </Link>
             ))
           )}
-          <Footer />
         </section>
       </>
     );
