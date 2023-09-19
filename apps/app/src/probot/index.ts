@@ -1,5 +1,6 @@
 import { Probot } from "probot";
 import { handlePushEvents } from "./push-handler";
+import { handleCheckEvents } from "./check_suite-handler";
 
 const appHandler = (app: Probot) => {
   /**
@@ -7,7 +8,6 @@ const appHandler = (app: Probot) => {
    */
   // @ts-ignore
   app.on("push", async (context) => {
-    console.log("push event!");
     handlePushEvents(context);
   });
 
@@ -17,7 +17,7 @@ const appHandler = (app: Probot) => {
       context.payload.action === "requested" ||
       context.payload.action === "rerequested"
     ) {
-      console.log("check_suite.requested", context);
+      handleCheckEvents(context);
     }
   });
 

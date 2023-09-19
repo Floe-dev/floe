@@ -3,7 +3,7 @@ import { prisma } from "@/server/db/client";
 import { minimatch } from "minimatch";
 import { Endpoints } from "@floe/utils";
 
-export async function handlePushEvents(context: Context<"check_suite">) {
+export async function handleCheckEvents(context: Context<"check_suite">) {
   const x = await context.octokit.checks.create({
     owner: context.payload.repository.owner.login,
     repo: context.payload.repository.name,
