@@ -78,26 +78,26 @@ export const Socials = () => {
             await mutateAsync({
               projectId: currentProject?.id,
               ...(getValues("twitterUrl") !== currentProject?.twitterURL && {
-                primary: getValues("twitterUrl"),
+                twitterUrl: getValues("twitterUrl"),
               }),
               ...(getValues("githubUrl") !== currentProject?.githubURL && {
-                primaryDark: getValues("githubUrl"),
+                githubUrl: getValues("githubUrl"),
               }),
               ...(getValues("discordUrl") !== currentProject?.discordURL && {
-                background: getValues("discordUrl"),
+                discordUrl: getValues("discordUrl"),
               }),
               ...(getValues("instagramUrl") !==
                 currentProject?.instagramURL && {
-                backgroundDark: getValues("instagramUrl"),
+                instagramUrl: getValues("instagramUrl"),
               }),
               ...(getValues("youtubeUrl") !== currentProject?.youtubeURL && {
-                backgroundDark: getValues("youtubeUrl"),
+                youtubeUrl: getValues("youtubeUrl"),
               }),
               ...(getValues("facebookUrl") !== currentProject?.facebookURL && {
-                backgroundDark: getValues("facebookUrl"),
+                facebookUrl: getValues("facebookUrl"),
               }),
               ...(getValues("twitchUrl") !== currentProject?.twitchURL && {
-                backgroundDark: getValues("twitchUrl"),
+                twitchUrl: getValues("twitchUrl"),
               }),
             }).finally(() => setIsSaving(false));
           },
@@ -114,7 +114,7 @@ export const Socials = () => {
               Url to you GitHub account or repository.
             </p>
           </span>
-          <span className="flex gap-2">
+          <span className="flex gap-2 w-80">
             <Input
               placeholder="eg. https://github.com/Floe-dev"
               errortext={errors.githubUrl?.message}
@@ -130,7 +130,7 @@ export const Socials = () => {
             </h4>
             <p className="text-sm text-gray-500">Your Twitter account Url.</p>
           </span>
-          <span className="flex gap-2">
+          <span className="flex gap-2 w-80">
             <Input
               placeholder="eg. https://twitter.com/Floe_dev"
               errortext={errors.twitchUrl?.message}
@@ -146,7 +146,7 @@ export const Socials = () => {
             </h4>
             <p className="text-sm text-gray-500">Your Discord account Url.</p>
           </span>
-          <span className="flex gap-2">
+          <span className="flex gap-2 w-80">
             <Input
               placeholder="eg. https://github.com/Floe-dev/floe"
               errortext={errors.discordUrl?.message}
@@ -162,9 +162,9 @@ export const Socials = () => {
             </h4>
             <p className="text-sm text-gray-500">Your Slack account Url.</p>
           </span>
-          <span className="flex gap-2">
+          <span className="flex gap-2 w-80">
             <Input
-              placeholder="eg. https://join.slack.com/t/floedev/shared_invite/123"
+              placeholder="eg. https://join.slack.com/t/floedev/123"
               errortext={errors.slackUrl?.message}
               {...register("slackUrl")}
               disabled={isLoading}
@@ -178,7 +178,7 @@ export const Socials = () => {
             </h4>
             <p className="text-sm text-gray-500">Your Twitch account Url.</p>
           </span>
-          <span className="flex gap-2">
+          <span className="flex gap-2 w-80">
             <Input
               placeholder="eg. https://www.twitch.tv/floedev"
               errortext={errors.twitchUrl?.message}
@@ -194,7 +194,7 @@ export const Socials = () => {
             </h4>
             <p className="text-sm text-gray-500">Your Youtube account Url.</p>
           </span>
-          <span className="flex gap-2">
+          <span className="flex gap-2 w-80">
             <Input
               placeholder="eg. https://www.youtube.com/watch?v=1bZnhkwl6_s"
               errortext={errors.youtubeUrl?.message}
@@ -210,7 +210,7 @@ export const Socials = () => {
             </h4>
             <p className="text-sm text-gray-500">Your Facebook account Url.</p>
           </span>
-          <span className="flex gap-2">
+          <span className="flex gap-2 w-80">
             <Input
               placeholder="eg. https://www.facebook.com/groups/123"
               errortext={errors.youtubeUrl?.message}

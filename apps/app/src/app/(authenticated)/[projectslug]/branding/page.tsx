@@ -180,7 +180,7 @@ export default function Page() {
                 The primary color for buttons, links, etc in light mode.
               </p>
             </span>
-            <span className="flex gap-2">
+            <span className="flex gap-2 w-80">
               <Input
                 placeholder="eg. #4138c2"
                 errortext={errors.primary?.message}
@@ -198,7 +198,7 @@ export default function Page() {
                 The primary color for buttons, links, etc in dark mode.
               </p>
             </span>
-            <span className="flex gap-2">
+            <span className="flex gap-2 w-80">
               <Input
                 placeholder="eg. #4138c2"
                 errortext={errors.primaryDark?.message}
@@ -216,7 +216,7 @@ export default function Page() {
                 The background color in light mode.
               </p>
             </span>
-            <span className="flex gap-2">
+            <span className="flex gap-2 w-80">
               <Input
                 placeholder="eg. #ffffff"
                 errortext={errors.background?.message}
@@ -234,7 +234,7 @@ export default function Page() {
                 The background color in dark mode.
               </p>
             </span>
-            <span className="flex gap-2">
+            <span className="flex gap-2 w-80">
               <Input
                 placeholder="eg. #09090b"
                 errortext={errors.backgroundDark?.message}
