@@ -24,13 +24,17 @@ enum BackgroundPattern {
 }
 
 model Project {
-  id                String             @id @default(cuid())
-  slug              String             @unique
-  name              String
-  description       String?
+  id              String       @id @default(cuid())
+  slug            String       @unique
+  name            String
+  description     String?
+  installationId  Int
+  encryptedApiKey String?
+  datasources     DataSource[]
+
+  // BRANDING
   logo              String?
   favicon           String?
-  homepageURL       String?
   appearance        Appearance         @default(LIGHT)
   primary           String             @default("#6366f1")
   primaryDark       String             @default("#6366f1")
@@ -38,11 +42,21 @@ model Project {
   backgroundDark    String             @default("#09090b")
   backgroundPattern BackgroundPattern?
   customBackground  String?
-  installationId    Int
-  encryptedApiKey   String?
-  datasources       DataSource[]
-  createdAt         DateTime           @default(now())
-  updatedAt         DateTime           @updatedAt
+
+  // SOCIALS
+  twitterURL   String?
+  githubURL    String?
+  youtubeURL   String?
+  discordURL   String?
+  slackURL     String?
+  instagramURL String?
+  facebookURL  String?
+  twitchURL    String?
+  linkedinURL  String?
+  homepageURL  String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@index([installationId, slug])
 }

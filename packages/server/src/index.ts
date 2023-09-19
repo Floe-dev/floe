@@ -109,4 +109,4 @@ const FloeClient = (auth: Auth, options?: Options) =>
   new FloeClientFactory(auth, options);
 
 export default FloeClient;
-export * from "./types";
+export type { Project, RenderedPostContent } from "./types";

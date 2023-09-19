@@ -45,7 +45,7 @@ export default async function ChangelogListPage({
   };
 
   return (
-    <main className="relative z-10 flex flex-col">
+    <>
       <div className="z-10 flex flex-col w-full max-w-5xl gap-8 px-6 pt-32 pb-8 mx-auto md:flex-row">
         <section className="relative w-full md:w-80 shrink-0">
           <div className="relative inset-0 md:absolute">
@@ -68,6 +68,6 @@ export default async function ChangelogListPage({
         rotation={0}
         className="fixed top-0 -left-48 scale-x-[2] h-screen w-[300px] opacity-10 md:opacity-20"
       />
-    </main>
+    </>
   );
 }

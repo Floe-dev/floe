@@ -37,29 +37,40 @@ export type PostTreeAPIResponse = {
   };
 };
 
+export type Project = {
+  name: string;
+  description: string | null;
+  slug: string;
+  logo: string | null;
+  favicon: string | null;
+  homepageURL: null;
+  appearance: "LIGHT" | "DARK" | "SYSTEM";
+  primary: string;
+  primaryDark: string;
+  background: string;
+  backgroundDark: string;
+  backgroundPattern: string | null;
+  customBackground: string | null;
+  githubURL: string | null;
+  twitterURL: string | null;
+  facebookURL: string | null;
+  linkedinURL: string | null;
+  instagramURL: string | null;
+  youtubeURL: string | null;
+  discordURL: string | null;
+  slackURL: string | null;
+  twitchURL: string | null;
+  datasources: {
+    id: string;
+    branch: string;
+    owner: string;
+    repo: string;
+  }[];
+};
+
 /**
  * TODO: Get types from API programatically
  */
 export type ProjectAPIResponse = {
-  data: {
-    name: string;
-    description: string | null;
-    slug: string;
-    logo: string | null;
-    favicon: string | null;
-    homepageURL: null;
-    appearance: "LIGHT" | "DARK" | "SYSTEM";
-    primary: string;
-    primaryDark: string;
-    background: string;
-    backgroundDark: string;
-    backgroundPattern: string | null;
-    customBackground: string | null;
-    datasources: {
-      id: string;
-      branch: string;
-      owner: string;
-      repo: string;
-    }[];
-  };
+  data: Project;
 };
