@@ -4,8 +4,7 @@ import { minimatch } from "minimatch";
 import { Endpoints } from "@floe/utils";
 
 export async function handlePushEvents(context: Context<"check_suite">) {
-  console.log(1111, context.payload.repository);
-  context.octokit.checks.create({
+  await context.octokit.checks.create({
     owner: context.payload.repository.owner.login,
     repo: context.payload.repository.name,
     name: "Floe Check",
