@@ -86,7 +86,7 @@ async function DocsPage({
   };
 
   return (
-    <main className="relative z-10 flex flex-col">
+    <>
       <div className="flex flex-col-reverse w-full max-w-screen-xl gap-8 px-6 pt-24 pb-8 mx-auto md:px-8 md:flex-row">
         {renderDocOrDocs()}
       </div>
@@ -95,7 +95,7 @@ async function DocsPage({
         rotation={0}
         className="fixed top-0 -left-48 scale-x-[2] h-screen w-[300px] opacity-10 md:opacity-20"
       />
-    </main>
+    </>
   );
 }
 

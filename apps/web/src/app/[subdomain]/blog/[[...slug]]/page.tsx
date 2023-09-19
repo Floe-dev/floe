@@ -68,14 +68,14 @@ function BlogPage({
   };
 
   return (
-    <main className="relative z-10 flex flex-col">
+    <>
       {renderBlogOrBlogs()}
       <AmorphousBlob
         blur={50}
         rotation={0}
         className="fixed -top-1/2 -right-24 scale-x-[2] h-screen w-[300px] opacity-10 md:opacity-20"
       />
-    </main>
+    </>
   );
 }
 
