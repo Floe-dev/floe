@@ -15,6 +15,10 @@ const appHandler = (app: Probot) => {
     console.log("check_suite", context);
   });
 
+  app.on("check_suite.completed", async (context) => {
+    console.log("check_suite.completed", context);
+  });
+
   app.on("check_suite.requested", async (context) => {
     console.log("check_suite.requested", context);
   });
