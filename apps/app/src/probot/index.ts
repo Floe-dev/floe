@@ -10,6 +10,14 @@ const appHandler = (app: Probot) => {
     handlePushEvents(context);
   });
 
+  app.on("check_suite", async (context) => {
+    console.log("check_suite", context);
+  });
+
+  app.on("check_suite.requested", async (context) => {
+    console.log("check_suite.requested", context);
+  });
+
   app.on("check_run", async (context) => {
     console.log("check_run", context);
   });
