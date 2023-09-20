@@ -384,6 +384,12 @@ importers:
       '@types/degit':
         specifier: ^2.8.3
         version: 2.8.3
+      '@types/figlet':
+        specifier: ^1.5.6
+        version: 1.5.6
+      '@types/gradient-string':
+        specifier: ^1.1.2
+        version: 1.1.2
       '@types/node':
         specifier: ^20.6.3
         version: 20.6.3
@@ -4398,11 +4404,21 @@ packages:
       '@types/serve-static': 1.15.2
     dev: false
 
+  /@types/figlet@1.5.6:
+    resolution: {integrity: sha512-AOdn9cKJGXpqfHeif16xeGMwWefB4nsOyxkdRMpc+PEP3nUxzu3psJfIqhjrCNW4Sejt5i6rISWmEwK0sw03mA==}
+    dev: true
+
   /@types/glob@7.2.0:
     resolution: {integrity: sha512-ZUxbzKl0IfJILTS6t7ip5fQQM/J3TJYubDm3nMbgubNNYS62eXeUpoLUC8/7fJNiFYHTrGPQn7hspDUzIHX3UA==}
     dependencies:
       '@types/minimatch': 5.1.2
       '@types/node': 20.6.3
+    dev: true
+
+  /@types/gradient-string@1.1.2:
+    resolution: {integrity: sha512-zIet2KvHr2dkOCPI5ggQQ+WJVyfBSFaqK9sNelhgDjlE2K3Fu2muuPJwu5aKM3xoWuc3WXudVEMUwI1QWhykEQ==}
+    dependencies:
+      '@types/tinycolor2': 1.4.4
     dev: true
 
   /@types/hast@2.3.5:
@@ -4650,7 +4666,6 @@ packages:
 
   /@types/tinycolor2@1.4.4:
     resolution: {integrity: sha512-FYK4mlLxUUajo/mblv7EUDHku20qT6ThYNsGZsTHilcHRvIkF8WXqtZO+DVTYkpHWCaAT97LueV59H/5Ve3bGA==}
-    dev: false
 
   /@types/unist@2.0.8:
     resolution: {integrity: sha512-d0XxK3YTObnWVp6rZuev3c49+j4Lo8g4L1ZRm9z5L0xpoZycUPshHgczK5gsUMaZOstjVYYi09p5gYvUtfChYw==}

@@ -1,10 +1,13 @@
 #!/usr/bin/env node
 import fs from "fs";
 import degit from "degit";
+import figlet from "figlet";
 import { Command } from "commander";
 import select from "@inquirer/select";
 import confirm from "@inquirer/confirm";
 import { createSpinner } from "nanospinner";
+import gradient from "gradient-string";
+import chalk from "chalk";
 const program = new Command();
 /**
  * Sleep function
@@ -51,8 +54,8 @@ program
     try {
         await emitter.clone(`./`);
         spinner.success({
-            text: "Template downloaded!",
-            mark: "✔",
+            text: chalk.green("Template downloaded!"),
+            mark: chalk.green("✔"),
         });
     }
     catch (e) {
@@ -61,5 +64,17 @@ program
             mark: "✖",
         });
     }
+    figlet("success", (err, data) => {
+        if (err) {
+            console.log("Something went wrong...");
+            console.dir(err);
+            return;
+        }
+        console.log(gradient.pastel.multiline(data));
+        console.log(chalk.green("Your repository is configured for Floe! 🎉 \n\n"));
+        console.log(chalk.bold("Next steps:"));
+        console.log("➡️  Push your changes to GitHub");
+        console.log("➡️  If you haven't already, connect your data source in the Floe dashboard https://app.floe.dev");
+    });
 });
 program.parse();

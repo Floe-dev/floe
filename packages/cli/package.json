@@ -21,6 +21,8 @@
   "license": "ISC",
   "devDependencies": {
     "@types/degit": "^2.8.3",
+    "@types/figlet": "^1.5.6",
+    "@types/gradient-string": "^1.1.2",
     "@types/node": "^20.6.3",
     "eslint-config-custom": "workspace:*",
     "tsconfig": "workspace:*",
