@@ -9,7 +9,9 @@
   "types": "./dist/index.d.ts",
   "type": "module",
   "scripts": {
-    "build": "tsc -p tsconfig.json"
+    "link-cli": "yarn unlink --global @floe/cli && yarn link --global",
+    "build": "tsc -p tsconfig.json",
+    "dev": "tsc -p tsconfig.json --watch"
   },
   "files": [
     "dist",
