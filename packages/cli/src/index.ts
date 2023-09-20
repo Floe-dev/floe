@@ -3,4 +3,13 @@
 import { Command } from "commander";
 const program = new Command();
 
-console.log("Testing!!");
+// Add actions onto the CLI
+program
+  .arguments("<name>")
+  .action((message: string) => {
+    console.log("Hello " + message);
+  })
+  .description("Test the CLI");
+
+// Execute the CLI with given args
+program.parse(process.argv);
