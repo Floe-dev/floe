@@ -67,6 +67,10 @@ async function handler(
 
         return Promise.all(
           posts.map(async (post) => {
+            /**
+             * TODO: This should render each data source with its own Markdoc
+             * schema version since they could be on different versions.
+             */
             return generatePostContent(
               // @ts-ignore
               octokit,

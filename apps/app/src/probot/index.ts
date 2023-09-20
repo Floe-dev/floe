@@ -21,6 +21,17 @@ const appHandler = (app: Probot) => {
     }
   });
 
+  app.on("check_run.created", async (context) => {
+    console.log("check_run.created", context);
+    // initiate_check_run
+  });
+
+  app.on("check_run.rerequested", async (context) => {
+    console.log("check_run.rerequested", context);
+    // create_check_run
+    // handleCheckEvents(context);
+  });
+
   // app.on("check_suite.completed", async (context) => {
   //   console.log("check_suite.completed", context);
   // });
@@ -31,10 +42,6 @@ const appHandler = (app: Probot) => {
 
   // app.on("check_run", async (context) => {
   //   console.log("check_run", context);
-  // });
-
-  // app.on("check_run.created", async (context) => {
-  //   console.log("check_run.created", context);
   // });
 };
 
