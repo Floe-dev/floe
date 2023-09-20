@@ -88,10 +88,11 @@ program
         chalk.green("Your repository is configured for Floe! 🎉 \n\n")
       );
       console.log(chalk.bold("Next steps:"));
-      console.log("➡️  Push your changes to GitHub");
+      console.log("📡  Push your changes to GitHub");
       console.log(
-        "➡️  If you haven't already, connect your data source in the Floe dashboard https://app.floe.dev"
+        "🖇️  If you haven't already, connect your data source in the Floe dashboard https://app.floe.dev"
       );
+      console.log("✍️  Start writing content!");
     });
   });
 
