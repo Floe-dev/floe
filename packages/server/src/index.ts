@@ -4,7 +4,7 @@ import {
   PostTreeAPIResponse,
   ProjectAPIResponse,
 } from "./types";
-import { Components, render } from "./utils/render";
+import { Components, render } from "@floe/markdoc";
 import { isNode } from "./utils/isNode";
 
 export interface Auth {

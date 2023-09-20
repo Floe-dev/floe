@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@floe/db": "workspace:*",
+    "@floe/markdoc": "workspace:*",
     "@floe/utils": "workspace:*",
     "@sentry/nextjs": "^7.66.0",
     "@types/node": "20.5.9",

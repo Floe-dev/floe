@@ -29,6 +29,7 @@
     "typescript": "^5.2.2"
   },
   "dependencies": {
+    "@floe/markdoc": "workspace:*",
     "@inquirer/confirm": "^2.0.12",
     "@inquirer/prompts": "^3.1.1",
     "@inquirer/select": "^1.2.11",

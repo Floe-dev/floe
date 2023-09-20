@@ -29,6 +29,9 @@ importers:
       '@floe/db':
         specifier: workspace:*
         version: link:../../packages/db
+      '@floe/markdoc':
+        specifier: workspace:*
+        version: link:../../packages/markdoc
       '@floe/utils':
         specifier: workspace:*
         version: link:../../packages/utils
@@ -430,6 +433,43 @@ importers:
         specifier: 7.28.0
         version: 7.28.0(eslint@7.32.0)
 
+  packages/markdoc:
+    dependencies:
+      '@markdoc/markdoc':
+        specifier: ^0.3.0
+        version: 0.3.0(@types/react@18.2.18)(react@18.2.0)
+    devDependencies:
+      '@types/node':
+        specifier: ^20.5.9
+        version: 20.6.3
+      '@types/react':
+        specifier: ^18.2.18
+        version: 18.2.18
+      '@types/react-dom':
+        specifier: ^18.2.7
+        version: 18.2.7
+      eslint:
+        specifier: ^7.32.0
+        version: 7.32.0
+      eslint-config-custom:
+        specifier: workspace:*
+        version: link:../eslint-config-custom
+      react:
+        specifier: ^18.2.0
+        version: 18.2.0
+      react-dom:
+        specifier: ^18.2.0
+        version: 18.2.0(react@18.2.0)
+      ts-node:
+        specifier: ^10.9.1
+        version: 10.9.1(@types/node@20.6.3)(typescript@5.2.2)
+      tsconfig:
+        specifier: workspace:*
+        version: link:../tsconfig
+      typescript:
+        specifier: ^5.2.2
+        version: 5.2.2
+
   packages/next:
     dependencies:
       '@floe/server':
@@ -475,9 +515,9 @@ importers:
 
   packages/server:
     dependencies:
-      '@markdoc/markdoc':
-        specifier: ^0.3.0
-        version: 0.3.0(@types/react@18.2.18)(react@18.2.0)
+      '@floe/markdoc':
+        specifier: workspace:*
+        version: link:../markdoc
       '@types/node':
         specifier: ^20.5.9
         version: 20.5.9
@@ -560,9 +600,6 @@ importers:
 
   packages/utils:
     dependencies:
-      '@markdoc/markdoc':
-        specifier: ^0.3.0
-        version: 0.3.0(@types/react@18.2.18)(react@18.2.0)
       '@octokit/auth-app':
         specifier: ^6.0.0
         version: 6.0.0

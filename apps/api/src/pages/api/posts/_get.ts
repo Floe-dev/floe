@@ -3,8 +3,6 @@ import {
   NextApiResponseExtension,
 } from "@/lib/types/privateMiddleware";
 import {
-  Markdoc,
-  markdocConfig,
   Octokit,
   filenameToSlug,
   getFileTree,
@@ -12,6 +10,7 @@ import {
   getUser,
   slugToFilename,
 } from "@floe/utils";
+import { Markdoc, markdocConfig } from "@floe/markdoc";
 import { z } from "zod";
 import yaml from "js-yaml";
 import { prisma } from "@/lib/db/client";
