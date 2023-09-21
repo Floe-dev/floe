@@ -2,29 +2,31 @@
   "name": "@floe/markdoc",
   "version": "1.0.0-alpha.0",
   "description": "",
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
+  "main": "dist/index.umd.js",
+  "module": "dist/index.es.js",
+  "types": "dist/index.d.ts",
   "scripts": {
-    "build": "tsc -p tsconfig.json",
-    "dev": "tsc -p tsconfig.json --watch",
+    "dev": "vite build --watch",
+    "build": "vite build",
     "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist"
   },
   "author": "",
   "files": [
-    "dist",
-    "src"
+    "dist"
   ],
   "devDependencies": {
     "@types/node": "^20.5.9",
-    "eslint": "^7.32.0",
     "@types/react": "^18.2.18",
     "@types/react-dom": "^18.2.7",
+    "eslint": "^7.32.0",
     "eslint-config-custom": "workspace:*",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "ts-node": "^10.9.1",
     "tsconfig": "workspace:*",
-    "typescript": "^5.2.2"
+    "typescript": "^5.2.2",
+    "vite": "^4.4.9",
+    "vite-plugin-dts": "^3.5.3"
   },
   "dependencies": {
     "@markdoc/markdoc": "^0.3.0"

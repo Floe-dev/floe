@@ -10,7 +10,7 @@ import confirm from "@inquirer/confirm";
 import { createSpinner } from "nanospinner";
 import gradient from "gradient-string";
 import chalk from "chalk";
-import { validate } from "@floe/markdoc";
+import floeMarkdoc from "@floe/markdoc";
 
 const program = new Command();
 
@@ -121,8 +121,6 @@ program
     const spinner = createSpinner("Validating files...").start();
     const files = await glob(".floe/**/*.{md,mdoc}");
 
-    console.log(11111, files);
-
     if (files.length === 0) {
       console.log(
         chalk.red(
@@ -134,17 +132,22 @@ program
 
     await sleep(2000);
 
-    spinner.success({
-      text: chalk.green("All files are valid!"),
-      mark: chalk.green("✔"),
-    });
+    spinner.stop();
 
     /**
      * Get contents of each file
      */
     files.forEach(async (file) => {
+      const { validate } = floeMarkdoc;
       const contents = readFileSync(file, "utf-8");
       const result = validate(contents);
+
+      if (result.length === 0) {
+        console.log(chalk.green(`✔ ${file}`));
+        return;
+      }
+
+      console.log(chalk.red(`✖ ${file}`));
       console.log(result);
     });
   });
