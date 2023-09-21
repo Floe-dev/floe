@@ -1,4 +1,4 @@
-import { RenderableTreeNode } from "@markdoc/markdoc";
+import { RenderableTreeNodes } from "@floe/markdoc";
 
 export type PostContent = {
   owner: string;
@@ -6,7 +6,7 @@ export type PostContent = {
   datasourceId: string;
   imageBasePath: string;
   filename: string;
-  transform: RenderableTreeNode;
+  transform: RenderableTreeNodes;
   slug: string;
   metadata: {
     title?: string;

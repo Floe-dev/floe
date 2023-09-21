@@ -28,7 +28,7 @@
     "undici": "^5.23.0"
   },
   "dependencies": {
-    "@markdoc/markdoc": "^0.3.0",
+    "@floe/markdoc": "workspace:*",
     "@types/node": "^20.5.9",
     "js-yaml": "^4.1.0"
   },
