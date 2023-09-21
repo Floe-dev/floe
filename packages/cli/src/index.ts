@@ -11,12 +11,9 @@ import confirm from "@inquirer/confirm";
 import { createSpinner } from "nanospinner";
 import gradient from "gradient-string";
 import chalk from "chalk";
-import {} from "@floe/markdoc";
+import FloeMarkdoc from "@floe/markdoc";
 
 const program = new Command();
-
-// const pkgPath = path.dirname(resolve("@floe/markdoc/dist/config.js"));
-// console.log(111111, pkgPath);
 
 /**
  * Sleep function
@@ -86,11 +83,14 @@ program
     try {
       await emitter.clone(`./`);
 
+      // const pkgPath = path.dirname(resolve("@floe/markdoc/package.json"));
+      // console.log(111111, pkgPath);
+
       // const defaultMarkdocConfig = {
       //   id: "Floe data source",
       //   path: ".floe",
       //   schema: {
-      //     path: "config.js",
+      //     path: pkgPath + "/dist/config.js",
       //     type: "esm",
       //     property: "default",
       //     watch: true,
@@ -101,13 +101,11 @@ program
       // };
 
       // const defaultConfig = `${JSON.stringify(
-      //   { ...defaultWrittenConfig, baseBranch: "main" },
+      //   defaultMarkdocConfig,
       //   null,
       //   2
       // )}\n`;
-      // console.log(11111, pkgPath);
-      // copyFileSync(resolve(pkgPath, "./default-files"), ".");
-      // writeFileSync(resolve(".", "config.json"), defaultConfig);
+      // writeFileSync(resolve(".", "markdoc.config.json"), defaultConfig);
 
       spinner.success({
         text: chalk.green("Template downloaded!"),
@@ -166,6 +164,7 @@ program
      * Get contents of each file
      */
     files.forEach(async (file) => {
+      const { validate } = FloeMarkdoc;
       const contents = readFileSync(file, "utf-8");
       const result = validate(contents);
 
