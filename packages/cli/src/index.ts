@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
-import fs, { readFileSync } from "fs";
+import fs, { readFileSync, copyFileSync, writeFileSync } from "fs";
+import path, { resolve } from "path";
 import { glob } from "glob";
 import degit from "degit";
 import figlet from "figlet";
@@ -10,9 +11,12 @@ import confirm from "@inquirer/confirm";
 import { createSpinner } from "nanospinner";
 import gradient from "gradient-string";
 import chalk from "chalk";
-import floeMarkdoc from "@floe/markdoc";
+import {} from "@floe/markdoc";
 
 const program = new Command();
+
+// const pkgPath = path.dirname(resolve("@floe/markdoc/dist/config.js"));
+// console.log(111111, pkgPath);
 
 /**
  * Sleep function
@@ -81,6 +85,30 @@ program
 
     try {
       await emitter.clone(`./`);
+
+      // const defaultMarkdocConfig = {
+      //   id: "Floe data source",
+      //   path: ".floe",
+      //   schema: {
+      //     path: "config.js",
+      //     type: "esm",
+      //     property: "default",
+      //     watch: true,
+      //   },
+      //   routing: {
+      //     frontmatter: "route",
+      //   },
+      // };
+
+      // const defaultConfig = `${JSON.stringify(
+      //   { ...defaultWrittenConfig, baseBranch: "main" },
+      //   null,
+      //   2
+      // )}\n`;
+      // console.log(11111, pkgPath);
+      // copyFileSync(resolve(pkgPath, "./default-files"), ".");
+      // writeFileSync(resolve(".", "config.json"), defaultConfig);
+
       spinner.success({
         text: chalk.green("Template downloaded!"),
         mark: chalk.green("✔"),
@@ -106,7 +134,7 @@ program
       console.log(chalk.bold("Next steps:"));
       console.log("📡  Push your changes to GitHub");
       console.log(
-        "🖇️  If you haven't already, connect your data source in the Floe dashboard https://app.floe.dev"
+        "🖇️  Connect your data source in the Floe dashboard https://app.floe.dev"
       );
       console.log("✍️  Start writing content!");
     });
@@ -138,7 +166,6 @@ program
      * Get contents of each file
      */
     files.forEach(async (file) => {
-      const { validate } = floeMarkdoc;
       const contents = readFileSync(file, "utf-8");
       const result = validate(contents);
 
