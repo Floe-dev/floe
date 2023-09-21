@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
-import fs from "fs";
+import fs, { readFileSync } from "fs";
+import { glob } from "glob";
 import degit from "degit";
 import figlet from "figlet";
 import { Command } from "commander";
@@ -9,6 +10,7 @@ import confirm from "@inquirer/confirm";
 import { createSpinner } from "nanospinner";
 import gradient from "gradient-string";
 import chalk from "chalk";
+import { validate } from "@floe/markdoc";
 
 const program = new Command();
 
@@ -21,6 +23,20 @@ program
   .command("init")
   .description("Setup a new Floe data source")
   .action(async () => {
+    /**
+     * Check if user is in a git repository
+     */
+    const gitDir = fs.existsSync(".git");
+
+    if (!gitDir) {
+      console.log(
+        chalk.red(
+          "No git repository was found. Make sure you are in the root of your Floe data source."
+        )
+      );
+      return;
+    }
+
     /**
      * Check if directory already exists
      */
@@ -93,6 +109,43 @@ program
         "🖇️  If you haven't already, connect your data source in the Floe dashboard https://app.floe.dev"
       );
       console.log("✍️  Start writing content!");
+    });
+  });
+
+program
+  .command("validate")
+  .description("Validate a Floe data")
+  .action(async () => {
+    console.log(chalk.bold("Validating files..."));
+
+    const spinner = createSpinner("Validating files...").start();
+    const files = await glob(".floe/**/*.{md,mdoc}");
+
+    console.log(11111, files);
+
+    if (files.length === 0) {
+      console.log(
+        chalk.red(
+          "No files were found. Make sure you are in the root of your Floe data source."
+        )
+      );
+      return;
+    }
+
+    await sleep(2000);
+
+    spinner.success({
+      text: chalk.green("All files are valid!"),
+      mark: chalk.green("✔"),
+    });
+
+    /**
+     * Get contents of each file
+     */
+    files.forEach(async (file) => {
+      const contents = readFileSync(file, "utf-8");
+      const result = validate(contents);
+      console.log(result);
     });
   });
 

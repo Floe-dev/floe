@@ -10,6 +10,7 @@
   "type": "module",
   "scripts": {
     "link-cli": "yarn unlink --global @floe/cli && yarn link --global",
+    "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist",
     "build": "tsc -p tsconfig.json",
     "dev": "tsc -p tsconfig.json --watch"
   },
@@ -39,6 +40,7 @@
     "commander": "^11.0.0",
     "degit": "^2.8.4",
     "figlet": "^1.6.0",
+    "glob": "^10.3.5",
     "gradient-string": "^2.0.2",
     "inquirer": "^9.2.11",
     "nanospinner": "^1.1.0"
