@@ -2,16 +2,23 @@
   "name": "@floe/markdoc",
   "version": "1.0.0-alpha.0",
   "description": "",
-  "main": "dist/index.umd.js",
-  "module": "dist/index.es.js",
-  "typings": "dist/index.d.ts",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "type": "module",
+  "exports": {
+    ".": {
+      "require": "./dist/index.cjs",
+      "import": "./dist/index.js"
+    }
+  },
   "files": [
-    "dist"
+    "dist",
+    "src"
   ],
   "scripts": {
-    "dev": "vite build --watch",
-    "build": "vite build && tsc -p config-tsconfig.json",
-    "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist && rm -rf lib"
+    "build": "tsup src/index.ts",
+    "dev": "tsc -p tsconfig.json --watch",
+    "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf lib"
   },
   "author": "",
   "devDependencies": {
@@ -24,9 +31,8 @@
     "react-dom": "^18.2.0",
     "ts-node": "^10.9.1",
     "tsconfig": "workspace:*",
-    "typescript": "^5.2.2",
-    "vite": "^4.4.9",
-    "vite-plugin-dts": "^3.5.3"
+    "tsup": "^7.2.0",
+    "typescript": "^5.2.2"
   },
   "dependencies": {
     "@markdoc/markdoc": "^0.3.0"

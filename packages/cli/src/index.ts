@@ -11,7 +11,7 @@ import confirm from "@inquirer/confirm";
 import { createSpinner } from "nanospinner";
 import gradient from "gradient-string";
 import chalk from "chalk";
-import FloeMarkdoc from "@floe/markdoc";
+import { validate } from "@floe/markdoc";
 
 const program = new Command();
 
@@ -164,7 +164,6 @@ program
      * Get contents of each file
      */
     files.forEach(async (file) => {
-      const { validate } = FloeMarkdoc;
       const contents = readFileSync(file, "utf-8");
       const result = validate(contents);
 
