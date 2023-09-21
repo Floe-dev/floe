@@ -1,4 +1,5 @@
-import { Config } from "@markdoc/markdoc";
+import Markdoc, { Config } from "@markdoc/markdoc";
+const { nodes } = Markdoc;
 
 export const markdocConfig: Config = {
   variables: {},
@@ -61,13 +62,7 @@ export const markdocConfig: Config = {
   nodes: {
     fence: {
       render: "CodeBlock",
-      children: [],
-      attributes: {
-        lang: {
-          type: String,
-          default: "text",
-        },
-      },
+      attributes: nodes.fence.attributes,
     },
   },
 };
