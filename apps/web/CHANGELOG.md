@@ -1,5 +1,18 @@
 # @floe/web
 
+## 1.0.0-alpha.11
+
+### Minor Changes
+
+- gs
+
+### Patch Changes
+
+- Updated dependencies
+  - @floe/next@1.0.0-alpha.11
+  - @floe/ui@1.0.0-alpha.3
+  - @floe/utils@1.0.0-alpha.3
+
 ## 1.0.0-alpha.10
 
 ### Minor Changes

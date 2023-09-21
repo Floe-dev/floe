@@ -1,6 +1,6 @@
 {
   "name": "@floe/next",
-  "version": "1.0.0-alpha.10",
+  "version": "1.0.0-alpha.11",
   "main": "./dist/cjs/index.jsx",
   "module": "./dist/esm/index.jsx",
   "types": "./dist/esm/index.d.ts",

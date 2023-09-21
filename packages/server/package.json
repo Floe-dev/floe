@@ -1,6 +1,6 @@
 {
   "name": "@floe/server",
-  "version": "1.0.0-alpha.8",
+  "version": "1.0.0-alpha.9",
   "description": "Floe client for server-side rendering",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",

@@ -1,5 +1,16 @@
 # @floe/server
 
+## 1.0.0-alpha.9
+
+### Minor Changes
+
+- gs
+
+### Patch Changes
+
+- Updated dependencies
+  - @floe/markdoc@1.0.0-alpha.3
+
 ## 1.0.0-alpha.8
 
 ### Minor Changes

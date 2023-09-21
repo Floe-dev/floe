@@ -12,11 +12,14 @@
     "@floe/ui": "1.0.0-alpha.0",
     "@floe/api": "1.0.0-alpha.0",
     "@floe/db": "1.0.0-alpha.0",
-    "@floe/utils": "1.0.0-alpha.0"
+    "@floe/utils": "1.0.0-alpha.0",
+    "@floe/cli": "1.0.0-alpha.0",
+    "@floe/markdoc": "1.0.0-alpha.0"
   },
   "changesets": [
     "few-shrimps-bake",
     "flat-spies-glow",
+    "good-cheetahs-flash",
     "great-terms-collect",
     "light-zoos-pump",
     "rotten-seals-train",

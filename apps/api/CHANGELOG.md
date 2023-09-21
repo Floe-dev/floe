@@ -1,5 +1,18 @@
 # @floe/api
 
+## 1.0.0-alpha.3
+
+### Minor Changes
+
+- gs
+
+### Patch Changes
+
+- Updated dependencies
+  - @floe/db@1.0.0-alpha.3
+  - @floe/markdoc@1.0.0-alpha.3
+  - @floe/utils@1.0.0-alpha.3
+
 ## 1.0.0-alpha.2
 
 ### Minor Changes
