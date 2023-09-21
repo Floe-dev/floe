@@ -11,7 +11,19 @@ import fs from "fs";
 import Jimp from "jimp";
 import { sleep } from "../utils/sleep.js";
 import { blogSample } from "../default-files/sample-blog.js";
+import { changelogSample } from "../default-files/sample-changelog.js";
+import { docSample } from "../default-files/sample-doc.js";
+import { docSample2 } from "../default-files/sample-doc2.js";
+import { postSample } from "../default-files/sample-post.js";
 import { resolve } from "path";
+
+const templateSamples = {
+  blog: blogSample,
+  changelog: changelogSample,
+  docs: docSample,
+  faq: postSample,
+  help: postSample,
+};
 
 export function init(program: Command) {
   program
@@ -47,56 +59,32 @@ export function init(program: Command) {
       }
 
       const answer = await checkbox({
-        message:
-          "📂 What do you want to use this project for? (Select all that apply)",
+        message: "What do you want to use this project for?",
         choices: [
           { name: "📖 Docs", value: "docs" },
           { name: "🚀 Changelog", value: "changelog" },
-          { name: "✍️ Blog", value: "blog" },
+          { name: "✍️  Blog", value: "blog" },
           { name: "🙋‍♀️ FAQ", value: "faq" },
           { name: "🤝 Help center", value: "help" },
-        ],
+        ] as { name: string; value: keyof typeof templateSamples }[],
       });
 
-      // const answer = await select({
-      //   message: "Select a template",
-      //   choices: [
-      //     {
-      //       name: "Docs, changelog, blog (default)",
-      //       value: "all",
-      //       description:
-      //         "Scaffold a data source with docs, changelog, and blog",
-      //     },
-      //     {
-      //       name: "Barebones",
-      //       value: "none",
-      //       description: "Scaffold a data source with just the .floe config",
-      //     },
-      //   ],
-      // });
+      if (!answer.length) {
+        console.log(chalk.red("You must select at least one option."));
+        return;
+      }
 
-      const spinner = createSpinner("Creating templates...").start();
-      await sleep(2000);
-
-      // const githubRepoURL =
-      //   answer === "all"
-      //     ? "Floe-dev/floe-sample-data"
-      //     : "floe-dev/floe-starter-barebones";
-
-      // const emitter = degit(`github:${githubRepoURL}`, {
-      //   force: true,
-      // });
+      const spinner = createSpinner("Generating sample images...").start();
+      await sleep(1000);
 
       try {
-        fs.mkdirSync(".floe/blog", { recursive: true });
+        /**
+         * Scaffold images
+         */
         fs.mkdirSync(".floe/public", { recursive: true });
-
-        fs.writeFileSync(resolve(".floe", "blog/sample.md"), blogSample);
 
         const randomImageUrl = "https://picsum.photos/500/300.jpg";
         const image1 = await Jimp.read(randomImageUrl);
-
-        console.log(11111, image1);
 
         image1.write(resolve(".floe/public/image1.jpg"));
 
@@ -104,34 +92,50 @@ export function init(program: Command) {
         const image2 = await Jimp.read(randomImageUrl2);
         image2.write(resolve(".floe/public/image2.jpg"));
 
-        // fs.copyFile(image1, "./floe/public", (err) => {
-        //   if (err) throw err;
-        // });
-        // await emitter.clone(`./`);
+        spinner.update({
+          text: "Generating files...",
+        });
 
-        // const pkgPath = path.dirname(resolve("@floe/markdoc/package.json"));
-        // console.log(111111, pkgPath);
+        /**
+         * Scaffold templates
+         */
+        answer.forEach((item) => {
+          const file = templateSamples[item];
 
-        // const defaultMarkdocConfig = {
-        //   id: "Floe data source",
-        //   path: ".floe",
-        //   schema: {
-        //     path: pkgPath + "/dist/config.js",
-        //     type: "esm",
-        //     property: "default",
-        //     watch: true,
-        //   },
-        //   routing: {
-        //     frontmatter: "route",
-        //   },
-        // };
+          if (item === "docs") {
+            fs.mkdirSync(".floe/docs", { recursive: true });
+            fs.writeFileSync(resolve(".floe", "docs/index.md"), docSample);
+            fs.writeFileSync(
+              resolve(".floe", "docs/getting-started.md"),
+              docSample2
+            );
+            return;
+          }
 
-        // const defaultConfig = `${JSON.stringify(
-        //   defaultMarkdocConfig,
-        //   null,
-        //   2
-        // )}\n`;
-        // writeFileSync(resolve(".", "markdoc.config.json"), defaultConfig);
+          fs.mkdirSync(`.floe/${item}`, { recursive: true });
+          fs.writeFileSync(resolve(".floe", `${item}/sample.md`), file);
+        });
+
+        await sleep(1500);
+
+        const randomMessages = [
+          "Bumbling beebles...",
+          "Golfing gophers...",
+          "Shining shoes...",
+          "Dueling ducks...",
+          "Picking pumpkins...",
+          "Branding bananas...",
+          "Slicing salamis...",
+          "Janking jellies...",
+        ];
+
+        spinner.update({
+          text: randomMessages[
+            Math.floor(Math.random() * randomMessages.length)
+          ],
+        });
+
+        await sleep(1500);
 
         spinner.success({
           text: chalk.green("Templates created!"),

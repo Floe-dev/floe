@@ -1,8 +1,7 @@
-export const blogSample = `---
-title: "My first blog"
-subtitle: "I wrote it with Floe"
+export const docSample = `---
+title: "Introduction"
+subtitle: "An introduction to Floe"
 date: 2023-08-31
-authors: ["MyGithubUsername"]
 image: /image1.jpg
 ---
 
