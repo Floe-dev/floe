@@ -6,8 +6,12 @@ import gradient from "gradient-string";
 import { createSpinner } from "nanospinner";
 import confirm from "@inquirer/confirm";
 import select from "@inquirer/select";
+import checkbox from "@inquirer/checkbox";
 import fs from "fs";
+import Jimp from "jimp";
 import { sleep } from "../utils/sleep.js";
+import { blogSample } from "../default-files/sample-blog.js";
+import { resolve } from "path";
 
 export function init(program: Command) {
   program
@@ -42,37 +46,68 @@ export function init(program: Command) {
         }
       }
 
-      const answer = await select({
-        message: "Select a template",
+      const answer = await checkbox({
+        message:
+          "📂 What do you want to use this project for? (Select all that apply)",
         choices: [
-          {
-            name: "Docs, changelog, blog (default)",
-            value: "all",
-            description:
-              "Scaffold a data source with docs, changelog, and blog",
-          },
-          {
-            name: "Barebones",
-            value: "none",
-            description: "Scaffold a data source with just the .floe config",
-          },
+          { name: "📖 Docs", value: "docs" },
+          { name: "🚀 Changelog", value: "changelog" },
+          { name: "✍️ Blog", value: "blog" },
+          { name: "🙋‍♀️ FAQ", value: "faq" },
+          { name: "🤝 Help center", value: "help" },
         ],
       });
 
-      const spinner = createSpinner("Downloading template...").start();
+      // const answer = await select({
+      //   message: "Select a template",
+      //   choices: [
+      //     {
+      //       name: "Docs, changelog, blog (default)",
+      //       value: "all",
+      //       description:
+      //         "Scaffold a data source with docs, changelog, and blog",
+      //     },
+      //     {
+      //       name: "Barebones",
+      //       value: "none",
+      //       description: "Scaffold a data source with just the .floe config",
+      //     },
+      //   ],
+      // });
+
+      const spinner = createSpinner("Creating templates...").start();
       await sleep(2000);
 
-      const githubRepoURL =
-        answer === "all"
-          ? "Floe-dev/floe-sample-data"
-          : "floe-dev/floe-starter-barebones";
+      // const githubRepoURL =
+      //   answer === "all"
+      //     ? "Floe-dev/floe-sample-data"
+      //     : "floe-dev/floe-starter-barebones";
 
-      const emitter = degit(`github:${githubRepoURL}`, {
-        force: true,
-      });
+      // const emitter = degit(`github:${githubRepoURL}`, {
+      //   force: true,
+      // });
 
       try {
-        await emitter.clone(`./`);
+        fs.mkdirSync(".floe/blog", { recursive: true });
+        fs.mkdirSync(".floe/public", { recursive: true });
+
+        fs.writeFileSync(resolve(".floe", "blog/sample.md"), blogSample);
+
+        const randomImageUrl = "https://picsum.photos/500/300.jpg";
+        const image1 = await Jimp.read(randomImageUrl);
+
+        console.log(11111, image1);
+
+        image1.write(resolve(".floe/public/image1.jpg"));
+
+        const randomImageUrl2 = "https://picsum.photos/500/300.jpg";
+        const image2 = await Jimp.read(randomImageUrl2);
+        image2.write(resolve(".floe/public/image2.jpg"));
+
+        // fs.copyFile(image1, "./floe/public", (err) => {
+        //   if (err) throw err;
+        // });
+        // await emitter.clone(`./`);
 
         // const pkgPath = path.dirname(resolve("@floe/markdoc/package.json"));
         // console.log(111111, pkgPath);
@@ -99,7 +134,7 @@ export function init(program: Command) {
         // writeFileSync(resolve(".", "markdoc.config.json"), defaultConfig);
 
         spinner.success({
-          text: chalk.green("Template downloaded!"),
+          text: chalk.green("Templates created!"),
           mark: chalk.green("✔"),
         });
       } catch (e) {

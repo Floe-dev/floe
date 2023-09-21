@@ -31,6 +31,7 @@
   },
   "dependencies": {
     "@floe/markdoc": "workspace:*",
+    "@inquirer/checkbox": "^1.3.11",
     "@inquirer/confirm": "^2.0.12",
     "@inquirer/prompts": "^3.1.1",
     "@inquirer/select": "^1.2.11",
@@ -43,7 +44,9 @@
     "glob": "^10.3.5",
     "gradient-string": "^2.0.2",
     "inquirer": "^9.2.11",
-    "nanospinner": "^1.1.0"
+    "jimp": "^0.22.10",
+    "nanospinner": "^1.1.0",
+    "pngjs": "^7.0.0"
   },
   "publishConfig": {
     "access": "public"
