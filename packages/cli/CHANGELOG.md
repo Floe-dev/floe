@@ -1,5 +1,11 @@
 # @floe/cli
 
+## 1.0.0-alpha.4
+
+### Minor Changes
+
+- Fix issue with validate command.
+
 ## 1.0.0-alpha.3
 
 ### Minor Changes
