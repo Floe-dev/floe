@@ -9,7 +9,7 @@ Scaffold and validate Floe projects.
 Scaffold a new Floe project.
 
 ```sh
-npx @floe/cli init
+npx @floe/cli@latest init
 ```
 
 ### Validate
@@ -17,5 +17,5 @@ npx @floe/cli init
 Validate syntax for a Floe project.
 
 ```sh
-npx @floe/cli validate
+npx @floe/cli@latest validate
 ```
