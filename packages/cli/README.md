@@ -2,12 +2,6 @@
 
 Scaffold and validate Floe projects.
 
-## Installation
-
-```sh
-npm install -g @floe/cli
-```
-
 ## Usage
 
 ### Init
@@ -15,7 +9,7 @@ npm install -g @floe/cli
 Scaffold a new Floe project.
 
 ```sh
-floe init
+npx @floe/cli init
 ```
 
 ### Validate
@@ -23,5 +17,5 @@ floe init
 Validate syntax for a Floe project.
 
 ```sh
-floe validate
+npx @floe/cli validate
 ```

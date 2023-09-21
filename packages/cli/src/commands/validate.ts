@@ -13,7 +13,6 @@ export function validate(program: Command) {
     .action(async () => {
       console.log(chalk.bold("Validating files..."));
 
-      const spinner = createSpinner("Validating files...").start();
       const files = await glob(".floe/**/*.{md,mdoc}");
 
       if (files.length === 0) {
@@ -22,8 +21,11 @@ export function validate(program: Command) {
             "No files were found. Make sure you are in the root of your Floe data source."
           )
         );
+
         return;
       }
+
+      const spinner = createSpinner("Validating files...").start();
 
       await sleep(2000);
 
