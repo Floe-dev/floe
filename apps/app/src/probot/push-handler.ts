@@ -6,6 +6,8 @@ import { Endpoints } from "@floe/utils";
 export async function handlePushEvents(context: Context<"push">) {
   const installationId = context.payload?.installation?.id;
 
+  console.log("INSTALLATION ID: ", installationId);
+
   if (!installationId) return;
 
   const owner = context.payload.repository.owner.login;
@@ -22,6 +24,8 @@ export async function handlePushEvents(context: Context<"push">) {
       },
     },
   });
+
+  console.log("DATA SOURCES: ", datasources);
 
   if (!datasources.length) {
     console.log("No datasources found");
@@ -40,6 +44,8 @@ export async function handlePushEvents(context: Context<"push">) {
 
   const files = commits.map((c) => c.data.files).flat();
 
+  console.log("NUMBER OF FILES FOUND: ", files.length);
+
   files.forEach(async (file) => {
     if (!file) return;
 
@@ -51,6 +57,7 @@ export async function handlePushEvents(context: Context<"push">) {
      * POST HANDLERS
      */
     if (!isValidPost) {
+      console.log("POST IS NOT VALID");
       return;
     }
 
@@ -66,6 +73,7 @@ async function handlePush(
   >[0],
   datasourceId: string
 ) {
+  console.log("PROCESSING FILE: ", file);
   /**
    * HANDLE FILE ADDED
    */
