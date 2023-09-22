@@ -115,7 +115,10 @@ const buildRecursiveTree = (
 
     const isSubdirectoryActive =
       slugWithBasePath?.replace(/^\/|\/$/g, "") ===
-      ((value as FileTree)["index.md"].slug as string).replace(/^\/|\/$/g, "");
+      ((value as FileTree)["index.md"]?.slug as string)?.replace(
+        /^\/|\/$/g,
+        ""
+      );
 
     /**
      * For rendering sub-directories and their children
