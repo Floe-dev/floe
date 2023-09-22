@@ -48,25 +48,29 @@ export async function handlePushEvents(context: Context<"push">) {
 
   console.log("NUMBER OF FILES FOUND: ", files.length);
 
-  files.forEach(async (file) => {
-    if (!file) return;
+  await Promise.all(
+    files.map(async (file) => {
+      if (!file) return;
 
-    const isValidPost =
-      minimatch(file.filename, ".floe/**/*.md") &&
-      !minimatch(file.filename, ".floe/public/*");
+      const isValidPost =
+        minimatch(file.filename, ".floe/**/*.md") &&
+        !minimatch(file.filename, ".floe/public/*");
 
-    /**
-     * POST HANDLERS
-     */
-    if (!isValidPost) {
-      console.log("POST IS NOT VALID");
-      return;
-    }
+      /**
+       * POST HANDLERS
+       */
+      if (!isValidPost) {
+        console.log("POST IS NOT VALID");
+        return;
+      }
 
-    datasources.forEach(async (dataSource) => {
-      handlePush(file, dataSource.id);
-    });
-  });
+      await Promise.all(
+        datasources.map(async (dataSource) => {
+          handlePush(file, dataSource.id);
+        })
+      );
+    })
+  );
 }
 
 async function handlePush(
@@ -80,7 +84,7 @@ async function handlePush(
    * HANDLE FILE ADDED
    */
   if (file.status === "added") {
-    await prisma.post
+    return await prisma.post
       .upsert({
         where: {
           unique_post: {
@@ -106,7 +110,7 @@ async function handlePush(
    * HANDLE FILE RENAMED
    */
   if (file.status === "renamed" && file.previous_filename) {
-    await prisma.post
+    return await prisma.post
       .upsert({
         where: {
           unique_post: {
@@ -131,13 +135,14 @@ async function handlePush(
    * HANDLE FILE MODIFIED
    */
   if (file.status === "modified") {
+    return;
   }
 
   /**
    * HANDLE FILE REMOVED
    */
   if (file.status === "removed") {
-    await prisma.post
+    return await prisma.post
       .delete({
         where: {
           unique_post: {
