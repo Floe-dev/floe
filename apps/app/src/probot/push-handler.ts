@@ -14,6 +14,8 @@ export async function handlePushEvents(context: Context<"push">) {
   const repo = context.payload.repository.name;
   const branch = context.payload.ref.replace("refs/heads/", "");
 
+  console.log("REPO INFO: ", owner, repo, branch);
+
   const datasources = await prisma.dataSource.findMany({
     where: {
       owner,
