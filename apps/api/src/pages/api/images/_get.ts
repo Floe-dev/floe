@@ -2,7 +2,7 @@ import {
   NextApiRequestExtension,
   NextApiResponseExtension,
 } from "@/lib/types/publicMiddleware";
-import { prisma } from "@/lib/db/client";
+import prisma from "@floe/db";
 import Jimp from "jimp";
 import { defaultResponder } from "@/lib/helpers/defaultResponder";
 import { createAppAuth, Octokit } from "@floe/utils";

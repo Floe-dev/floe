@@ -1,5 +1,5 @@
 import { Context } from "probot";
-import { prisma } from "@/server/db/client";
+import prisma from "@floe/db";
 import { minimatch } from "minimatch";
 import { Endpoints } from "@floe/utils";
 

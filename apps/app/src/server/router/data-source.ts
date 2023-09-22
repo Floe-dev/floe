@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { prisma } from "@/server/db/client";
+import prisma from "@floe/db";
 import { protectedProcedure, router } from "@/server/trpc";
 import { getFileTree } from "@floe/utils";
 

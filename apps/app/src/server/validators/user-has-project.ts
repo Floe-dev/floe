@@ -1,5 +1,5 @@
 import { TRPCError } from "@trpc/server";
-import { prisma } from "@/server/db/client";
+import prisma from "@floe/db";
 import { Context } from "../context";
 import { getUserInstallations } from "@floe/utils";
 

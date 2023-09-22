@@ -13,7 +13,7 @@ import {
 import { Markdoc, markdocConfig } from "@floe/markdoc";
 import { z } from "zod";
 import yaml from "js-yaml";
-import { prisma } from "@/lib/db/client";
+import prisma from "@floe/db";
 import { DataSource, Post } from "@floe/db";
 import { defaultResponder } from "@/lib/helpers/defaultResponder";
 

@@ -3,7 +3,7 @@ import {
   NextApiResponseExtension,
 } from "@/lib/types/publicMiddleware";
 import { createHash } from "crypto";
-import { prisma } from "@/lib/db/client";
+import prisma from "@floe/db";
 import { defaultResponder } from "@/lib/helpers/defaultResponder";
 
 async function handler(

@@ -1,6 +1,6 @@
 import { z } from "zod";
 import bcrypt from "bcrypt";
-import { prisma } from "@/server/db/client";
+import prisma from "@floe/db";
 import { protectedProcedure, router } from "@/server/trpc";
 import { validateUserHasInstallation } from "@/server/validators/user-has-installation";
 import { validateUserHasProject } from "../validators/user-has-project";
