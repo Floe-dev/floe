@@ -16,18 +16,16 @@ export async function handlePushEvents(context: Context<"push">) {
 
   console.log("REPO INFO: ", owner, repo, branch);
 
-  // const datasources = await prisma.dataSource.findMany({
-  //   where: {
-  //     owner,
-  //     repo,
-  //     baseBranch: branch,
-  //     project: {
-  //       installationId,
-  //     },
-  //   },
-  // });
-
-  const datasources = [{ id: "clmuszn710001l808z818x670" }];
+  const datasources = await prisma.dataSource.findMany({
+    where: {
+      owner,
+      repo,
+      baseBranch: branch,
+      project: {
+        installationId,
+      },
+    },
+  });
 
   console.log("DATA SOURCES: ", datasources);
 
