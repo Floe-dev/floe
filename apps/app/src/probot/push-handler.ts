@@ -34,6 +34,8 @@ export async function handlePushEvents(context: Context<"push">) {
     return;
   }
 
+  console.log("GET COMMITS");
+
   const commits = await Promise.all(
     context.payload.commits.map((c) => {
       return context.octokit.repos.getCommit({
@@ -42,9 +44,16 @@ export async function handlePushEvents(context: Context<"push">) {
         owner,
       });
     })
-  );
+  ).catch((e) => {
+    console.error("COULD NOT GET COMMITS: ", e);
+  });
 
-  const files = commits.map((c) => c.data.files).flat();
+  if (!commits?.length) {
+    console.log("No commits found");
+    return;
+  }
+
+  const files = commits?.map((c) => c.data.files).flat();
 
   console.log("NUMBER OF FILES FOUND: ", files.length);
 
