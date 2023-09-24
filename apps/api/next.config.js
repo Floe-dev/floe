@@ -72,7 +72,7 @@ module.exports = withSentryConfig(
     silent: true,
 
     org: "floe-641a5977f",
-    project: "javascript-nextjs",
+    project: "api",
   },
   {
     // For all available options, see:
