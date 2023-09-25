@@ -1,6 +1,15 @@
+const { PrismaPlugin } = require("@prisma/nextjs-monorepo-workaround-plugin");
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   transpilePackages: ["@floe/db", "@floe/utils"],
+  webpack: (config, { isServer }) => {
+    if (isServer) {
+      config.plugins = [...config.plugins, new PrismaPlugin()];
+    }
+
+    return config;
+  },
 
   images: {
     remotePatterns: [
@@ -19,7 +28,6 @@ const nextConfig = {
 };
 
 module.exports = nextConfig;
-
 
 // Injected content via Sentry wizard below
 
