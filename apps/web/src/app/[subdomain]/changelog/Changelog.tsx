@@ -15,39 +15,39 @@ import {
   RocketLaunchIcon as RocketLaunchIconSolid,
 } from "@heroicons/react/24/solid";
 
-const reactions: {
-  type: keyof PostPrimitive.ReactionsProps["reactions"];
-  selectedIcon: JSX.Element;
-  unselectedIcon: JSX.Element;
-}[] = [
-  {
-    type: "HOORAY",
-    selectedIcon: (
-      <RocketLaunchIconSolid className="w-5 h-5 text-gray-700 dark:text-gray-400" />
-    ),
-    unselectedIcon: (
-      <RocketLaunchIcon className="w-5 h-5 text-gray-700 dark:text-gray-400" />
-    ),
-  },
-  {
-    type: "THUMBS_UP",
-    selectedIcon: (
-      <FaceSmileIconSolid className="w-5 h-5 text-gray-700 dark:text-gray-400" />
-    ),
-    unselectedIcon: (
-      <FaceSmileIcon className="w-5 h-5 text-gray-700 dark:text-gray-400" />
-    ),
-  },
-  {
-    type: "THUMBS_DOWN",
-    selectedIcon: (
-      <FaceFrownIconSolid className="w-5 h-5 text-gray-700 dark:text-gray-400" />
-    ),
-    unselectedIcon: (
-      <FaceFrownIcon className="w-5 h-5 text-gray-700 dark:text-gray-400" />
-    ),
-  },
-];
+// const reactions: {
+//   type: keyof PostPrimitive.ReactionsProps["reactions"];
+//   selectedIcon: JSX.Element;
+//   unselectedIcon: JSX.Element;
+// }[] = [
+//   {
+//     type: "HOORAY",
+//     selectedIcon: (
+//       <RocketLaunchIconSolid className="w-5 h-5 text-gray-700 dark:text-gray-400" />
+//     ),
+//     unselectedIcon: (
+//       <RocketLaunchIcon className="w-5 h-5 text-gray-700 dark:text-gray-400" />
+//     ),
+//   },
+//   {
+//     type: "THUMBS_UP",
+//     selectedIcon: (
+//       <FaceSmileIconSolid className="w-5 h-5 text-gray-700 dark:text-gray-400" />
+//     ),
+//     unselectedIcon: (
+//       <FaceSmileIcon className="w-5 h-5 text-gray-700 dark:text-gray-400" />
+//     ),
+//   },
+//   {
+//     type: "THUMBS_DOWN",
+//     selectedIcon: (
+//       <FaceFrownIconSolid className="w-5 h-5 text-gray-700 dark:text-gray-400" />
+//     ),
+//     unselectedIcon: (
+//       <FaceFrownIcon className="w-5 h-5 text-gray-700 dark:text-gray-400" />
+//     ),
+//   },
+// ];
 
 const Changelog = ({ changelog }: { changelog: RenderedPostContent }) => (
   <PostPrimitive.Root post={changelog}>
@@ -72,7 +72,7 @@ const Changelog = ({ changelog }: { changelog: RenderedPostContent }) => (
       <PostPrimitive.Content />
 
       {/* REACTIONS */}
-      <PostPrimitive.Reactions className="flex items-center justify-center">
+      {/* <PostPrimitive.Reactions className="flex items-center justify-center">
         {reactions.map(({ type, selectedIcon, unselectedIcon }) => (
           <PostPrimitive.Reaction type={type} key={type}>
             <PostPrimitive.ReactionTrigger className="group flex items-center gap-1.5 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-800 px-2 py-1 cursor-pointer">
@@ -88,7 +88,7 @@ const Changelog = ({ changelog }: { changelog: RenderedPostContent }) => (
             </PostPrimitive.ReactionTrigger>
           </PostPrimitive.Reaction>
         ))}
-      </PostPrimitive.Reactions>
+      </PostPrimitive.Reactions> */}
     </div>
   </PostPrimitive.Root>
 );

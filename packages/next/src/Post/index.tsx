@@ -1,7 +1,7 @@
 "use client";
 
 import NextImage from "next/image";
-import { ReactionsProps, ReactionsResponse, RootProps } from "./types";
+import { RootProps } from "./types";
 import { useRootElement, RootElementContext } from "./context";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import React, { useContext, useState } from "react";
@@ -219,242 +219,242 @@ const ImageError = ({
   return <div className={className}>{children}</div>;
 };
 
-type ReactionsContext = {
-  queryKey: any[];
-  reactions: {
-    type: keyof ReactionsProps["reactions"];
-    count: number;
-  }[];
-  userReactions: {
-    type: keyof ReactionsProps["reactions"];
-    value: boolean;
-  }[];
-};
+// type ReactionsContext = {
+//   queryKey: any[];
+//   reactions: {
+//     type: keyof ReactionsProps["reactions"];
+//     count: number;
+//   }[];
+//   userReactions: {
+//     type: keyof ReactionsProps["reactions"];
+//     value: boolean;
+//   }[];
+// };
 
-const ReactionsContext = React.createContext<ReactionsContext>(
-  {} as ReactionsContext
-);
-const useReactions = () => useContext(ReactionsContext);
+// const ReactionsContext = React.createContext<ReactionsContext>(
+//   {} as ReactionsContext
+// );
+// const useReactions = () => useContext(ReactionsContext);
 
-const Reactions = ({
-  className,
-  children,
-}: {
-  className?: string;
-  children: React.ReactNode;
-}) => {
-  const { post } = useRootElement();
-  const queryKey = [
-    "reactions",
-    {
-      datasourceId: post.datasourceId,
-      filename: post.filename,
-    },
-  ];
-  const { data, isLoading, isError, error } = useQuery<ReactionsResponse>(
-    queryKey,
-    async () => {
-      const response = await fetchReactions(post.datasourceId, post.filename);
+// const Reactions = ({
+//   className,
+//   children,
+// }: {
+//   className?: string;
+//   children: React.ReactNode;
+// }) => {
+//   const { post } = useRootElement();
+//   const queryKey = [
+//     "reactions",
+//     {
+//       datasourceId: post.datasourceId,
+//       filename: post.filename,
+//     },
+//   ];
+//   const { data, isLoading, isError, error } = useQuery<ReactionsResponse>(
+//     queryKey,
+//     async () => {
+//       const response = await fetchReactions(post.datasourceId, post.filename);
 
-      return response;
-    }
-  );
+//       return response;
+//     }
+//   );
 
-  return (
-    <div className={className}>
-      <ReactionsContext.Provider
-        value={{
-          queryKey,
-          reactions: data?.data?.reactions,
-          userReactions: data?.data?.userReactions,
-        }}
-      >
-        {children}
-      </ReactionsContext.Provider>
-    </div>
-  );
-};
+//   return (
+//     <div className={className}>
+//       <ReactionsContext.Provider
+//         value={{
+//           queryKey,
+//           reactions: data?.data?.reactions,
+//           userReactions: data?.data?.userReactions,
+//         }}
+//       >
+//         {children}
+//       </ReactionsContext.Provider>
+//     </div>
+//   );
+// };
 
-type ReactionContext = {
-  count: number;
-  selected: boolean;
-  type: keyof ReactionsProps["reactions"];
-};
+// type ReactionContext = {
+//   count: number;
+//   selected: boolean;
+//   type: keyof ReactionsProps["reactions"];
+// };
 
-const ReactionContext = React.createContext<ReactionContext>(
-  {} as ReactionContext
-);
-const useReaction = () => useContext(ReactionContext);
+// const ReactionContext = React.createContext<ReactionContext>(
+//   {} as ReactionContext
+// );
+// const useReaction = () => useContext(ReactionContext);
 
-const Reaction = ({
-  className,
-  type,
-  children,
-}: {
-  className?: string;
-  type: keyof ReactionsProps["reactions"];
-  children: React.ReactNode;
-}) => {
-  const { reactions, userReactions } = useReactions();
+// const Reaction = ({
+//   className,
+//   type,
+//   children,
+// }: {
+//   className?: string;
+//   type: keyof ReactionsProps["reactions"];
+//   children: React.ReactNode;
+// }) => {
+//   const { reactions, userReactions } = useReactions();
 
-  if (!reactions) {
-    return undefined;
-  }
+//   if (!reactions) {
+//     return undefined;
+//   }
 
-  const reaction = reactions.find((r) => r.type === type);
-  const userReaction = userReactions.find((r) => r.type === type);
+//   const reaction = reactions.find((r) => r.type === type);
+//   const userReaction = userReactions.find((r) => r.type === type);
 
-  return (
-    <div className={className}>
-      <ReactionContext.Provider
-        value={{
-          type,
-          count: reaction?.count || 0,
-          selected: userReaction?.value || false,
-        }}
-      >
-        {children}
-      </ReactionContext.Provider>
-    </div>
-  );
-};
+//   return (
+//     <div className={className}>
+//       <ReactionContext.Provider
+//         value={{
+//           type,
+//           count: reaction?.count || 0,
+//           selected: userReaction?.value || false,
+//         }}
+//       >
+//         {children}
+//       </ReactionContext.Provider>
+//     </div>
+//   );
+// };
 
-const ReactionCount = ({ className }: { className?: string }) => {
-  const { count } = useReaction();
+// const ReactionCount = ({ className }: { className?: string }) => {
+//   const { count } = useReaction();
 
-  return <div className={className}>{count}</div>;
-};
+//   return <div className={className}>{count}</div>;
+// };
 
-interface ReactionTriggerProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  className?: string;
-  children: React.ReactNode;
-}
+// interface ReactionTriggerProps
+//   extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+//   className?: string;
+//   children: React.ReactNode;
+// }
 
-const ReactionTrigger = ({
-  children,
-  className,
-  onClick,
-  ...nativeButtonProps
-}: ReactionTriggerProps) => {
-  const queryClient = useQueryClient();
-  const { type, selected } = useReaction();
-  const { queryKey } = useReactions();
-  const { post } = useRootElement();
+// const ReactionTrigger = ({
+//   children,
+//   className,
+//   onClick,
+//   ...nativeButtonProps
+// }: ReactionTriggerProps) => {
+//   const queryClient = useQueryClient();
+//   const { type, selected } = useReaction();
+//   const { queryKey } = useReactions();
+//   const { post } = useRootElement();
 
-  const { mutate, isLoading } = useMutation({
-    mutationFn: () =>
-      postReaction(post.datasourceId, post.filename, type, !selected),
-    onMutate: async () => {
-      // Cancel any outgoing refetches
-      // (so they don't overwrite our optimistic update)
-      await queryClient.cancelQueries({
-        queryKey,
-      });
+//   const { mutate, isLoading } = useMutation({
+//     mutationFn: () =>
+//       postReaction(post.datasourceId, post.filename, type, !selected),
+//     onMutate: async () => {
+//       // Cancel any outgoing refetches
+//       // (so they don't overwrite our optimistic update)
+//       await queryClient.cancelQueries({
+//         queryKey,
+//       });
 
-      // // Snapshot the previous value
-      const previousReactions = queryClient.getQueryData(
-        queryKey
-      ) as ReactionsResponse;
+//       // // Snapshot the previous value
+//       const previousReactions = queryClient.getQueryData(
+//         queryKey
+//       ) as ReactionsResponse;
 
-      const reactionAlreadyExists = previousReactions.data.reactions.some(
-        (r) => r.type === type
-      );
+//       const reactionAlreadyExists = previousReactions.data.reactions.some(
+//         (r) => r.type === type
+//       );
 
-      const newReactions = reactionAlreadyExists
-        ? previousReactions.data.reactions.map((r) =>
-            r.type === type
-              ? {
-                  type,
-                  count: selected ? r.count - 1 : r.count + 1,
-                }
-              : r
-          )
-        : [
-            ...previousReactions.data.reactions,
-            {
-              type,
-              count: 1,
-            },
-          ];
+//       const newReactions = reactionAlreadyExists
+//         ? previousReactions.data.reactions.map((r) =>
+//             r.type === type
+//               ? {
+//                   type,
+//                   count: selected ? r.count - 1 : r.count + 1,
+//                 }
+//               : r
+//           )
+//         : [
+//             ...previousReactions.data.reactions,
+//             {
+//               type,
+//               count: 1,
+//             },
+//           ];
 
-      const newUserReactions = previousReactions.data.userReactions.map((r) =>
-        r.type === type
-          ? {
-              type,
-              value: !selected,
-            }
-          : r
-      );
+//       const newUserReactions = previousReactions.data.userReactions.map((r) =>
+//         r.type === type
+//           ? {
+//               type,
+//               value: !selected,
+//             }
+//           : r
+//       );
 
-      // // Optimistically update to the new value
-      queryClient.setQueryData(queryKey, () => ({
-        data: {
-          reactions: newReactions,
-          userReactions: newUserReactions,
-        },
-      }));
+//       // // Optimistically update to the new value
+//       queryClient.setQueryData(queryKey, () => ({
+//         data: {
+//           reactions: newReactions,
+//           userReactions: newUserReactions,
+//         },
+//       }));
 
-      // // Return a context object with the snapshotted value
-      return { previousReactions };
-    },
-    onError: (err, newTodo, context: any) => {
-      queryClient.setQueryData(queryKey, context.previousReactions);
-    },
-    // Always refetch after error or success:
-    onSettled: () => {
-      queryClient.invalidateQueries({
-        queryKey,
-      });
-    },
-  });
+//       // // Return a context object with the snapshotted value
+//       return { previousReactions };
+//     },
+//     onError: (err, newTodo, context: any) => {
+//       queryClient.setQueryData(queryKey, context.previousReactions);
+//     },
+//     // Always refetch after error or success:
+//     onSettled: () => {
+//       queryClient.invalidateQueries({
+//         queryKey,
+//       });
+//     },
+//   });
 
-  return (
-    <button
-      className={className}
-      onClick={(e) => {
-        mutate();
-        onClick && onClick(e);
-      }}
-      disabled={isLoading}
-      {...nativeButtonProps}
-    >
-      {children}
-    </button>
-  );
-};
+//   return (
+//     <button
+//       className={className}
+//       onClick={(e) => {
+//         mutate();
+//         onClick && onClick(e);
+//       }}
+//       disabled={isLoading}
+//       {...nativeButtonProps}
+//     >
+//       {children}
+//     </button>
+//   );
+// };
 
-const ReactionSelectedIcon = ({
-  className,
-  children,
-}: {
-  className?: string;
-  children: React.ReactNode;
-}) => {
-  const { selected } = useReaction();
+// const ReactionSelectedIcon = ({
+//   className,
+//   children,
+// }: {
+//   className?: string;
+//   children: React.ReactNode;
+// }) => {
+//   const { selected } = useReaction();
 
-  if (!selected) {
-    return undefined;
-  }
+//   if (!selected) {
+//     return undefined;
+//   }
 
-  return <div className={className}>{children}</div>;
-};
+//   return <div className={className}>{children}</div>;
+// };
 
-const ReactionUnselectedIcon = ({
-  className,
-  children,
-}: {
-  className?: string;
-  children: React.ReactNode;
-}) => {
-  const { selected } = useReaction();
+// const ReactionUnselectedIcon = ({
+//   className,
+//   children,
+// }: {
+//   className?: string;
+//   children: React.ReactNode;
+// }) => {
+//   const { selected } = useReaction();
 
-  if (selected) {
-    return undefined;
-  }
+//   if (selected) {
+//     return undefined;
+//   }
 
-  return <div className={className}>{children}</div>;
-};
+//   return <div className={className}>{children}</div>;
+// };
 
 export {
   Root,
@@ -469,11 +469,11 @@ export {
   Image,
   ImageError,
   ImagePlaceholder,
-  Reactions,
-  Reaction,
-  ReactionCount,
-  ReactionTrigger,
-  ReactionSelectedIcon,
-  ReactionUnselectedIcon,
+  // Reactions,
+  // Reaction,
+  // ReactionCount,
+  // ReactionTrigger,
+  // ReactionSelectedIcon,
+  // ReactionUnselectedIcon,
 };
 export * from "./types";

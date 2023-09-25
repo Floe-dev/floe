@@ -39,7 +39,7 @@ async function handler(
       const imageBasePath = `${baseURL}${imagesVersion}/images?slug=${project.slug}&datasourceId=${datasource.id}`;
 
       try {
-        const files = await getFileTree(octokit, {
+        const posts = await getFileTree(octokit, {
           owner: datasource.owner,
           repo: datasource.repo,
           ref: datasource.baseBranch,
@@ -50,19 +50,19 @@ async function handler(
           ],
         });
 
-        const posts = await prisma.post.findMany({
-          where: {
-            filename: {
-              in: files,
-            },
-            datasourceId: datasource.id,
-            datasource: {
-              project: {
-                slug,
-              },
-            },
-          },
-        });
+        // const posts = await prisma.post.findMany({
+        //   where: {
+        //     filename: {
+        //       in: files,
+        //     },
+        //     datasourceId: datasource.id,
+        //     datasource: {
+        //       project: {
+        //         slug,
+        //       },
+        //     },
+        //   },
+        // });
 
         return Promise.all(
           posts.map(async (post) => {
@@ -115,7 +115,7 @@ async function handler(
 async function generatePostContent(
   octokit: Octokit,
   datasource: DataSource,
-  post: Post,
+  post: string,
   imageBasePath: string
 ) {
   /**
@@ -124,7 +124,7 @@ async function generatePostContent(
   const fileContent = await getRepositoryContent(octokit, {
     owner: datasource.owner,
     repo: datasource.repo,
-    path: post.filename,
+    path: post,
     ref: datasource.baseBranch,
   });
 
@@ -189,10 +189,10 @@ async function generatePostContent(
     repo: datasource.repo,
     datasourceId: datasource.id,
     imageBasePath,
-    filename: post.filename,
+    filename: post,
     metadata,
     transform,
-    slug: filenameToSlug(post.filename),
+    slug: filenameToSlug(post),
   };
 }
 

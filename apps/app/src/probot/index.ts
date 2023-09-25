@@ -7,7 +7,7 @@ const appHandler = (app: Probot) => {
    */
   // @ts-ignore
   app.on("push", async (context) => {
-    handlePushEvents(context);
+    // handlePushEvents(context);
   });
 };
 

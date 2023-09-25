@@ -19,30 +19,30 @@ export type RootProps = {
   children?: React.ReactNode;
 };
 
-export type Reaction =
-  | "THUMBS_UP"
-  | "THUMBS_DOWN"
-  | "LAUGH"
-  | "HOORAY"
-  | "CONFUSED"
-  | "HEART"
-  | "RANDOM";
+// export type Reaction =
+//   | "THUMBS_UP"
+//   | "THUMBS_DOWN"
+//   | "LAUGH"
+//   | "HOORAY"
+//   | "CONFUSED"
+//   | "HEART"
+//   | "RANDOM";
 
-export type ReactionsProps = {
-  reactions: Partial<{
-    [key in Reaction]: number;
-  }>;
-};
+// export type ReactionsProps = {
+//   reactions: Partial<{
+//     [key in Reaction]: number;
+//   }>;
+// };
 
-export type ReactionsResponse = {
-  data: {
-    reactions: {
-      type: Reaction;
-      count: number;
-    }[];
-    userReactions: {
-      type: Reaction;
-      value: boolean;
-    }[];
-  };
-};
+// export type ReactionsResponse = {
+//   data: {
+//     reactions: {
+//       type: Reaction;
+//       count: number;
+//     }[];
+//     userReactions: {
+//       type: Reaction;
+//       value: boolean;
+//     }[];
+//   };
+// };
