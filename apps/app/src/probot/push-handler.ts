@@ -1,7 +1,8 @@
 import { Context } from "probot";
 import prisma from "@floe/db";
 import { minimatch } from "minimatch";
-import { Endpoints } from "@floe/utils";
+import { Endpoints, Octokit, getFileTree } from "@floe/utils";
+import input from "postcss/lib/input";
 
 export async function handlePushEvents(context: Context<"push">) {
   const installationId = context.payload?.installation?.id;
@@ -34,120 +35,57 @@ export async function handlePushEvents(context: Context<"push">) {
     return;
   }
 
-  const commits = await Promise.all(
-    context.payload.commits.map((c) => {
-      return context.octokit.repos.getCommit({
-        ref: c.id,
-        repo,
-        owner,
-      });
-    })
-  );
+  // const commits = await Promise.all(
+  //   context.payload.commits.map((c) => {
+  //     return context.octokit.repos.getCommit({
+  //       ref: c.id,
+  //       repo,
+  //       owner,
+  //     });
+  //   })
+  // );
+  // const commits = context.payload.commits;
 
-  const files = commits.map((c) => c.data.files).flat();
+  // const files = commits.map((c) => c.data.files).flat();
 
-  console.log("NUMBER OF FILES FOUND: ", files.length);
+  /**
+   * Note: This will delete data for files that were renamed. Can eventually make
+   * a fix this for this, but not necessary right now.
+   */
+  const files = await getFileTree(context.octokit as unknown as Octokit, {
+    owner: owner,
+    repo,
+    ref: branch,
+    rules: [".floe/**/*.md"],
+  });
 
-  files.forEach(async (file) => {
-    if (!file) return;
+  const posts = files.map((f) => ({ filename: f }));
 
-    const isValidPost =
-      minimatch(file.filename, ".floe/**/*.md") &&
-      !minimatch(file.filename, ".floe/public/*");
+  await prisma.$transaction(async (tx) => {
+    /**
+     * Delete posts that are no longer present
+     */
+    await prisma.post.deleteMany({
+      where: {
+        datasourceId: {
+          in: datasources.map((d) => d.id),
+        },
+        filename: {
+          notIn: files,
+        },
+      },
+    });
 
     /**
-     * POST HANDLERS
+     * Create new posts
      */
-    if (!isValidPost) {
-      console.log("POST IS NOT VALID");
-      return;
-    }
-
-    datasources.forEach(async (dataSource) => {
-      handlePush(file, dataSource.id);
+    await prisma.post.createMany({
+      skipDuplicates: true,
+      data: datasources
+        .map((d) => posts.map((p) => ({ ...p, datasourceId: d.id })))
+        .flat(),
     });
   });
-}
 
-async function handlePush(
-  file: NonNullable<
-    Endpoints["GET /repos/{owner}/{repo}/commits/{ref}"]["response"]["data"]["files"]
-  >[0],
-  datasourceId: string
-) {
-  console.log("PROCESSING FILE: ", file);
-  /**
-   * HANDLE FILE ADDED
-   */
-  if (file.status === "added") {
-    await prisma.post
-      .upsert({
-        where: {
-          unique_post: {
-            datasourceId,
-            filename: file.filename,
-          },
-        },
-        create: {
-          datasourceId,
-          filename: file.filename,
-        },
-        // This case shouldn't ever happen, but just in case
-        update: {
-          filename: file.filename,
-        },
-      })
-      .catch((e) => {
-        console.error("COULD NOT CREATE POST: ", e);
-      });
-  }
-
-  /**
-   * HANDLE FILE RENAMED
-   */
-  if (file.status === "renamed" && file.previous_filename) {
-    await prisma.post
-      .upsert({
-        where: {
-          unique_post: {
-            datasourceId,
-            filename: file.previous_filename,
-          },
-        },
-        create: {
-          datasourceId,
-          filename: file.filename,
-        },
-        update: {
-          filename: file.filename,
-        },
-      })
-      .catch((e) => {
-        console.error("COULD NOT UPDATE POST: ", e);
-      });
-  }
-
-  /**
-   * HANDLE FILE MODIFIED
-   */
-  if (file.status === "modified") {
-  }
-
-  /**
-   * HANDLE FILE REMOVED
-   */
-  if (file.status === "removed") {
-    await prisma.post
-      .delete({
-        where: {
-          unique_post: {
-            datasourceId,
-            filename: file.filename,
-          },
-        },
-      })
-      .catch((e) => {
-        console.error("COULD NOT DELETE POST: ", e);
-      });
-  }
+  console.log("TRANSACTED");
 }
