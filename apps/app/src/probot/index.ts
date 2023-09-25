@@ -8,14 +8,26 @@ const appHandler = (app: Probot) => {
    */
   // @ts-ignore
   app.on("push", async (context) => {
-    // handlePushEvents(context);
-    const project = await prisma.project.findFirst({
-      where: {
-        slug: "floe",
-      },
+    // const installationId = context.payload?.installation?.id;
+
+    // if (!installationId) return;
+    const owner = context.payload.repository.owner.login;
+    const repo = context.payload.repository.name;
+    const branch = context.payload.ref.replace("refs/heads/", "");
+
+    const commits = await Promise.all(
+      context.payload.commits.map((c) => {
+        return context.octokit.repos.getCommit({
+          ref: c.id,
+          repo,
+          owner,
+        });
+      })
+    ).catch((e) => {
+      console.error("COULD NOT GET COMMITS: ", e);
     });
 
-    console.log(111111, project);
+    console.log(1111111, commits);
   });
 };
 
