@@ -16,6 +16,15 @@ import { inferRouterOutputs } from "@trpc/server";
 import { AppRouter } from "@/server";
 import cn from "classnames";
 import { useQueryClient } from "@tanstack/react-query";
+import { Input } from "@floe/ui";
+import * as yup from "yup";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import slugify from "slugify";
+
+type FormData = {
+  name: string;
+};
 
 type RepositorySearchResults =
   inferRouterOutputs<AppRouter>["repository"]["search"];
@@ -23,8 +32,15 @@ type RepositorySearchResults =
 type BranchSearchResults =
   inferRouterOutputs<AppRouter>["repository"]["searchBranches"];
 
+const datasourceSchema = yup
+  .object({
+    name: yup.string().min(3).max(24).required("A project name is required."),
+  })
+  .required();
+
 const DataSources = () => {
   const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
   const { currentProject, queryKey } = useProjectContext();
   const [branchQuery, setBranchQuery] = useState("");
   const [repositoryQuery, setRepositoryQuery] = useState("");
@@ -64,6 +80,15 @@ const DataSources = () => {
   const { mutateAsync: deleteDataSource } = api.dataSource.delete.useMutation({
     onSuccess: () => queryClient.invalidateQueries({ queryKey }),
   });
+  const {
+    watch,
+    register,
+    getValues,
+    formState: { errors, isValid },
+  } = useForm<FormData>({
+    mode: "onChange",
+    resolver: yupResolver(datasourceSchema),
+  });
 
   const emptyUI = (
     <EmptyState
@@ -72,6 +97,13 @@ const DataSources = () => {
       description="A data source is a repository containing Floe markdown files. You can connect multiple data sources to a single project."
     />
   );
+
+  const slug = watch("name")
+    ? slugify(watch("name"), {
+        lower: true,
+        strict: true,
+      })
+    : "";
 
   return (
     <Card
@@ -150,12 +182,18 @@ const DataSources = () => {
           {
             text: "Add data source",
             type: "submit",
+            disbaled: !isValid || loading,
             onClick: async () => {
+              setLoading(true);
               await mutateAsync({
+                name: getValues("name"),
+                slug,
                 projectId: currentProject!.id,
                 owner: selectedRepository!.owner.login,
                 repository: selectedRepository!.name,
                 baseBranch: selectedBranch!.name,
+              }).finally(() => {
+                setLoading(false);
               });
               setOpen(false);
             },
@@ -163,6 +201,24 @@ const DataSources = () => {
         ]}
         content={
           <form className="flex flex-col items-start gap-6">
+            <div className="flex w-full gap-4">
+              <Input
+                label="Name*"
+                placeholder="API"
+                errortext={errors.name?.message}
+                {...register("name", {
+                  required: true,
+                })}
+                disabled={isLoading}
+              />
+              <Input
+                label="Slug*"
+                placeholder="api"
+                value={slug}
+                disabled
+                className="bg-gray-100"
+              />
+            </div>
             <Combobox
               as="div"
               value={selectedRepository}

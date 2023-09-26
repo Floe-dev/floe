@@ -11,6 +11,8 @@ export const dataSourceRouter = router({
         owner: z.string(),
         repository: z.string(),
         baseBranch: z.string(),
+        name: z.string().min(3).max(24),
+        slug: z.string().min(3),
       })
     )
     .mutation(async ({ input, ctx }) => {
@@ -25,6 +27,8 @@ export const dataSourceRouter = router({
 
       const dataSource = await prisma.dataSource.create({
         data: {
+          name: input.name,
+          slug: input.slug,
           projectId: input.projectId,
           owner: input.owner,
           repo: input.repository,
