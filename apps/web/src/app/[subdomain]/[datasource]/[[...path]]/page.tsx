@@ -91,7 +91,7 @@ async function DocsPage({
   return (
     <>
       <div className="flex flex-col-reverse w-full max-w-screen-xl gap-8 px-6 pt-24 pb-8 mx-auto md:px-8 md:flex-row">
-        {/* {renderDocOrDocs()} */}
+        {renderPostOrPosts()}
       </div>
       <AmorphousBlob
         blur={50}
@@ -109,9 +109,7 @@ export default ({ params }: { params: any }) => {
   return withFloeServerPages({
     Page: DocsPage,
     floeClient,
-    path: decodeURIComponent(
-      BASE_PATH + (params.path ? `/${params.path.join("/")}` : "")
-    ),
+    path: decodeURIComponent(params.path ? params.path.join("/") : ""),
     datasourceSlug: params.datasource,
   })({ params });
 };

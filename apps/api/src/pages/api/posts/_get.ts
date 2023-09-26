@@ -17,10 +17,15 @@ import { DataSource, Post } from "@floe/db";
 import { defaultResponder } from "@/lib/helpers/defaultResponder";
 
 async function handler(
-  { query, project, octokit, datasourceSlug }: NextApiRequestExtension,
+  { query, project, octokit }: NextApiRequestExtension,
   res: NextApiResponseExtension
 ) {
-  const { path } = query as { path?: string; datasourceSlug?: string };
+  const { path, datasourceSlug } = query as {
+    path?: string;
+    datasourceSlug?: string;
+  };
+
+  console.log(2222222, query);
 
   if (!path) {
     return res.status(400).json({
@@ -38,11 +43,15 @@ async function handler(
     });
   }
 
+  console.log(3333333);
+
   let content;
 
   const datasource = project.datasources.find(
     (d) => d.slug === datasourceSlug
   ) as DataSource;
+
+  console.log(4444444, datasource);
 
   const imagesVersion = "v1";
   const baseURL =
@@ -79,6 +88,8 @@ async function handler(
   }
 
   content = (await content).flat();
+
+  console.log(555555, content);
 
   const node = content.find(
     (c) =>

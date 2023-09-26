@@ -12,10 +12,13 @@ type TreeFiles = {
 };
 
 async function handler(
-  { query, project, octokit, datasourceSlug }: NextApiRequestExtension,
+  { query, project, octokit }: NextApiRequestExtension,
   res: NextApiResponseExtension
 ) {
-  const { path } = query as { path?: string; datasourceSlug?: string };
+  const { path, datasourceSlug } = query as {
+    path?: string;
+    datasourceSlug?: string;
+  };
 
   if (!path) {
     return res.status(400).json({
