@@ -13,15 +13,14 @@ import {
 import { Markdoc, markdocConfig } from "@floe/markdoc";
 import { z } from "zod";
 import yaml from "js-yaml";
-import prisma from "@floe/db";
 import { DataSource, Post } from "@floe/db";
 import { defaultResponder } from "@/lib/helpers/defaultResponder";
 
 async function handler(
-  { query, project, octokit, slug }: NextApiRequestExtension,
+  { query, project, octokit, datasourceSlug }: NextApiRequestExtension,
   res: NextApiResponseExtension
 ) {
-  const { path } = query as { path?: string };
+  const { path } = query as { path?: string; datasourceSlug?: string };
 
   if (!path) {
     return res.status(400).json({
@@ -31,59 +30,56 @@ async function handler(
     });
   }
 
-  const contents = Promise.all(
-    project.datasources.map(async (datasource) => {
-      const imagesVersion = "v1";
-      const baseURL =
-        process.env.NEXT_PUBLIC_FLOE_BASE_URL ?? "https://api.floe.dev/";
-      const imageBasePath = `${baseURL}${imagesVersion}/images?slug=${project.slug}&datasourceId=${datasource.id}`;
+  if (!datasourceSlug) {
+    return res.status(400).json({
+      error: {
+        message: "datasourceSlug parameter is required",
+      },
+    });
+  }
 
-      try {
-        const posts = await getFileTree(octokit, {
-          owner: datasource.owner,
-          repo: datasource.repo,
-          ref: datasource.baseBranch,
-          rules: [
-            `.floe/${path}/*.md`,
-            `.floe/${path}.md`,
-            `.floe/${path}/index.md`,
-          ],
-        });
+  let content;
 
-        // const posts = await prisma.post.findMany({
-        //   where: {
-        //     filename: {
-        //       in: files,
-        //     },
-        //     datasourceId: datasource.id,
-        //     datasource: {
-        //       project: {
-        //         slug,
-        //       },
-        //     },
-        //   },
-        // });
+  const datasource = project.datasources.find(
+    (d) => d.slug === datasourceSlug
+  ) as DataSource;
 
-        return Promise.all(
-          posts.map(async (post) => {
-            return generatePostContent(
-              // @ts-ignore
-              octokit,
-              datasource,
-              post,
-              imageBasePath
-            );
-          })
+  const imagesVersion = "v1";
+  const baseURL =
+    process.env.NEXT_PUBLIC_FLOE_BASE_URL ?? "https://api.floe.dev/";
+  const imageBasePath = `${baseURL}${imagesVersion}/images?slug=${project.slug}&datasourceId=${datasource.id}`;
+
+  try {
+    const posts = await getFileTree(octokit, {
+      owner: datasource.owner,
+      repo: datasource.repo,
+      ref: datasource.baseBranch,
+      rules: [
+        `.floe/${path}/*.md`,
+        `.floe/${path}.md`,
+        `.floe/${path}/index.md`,
+      ],
+    });
+
+    content = Promise.all(
+      posts.map(async (post) => {
+        return generatePostContent(
+          // @ts-ignore
+          octokit,
+          datasource,
+          post,
+          imageBasePath
         );
-      } catch (e: any) {
-        return res.status(400).json({
-          error: e.message,
-        });
-      }
-    })
-  );
+      })
+    );
+  } catch (e: any) {
+    return res.status(400).json({
+      error: e.message,
+    });
+  }
 
-  const content = (await contents).flat(2);
+  content = (await content).flat();
+
   const node = content.find(
     (c) =>
       c &&
@@ -98,9 +94,11 @@ async function handler(
     };
   }
 
-  const sortedContent = content.sort((a, b) =>
-    new Date(a?.metadata.date) < new Date(b?.metadata.date) ? 1 : -1
-  );
+  const sortedContent = content
+    .flat()
+    .sort((a, b) =>
+      new Date(a?.metadata.date) < new Date(b?.metadata.date) ? 1 : -1
+    );
 
   return { data: sortedContent };
 }

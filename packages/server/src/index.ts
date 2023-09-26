@@ -48,10 +48,10 @@ export class FloeClientFactory {
 
   get post() {
     return {
-      getListOrNode: async (path: string, datasourceId?: string) => {
+      getListOrNode: async (path: string, datasourceSlug: string) => {
         const queryParams = new URLSearchParams({
           path,
-          ...(datasourceId && { datasourceId }),
+          ...(datasourceSlug && { datasourceSlug }),
         });
 
         const response = await this.api<PostAPIResponse>(
@@ -83,10 +83,10 @@ export class FloeClientFactory {
         };
       },
 
-      getTree: async (path: string, datasourceId?: string) => {
+      getTree: async (path: string, datasourceSlug: string) => {
         const queryParams = new URLSearchParams({
           path,
-          ...(datasourceId && { datasourceId }),
+          ...(datasourceSlug && { datasourceSlug }),
         });
 
         const response = await this.api<PostTreeAPIResponse>(

@@ -4,6 +4,7 @@ import {
 } from "@/lib/types/privateMiddleware";
 import { filenameToSlug, getFileTree } from "@floe/utils";
 import { defaultResponder } from "@/lib/helpers/defaultResponder";
+import { DataSource } from "@floe/db";
 
 type TreeFiles = {
   file: string;
@@ -11,10 +12,10 @@ type TreeFiles = {
 };
 
 async function handler(
-  { query, project, octokit }: NextApiRequestExtension,
+  { query, project, octokit, datasourceSlug }: NextApiRequestExtension,
   res: NextApiResponseExtension
 ) {
-  const { path } = query as { path?: string };
+  const { path } = query as { path?: string; datasourceSlug?: string };
 
   if (!path) {
     return res.status(400).json({
@@ -24,31 +25,39 @@ async function handler(
     });
   }
 
-  const contents = Promise.all(
-    project.datasources.map(async (datasource) => {
-      try {
-        const files = await getFileTree(octokit, {
-          owner: datasource.owner,
-          repo: datasource.repo,
-          ref: datasource.baseBranch,
-          rules: [`.floe/${path}/**/*.md`],
-        });
+  if (!datasourceSlug) {
+    return res.status(400).json({
+      error: {
+        message: "datasourceSlug parameter is required",
+      },
+    });
+  }
 
-        return files.map((file) => ({
-          file: file.split("/").slice(1).join("/"),
-          datasourceId: datasource.id,
-        }));
-      } catch (e: any) {
-        return res.status(400).json({
-          error: e.message,
-        });
-      }
-    })
-  );
+  const datasource = project.datasources.find(
+    (d) => d.slug === datasourceSlug
+  ) as DataSource;
 
-  const files = (await contents).flat() as TreeFiles[];
+  let contents: TreeFiles[];
 
-  const fileTree = buildFileTree(files);
+  try {
+    const files = await getFileTree(octokit, {
+      owner: datasource.owner,
+      repo: datasource.repo,
+      ref: datasource.baseBranch,
+      rules: [`.floe/${path}/**/*.md`],
+    });
+
+    contents = files.map((file) => ({
+      file: file.split("/").slice(1).join("/"),
+      datasourceId: datasource.id,
+    }));
+  } catch (e: any) {
+    return res.status(400).json({
+      error: e.message,
+    });
+  }
+
+  const fileTree = buildFileTree(contents);
 
   return { data: fileTree };
 }

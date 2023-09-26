@@ -2,7 +2,8 @@ import { NextApiRequest, NextApiResponse, NextApiHandler } from "next";
 import { Middleware } from "next-api-middleware";
 
 export type NextApiRequestExtension = NextApiRequest & {
-  slug: string;
+  projectSlug: string;
+  datasourceSlug: string;
 };
 
 export type NextApiResponseExtension = NextApiResponse;

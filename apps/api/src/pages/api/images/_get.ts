@@ -11,26 +11,26 @@ async function handler(
   { query }: NextApiRequestExtension,
   res: NextApiResponseExtension
 ) {
-  const { slug, datasourceId, filename } = query as {
-    slug: string;
-    datasourceId: string;
+  const { projectSlug, datasourceSlug, filename } = query as {
+    projectSlug: string;
+    datasourceSlug: string;
     filename: string;
   };
 
   const project = await prisma.project.findUnique({
     where: {
-      slug,
+      slug: projectSlug,
     },
     include: {
       datasources: {
         where: {
-          id: datasourceId,
+          slug: datasourceSlug,
         },
       },
     },
   });
 
-  if (!slug || !project) {
+  if (!projectSlug || !project) {
     return res.status(401).json({
       error: {
         message: "Invalid project slug",

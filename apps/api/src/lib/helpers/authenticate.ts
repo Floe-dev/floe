@@ -78,7 +78,7 @@ export const authenticate: CustomMiddleware = async (req, res, next) => {
   }
 
   req.project = project;
-  req.slug = slug;
+  req.projectSlug = slug;
 
   await next();
 };

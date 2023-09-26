@@ -24,7 +24,8 @@ export function withFloeServerPages(
     posts,
   }: FloePageProps) => Promise<JSX.Element> | JSX.Element,
   floeClient: FloeClientFactory,
-  basePath = ""
+  basePath = "",
+  datasourceSlug: string
 ) {
   // eslint-disable-next-line react/display-name
   return async ({ params }: { params: FloePageProps["params"] }) => {
@@ -39,7 +40,8 @@ export function withFloeServerPages(
       postOrPosts = await floeClient.post.getListOrNode(
         decodeURIComponent(
           basePath + (params.slug ? `/${params.slug.join("/")}` : "")
-        )
+        ),
+        datasourceSlug
       );
     } catch (e) {
       isError = true;
