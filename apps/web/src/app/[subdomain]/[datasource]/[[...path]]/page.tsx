@@ -12,9 +12,9 @@ import { generateMetadata as gm } from "@/utils/generateMetaData";
 
 export const revalidate = 10;
 
-export const generateMetadata = gm("Docs");
+// export const generateMetadata = gm("Docs");
 
-const BASE_PATH = "docs";
+const BASE_PATH = "/";
 
 async function DocsPage({
   isError,
@@ -25,16 +25,19 @@ async function DocsPage({
   floeClient,
   params,
 }: FloePageProps) {
+  const { datasource } = params as { datasource: string };
   let fileTree: Awaited<ReturnType<typeof floeClient.post.getTree>>;
 
-  const slugWithBasePath = () => {
-    const slug = params.slug as string[] | undefined;
+  console.log(11111, params);
 
-    return `${BASE_PATH}/${slug ? slug.join("/") : ""}`;
+  const pathWithBase = () => {
+    const path = params.path as string[] | undefined;
+
+    return `${BASE_PATH}/${path ? path.join("/") : ""}`;
   };
 
   try {
-    fileTree = await floeClient.post.getTree(BASE_PATH);
+    fileTree = await floeClient.post.getTree(BASE_PATH, datasource);
   } catch (e) {
     console.error(e);
   }
@@ -43,24 +46,24 @@ async function DocsPage({
     return <NotFound />;
   }
 
-  const renderDocOrDocs = () => {
+  const renderPostOrPosts = () => {
     return (
       <>
         <div className="flex mr-6 md:hidden">
-          <MobileNav
+          {/* <MobileNav
             fileTree={fileTree}
             subdomain={params.subdomain as unknown as string}
-            slugWithBasePath={slugWithBasePath()}
-          />
+            pathWithBase={pathWithBase()}
+          /> */}
         </div>
         <section className="relative hidden w-full md:w-60 shrink-0 md:block">
           <div className="relative inset-0 md:absolute">
             <div className="relative w-full md:fixed md:w-60">
-              <SideNav
+              {/* <SideNav
                 fileTree={fileTree}
                 subdomain={params.subdomain as unknown as string}
-                slugWithBasePath={slugWithBasePath()}
-              />
+                pathWithBase={pathWithBase()}
+              /> */}
             </div>
           </div>
         </section>
@@ -88,7 +91,7 @@ async function DocsPage({
   return (
     <>
       <div className="flex flex-col-reverse w-full max-w-screen-xl gap-8 px-6 pt-24 pb-8 mx-auto md:px-8 md:flex-row">
-        {renderDocOrDocs()}
+        {/* {renderDocOrDocs()} */}
       </div>
       <AmorphousBlob
         blur={50}
@@ -103,5 +106,12 @@ async function DocsPage({
 export default ({ params }: { params: any }) => {
   const floeClient = getFloeClient(params.subdomain);
 
-  return withFloeServerPages(DocsPage, floeClient, BASE_PATH)({ params });
+  return withFloeServerPages({
+    Page: DocsPage,
+    floeClient,
+    path: decodeURIComponent(
+      BASE_PATH + (params.path ? `/${params.path.join("/")}` : "")
+    ),
+    datasourceSlug: params.datasource,
+  })({ params });
 };
