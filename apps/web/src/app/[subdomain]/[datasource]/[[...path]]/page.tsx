@@ -14,8 +14,6 @@ export const revalidate = 10;
 
 // export const generateMetadata = gm("Docs");
 
-const BASE_PATH = "/";
-
 async function DocsPage({
   isError,
   isNode,
@@ -33,11 +31,11 @@ async function DocsPage({
   const pathWithBase = () => {
     const path = params.path as string[] | undefined;
 
-    return `${BASE_PATH}/${path ? path.join("/") : ""}`;
+    return path.join("/") ?? "";
   };
 
   try {
-    fileTree = await floeClient.post.getTree(BASE_PATH, datasource);
+    // fileTree = await floeClient.post.getTree(BASE_PATH, datasource);
   } catch (e) {
     console.error(e);
   }
