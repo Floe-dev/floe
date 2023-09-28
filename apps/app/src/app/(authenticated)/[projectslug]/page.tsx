@@ -32,6 +32,8 @@ export default function Project() {
       const repository = githubRepositoryUrl.split("/")[4];
 
       await mutateAsync({
+        name: "Sample Data Source",
+        slug: "sample-data-source",
         projectId: currentProject!.id,
         owner,
         repository,

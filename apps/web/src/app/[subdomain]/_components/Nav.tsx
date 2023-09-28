@@ -2,14 +2,15 @@ import React from "react";
 import Image from "next/image";
 import cn from "classnames";
 import Link from "next/link";
+import { Project } from "@floe/next";
 
 interface NavProps {
-  logo?: string;
-  projectName: string;
-  homepageURL?: string;
+  project: Project;
 }
 
-const Nav = ({ logo, projectName, homepageURL }: NavProps) => (
+const Nav = ({
+  project: { logo, name, homepageURL, datasources },
+}: NavProps) => (
   <header
     className={cn(
       "fixed inset-x-0 top-0 z-50 backdrop-blur-2xl bg-background-100/70 dark:bg-background-200/70 border-b border-gray-100 dark:border-gray-800"
@@ -32,11 +33,16 @@ const Nav = ({ logo, projectName, homepageURL }: NavProps) => (
               alt="Follow us on Twitter"
             />
           ) : (
-            <h1 className="text-black dark:text-white">{projectName}</h1>
+            <h1 className="text-black dark:text-white">{name}</h1>
           )}
         </Link>
       </div>
     </nav>
+    {/* Subnav */}
+    <nav
+      className="flex items-center justify-between max-w-screen-xl px-6 py-4 m-auto md:px-8"
+      aria-label="Global"
+    ></nav>
   </header>
 );
 

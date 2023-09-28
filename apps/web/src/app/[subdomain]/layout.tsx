@@ -21,11 +21,7 @@ export default async function ChangelogLayout({
       defaultTheme={project.appearance.toLocaleLowerCase()}
       enableSystem
     >
-      <Nav
-        logo={project.logo}
-        projectName={project.name}
-        homepageURL={project.homepageURL}
-      />
+      <Nav project={project} />
       <main className="relative z-10 flex flex-col flex-1">
         {children}
         <AmorphousBlob

@@ -65,6 +65,8 @@ export type Project = {
     branch: string;
     owner: string;
     repo: string;
+    // TODO: Get programatically
+    config: Record<string, any>;
   }[];
 };
 
