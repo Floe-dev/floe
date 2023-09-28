@@ -7,7 +7,7 @@ import Link from "next/link";
 import DocItem from "./DocPage";
 import NotFound from "@/app/NotFound";
 import { MobileNav } from "./MobileNav";
-import { Footer } from "../../_components/Footer";
+import { Footer } from "../_components/Footer";
 import { generateMetadata as gm } from "@/utils/generateMetaData";
 
 export const revalidate = 10;
@@ -25,8 +25,6 @@ async function DocsPage({
 }: FloePageProps) {
   const { datasource } = params as { datasource: string };
   let fileTree: Awaited<ReturnType<typeof floeClient.post.getTree>>;
-
-  console.log(11111, params);
 
   const pathWithBase = () => {
     const path = params.path as string[] | undefined;

@@ -1,5 +1,5 @@
 import { getFloeClient } from "@/app/floe-client";
-import Nav from "@/app/[subdomain]/_components/Nav";
+import Nav from "@/app/[subdomain]/[datasource]/_components/Nav";
 import { ThemeProvider } from "./ThemeProvider";
 import { Footer } from "./_components/Footer";
 import AmorphousBlob from "@/components/AmorphousBlob";
@@ -8,7 +8,7 @@ export default async function ChangelogLayout({
   params,
   children,
 }: {
-  params: { subdomain: string };
+  params: { subdomain: string; datasource: string };
   children: React.ReactNode;
 }) {
   const floeClient = getFloeClient(params.subdomain);
@@ -21,7 +21,7 @@ export default async function ChangelogLayout({
       defaultTheme={project.appearance.toLocaleLowerCase()}
       enableSystem
     >
-      <Nav project={project} />
+      <Nav project={project} datasource={params.datasource} />
       <main className="relative z-10 flex flex-col flex-1">
         {children}
         <AmorphousBlob

@@ -43,6 +43,8 @@ async function handler({ project, octokit }: NextApiRequestExtension) {
         branch: datasource.baseBranch,
         owner: datasource.owner,
         repo: datasource.repo,
+        name: datasource.name,
+        slug: datasource.slug,
         config: JSON.parse(config),
       };
     })

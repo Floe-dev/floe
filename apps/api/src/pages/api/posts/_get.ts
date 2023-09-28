@@ -25,8 +25,6 @@ async function handler(
     datasourceSlug?: string;
   };
 
-  console.log(2222222, query);
-
   if (!path) {
     return res.status(400).json({
       error: {
@@ -43,15 +41,11 @@ async function handler(
     });
   }
 
-  console.log(3333333);
-
   let content;
 
   const datasource = project.datasources.find(
     (d) => d.slug === datasourceSlug
   ) as DataSource;
-
-  console.log(4444444, datasource);
 
   const imagesVersion = "v1";
   const baseURL =
@@ -88,8 +82,6 @@ async function handler(
   }
 
   content = (await content).flat();
-
-  console.log(555555, content);
 
   const node = content.find(
     (c) =>
