@@ -17,8 +17,6 @@ const Nav = ({
     (ds) => ds.slug.toLowerCase() === datasource.toLowerCase()
   ) as any;
 
-  console.log(datasources, datasource, currentDataSource);
-
   return (
     <header
       className={cn(
@@ -48,20 +46,22 @@ const Nav = ({
         </div>
       </nav>
       {/* Subnav */}
-      <nav
-        className="flex items-center max-w-screen-xl gap-8 px-6 py-4 m-auto md:px-8"
-        aria-label="Global"
-      >
-        {currentDataSource.config.tabs.map((tab) => (
-          <Link
-            key={tab.key}
-            href={`/${tab.key}`}
-            className="text-sm font-medium text-gray-500 no-underline transition-all m-left dark:text-gray-500 hover:dark:text-gray-400 hover:text-gray-600"
-          >
-            {tab.title}
-          </Link>
-        ))}
-      </nav>
+      {currentDataSource && (
+        <nav
+          className="flex items-center max-w-screen-xl gap-8 px-6 py-4 m-auto md:px-8"
+          aria-label="Global"
+        >
+          {currentDataSource.config.tabs.map((tab: any) => (
+            <Link
+              key={tab.key}
+              href={`/${tab.key}`}
+              className="text-sm font-medium text-gray-500 no-underline transition-all m-left dark:text-gray-500 hover:dark:text-gray-400 hover:text-gray-600"
+            >
+              {tab.title}
+            </Link>
+          ))}
+        </nav>
+      )}
     </header>
   );
 };

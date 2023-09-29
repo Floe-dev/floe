@@ -1,5 +1,5 @@
 import { getFloeClient } from "@/app/floe-client";
-import Nav from "@/app/[subdomain]/[datasource]/_components/Nav";
+import Nav from "@/app/[subdomain]/[datasource]/[tab]/_components/Nav";
 import { ThemeProvider } from "./ThemeProvider";
 import { Footer } from "./_components/Footer";
 import AmorphousBlob from "@/components/AmorphousBlob";
