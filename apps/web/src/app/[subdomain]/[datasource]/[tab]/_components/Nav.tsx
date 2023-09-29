@@ -3,18 +3,19 @@ import Image from "next/image";
 import cn from "classnames";
 import Link from "next/link";
 import { Project } from "@floe/next";
+import { generateURL } from "@/utils/generateURL";
 
 interface NavProps {
   project: Project;
-  datasource: string;
+  params: { subdomain: string; datasource: string; tab: string };
 }
 
 const Nav = ({
   project: { logo, name, homepageURL, datasources },
-  datasource,
+  params,
 }: NavProps) => {
   const currentDataSource = datasources.find(
-    (ds) => ds.slug.toLowerCase() === datasource.toLowerCase()
+    (ds) => ds.slug.toLowerCase() === params.datasource.toLowerCase()
   ) as any;
 
   const tabs = currentDataSource?.config.tabs;
@@ -56,7 +57,12 @@ const Nav = ({
           {tabs.map((tab: any) => (
             <Link
               key={tab.key}
-              href={`/${tab.key}`}
+              href={generateURL(
+                params.subdomain,
+                params.datasource,
+                tab.url,
+                ""
+              )}
               className="text-sm font-medium text-gray-500 no-underline transition-all m-left dark:text-gray-500 hover:dark:text-gray-400 hover:text-gray-600"
             >
               {tab.title}

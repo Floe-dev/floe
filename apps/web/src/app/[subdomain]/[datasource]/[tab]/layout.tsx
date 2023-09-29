@@ -8,7 +8,7 @@ export default async function ChangelogLayout({
   params,
   children,
 }: {
-  params: { subdomain: string; datasource: string };
+  params: { subdomain: string; datasource: string; tab: string };
   children: React.ReactNode;
 }) {
   const floeClient = getFloeClient(params.subdomain);
@@ -21,7 +21,7 @@ export default async function ChangelogLayout({
       defaultTheme={project.appearance.toLocaleLowerCase()}
       enableSystem
     >
-      <Nav project={project} datasource={params.datasource} />
+      <Nav project={project} params={params} />
       <main className="relative z-10 flex flex-col flex-1">
         {children}
         <AmorphousBlob
