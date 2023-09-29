@@ -89,8 +89,6 @@ async function handler(
       (c.filename.includes("index.md") || c.filename === slugToFilename(path))
   );
 
-  // if multiple files are returned for a "node", return the first one
-  // (TODO and later the one matching the default data source)
   if (node) {
     return {
       data: node,

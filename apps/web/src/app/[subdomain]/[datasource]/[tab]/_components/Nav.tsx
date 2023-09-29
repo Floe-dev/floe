@@ -17,6 +17,8 @@ const Nav = ({
     (ds) => ds.slug.toLowerCase() === datasource.toLowerCase()
   ) as any;
 
+  const tabs = currentDataSource?.config.tabs;
+
   return (
     <header
       className={cn(
@@ -51,7 +53,7 @@ const Nav = ({
           className="flex items-center max-w-screen-xl gap-8 px-6 py-4 m-auto md:px-8"
           aria-label="Global"
         >
-          {currentDataSource.config.tabs.map((tab: any) => (
+          {tabs.map((tab: any) => (
             <Link
               key={tab.key}
               href={`/${tab.key}`}
