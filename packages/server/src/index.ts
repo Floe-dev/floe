@@ -82,25 +82,6 @@ export class FloeClientFactory {
           })),
         };
       },
-
-      getTree: async (path: string, datasourceSlug: string) => {
-        const queryParams = new URLSearchParams({
-          path,
-          ...(datasourceSlug && { datasourceSlug }),
-        });
-
-        const response = await this.api<PostTreeAPIResponse>(
-          `v1/posts/tree?${queryParams}`
-        );
-
-        if (!response) {
-          return undefined;
-        }
-
-        const { data } = response;
-
-        return data;
-      },
     };
   }
 }

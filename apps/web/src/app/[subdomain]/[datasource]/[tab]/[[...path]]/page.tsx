@@ -26,23 +26,7 @@ async function DocsPage({
   const { datasources } = project;
   const currentDataSource = datasources.find(
     (ds) => ds.slug.toLowerCase() === params.datasource.toLowerCase()
-  ) as any;
-  // const currentTab = currentDataSource?.config.structure[params.tab];
-
-  // const { datasource } = params as { datasource: string };
-  // let fileTree: Awaited<ReturnType<typeof floeClient.post.getTree>>;
-
-  // const pathWithBase = () => {
-  //   const path = params.path as string[] | undefined;
-
-  //   return path.join("/") ?? "";
-  // };
-
-  // try {
-  //   fileTree = await floeClient.post.getTree(BASE_PATH, datasource);
-  // } catch (e) {
-  //   console.error(e);
-  // }
+  );
 
   if (isNotFound || isError) {
     return <NotFound />;
@@ -61,11 +45,7 @@ async function DocsPage({
         <section className="relative hidden w-full md:w-60 shrink-0 md:block">
           <div className="relative inset-0 md:absolute">
             <div className="relative w-full md:fixed md:w-60">
-              {/* <SideNav
-                  fileTree={fileTree}
-                  subdomain={params.subdomain as unknown as string}
-                  pathWithBase={pathWithBase()}
-                /> */}
+              <SideNav currentDataSource={currentDataSource} tab={params.tab} />
             </div>
           </div>
         </section>
@@ -92,7 +72,7 @@ async function DocsPage({
 
   return (
     <>
-      <div className="flex flex-col-reverse w-full max-w-screen-xl gap-8 px-6 pt-24 pb-8 mx-auto md:px-8 md:flex-row">
+      <div className="flex flex-col-reverse w-full max-w-screen-xl gap-8 px-6 pt-48 pb-8 mx-auto md:px-8 md:flex-row">
         {renderPostOrPosts()}
       </div>
       <AmorphousBlob
