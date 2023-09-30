@@ -22,7 +22,7 @@ interface SideNavProps {
 const SideNav = ({ currentDataSource, params }: SideNavProps) => {
   const pathname = usePathname();
 
-  const currentTab = currentDataSource.config.tabs.find(
+  const currentTab = currentDataSource.config.sections.find(
     (t: any) => t.url === params.tab
   );
 

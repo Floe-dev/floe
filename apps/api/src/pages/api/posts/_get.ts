@@ -13,7 +13,7 @@ import {
 import { Markdoc, markdocConfig } from "@floe/markdoc";
 import { z } from "zod";
 import yaml from "js-yaml";
-import { DataSource, Post } from "@floe/db";
+import { DataSource } from "@floe/db";
 import { defaultResponder } from "@/lib/helpers/defaultResponder";
 
 async function handler(
@@ -76,6 +76,13 @@ async function handler(
       error: e.message,
     });
   }
+
+  const config = await getRepositoryContent(octokit, {
+    owner: datasource.owner,
+    repo: datasource.repo,
+    path: `.floe/config.json`,
+    ref: datasource.baseBranch,
+  });
 
   content = (await content).flat();
 

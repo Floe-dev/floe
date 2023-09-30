@@ -1,8 +1,9 @@
 import api from "./api";
 import {
   PostAPIResponse,
-  PostTreeAPIResponse,
+  TreeAPIResponse,
   ProjectAPIResponse,
+  SectionsAPIResponse,
 } from "./types";
 import { Components, render } from "@floe/markdoc";
 import { isNode } from "./utils/isNode";
@@ -34,6 +35,52 @@ export class FloeClientFactory {
     return {
       get: async () => {
         const response = await this.api<ProjectAPIResponse>(`v1/projects`);
+
+        if (!response) {
+          return undefined;
+        }
+
+        const { data } = response;
+
+        return data;
+      },
+    };
+  }
+
+  get sections() {
+    return {
+      get: async (path: string, datasourceSlug: string) => {
+        const queryParams = new URLSearchParams({
+          path,
+          ...(datasourceSlug && { datasourceSlug }),
+        });
+
+        const response = await this.api<SectionsAPIResponse>(
+          `v1/sections?${queryParams}`
+        );
+
+        if (!response) {
+          return undefined;
+        }
+
+        const { data } = response;
+
+        return data;
+      },
+    };
+  }
+
+  get tree() {
+    return {
+      get: async (path: string, datasourceSlug: string) => {
+        const queryParams = new URLSearchParams({
+          path,
+          ...(datasourceSlug && { datasourceSlug }),
+        });
+
+        const response = await this.api<TreeAPIResponse>(
+          `v1/tree?${queryParams}`
+        );
 
         if (!response) {
           return undefined;

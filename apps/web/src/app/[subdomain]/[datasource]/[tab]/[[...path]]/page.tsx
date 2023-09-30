@@ -30,6 +30,10 @@ async function DocsPage({
   };
 }) {
   const project = await floeClient.project.get();
+  const path = decodeURIComponent(
+    [params.tab, ...(params.path ?? [])].join("/")
+  );
+  const sections = await floeClient.sections.get(path, params.datasource);
   const { datasources } = project;
   const currentDataSource = datasources.find(
     (ds) => ds.slug.toLowerCase() === params.datasource.toLowerCase()
@@ -39,7 +43,8 @@ async function DocsPage({
     return <NotFound />;
   }
 
-  console.log(111, posts);
+  // const tree = await floeClient.tree.get(path, params.datasource);
+  console.log(111, sections);
 
   const renderPostOrPosts = () => {
     return (

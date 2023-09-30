@@ -18,7 +18,7 @@ const Nav = ({
     (ds) => ds.slug.toLowerCase() === params.datasource.toLowerCase()
   ) as any;
 
-  const tabs = currentDataSource?.config.tabs;
+  const tabs = currentDataSource?.config.sections;
 
   return (
     <header

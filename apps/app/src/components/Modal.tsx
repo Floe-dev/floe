@@ -2,9 +2,7 @@
 
 import { Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import {
-  XMarkIcon,
-} from "@heroicons/react/24/outline";
+import { XMarkIcon } from "@heroicons/react/24/outline";
 import { Button, ButtonProps } from "./Button";
 
 export interface ModalProps {
@@ -22,7 +20,14 @@ export interface ModalProps {
   }[];
 }
 
-export const Modal = ({ open, setOpen, title, subTitle, content, actions }: ModalProps) => {
+export const Modal = ({
+  open,
+  setOpen,
+  title,
+  subTitle,
+  content,
+  actions,
+}: ModalProps) => {
   return (
     <Transition.Root show={open} as={Fragment}>
       <Dialog as="div" className="relative z-10" onClose={setOpen}>
@@ -39,7 +44,7 @@ export const Modal = ({ open, setOpen, title, subTitle, content, actions }: Moda
         </Transition.Child>
 
         <div className="fixed inset-0 z-10 overflow-y-auto">
-          <div className="flex items-center items-end justify-center min-h-full p-4 text-center sm:p-0">
+          <div className="flex items-end justify-center min-h-full p-4 text-center sm:p-0">
             <Transition.Child
               as={Fragment}
               enter="ease-out duration-300"

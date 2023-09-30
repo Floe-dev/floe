@@ -31,9 +31,27 @@ export interface RenderedPostContent extends PostContent {
   content: React.ReactNode;
 }
 
-export type PostTreeAPIResponse = {
+export type TreeAPIResponse = {
+  data: (
+    | {
+        title: string;
+        page: string;
+      }
+    | {
+        title: string;
+        pages: TreeAPIResponse["data"];
+      }
+  )[];
+};
+
+export type SectionsAPIResponse = {
   data: {
-    [key: string]: any;
+    sections: {
+      title: string;
+      url: string;
+      list?: any;
+      stack?: any;
+    }[];
   };
 };
 
