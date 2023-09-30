@@ -40,18 +40,6 @@ async function DocsPage({
   }
 
   const renderPostOrPosts = async () => {
-    const children = isNode ? (
-      <div className="w-full">
-        <DocItem doc={post} />
-      </div>
-    ) : (
-      posts.map((post) => (
-        <Link key={post.slug} href={post.slug} className="mb-2 no-underline">
-          <DocItem doc={post} />
-        </Link>
-      ))
-    );
-
     if (currentSection.stack) {
       const path = decodeURIComponent(
         [params.tab, ...(params.path ?? [])].join("/")
@@ -72,10 +60,14 @@ async function DocsPage({
       );
     }
 
-    if (currentSection.list) {
-      return (
-        <ListLayout>
-          {posts.map((post) => (
+    return (
+      <ListLayout>
+        {isNode ? (
+          <div className="w-full">
+            <DocItem doc={post} />
+          </div>
+        ) : (
+          posts.map((post) => (
             <Link
               key={post.slug}
               href={post.slug}
@@ -83,12 +75,10 @@ async function DocsPage({
             >
               <DocItem doc={post} />
             </Link>
-          ))}
-        </ListLayout>
-      );
-    }
-
-    return children;
+          ))
+        )}
+      </ListLayout>
+    );
   };
 
   return (
