@@ -9,20 +9,7 @@ import classNames from "classnames";
 import { Project } from "@floe/next";
 import { capitalize } from "@floe/utils";
 
-type FileTreeNode = {
-  slug: string;
-  datasourceId: string;
-};
-
-type FileTree = {
-  [key: string]: FileTree | FileTreeNode;
-};
-
 interface SideNavProps {
-  // fileTree: FileTree;
-  // fontSize?: "sm" | "lg";
-  // subdomain: string;
-  // slugWithBasePath: string;
   params: {
     subdomain: string;
     datasource: string;
@@ -40,7 +27,7 @@ const SideNav = ({ currentDataSource, params }: SideNavProps) => {
   );
 
   return (
-    <ul className={`w-full prose dark:prose-invert`}>
+    <ul className={`w-full prose dark:prose-invert p-0`}>
       {buildRecursiveTree(
         currentTab?.stack?.pages ?? [],
         params,
@@ -90,14 +77,14 @@ const buildRecursiveTree = (
 ) => {
   return pages.map((page) => {
     if (typeof page === "string") {
-      const isActive = [params.tab, ...params.path].join("/") === page;
+      const isActive = [params.tab, ...(params?.path ?? [])].join("/") === page;
 
       return (
-        <li className="flex list-none rounded-lg prose-li">
+        <li className="flex p-0 list-none rounded-lg" key={page}>
           <Link
             href={generateURL(params.subdomain, params.datasource, "", page)}
             className={classNames(
-              "flex flex-1 px-2 py-1 list-none rounded-lg prose-li font-normal no-underline",
+              "flex flex-1 px-2 py-1 rounded-lg font-normal no-underline",
               {
                 "font-semibold text-primary-100 dark:text-primary-200 bg-primary-100/20 dark:bg-primary-200/20":
                   isActive,
@@ -114,6 +101,10 @@ const buildRecursiveTree = (
       );
     }
 
+    if (!page.pages.length) {
+      return null;
+    }
+
     return (
       <Accordion.Root
         className="AccordionRoot"
@@ -123,30 +114,12 @@ const buildRecursiveTree = (
         key={page.title}
       >
         <Accordion.Item className="AccordionItem" value={page.title}>
-          <li className="my-6 list-none prose-li">
-            {/* Section title */}
-            <div
-              className={classNames(
-                "flex my-2 list-none rounded-lg prose-li",
-                {
-                  "bg-primary-100/20 dark:bg-primary-200/20": false,
-                },
-                {
-                  "hover:bg-black/20 dark:hover:bg-white/20": false,
-                }
-              )}
-            >
-              <span className="flex-1 px-2 py-1 font-semibold">
-                {page.title}
-              </span>
-              {page.pages && (
-                <Accordion.Trigger className="px-2 group">
-                  <ChevronRightIcon className="ease-[cubic-bezier(0.87,_0,_0.13,_1)] transition-transform duration-300 group-data-[state=open]:rotate-90 w-4 h-4 ml-1" />
-                </Accordion.Trigger>
-              )}
-            </div>
+          <li className="p-0 my-6 list-none">
+            <Accordion.Trigger className="flex items-center w-full px-2 py-1 text-left rounded-lg group hover:bg-black/10 dark:hover:bg-white/20">
+              <span className="flex-1 font-semibold">{page.title}</span>
+              <ChevronRightIcon className="ease-[cubic-bezier(0.87,_0,_0.13,_1)] transition-transform duration-300 group-data-[state=open]:rotate-90 w-4 h-4 ml-1" />
+            </Accordion.Trigger>
 
-            {/* List */}
             <ul className="pl-4 my-0 border-l border-white/20 prose-ul">
               <Accordion.AccordionContent>
                 {buildRecursiveTree(page.pages, params, pageOptions, pathname)}
@@ -158,130 +131,5 @@ const buildRecursiveTree = (
     );
   });
 };
-
-// const buildRecursiveTree = (
-//   ft: FileTree | FileTreeNode,
-//   pathname: string,
-//   subdomain: string,
-//   slugWithBasePath: string
-// ) => {
-//   return Object.entries(ft).map(([key, value]) => {
-//     const title = transformFileToTitle(key);
-
-//     if (key === "index.md") {
-//       return null;
-//     }
-
-//     if ((value as FileTreeNode).slug) {
-//       const isNodeActive =
-//         slugWithBasePath?.replace(/^\/|\/$/g, "") ===
-//         (value as FileTreeNode).slug.replace(/^\/|\/$/g, "");
-
-//       return (
-//         <li
-// className={classNames(
-//   "flex my-2 list-none rounded-lg prose-li",
-//   {
-//     "bg-primary-100/20 dark:bg-primary-200/20": isNodeActive,
-//   },
-//   {
-//     "hover:bg-black/10 dark:hover:bg-white/20": !isNodeActive,
-//   }
-// )}
-//           key={key}
-//         >
-//           <Link
-//             href={generateURL(subdomain, (value as FileTreeNode).slug)}
-//             className={`flex-1 px-2 py-1 font-normal no-underline ${
-//               isNodeActive
-//                 ? "font-semibold text-primary-100 dark:text-primary-200"
-//                 : "font-normal dark:text-gray-200 text-gray-700"
-//             }`}
-//           >
-//             {title}
-//           </Link>
-//         </li>
-//       );
-//     }
-
-//     const hasChildThatIsntIndex = Object.keys(value).some(
-//       (v) => v !== "index.md"
-//     );
-
-//     const isSubdirectoryActive =
-//       slugWithBasePath?.replace(/^\/|\/$/g, "") ===
-//       ((value as FileTree)["index.md"]?.slug as string)?.replace(
-//         /^\/|\/$/g,
-//         ""
-//       );
-
-//     /**
-//      * For rendering sub-directories and their children
-//      */
-//     return (
-//       <Accordion.Root
-//         className="AccordionRoot"
-//         type="single"
-//         collapsible
-//         defaultValue={key}
-//         key={key}
-//       >
-//         <Accordion.Item className="AccordionItem" value={key}>
-//           <li className="m-0 list-none prose-li">
-//             {/* Section title */}
-//             <div
-//               className={classNames(
-//                 "flex my-2 list-none rounded-lg prose-li",
-//                 {
-//                   "bg-primary-100/20 dark:bg-primary-200/20":
-//                     isSubdirectoryActive,
-//                 },
-//                 {
-//                   "hover:bg-black/20 dark:hover:bg-white/20":
-//                     !isSubdirectoryActive,
-//                 }
-//               )}
-//             >
-//               {(value as FileTree)["index.md"] ? (
-//                 <Link
-//                   href={generateURL(
-//                     subdomain,
-//                     (value as FileTree)["index.md"].slug as string
-//                   )}
-//                   className={`flex-1 px-2 py-1 no-underline ${
-//                     isSubdirectoryActive
-//                       ? "font-semibold text-primary-100 dark:text-primary-200"
-//                       : "font-normal dark:text-gray-200 text-gray-700"
-//                   }`}
-//                 >
-//                   {title}
-//                 </Link>
-//               ) : (
-//                 <span className="flex-1 px-2 py-1 font-semibold">{title}</span>
-//               )}
-//               {hasChildThatIsntIndex && (
-//                 <Accordion.Trigger className="px-2 group">
-//                   <ChevronRightIcon className="ease-[cubic-bezier(0.87,_0,_0.13,_1)] transition-transform duration-300 group-data-[state=open]:rotate-90 w-4 h-4 ml-1" />
-//                 </Accordion.Trigger>
-//               )}
-//             </div>
-
-//             {/* List */}
-//             <ul className="pl-4 my-0 border-l border-white/20 prose-ul">
-//               <Accordion.AccordionContent>
-//                 {buildRecursiveTree(
-//                   value,
-//                   pathname,
-//                   subdomain,
-//                   slugWithBasePath
-//                 )}
-//               </Accordion.AccordionContent>
-//             </ul>
-//           </li>
-//         </Accordion.Item>
-//       </Accordion.Root>
-//     );
-//   });
-// };
 
 export default SideNav;
