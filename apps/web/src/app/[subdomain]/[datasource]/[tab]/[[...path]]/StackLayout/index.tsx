@@ -1,4 +1,3 @@
-import { FloeClient } from "@floe/next";
 import SideNav from "./SideNav";
 
 type Tree = (
