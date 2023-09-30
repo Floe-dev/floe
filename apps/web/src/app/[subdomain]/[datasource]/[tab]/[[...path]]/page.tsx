@@ -50,10 +50,7 @@ async function DocsPage({
     );
 
     if (currentSection.stack) {
-      const path = decodeURIComponent(
-        [params.tab, ...(params.path ?? [])].join("/")
-      );
-      const tree = await floeClient.tree.get(path, params.datasource);
+      const tree = await floeClient.tree.get(params.tab, params.datasource);
 
       return (
         <StackLayout tree={tree} params={params}>

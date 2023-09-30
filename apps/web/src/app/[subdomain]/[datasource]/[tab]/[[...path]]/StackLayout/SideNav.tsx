@@ -38,6 +38,30 @@ const SideNav = ({ tree, params }: SideNavProps) => {
   );
 };
 
+function isSinglePage(
+  page:
+    | {
+        title: string;
+        page: string;
+      }
+    | {
+        title: string;
+        pages: any[];
+      }
+): page is {
+  title: string;
+  page: string;
+} {
+  return (
+    (
+      page as {
+        title: string;
+        page: string;
+      }
+    ).page !== undefined
+  );
+}
+
 const buildRecursiveTree = (
   pages: Tree,
   params: {
@@ -49,7 +73,7 @@ const buildRecursiveTree = (
   pathname: string
 ) => {
   return pages.map((page) => {
-    if (page.page) {
+    if (isSinglePage(page)) {
       const isActive =
         [params.tab, ...(params?.path ?? [])].join("/") === page.page;
 
