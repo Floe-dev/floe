@@ -7,6 +7,7 @@ import { usePathname } from "next/navigation";
 import { generateURL } from "@/utils/generateURL";
 import classNames from "classnames";
 import { Project } from "@floe/next";
+import { capitalize } from "@floe/utils";
 
 type FileTreeNode = {
   slug: string;
@@ -32,61 +33,61 @@ const SideNav = ({ currentDataSource, params }: SideNavProps) => {
   const currentTab = currentDataSource.config.tabs.find(
     (t) => t.url === params.tab
   );
-  console.log(111111, currentTab);
 
   return (
     <ul className={`w-full prose dark:prose-invert`}>
-      {buildRecursiveTree(currentTab?.stack ?? [], params)}
+      {buildRecursiveTree(
+        currentTab?.stack?.pages ?? [],
+        params,
+        currentDataSource.config.pageOptions
+      )}
     </ul>
   );
 };
 
-const capitalize = (s: string) => {
-  return s.charAt(0).toUpperCase() + s.slice(1);
-};
-
-const transformFileToTitle = (slug: string) => {
-  const array = slug.replace(".md", "").split("-");
-
-  /**
-   * Remove first item if it's a number
-   */
-  if (array[0]) {
-    const firstItem = array[0];
-    const firstItemAsNumber = Number(firstItem);
-
-    if (!isNaN(firstItemAsNumber)) {
-      array.shift();
-    }
+const transformTitle = (
+  path: string,
+  pageOptions: {
+    [key: string]: {
+      title: string;
+    };
+  }
+) => {
+  if (pageOptions[path]) {
+    console.log(11111, pageOptions[path], pageOptions[path].title);
+    return pageOptions[path].title;
   }
 
-  return array.map((item) => capitalize(item)).join(" ");
+  const splitPath = path.split("/");
+  return capitalize(splitPath[splitPath.length - 1]);
 };
 
 const buildRecursiveTree = (
-  stack: (
+  pages: (
     | string
     | {
         title: string;
-        stack: any[];
+        pages: any[];
       }
   )[],
-  params: { subdomain: string; datasource: string; tab: string }
+  params: { subdomain: string; datasource: string; tab: string },
+  pageOptions: {
+    [key: string]: {
+      title: string;
+    };
+  } = {}
 ) => {
-  return stack.map((stackItem) => {
-    if (typeof stackItem === "string") {
+  return pages.map((page) => {
+    if (typeof page === "string") {
+      console.log(33333, transformTitle(page, pageOptions));
+
       return (
         <li className="flex my-2 list-none rounded-lg prose-li">
           <Link
-            href={generateURL(
-              params.subdomain,
-              params.datasource,
-              "",
-              stackItem
-            )}
+            href={generateURL(params.subdomain, params.datasource, "", page)}
             className={`flex-1 px-2 py-1 font-normal no-underline`}
           >
-            {stackItem}
+            {transformTitle(page, pageOptions)}
           </Link>
         </li>
       );
@@ -97,10 +98,10 @@ const buildRecursiveTree = (
         className="AccordionRoot"
         type="single"
         collapsible
-        defaultValue={stackItem.title}
-        key={stackItem.title}
+        defaultValue={page.title}
+        key={page.title}
       >
-        <Accordion.Item className="AccordionItem" value={stackItem.title}>
+        <Accordion.Item className="AccordionItem" value={page.title}>
           <li className="m-0 list-none prose-li">
             {/* Section title */}
             <div
@@ -115,9 +116,9 @@ const buildRecursiveTree = (
               )}
             >
               <span className="flex-1 px-2 py-1 font-semibold">
-                {stackItem.title}
+                {transformTitle(page.title, pageOptions)}
               </span>
-              {stackItem.stack && (
+              {page.pages && (
                 <Accordion.Trigger className="px-2 group">
                   <ChevronRightIcon className="ease-[cubic-bezier(0.87,_0,_0.13,_1)] transition-transform duration-300 group-data-[state=open]:rotate-90 w-4 h-4 ml-1" />
                 </Accordion.Trigger>
@@ -127,7 +128,7 @@ const buildRecursiveTree = (
             {/* List */}
             <ul className="pl-4 my-0 border-l border-white/20 prose-ul">
               <Accordion.AccordionContent>
-                {buildRecursiveTree(stackItem.stack, params)}
+                {buildRecursiveTree(page.pages, params, pageOptions)}
               </Accordion.AccordionContent>
             </ul>
           </li>
