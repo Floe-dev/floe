@@ -2,23 +2,17 @@ import React from "react";
 import Image from "next/image";
 import cn from "classnames";
 import Link from "next/link";
-import { Project } from "@floe/next";
+import { Datasource, Project } from "@floe/next";
 import { generateURL } from "@/utils/generateURL";
 
 interface NavProps {
   project: Project;
+  datasource: Datasource;
   params: { subdomain: string; datasource: string; tab: string };
 }
 
-const Nav = ({
-  project: { logo, name, homepageURL, datasources },
-  params,
-}: NavProps) => {
-  const currentDataSource = datasources.find(
-    (ds) => ds.slug.toLowerCase() === params.datasource.toLowerCase()
-  ) as any;
-
-  const tabs = currentDataSource?.config.sections;
+const Nav = ({ project, datasource, params }: NavProps) => {
+  const tabs = datasource.sections;
 
   return (
     <header
@@ -31,11 +25,11 @@ const Nav = ({
         aria-label="Global"
       >
         <div className="flex items-center justify-between flex-1">
-          <Link href={homepageURL ?? ""} className="-m-1.5 p-1.5">
-            {logo ? (
+          <Link href={project.homepageURL ?? ""} className="-m-1.5 p-1.5">
+            {project.logo ? (
               <Image
                 priority
-                src={logo}
+                src={project.logo}
                 width="0"
                 height="0"
                 sizes="100vw"
@@ -43,20 +37,19 @@ const Nav = ({
                 alt="Follow us on Twitter"
               />
             ) : (
-              <h1 className="text-black dark:text-white">{name}</h1>
+              <h1 className="text-black dark:text-white">{project.name}</h1>
             )}
           </Link>
         </div>
       </nav>
       {/* Subnav */}
-      {currentDataSource && (
+      {datasource && (
         <nav
           className="flex items-center max-w-screen-xl gap-8 px-6 py-4 m-auto md:px-8"
           aria-label="Global"
         >
           {tabs.map((tab: any) => {
             const isActive = tab.url === params.tab;
-            console.log(333, tab.url, params.tab, isActive);
 
             return (
               <Link

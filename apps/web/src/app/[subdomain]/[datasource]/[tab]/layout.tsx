@@ -13,6 +13,7 @@ export default async function ChangelogLayout({
 }) {
   const floeClient = getFloeClient(params.subdomain);
   const project = await floeClient.project.get();
+  const datasource = await floeClient.datasource.get(params.datasource);
 
   return (
     <ThemeProvider
@@ -21,7 +22,7 @@ export default async function ChangelogLayout({
       defaultTheme={project.appearance.toLocaleLowerCase()}
       enableSystem
     >
-      <Nav project={project} params={params} />
+      <Nav project={project} datasource={datasource} params={params} />
       <main className="relative z-10 flex flex-col flex-1">
         {children}
         <AmorphousBlob

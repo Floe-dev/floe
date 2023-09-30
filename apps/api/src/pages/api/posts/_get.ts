@@ -77,13 +77,6 @@ async function handler(
     });
   }
 
-  const config = await getRepositoryContent(octokit, {
-    owner: datasource.owner,
-    repo: datasource.repo,
-    path: `.floe/config.json`,
-    ref: datasource.baseBranch,
-  });
-
   content = (await content).flat();
 
   const node = content.find((c) => c && c.filename === slugToFilename(path));

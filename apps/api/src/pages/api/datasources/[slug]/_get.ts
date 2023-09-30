@@ -2,7 +2,7 @@ import {
   NextApiRequestExtension,
   NextApiResponseExtension,
 } from "@/lib/types/privateMiddleware";
-import { DataSource } from "@floe/db";
+import prisma from "@floe/db";
 import { getRepositoryContent } from "@floe/utils";
 import { defaultResponder } from "@/lib/helpers/defaultResponder";
 
@@ -10,30 +10,34 @@ async function handler(
   { query, project, octokit }: NextApiRequestExtension,
   res: NextApiResponseExtension
 ) {
-  const { path, datasourceSlug } = query as {
-    path?: string;
-    datasourceSlug?: string;
+  const { slug } = query as {
+    slug?: string;
   };
 
-  if (!path) {
+  if (!slug) {
     return res.status(400).json({
       error: {
-        message: "path parameter is required",
+        message: "slug parameter is required",
       },
     });
   }
 
-  if (!datasourceSlug) {
+  const datasource = await prisma.dataSource.findUnique({
+    where: {
+      projectId_slug: {
+        projectId: project.id,
+        slug,
+      },
+    },
+  });
+
+  if (!datasource) {
     return res.status(400).json({
       error: {
-        message: "datasourceSlug parameter is required",
+        message: "datasource not found",
       },
     });
   }
-
-  const datasource = project.datasources.find(
-    (d) => d.slug === datasourceSlug
-  ) as DataSource;
 
   const response = await getRepositoryContent(octokit, {
     owner: datasource.owner,
@@ -44,7 +48,17 @@ async function handler(
 
   const content = JSON.parse(response);
 
-  return { data: content.sections };
+  return {
+    data: {
+      sections: content.sections,
+      id: datasource.id,
+      branch: datasource.baseBranch,
+      owner: datasource.owner,
+      repo: datasource.repo,
+      name: datasource.name,
+      slug: datasource.slug,
+    },
+  };
 }
 
 export default defaultResponder(handler);

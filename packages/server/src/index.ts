@@ -3,7 +3,7 @@ import {
   PostAPIResponse,
   TreeAPIResponse,
   ProjectAPIResponse,
-  SectionsAPIResponse,
+  DatasourceAPIResponse,
 } from "./types";
 import { Components, render } from "@floe/markdoc";
 import { isNode } from "./utils/isNode";
@@ -47,16 +47,11 @@ export class FloeClientFactory {
     };
   }
 
-  get sections() {
+  get datasource() {
     return {
-      get: async (path: string, datasourceSlug: string) => {
-        const queryParams = new URLSearchParams({
-          path,
-          ...(datasourceSlug && { datasourceSlug }),
-        });
-
-        const response = await this.api<SectionsAPIResponse>(
-          `v1/sections?${queryParams}`
+      get: async (slug: string) => {
+        const response = await this.api<DatasourceAPIResponse>(
+          `v1/datasources/${slug}`
         );
 
         if (!response) {
@@ -137,4 +132,4 @@ const FloeClient = (auth: Auth, options?: Options) =>
   new FloeClientFactory(auth, options);
 
 export default FloeClient;
-export type { Project, RenderedPostContent } from "./types";
+export type { Project, Datasource, RenderedPostContent } from "./types";

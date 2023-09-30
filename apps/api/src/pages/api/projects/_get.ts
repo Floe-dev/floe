@@ -2,7 +2,7 @@ import { NextApiRequestExtension } from "@/lib/types/privateMiddleware";
 import { defaultResponder } from "@/lib/helpers/defaultResponder";
 import { getRepositoryContent } from "@floe/utils";
 
-async function handler({ project, octokit }: NextApiRequestExtension) {
+async function handler({ project }: NextApiRequestExtension) {
   const {
     name,
     description,
@@ -31,13 +31,6 @@ async function handler({ project, octokit }: NextApiRequestExtension) {
 
   const datasourceFields = await Promise.all(
     datasources.map(async (datasource) => {
-      const config = await getRepositoryContent(octokit, {
-        owner: datasource.owner,
-        repo: datasource.repo,
-        path: `.floe/config.json`,
-        ref: datasource.baseBranch,
-      });
-
       return {
         id: datasource.id,
         branch: datasource.baseBranch,
@@ -45,14 +38,9 @@ async function handler({ project, octokit }: NextApiRequestExtension) {
         repo: datasource.repo,
         name: datasource.name,
         slug: datasource.slug,
-        config: JSON.parse(config),
       };
     })
   );
-
-  if (datasourceFields.some((d) => !d.config)) {
-    throw new Error("A datasource does not contain a .floe/config.json file");
-  }
 
   return {
     data: {

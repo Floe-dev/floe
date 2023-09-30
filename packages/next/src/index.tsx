@@ -4,6 +4,6 @@
 export * as PostPrimitive from "./Post";
 export { FloeProvider } from "./Root";
 export { FloeClient } from "./floeClient";
-export type { RenderedPostContent, Project } from "@floe/server";
+export type { RenderedPostContent, Project, Datasource } from "@floe/server";
 export type { FloePageProps } from "./withFloeServerPages";
 export { withFloeServerPages } from "./withFloeServerPages";

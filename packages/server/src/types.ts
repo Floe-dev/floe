@@ -44,15 +44,19 @@ export type TreeAPIResponse = {
   )[];
 };
 
-export type SectionsAPIResponse = {
-  data: {
-    sections: {
-      title: string;
-      url: string;
-      list?: any;
-      stack?: any;
-    }[];
-  };
+export type Datasource = {
+  id: string;
+  branch: string;
+  owner: string;
+  repo: string;
+  name: string;
+  slug: string;
+  sections: {
+    title: string;
+    url: string;
+    list?: any;
+    stack?: any;
+  }[];
 };
 
 export type Project = {
@@ -85,8 +89,6 @@ export type Project = {
     repo: string;
     name: string;
     slug: string;
-    // TODO: Get programatically
-    config: Record<string, any>;
   }[];
 };
 
@@ -95,4 +97,8 @@ export type Project = {
  */
 export type ProjectAPIResponse = {
   data: Project;
+};
+
+export type DatasourceAPIResponse = {
+  data: Datasource;
 };

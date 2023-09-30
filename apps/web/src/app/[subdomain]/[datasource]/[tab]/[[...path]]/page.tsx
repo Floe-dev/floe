@@ -33,7 +33,7 @@ async function DocsPage({
   const path = decodeURIComponent(
     [params.tab, ...(params.path ?? [])].join("/")
   );
-  const sections = await floeClient.sections.get(path, params.datasource);
+  const datasource = await floeClient.datasource.get(params.datasource);
   const { datasources } = project;
   const currentDataSource = datasources.find(
     (ds) => ds.slug.toLowerCase() === params.datasource.toLowerCase()
@@ -44,7 +44,7 @@ async function DocsPage({
   }
 
   // const tree = await floeClient.tree.get(path, params.datasource);
-  console.log(111, sections);
+  console.log(111, datasource);
 
   const renderPostOrPosts = () => {
     return (
@@ -52,7 +52,7 @@ async function DocsPage({
         <section className="relative hidden w-full md:w-60 shrink-0 md:block">
           <div className="relative inset-0 md:absolute">
             <div className="relative w-full md:fixed md:w-60">
-              <SideNav currentDataSource={currentDataSource} params={params} />
+              {/* <SideNav datasource={datasource} params={params} /> */}
             </div>
           </div>
         </section>
