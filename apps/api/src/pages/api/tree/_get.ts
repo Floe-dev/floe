@@ -59,7 +59,6 @@ async function handler(
   const content = JSON.parse(response);
 
   const section = content.sections.find((s: any) => s.url === path);
-  console.log(99999, !section, !section.stack);
 
   if (!section) {
     return res.status(404).json({
@@ -77,7 +76,7 @@ async function handler(
     });
   }
 
-  const pages = section.map;
+  const pages = section.stack.pages;
 
   return { data: fillPages(pages, content.pageOptions) };
 }

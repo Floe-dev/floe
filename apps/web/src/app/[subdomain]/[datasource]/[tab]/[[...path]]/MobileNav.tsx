@@ -2,7 +2,7 @@
 
 import { Dialog } from "@headlessui/react";
 import { useState } from "react";
-import SideNav from "./SideNav";
+import SideNav from "./StackLayout/SideNav";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/20/solid";
 
 export const MobileNav = ({

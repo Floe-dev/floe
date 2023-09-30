@@ -6,83 +6,62 @@ import { ChevronRightIcon } from "@heroicons/react/24/outline";
 import { usePathname } from "next/navigation";
 import { generateURL } from "@/utils/generateURL";
 import classNames from "classnames";
-import { Project } from "@floe/next";
-import { capitalize } from "@floe/utils";
+
+type Tree = (
+  | {
+      title: string;
+      page: string;
+    }
+  | {
+      title: string;
+      pages: any[];
+    }
+)[];
 
 interface SideNavProps {
+  tree: Tree;
   params: {
     subdomain: string;
     datasource: string;
     tab: string;
     path: string[];
   };
-  currentDataSource: Project["datasources"][0];
 }
 
-const SideNav = ({ currentDataSource, params }: SideNavProps) => {
+const SideNav = ({ tree, params }: SideNavProps) => {
   const pathname = usePathname();
-
-  const currentTab = currentDataSource.config.sections.find(
-    (t: any) => t.url === params.tab
-  );
 
   return (
     <ul className={`w-full prose dark:prose-invert p-0`}>
-      {buildRecursiveTree(
-        currentTab?.stack?.pages ?? [],
-        params,
-        currentDataSource.config.pageOptions,
-        pathname
-      )}
+      {buildRecursiveTree(tree ?? [], params, pathname)}
     </ul>
   );
 };
 
-const transformTitle = (
-  path: string,
-  pageOptions: {
-    [key: string]: {
-      title: string;
-    };
-  }
-) => {
-  if (pageOptions[path]) {
-    return pageOptions[path].title;
-  }
-
-  const splitPath = path.split("/");
-  return capitalize(splitPath[splitPath.length - 1]);
-};
-
 const buildRecursiveTree = (
-  pages: (
-    | string
-    | {
-        title: string;
-        pages: any[];
-      }
-  )[],
+  pages: Tree,
   params: {
     subdomain: string;
     datasource: string;
     tab: string;
     path: string[];
   },
-  pageOptions: {
-    [key: string]: {
-      title: string;
-    };
-  } = {},
   pathname: string
 ) => {
   return pages.map((page) => {
-    if (typeof page === "string") {
-      const isActive = [params.tab, ...(params?.path ?? [])].join("/") === page;
+    if (page.page) {
+      const isActive =
+        [params.tab, ...(params?.path ?? [])].join("/") === page.page;
 
       return (
-        <li className="flex p-0 list-none rounded-lg" key={page}>
+        <li className="flex p-0 list-none rounded-lg" key={page.page}>
           <Link
-            href={generateURL(params.subdomain, params.datasource, "", page)}
+            href={generateURL(
+              params.subdomain,
+              params.datasource,
+              "",
+              page.page
+            )}
             className={classNames(
               "flex flex-1 px-2 py-1 rounded-lg font-normal no-underline",
               {
@@ -95,7 +74,7 @@ const buildRecursiveTree = (
               }
             )}
           >
-            {transformTitle(page, pageOptions)}
+            {page.title}
           </Link>
         </li>
       );
@@ -122,7 +101,7 @@ const buildRecursiveTree = (
 
             <ul className="pl-4 my-0 border-l border-white/20 prose-ul">
               <Accordion.AccordionContent>
-                {buildRecursiveTree(page.pages, params, pageOptions, pathname)}
+                {buildRecursiveTree(page.pages, params, pathname)}
               </Accordion.AccordionContent>
             </ul>
           </li>
