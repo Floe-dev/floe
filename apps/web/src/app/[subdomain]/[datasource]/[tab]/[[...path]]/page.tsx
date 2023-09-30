@@ -10,6 +10,7 @@ import { MobileNav } from "./MobileNav";
 import { generateMetadata as gm } from "@/utils/generateMetaData";
 import { StackLayout } from "./StackLayout";
 import { generateURL } from "@/utils/generateURL";
+import { ListLayout } from "./ListLayout";
 
 export const revalidate = 10;
 
@@ -66,14 +67,28 @@ async function DocsPage({
 
       return (
         <StackLayout tree={tree} params={params}>
-          <div className="w-full">
-            <DocItem doc={post} />
-          </div>
+          <DocItem doc={post} />
         </StackLayout>
       );
     }
 
-    return <div>Test</div>;
+    if (currentSection.list) {
+      return (
+        <ListLayout>
+          {posts.map((post) => (
+            <Link
+              key={post.slug}
+              href={post.slug}
+              className="mb-2 no-underline"
+            >
+              <DocItem doc={post} />
+            </Link>
+          ))}
+        </ListLayout>
+      );
+    }
+
+    return children;
   };
 
   return (
