@@ -39,16 +39,11 @@ async function DocsPage({
     return <NotFound />;
   }
 
+  console.log(111, posts);
+
   const renderPostOrPosts = () => {
     return (
       <>
-        <div className="flex mr-6 md:hidden">
-          {/* <MobileNav
-              fileTree={fileTree}
-              subdomain={params.subdomain as unknown as string}
-              pathWithBase={pathWithBase()}
-            /> */}
-        </div>
         <section className="relative hidden w-full md:w-60 shrink-0 md:block">
           <div className="relative inset-0 md:absolute">
             <div className="relative w-full md:fixed md:w-60">
@@ -78,16 +73,9 @@ async function DocsPage({
   };
 
   return (
-    <>
-      <div className="flex flex-col-reverse w-full max-w-screen-xl gap-8 px-6 pt-48 pb-8 mx-auto md:px-8 md:flex-row">
-        {renderPostOrPosts()}
-      </div>
-      <AmorphousBlob
-        blur={50}
-        rotation={0}
-        className="fixed top-0 -left-48 scale-x-[2] h-screen w-[300px] opacity-10 md:opacity-20"
-      />
-    </>
+    <div className="flex flex-col-reverse w-full max-w-screen-xl gap-8 px-6 pt-48 pb-8 mx-auto md:px-8 md:flex-row">
+      {renderPostOrPosts()}
+    </div>
   );
 }
 

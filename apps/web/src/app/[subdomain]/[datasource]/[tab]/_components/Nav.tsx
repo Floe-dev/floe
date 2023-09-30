@@ -54,20 +54,32 @@ const Nav = ({
           className="flex items-center max-w-screen-xl gap-8 px-6 py-4 m-auto md:px-8"
           aria-label="Global"
         >
-          {tabs.map((tab: any) => (
-            <Link
-              key={tab.key}
-              href={generateURL(
-                params.subdomain,
-                params.datasource,
-                tab.url,
-                ""
-              )}
-              className="text-sm font-medium text-gray-500 no-underline transition-all m-left dark:text-gray-500 hover:dark:text-gray-400 hover:text-gray-600"
-            >
-              {tab.title}
-            </Link>
-          ))}
+          {tabs.map((tab: any) => {
+            const isActive = tab.url === params.tab;
+            console.log(333, tab.url, params.tab, isActive);
+
+            return (
+              <Link
+                key={tab.key}
+                href={generateURL(
+                  params.subdomain,
+                  params.datasource,
+                  tab.url,
+                  ""
+                )}
+                className={cn(
+                  "text-sm font-medium text-gray-500 no-underline transition-all m-left dark:text-gray-500",
+                  {
+                    "font-semibold text-primary-100 dark:text-primary-200":
+                      isActive,
+                    "hover:dark:text-gray-400 hover:text-gray-600": !isActive,
+                  }
+                )}
+              >
+                {tab.title}
+              </Link>
+            );
+          })}
         </nav>
       )}
     </header>

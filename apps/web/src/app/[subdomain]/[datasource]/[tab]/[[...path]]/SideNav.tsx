@@ -23,7 +23,7 @@ const SideNav = ({ currentDataSource, params }: SideNavProps) => {
   const pathname = usePathname();
 
   const currentTab = currentDataSource.config.tabs.find(
-    (t) => t.url === params.tab
+    (t: any) => t.url === params.tab
   );
 
   return (

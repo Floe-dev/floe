@@ -29,6 +29,11 @@ export default async function ChangelogLayout({
           rotation={0}
           className="fixed -top-1/2 -right-24 scale-x-[2] h-screen w-[300px] opacity-10 md:opacity-20"
         />
+        <AmorphousBlob
+          blur={50}
+          rotation={0}
+          className="fixed top-0 -left-48 scale-x-[2] h-screen w-[300px] opacity-5 md:opacity-20"
+        />
       </main>
       <Footer {...project} />
     </ThemeProvider>
