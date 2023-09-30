@@ -21,7 +21,9 @@ async function DocsPage({
   isNotFound,
   floeClient,
   params,
-}: FloePageProps & { params: { datasource: string; tab: string } }) {
+}: FloePageProps & {
+  params: { subdomain: string; datasource: string; tab: string };
+}) {
   const project = await floeClient.project.get();
   const { datasources } = project;
   const currentDataSource = datasources.find(
@@ -45,7 +47,7 @@ async function DocsPage({
         <section className="relative hidden w-full md:w-60 shrink-0 md:block">
           <div className="relative inset-0 md:absolute">
             <div className="relative w-full md:fixed md:w-60">
-              <SideNav currentDataSource={currentDataSource} tab={params.tab} />
+              <SideNav currentDataSource={currentDataSource} params={params} />
             </div>
           </div>
         </section>

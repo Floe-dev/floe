@@ -22,27 +22,23 @@ interface SideNavProps {
   // fontSize?: "sm" | "lg";
   // subdomain: string;
   // slugWithBasePath: string;
-  tab: string;
+  params: { subdomain: string; datasource: string; tab: string };
   currentDataSource: Project["datasources"][0];
 }
 
-const SideNav = ({ currentDataSource, tab }: SideNavProps) => {
+const SideNav = ({ currentDataSource, params }: SideNavProps) => {
   const pathname = usePathname();
 
-  const currentTab = currentDataSource.config.tabs.find((t) => t.url === tab);
+  const currentTab = currentDataSource.config.tabs.find(
+    (t) => t.url === params.tab
+  );
   console.log(111111, currentTab);
 
-  return buildRecursiveTree(currentTab?.pages ?? []);
-
-  // return (
-  //   <ul
-  //     className={`w-full prose dark:prose-invert ${
-  //       fontSize === "sm" ? "prose-sm" : "prose-lg"
-  //     }`}
-  //   >
-  //     {buildRecursiveTree(fileTree, pathname, subdomain, slugWithBasePath)}
-  //   </ul>
-  // );
+  return (
+    <ul className={`w-full prose dark:prose-invert`}>
+      {buildRecursiveTree(currentTab?.stack ?? [], params)}
+    </ul>
+  );
 };
 
 const capitalize = (s: string) => {
@@ -68,32 +64,76 @@ const transformFileToTitle = (slug: string) => {
 };
 
 const buildRecursiveTree = (
-  pages: (
+  stack: (
     | string
     | {
         title: string;
-        pages: any[];
+        stack: any[];
       }
-  )[]
+  )[],
+  params: { subdomain: string; datasource: string; tab: string }
 ) => {
-  return pages.map((page) => {
-    if (typeof page === "string") {
+  return stack.map((stackItem) => {
+    if (typeof stackItem === "string") {
       return (
         <li className="flex my-2 list-none rounded-lg prose-li">
           <Link
             href={generateURL(
-              "subdomain",
-              "datasource",
-              "tab",
-              "slugWithBasePath"
+              params.subdomain,
+              params.datasource,
+              "",
+              stackItem
             )}
             className={`flex-1 px-2 py-1 font-normal no-underline`}
           >
-            {page}
+            {stackItem}
           </Link>
         </li>
       );
     }
+
+    return (
+      <Accordion.Root
+        className="AccordionRoot"
+        type="single"
+        collapsible
+        defaultValue={stackItem.title}
+        key={stackItem.title}
+      >
+        <Accordion.Item className="AccordionItem" value={stackItem.title}>
+          <li className="m-0 list-none prose-li">
+            {/* Section title */}
+            <div
+              className={classNames(
+                "flex my-2 list-none rounded-lg prose-li",
+                {
+                  "bg-primary-100/20 dark:bg-primary-200/20": false,
+                },
+                {
+                  "hover:bg-black/20 dark:hover:bg-white/20": false,
+                }
+              )}
+            >
+              <span className="flex-1 px-2 py-1 font-semibold">
+                {stackItem.title}
+              </span>
+              {stackItem.stack && (
+                <Accordion.Trigger className="px-2 group">
+                  <ChevronRightIcon className="ease-[cubic-bezier(0.87,_0,_0.13,_1)] transition-transform duration-300 group-data-[state=open]:rotate-90 w-4 h-4 ml-1" />
+                </Accordion.Trigger>
+              )}
+            </div>
+
+            {/* List */}
+            <ul className="pl-4 my-0 border-l border-white/20 prose-ul">
+              <Accordion.AccordionContent>
+                {buildRecursiveTree(stackItem.stack, params)}
+              </Accordion.AccordionContent>
+            </ul>
+          </li>
+        </Accordion.Item>
+      </Accordion.Root>
+    );
   });
 };
 

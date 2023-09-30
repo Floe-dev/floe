@@ -57,11 +57,7 @@ async function handler(
       owner: datasource.owner,
       repo: datasource.repo,
       ref: datasource.baseBranch,
-      rules: [
-        `.floe/${path}/*.md`,
-        `.floe/${path}.md`,
-        `.floe/${path}/index.md`,
-      ],
+      rules: [`.floe/${path}/*.md`, `.floe/${path}.md`],
     });
 
     content = Promise.all(
@@ -83,11 +79,7 @@ async function handler(
 
   content = (await content).flat();
 
-  const node = content.find(
-    (c) =>
-      c &&
-      (c.filename.includes("index.md") || c.filename === slugToFilename(path))
-  );
+  const node = content.find((c) => c && c.filename === slugToFilename(path));
 
   if (node) {
     return {
