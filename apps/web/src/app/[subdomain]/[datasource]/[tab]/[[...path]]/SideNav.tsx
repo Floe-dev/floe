@@ -23,7 +23,12 @@ interface SideNavProps {
   // fontSize?: "sm" | "lg";
   // subdomain: string;
   // slugWithBasePath: string;
-  params: { subdomain: string; datasource: string; tab: string };
+  params: {
+    subdomain: string;
+    datasource: string;
+    tab: string;
+    path: string[];
+  };
   currentDataSource: Project["datasources"][0];
 }
 
@@ -39,7 +44,8 @@ const SideNav = ({ currentDataSource, params }: SideNavProps) => {
       {buildRecursiveTree(
         currentTab?.stack?.pages ?? [],
         params,
-        currentDataSource.config.pageOptions
+        currentDataSource.config.pageOptions,
+        pathname
       )}
     </ul>
   );
@@ -54,7 +60,6 @@ const transformTitle = (
   }
 ) => {
   if (pageOptions[path]) {
-    console.log(11111, pageOptions[path], pageOptions[path].title);
     return pageOptions[path].title;
   }
 
@@ -70,22 +75,38 @@ const buildRecursiveTree = (
         pages: any[];
       }
   )[],
-  params: { subdomain: string; datasource: string; tab: string },
+  params: {
+    subdomain: string;
+    datasource: string;
+    tab: string;
+    path: string[];
+  },
   pageOptions: {
     [key: string]: {
       title: string;
     };
-  } = {}
+  } = {},
+  pathname: string
 ) => {
   return pages.map((page) => {
     if (typeof page === "string") {
-      console.log(33333, transformTitle(page, pageOptions));
+      const isActive = [params.tab, ...params.path].join("/") === page;
 
       return (
-        <li className="flex my-2 list-none rounded-lg prose-li">
+        <li className="flex list-none rounded-lg prose-li">
           <Link
             href={generateURL(params.subdomain, params.datasource, "", page)}
-            className={`flex-1 px-2 py-1 font-normal no-underline`}
+            className={classNames(
+              "flex flex-1 px-2 py-1 list-none rounded-lg prose-li font-normal no-underline",
+              {
+                "font-semibold text-primary-100 dark:text-primary-200 bg-primary-100/20 dark:bg-primary-200/20":
+                  isActive,
+              },
+              {
+                "font-normal dark:text-gray-200 text-gray-700 hover:bg-black/10 dark:hover:bg-white/20":
+                  !isActive,
+              }
+            )}
           >
             {transformTitle(page, pageOptions)}
           </Link>
@@ -102,7 +123,7 @@ const buildRecursiveTree = (
         key={page.title}
       >
         <Accordion.Item className="AccordionItem" value={page.title}>
-          <li className="m-0 list-none prose-li">
+          <li className="my-6 list-none prose-li">
             {/* Section title */}
             <div
               className={classNames(
@@ -116,7 +137,7 @@ const buildRecursiveTree = (
               )}
             >
               <span className="flex-1 px-2 py-1 font-semibold">
-                {transformTitle(page.title, pageOptions)}
+                {page.title}
               </span>
               {page.pages && (
                 <Accordion.Trigger className="px-2 group">
@@ -128,7 +149,7 @@ const buildRecursiveTree = (
             {/* List */}
             <ul className="pl-4 my-0 border-l border-white/20 prose-ul">
               <Accordion.AccordionContent>
-                {buildRecursiveTree(page.pages, params, pageOptions)}
+                {buildRecursiveTree(page.pages, params, pageOptions, pathname)}
               </Accordion.AccordionContent>
             </ul>
           </li>
@@ -158,15 +179,15 @@ const buildRecursiveTree = (
 
 //       return (
 //         <li
-//           className={classNames(
-//             "flex my-2 list-none rounded-lg prose-li",
-//             {
-//               "bg-primary-100/20 dark:bg-primary-200/20": isNodeActive,
-//             },
-//             {
-//               "hover:bg-black/10 dark:hover:bg-white/20": !isNodeActive,
-//             }
-//           )}
+// className={classNames(
+//   "flex my-2 list-none rounded-lg prose-li",
+//   {
+//     "bg-primary-100/20 dark:bg-primary-200/20": isNodeActive,
+//   },
+//   {
+//     "hover:bg-black/10 dark:hover:bg-white/20": !isNodeActive,
+//   }
+// )}
 //           key={key}
 //         >
 //           <Link

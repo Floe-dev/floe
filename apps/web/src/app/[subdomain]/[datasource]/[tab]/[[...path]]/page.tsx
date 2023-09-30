@@ -22,7 +22,12 @@ async function DocsPage({
   floeClient,
   params,
 }: FloePageProps & {
-  params: { subdomain: string; datasource: string; tab: string };
+  params: {
+    subdomain: string;
+    datasource: string;
+    tab: string;
+    path: string[];
+  };
 }) {
   const project = await floeClient.project.get();
   const { datasources } = project;
