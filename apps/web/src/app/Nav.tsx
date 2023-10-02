@@ -26,7 +26,7 @@ const Nav = ({ hideBackground = false }) => (
           />
         </Link>
 
-        <div className="flex gap-4">
+        {/* <div className="flex gap-4">
           <Link
             href={generateURL(process.env.NEXT_PUBLIC_FLOE_SLUG, "docs")}
             className="text-sm text-white"
@@ -45,7 +45,7 @@ const Nav = ({ hideBackground = false }) => (
           >
             Changelog
           </Link>
-        </div>
+        </div> */}
       </div>
     </nav>
   </header>

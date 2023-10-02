@@ -16,7 +16,7 @@ export default function Page() {
               Product Releases Supercharged ⚡️
             </h1>
             <h2 className="mt-2 mb-10 text-lg leading-8 dark:text-gray-300">
-              Beautiful changelogs, docs, and blogs that rollout with your code
+              Beautiful docs, wikis, and changelogs that rollout with your code
               changes. No manual orchestration required.
             </h2>
 
