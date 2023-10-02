@@ -77,6 +77,15 @@ async function handler(
     });
   }
 
+  const response = await getRepositoryContent(octokit, {
+    owner: datasource.owner,
+    repo: datasource.repo,
+    path: `.floe/config.json`,
+    ref: datasource.baseBranch,
+  });
+
+  const config = JSON.parse(response);
+
   content = (await content).flat();
 
   const node = content.find((c) => c && c.filename === slugToFilename(path));
@@ -87,11 +96,15 @@ async function handler(
     };
   }
 
-  const sortedContent = content
-    .flat()
-    .sort((a, b) =>
-      new Date(a?.metadata.date) < new Date(b?.metadata.date) ? 1 : -1
-    );
+  const section = config.sections.find((s: any) => s.url === path);
+
+  const sortedContent = content.flat().sort((a, b) => {
+    const orderDirection = section.list?.direction === "dsc" ? 1 : -1;
+
+    return new Date(a?.metadata.date) < new Date(b?.metadata.date)
+      ? 1 * orderDirection
+      : -1 * orderDirection;
+  });
 
   return { data: sortedContent };
 }
