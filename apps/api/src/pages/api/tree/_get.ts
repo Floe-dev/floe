@@ -3,22 +3,8 @@ import {
   NextApiResponseExtension,
 } from "@/lib/types/privateMiddleware";
 import { DataSource } from "@floe/db";
-import { capitalize, getRepositoryContent } from "@floe/utils";
+import { getRepositoryContent } from "@floe/utils";
 import { defaultResponder } from "@/lib/helpers/defaultResponder";
-
-type PageOptions = {
-  [key: string]: {
-    title: string;
-  };
-};
-
-type Pages = (
-  | string
-  | {
-      title: string;
-      pages: Pages;
-    }
-)[];
 
 async function handler(
   { query, project, octokit }: NextApiRequestExtension,
@@ -60,50 +46,9 @@ async function handler(
 
   const section = content.sections.find((s: any) => s.url === path);
 
-  if (!section) {
-    return res.status(404).json({
-      error: {
-        message: "Section not found",
-      },
-    });
-  }
+  const pages = section.pages;
 
-  if (!section.stack) {
-    return res.status(400).json({
-      error: {
-        message: "Section must contain a stack",
-      },
-    });
-  }
-
-  const pages = section.stack.pages;
-
-  return { data: fillPages(pages, content.pageOptions) };
+  return { data: pages };
 }
 
 export default defaultResponder(handler);
-
-const fillPages = (pages: Pages, pageOptions: PageOptions): any[] => {
-  return pages.map((page) => {
-    if (typeof page === "string") {
-      return {
-        title: transformTitle(page, pageOptions),
-        page,
-      };
-    }
-
-    return {
-      title: page.title,
-      pages: fillPages(page.pages, pageOptions),
-    };
-  });
-};
-
-const transformTitle = (path: string, pageOptions: PageOptions) => {
-  if (pageOptions[path]) {
-    return pageOptions[path].title;
-  }
-
-  const splitPath = path.split("/");
-  return capitalize(splitPath[splitPath.length - 1]);
-};

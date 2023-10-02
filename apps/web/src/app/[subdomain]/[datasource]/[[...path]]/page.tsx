@@ -18,9 +18,6 @@ export const revalidate = 10;
 
 async function DocsPage({
   isError,
-  isNode,
-  post,
-  posts,
   isNotFound,
   floeClient,
   params,
@@ -28,7 +25,6 @@ async function DocsPage({
   params: {
     subdomain: string;
     datasource: string;
-    tab: string;
     path: string[];
   };
 }) {
@@ -39,51 +35,50 @@ async function DocsPage({
     return <NotFound />;
   }
 
-  const renderPostOrPosts = async () => {
-    if (currentSection.stack) {
-      const path = decodeURIComponent(
-        [params.tab, ...(params.path ?? [])].join("/")
-      );
-      const tree = await floeClient.tree.get(params.tab, params.datasource);
+  // const renderPostOrPosts = async () => {
+  //   if (currentSection.stack) {
+  //     const path = decodeURIComponent(
+  //       [params.tab, ...(params.path ?? [])].join("/")
+  //     );
 
-      if (!isNode) {
-        const redirectPage = getFirstTreeMatch(path, tree);
-        redirect(
-          generateURL(params.subdomain, params.datasource, redirectPage)
-        );
-      }
+  //     if (!isNode) {
+  //       const redirectPage = getFirstTreeMatch(path, tree);
+  //       redirect(
+  //         generateURL(params.subdomain, params.datasource, redirectPage)
+  //       );
+  //     }
 
-      return (
-        <StackLayout tree={tree} params={params}>
-          <DocItem doc={post} />
-        </StackLayout>
-      );
-    }
+  //     return (
+  //       <StackLayout tree={tree} params={params}>
+  //         <DocItem doc={post} />
+  //       </StackLayout>
+  //     );
+  //   }
 
-    return (
-      <ListLayout>
-        {isNode ? (
-          <div className="w-full">
-            <DocItem doc={post} />
-          </div>
-        ) : (
-          posts.map((post) => (
-            <Link
-              key={post.slug}
-              href={post.slug}
-              className="mb-2 no-underline"
-            >
-              <DocItem doc={post} />
-            </Link>
-          ))
-        )}
-      </ListLayout>
-    );
-  };
+  //   return (
+  //     <ListLayout>
+  //       {isNode ? (
+  //         <div className="w-full">
+  //           <DocItem doc={post} />
+  //         </div>
+  //       ) : (
+  //         posts.map((post) => (
+  //           <Link
+  //             key={post.slug}
+  //             href={post.slug}
+  //             className="mb-2 no-underline"
+  //           >
+  //             <DocItem doc={post} />
+  //           </Link>
+  //         ))
+  //       )}
+  //     </ListLayout>
+  //   );
+  // };
 
   return (
     <div className="flex flex-col-reverse w-full max-w-screen-xl gap-8 px-6 pt-48 pb-8 mx-auto md:px-8 md:flex-row">
-      {await renderPostOrPosts()}
+      {/* {await renderPostOrPosts()} */}
     </div>
   );
 }
