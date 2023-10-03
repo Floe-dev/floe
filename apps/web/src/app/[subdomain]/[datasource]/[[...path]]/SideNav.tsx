@@ -10,11 +10,20 @@ import classNames from "classnames";
 type Tree = (
   | {
       title: string;
-      page: string;
+      pageView: {
+        path: string;
+      };
     }
   | {
       title: string;
-      pages: any[];
+      pages: Tree;
+    }
+  | {
+      title: string;
+      dataView: {
+        path: string;
+        direction: "dsc" | "asc";
+      };
     }
 )[];
 
@@ -37,29 +46,76 @@ const SideNav = ({ tree, params }: SideNavProps) => {
   );
 };
 
-function isSinglePage(
-  page:
-    | {
-        title: string;
-        page: string;
-      }
-    | {
-        title: string;
-        pages: any[];
-      }
-): page is {
+function isPageView(page: Tree[number]): page is {
   title: string;
-  page: string;
+  pageView: {
+    path: string;
+  };
 } {
   return (
     (
       page as {
         title: string;
-        page: string;
+        pageView: {
+          path: string;
+        };
       }
-    ).page !== undefined
+    ).pageView !== undefined
   );
 }
+
+function isDataView(page: Tree[number]): page is {
+  title: string;
+  dataView: {
+    path: string;
+    direction: "dsc" | "asc";
+  };
+} {
+  return (
+    (
+      page as {
+        title: string;
+        dataView: {
+          path: string;
+          direction: "dsc" | "asc";
+        };
+      }
+    ).dataView !== undefined
+  );
+}
+
+const renderItem = (
+  params: {
+    subdomain: string;
+    datasource: string;
+    path: string[];
+  },
+  path: string,
+  title: string
+) => {
+  const isActive = (params?.path ?? []).join("/") === path;
+
+  return (
+    <li className="flex p-0 list-none rounded-lg" key={path}>
+      <Link
+        href={generateURL(params.subdomain, params.datasource, "", path)}
+        className={classNames(
+          "flex flex-1 px-2 py-1 rounded-lg font-normal no-underline",
+          {
+            "font-semibold text-primary-100 dark:text-primary-200 bg-primary-100/20 dark:bg-primary-200/20":
+              isActive,
+          },
+          {
+            "font-normal dark:text-gray-200 text-gray-700 hover:bg-black/10 dark:hover:bg-white/20":
+              !isActive,
+          }
+        )}
+      >
+        {title}
+      </Link>
+    </li>
+  );
+};
 
 const buildRecursiveTree = (
   pages: Tree,
@@ -71,37 +127,15 @@ const buildRecursiveTree = (
   pathname: string
 ) => {
   return pages.map((page) => {
-    if (isSinglePage(page)) {
-      const isActive = (params?.path ?? []).join("/") === page.page;
-
-      return (
-        <li className="flex p-0 list-none rounded-lg" key={page.page}>
-          <Link
-            href={generateURL(
-              params.subdomain,
-              params.datasource,
-              "",
-              page.page
-            )}
-            className={classNames(
-              "flex flex-1 px-2 py-1 rounded-lg font-normal no-underline",
-              {
-                "font-semibold text-primary-100 dark:text-primary-200 bg-primary-100/20 dark:bg-primary-200/20":
-                  isActive,
-              },
-              {
-                "font-normal dark:text-gray-200 text-gray-700 hover:bg-black/10 dark:hover:bg-white/20":
-                  !isActive,
-              }
-            )}
-          >
-            {page.title}
-          </Link>
-        </li>
-      );
+    if (isPageView(page)) {
+      return renderItem(params, page.pageView.path, page.title);
     }
 
-    if (!page.pages.length) {
+    if (isDataView(page)) {
+      return renderItem(params, page.dataView.path, page.title);
+    }
+
+    if (!page.pages) {
       return null;
     }
 

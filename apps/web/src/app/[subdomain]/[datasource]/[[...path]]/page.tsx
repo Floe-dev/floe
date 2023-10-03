@@ -29,7 +29,6 @@ async function DocsPage({
   };
 }) {
   const datasource = await floeClient.datasource.get(params.datasource);
-  const currentSection = datasource.sections.find((s) => s.url === params.tab);
 
   if (isNotFound || isError) {
     return <NotFound />;

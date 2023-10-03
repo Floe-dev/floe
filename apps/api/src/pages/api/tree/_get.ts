@@ -44,11 +44,7 @@ async function handler(
 
   const content = JSON.parse(response);
 
-  const section = content.sections.find((s: any) => s.url === path);
-
-  const pages = section.pages;
-
-  return { data: pages };
+  return { data: content.sections };
 }
 
 export default defaultResponder(handler);
