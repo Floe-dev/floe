@@ -62,12 +62,6 @@ export type Datasource = {
   repo: string;
   name: string;
   slug: string;
-  sections: {
-    title: string;
-    url: string;
-    list?: any;
-    stack?: any;
-  }[];
 };
 
 export type Project = {
