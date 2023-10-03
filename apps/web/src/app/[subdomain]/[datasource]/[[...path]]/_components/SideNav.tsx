@@ -7,27 +7,7 @@ import { usePathname } from "next/navigation";
 import { generateURL } from "@/utils/generateURL";
 import classNames from "classnames";
 import Image from "next/image";
-import { Project } from "@floe/next";
-
-type Tree = (
-  | {
-      title: string;
-      pageView: {
-        path: string;
-      };
-    }
-  | {
-      title: string;
-      pages: Tree;
-    }
-  | {
-      title: string;
-      dataView: {
-        path: string;
-        direction: "dsc" | "asc";
-      };
-    }
-)[];
+import { Project, Tree } from "@floe/next";
 
 interface SideNavProps {
   project: Project;
@@ -43,8 +23,8 @@ const SideNav = ({ project, tree, params }: SideNavProps) => {
   const pathname = usePathname();
 
   return (
-    <header className="fixed z-20 hidden h-full p-4 border-r border-gray-100 lg:w-72 xl:w-80 backdrop-blur-2xl bg-background-100/70 dark:bg-background-200/70 dark:border-gray-800 lg:block">
-      <Link href={project.homepageURL ?? ""} className="md:hidden">
+    <header className="fixed z-20 h-full p-4 border-r border-gray-100 lg:w-72 xl:w-80 backdrop-blur-2xl bg-background-100/70 dark:bg-background-200/70 dark:border-gray-800">
+      <Link href={project.homepageURL ?? ""} className="hidden lg:block">
         {project.logo ? (
           <Image
             priority

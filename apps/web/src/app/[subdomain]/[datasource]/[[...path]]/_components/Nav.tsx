@@ -2,15 +2,21 @@ import React from "react";
 import Image from "next/image";
 import cn from "classnames";
 import Link from "next/link";
-import { Datasource, Project } from "@floe/next";
+import { Datasource, Project, Tree } from "@floe/next";
+import { MobileNav } from "./MobileNav";
 
 interface NavProps {
+  tree: Tree;
   project: Project;
   datasource: Datasource;
-  params: { subdomain: string; datasource: string };
+  params: {
+    subdomain: string;
+    datasource: string;
+    path: string[];
+  };
 }
 
-const Nav = ({ project }: NavProps) => {
+const Nav = ({ project, tree, params }: NavProps) => {
   return (
     <header
       className={cn(
@@ -22,21 +28,24 @@ const Nav = ({ project }: NavProps) => {
         aria-label="Global"
       >
         <div className="flex items-center justify-between flex-1">
-          <Link href={project.homepageURL ?? ""} className="-m-1.5 p-1.5">
-            {project.logo ? (
-              <Image
-                priority
-                src={project.logo}
-                width="0"
-                height="0"
-                sizes="100vw"
-                className="w-auto h-6 dark:invert"
-                alt="Follow us on Twitter"
-              />
-            ) : (
-              <h1 className="text-black dark:text-white">{project.name}</h1>
-            )}
-          </Link>
+          <div className="block lg:hidden">
+            <MobileNav project={project} tree={tree} params={params} />
+            <Link href={project.homepageURL ?? ""} className="-m-1.5 p-1.5">
+              {project.logo ? (
+                <Image
+                  priority
+                  src={project.logo}
+                  width="0"
+                  height="0"
+                  sizes="100vw"
+                  className="w-auto h-6 dark:invert"
+                  alt="Follow us on Twitter"
+                />
+              ) : (
+                <h1 className="text-black dark:text-white">{project.name}</h1>
+              )}
+            </Link>
+          </div>
         </div>
       </nav>
     </header>

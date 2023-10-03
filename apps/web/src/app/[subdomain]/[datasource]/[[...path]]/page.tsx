@@ -58,7 +58,7 @@ async function DocsPage({
   };
 
   return (
-    <div className="flex flex-col-reverse w-full max-w-screen-xl gap-8 px-6 pt-48 pb-8 mx-auto md:px-8 md:flex-row">
+    <div className="flex flex-col-reverse w-full max-w-screen-xl gap-8 px-6 pt-24 pb-8 mx-auto md:px-8 md:flex-row">
       {await renderPostOrPosts()}
     </div>
   );

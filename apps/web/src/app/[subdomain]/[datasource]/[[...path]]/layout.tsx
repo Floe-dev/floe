@@ -17,9 +17,16 @@ export default async function ChangelogLayout({
 
   return (
     <div className="flex">
-      <SideNav tree={tree} params={params} project={project} />
+      <div className="hidden lg:block">
+        <SideNav tree={tree} params={params} project={project} />
+      </div>
       <div className="relative flex flex-col w-full h-full min-h-screen lg:ml-72 xl:ml-80 flex: 1">
-        <Nav project={project} datasource={datasource} params={params} />
+        <Nav
+          tree={tree}
+          project={project}
+          datasource={datasource}
+          params={params}
+        />
         <main className="z-10 flex flex-col flex-1">{children}</main>
         <Footer {...project} />
       </div>
