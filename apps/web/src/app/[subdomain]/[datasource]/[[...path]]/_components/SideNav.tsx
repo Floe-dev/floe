@@ -23,8 +23,8 @@ const SideNav = ({ project, tree, params }: SideNavProps) => {
   const pathname = usePathname();
 
   return (
-    <header className="fixed z-20 h-full p-4 border-r border-gray-100 lg:w-72 xl:w-80 backdrop-blur-2xl bg-background-100/70 dark:bg-background-200/70 dark:border-gray-800">
-      <Link href={project.homepageURL ?? ""} className="hidden lg:block">
+    <>
+      <Link href={project.homepageURL ?? ""} className="hidden px-2 lg:block">
         {project.logo ? (
           <Image
             priority
@@ -42,7 +42,7 @@ const SideNav = ({ project, tree, params }: SideNavProps) => {
       <ul className="w-full p-0 mt-8 prose dark:prose-invert">
         {buildRecursiveTree(tree ?? [], params, pathname)}
       </ul>
-    </header>
+    </>
   );
 };
 

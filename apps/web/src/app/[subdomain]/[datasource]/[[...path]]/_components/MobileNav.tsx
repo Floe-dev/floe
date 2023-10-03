@@ -23,15 +23,13 @@ export const MobileNav = ({
 
   return (
     <>
-      <nav className="fixed left-0 z-50 w-full px-6 py-2 top-14 backdrop-blur-2xl bg-background-100/80 dark:bg-background-200/80">
-        <button
-          type="button"
-          onClick={() => setIsOpen(true)}
-          aria-label="Open sidebar"
-        >
-          <Bars3Icon className="w-6 h-6 text-gray-400" />
-        </button>
-      </nav>
+      <button
+        type="button"
+        onClick={() => setIsOpen(true)}
+        aria-label="Open sidebar"
+      >
+        <Bars3Icon className="w-6 h-6 text-gray-400" />
+      </button>
       <Dialog
         open={isOpen}
         onClose={() => setIsOpen(false)}
@@ -43,7 +41,7 @@ export const MobileNav = ({
           onClick={() => setIsOpen(false)}
           aria-label="Open sidebar"
         >
-          <XMarkIcon className="absolute w-8 h-8 text-zinc-900 dark:text-zinc-100 right-6 top-6" />
+          <XMarkIcon className="absolute w-8 h-8 text-zinc-900 dark:text-zinc-100 left-5 top-4" />
         </button>
       </Dialog>
     </>

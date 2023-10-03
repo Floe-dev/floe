@@ -28,7 +28,7 @@ const Nav = ({ project, tree, params }: NavProps) => {
         aria-label="Global"
       >
         <div className="flex items-center justify-between flex-1">
-          <div className="block lg:hidden">
+          <div className="flex gap-4 lg:hidden">
             <MobileNav project={project} tree={tree} params={params} />
             <Link href={project.homepageURL ?? ""} className="-m-1.5 p-1.5">
               {project.logo ? (
