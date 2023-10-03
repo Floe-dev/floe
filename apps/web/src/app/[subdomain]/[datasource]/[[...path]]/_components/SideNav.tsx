@@ -3,7 +3,6 @@
 import Link from "next/link";
 import * as Accordion from "@radix-ui/react-accordion";
 import { ChevronRightIcon } from "@heroicons/react/24/outline";
-import { usePathname } from "next/navigation";
 import { generateURL } from "@/utils/generateURL";
 import classNames from "classnames";
 import Image from "next/image";
@@ -20,8 +19,6 @@ interface SideNavProps {
 }
 
 const SideNav = ({ project, tree, params }: SideNavProps) => {
-  const pathname = usePathname();
-
   return (
     <>
       <Link href={project.homepageURL ?? ""} className="hidden px-2 lg:block">
@@ -39,8 +36,8 @@ const SideNav = ({ project, tree, params }: SideNavProps) => {
           <h1 className="text-black dark:text-white">{project.name}</h1>
         )}
       </Link>
-      <ul className="w-full p-0 mt-8 prose dark:prose-invert">
-        {buildRecursiveTree(tree ?? [], params, pathname)}
+      <ul className="w-full p-0 mt-8 text-sm prose dark:prose-invert">
+        {buildRecursiveTree(tree ?? [], params)}
       </ul>
     </>
   );
@@ -96,7 +93,7 @@ const renderItem = (
   const isActive = (params?.path ?? []).join("/") === path;
 
   return (
-    <li className="flex p-0 list-none rounded-lg" key={path}>
+    <li className="flex p-0 text-sm list-none rounded-lg" key={path}>
       <Link
         href={generateURL(params.subdomain, params.datasource, "", path)}
         className={classNames(
@@ -106,7 +103,7 @@ const renderItem = (
               isActive,
           },
           {
-            "font-normal dark:text-gray-200 text-gray-700 hover:bg-black/10 dark:hover:bg-white/20":
+            "font-normal dark:text-gray-300 text-gray-600 hover:bg-black/5 dark:hover:bg-white/10":
               !isActive,
           }
         )}
@@ -123,8 +120,7 @@ const buildRecursiveTree = (
     subdomain: string;
     datasource: string;
     path: string[];
-  },
-  pathname: string
+  }
 ) => {
   return pages.map((page) => {
     if (isPageView(page)) {
@@ -139,24 +135,45 @@ const buildRecursiveTree = (
       return null;
     }
 
+    const defaultOpen = (p: Tree): boolean =>
+      p.some((page) => {
+        const path = (params?.path ?? []).join("/");
+
+        if (isPageView(page)) {
+          return page.pageView.path.includes(path);
+        }
+
+        if (isDataView(page)) {
+          return page.dataView.path.includes(path);
+        }
+
+        if (page.pages) {
+          return defaultOpen(page.pages);
+        }
+
+        return false;
+      });
+
     return (
       <Accordion.Root
         className="AccordionRoot"
         type="single"
         collapsible
-        defaultValue={page.title}
+        defaultValue={defaultOpen(page.pages) && page.title}
         key={page.title}
       >
         <Accordion.Item className="AccordionItem" value={page.title}>
-          <li className="p-0 my-6 list-none">
-            <Accordion.Trigger className="flex items-center w-full px-2 py-1 text-left rounded-lg group hover:bg-black/10 dark:hover:bg-white/20">
-              <span className="flex-1 font-semibold">{page.title}</span>
+          <li className="p-0 list-none">
+            <Accordion.Trigger className="flex items-center w-full px-2 py-1 text-left rounded-lg group hover:bg-black/5 dark:hover:bg-white/10">
+              <span className="flex-1 text-gray-600 dark:text-gray-300">
+                {page.title}
+              </span>
               <ChevronRightIcon className="ease-[cubic-bezier(0.87,_0,_0.13,_1)] transition-transform duration-300 group-data-[state=open]:rotate-90 w-4 h-4 ml-1" />
             </Accordion.Trigger>
 
-            <ul className="pl-4 my-0 border-l border-white/20 prose-ul">
+            <ul className="pl-4 my-0prose-ul">
               <Accordion.AccordionContent>
-                {buildRecursiveTree(page.pages, params, pathname)}
+                {buildRecursiveTree(page.pages, params)}
               </Accordion.AccordionContent>
             </ul>
           </li>
