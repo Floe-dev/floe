@@ -88,9 +88,13 @@ const renderItem = (
     path: string[];
   },
   path: string,
-  title: string
+  title: string,
+  stayActiveForChildren = false
 ) => {
-  const isActive = (params?.path ?? []).join("/") === path;
+  const joinedPath = (params?.path ?? []).join("/");
+  const isActive =
+    joinedPath === path ||
+    (stayActiveForChildren && joinedPath.startsWith(path));
 
   return (
     <li className="flex p-0 text-lg list-none rounded-lg lg:text-sm" key={path}>
@@ -128,7 +132,7 @@ const buildRecursiveTree = (
     }
 
     if (isDataView(page)) {
-      return renderItem(params, page.dataView.path, page.title);
+      return renderItem(params, page.dataView.path, page.title, true);
     }
 
     if (!page.pages) {
