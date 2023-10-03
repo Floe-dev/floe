@@ -36,7 +36,7 @@ const SideNav = ({ project, tree, params }: SideNavProps) => {
           <h1 className="text-black dark:text-white">{project.name}</h1>
         )}
       </Link>
-      <ul className="w-full p-0 mt-8 text-sm prose dark:prose-invert">
+      <ul className="w-full p-0 mt-8 text-lg prose lg:text-sm dark:prose-invert">
         {buildRecursiveTree(tree ?? [], params)}
       </ul>
     </>
@@ -93,7 +93,7 @@ const renderItem = (
   const isActive = (params?.path ?? []).join("/") === path;
 
   return (
-    <li className="flex p-0 text-sm list-none rounded-lg" key={path}>
+    <li className="flex p-0 text-lg list-none rounded-lg lg:text-sm" key={path}>
       <Link
         href={generateURL(params.subdomain, params.datasource, "", path)}
         className={classNames(
@@ -168,7 +168,7 @@ const buildRecursiveTree = (
               <span className="flex-1 text-gray-600 dark:text-gray-300">
                 {page.title}
               </span>
-              <ChevronRightIcon className="ease-[cubic-bezier(0.87,_0,_0.13,_1)] transition-transform duration-300 group-data-[state=open]:rotate-90 w-4 h-4 ml-1" />
+              <ChevronRightIcon className="ease-[cubic-bezier(0.87,_0,_0.13,_1)] transition-transform duration-300 group-data-[state=open]:rotate-90 w-6 h-6 lg:w-4 lg:h-4 ml-1" />
             </Accordion.Trigger>
 
             <ul className="pl-4 my-0prose-ul">

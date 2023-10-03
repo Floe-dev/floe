@@ -33,7 +33,7 @@ export const MobileNav = ({
       <Dialog
         open={isOpen}
         onClose={() => setIsOpen(false)}
-        className="fixed inset-0 z-50 flex items-start w-full p-6 pt-20 overflow-y-auto bg-white/70 dark:bg-zinc-900/60 backdrop-blur md:hidden"
+        className="fixed inset-0 z-50 flex items-start w-full p-6 pt-20 overflow-y-auto bg-white/70 dark:bg-zinc-900/60 backdrop-blur lg:hidden"
       >
         <SideNav tree={tree} params={params} project={project} />
         <button
