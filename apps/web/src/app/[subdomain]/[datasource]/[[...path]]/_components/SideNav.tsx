@@ -6,6 +6,8 @@ import { ChevronRightIcon } from "@heroicons/react/24/outline";
 import { usePathname } from "next/navigation";
 import { generateURL } from "@/utils/generateURL";
 import classNames from "classnames";
+import Image from "next/image";
+import { Project } from "@floe/next";
 
 type Tree = (
   | {
@@ -28,6 +30,7 @@ type Tree = (
 )[];
 
 interface SideNavProps {
+  project: Project;
   tree: Tree;
   params: {
     subdomain: string;
@@ -36,12 +39,27 @@ interface SideNavProps {
   };
 }
 
-const SideNav = ({ tree, params }: SideNavProps) => {
+const SideNav = ({ project, tree, params }: SideNavProps) => {
   const pathname = usePathname();
 
   return (
-    <header className="fixed z-10 h-full p-4 border-r border-gray-100 lg:w-72 xl:w-80 backdrop-blur-2xl bg-background-100/70 dark:bg-background-200/70 dark:border-gray-800">
-      <ul className={`w-full prose dark:prose-invert p-0`}>
+    <header className="fixed z-20 hidden h-full p-4 border-r border-gray-100 lg:w-72 xl:w-80 backdrop-blur-2xl bg-background-100/70 dark:bg-background-200/70 dark:border-gray-800 lg:block">
+      <Link href={project.homepageURL ?? ""} className="md:hidden">
+        {project.logo ? (
+          <Image
+            priority
+            src={project.logo}
+            width="0"
+            height="0"
+            sizes="100vw"
+            className="w-auto h-6 dark:invert"
+            alt="Follow us on Twitter"
+          />
+        ) : (
+          <h1 className="text-black dark:text-white">{project.name}</h1>
+        )}
+      </Link>
+      <ul className="w-full p-0 mt-8 prose dark:prose-invert">
         {buildRecursiveTree(tree ?? [], params, pathname)}
       </ul>
     </header>
