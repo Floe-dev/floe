@@ -40,7 +40,7 @@ const SideNav = ({ tree, params }: SideNavProps) => {
   const pathname = usePathname();
 
   return (
-    <header className="fixed z-10 h-full p-8 lg:w-72 xl:w-80 backdrop-blur-2xl bg-background-100/70 dark:bg-background-200/70">
+    <header className="fixed z-10 h-full p-4 border-r border-gray-100 lg:w-72 xl:w-80 backdrop-blur-2xl bg-background-100/70 dark:bg-background-200/70 dark:border-gray-800">
       <ul className={`w-full prose dark:prose-invert p-0`}>
         {buildRecursiveTree(tree ?? [], params, pathname)}
       </ul>
