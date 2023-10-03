@@ -432,6 +432,9 @@ importers:
 
   packages/config:
     dependencies:
+      ajv:
+        specifier: ^8.12.0
+        version: 8.12.0
       ts-json-schema-generator:
         specifier: ^1.3.0
         version: 1.3.0

@@ -7,5 +7,5 @@ const config = {
   type: "Config", // Or <type-name> if you want to generate schema for that one type only
 };
 
-const schema = createGenerator(config).createSchema(config.type);
+export const schema: any = createGenerator(config).createSchema(config.type);
 export const schemaString = JSON.stringify(schema, null, 2);
