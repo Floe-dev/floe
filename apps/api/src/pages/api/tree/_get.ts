@@ -10,18 +10,10 @@ async function handler(
   { query, project, octokit }: NextApiRequestExtension,
   res: NextApiResponseExtension
 ) {
-  const { path, datasourceSlug } = query as {
+  const { datasourceSlug } = query as {
     path?: string;
     datasourceSlug?: string;
   };
-
-  if (!path) {
-    return res.status(400).json({
-      error: {
-        message: "path parameter is required",
-      },
-    });
-  }
 
   if (!datasourceSlug) {
     return res.status(400).json({

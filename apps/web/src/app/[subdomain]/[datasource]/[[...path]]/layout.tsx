@@ -9,7 +9,7 @@ export default async function ChangelogLayout({
   children: React.ReactNode;
 }) {
   const floeClient = getFloeClient(params.subdomain);
-  const tree = await floeClient.tree.get("/", params.datasource);
+  const tree = await floeClient.tree.get(null, params.datasource);
 
   return (
     <main className="relative z-10 flex flex-col flex-1">

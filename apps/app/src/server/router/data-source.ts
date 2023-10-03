@@ -20,7 +20,7 @@ export const dataSourceRouter = router({
         owner: input.owner,
         repo: input.repository,
         ref: input.baseBranch,
-        rules: [".floe/**/*.md"],
+        rules: ["**/*.md"],
       });
 
       const posts = files.map((f) => ({ filename: f }));

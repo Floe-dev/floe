@@ -20,18 +20,10 @@ async function handler(
   { query, project, octokit }: NextApiRequestExtension,
   res: NextApiResponseExtension
 ) {
-  const { path, datasourceSlug } = query as {
+  const { path = "", datasourceSlug } = query as {
     path?: string;
     datasourceSlug?: string;
   };
-
-  if (!path) {
-    return res.status(400).json({
-      error: {
-        message: "path parameter is required",
-      },
-    });
-  }
 
   if (!datasourceSlug) {
     return res.status(400).json({
@@ -57,7 +49,7 @@ async function handler(
       owner: datasource.owner,
       repo: datasource.repo,
       ref: datasource.baseBranch,
-      rules: [`.floe/${path}/*.md`, `.floe/${path}.md`],
+      rules: [`${path}/*.md`, `${path}.md`],
     });
 
     content = Promise.all(
@@ -96,17 +88,19 @@ async function handler(
     };
   }
 
-  const section = config.sections.find((s: any) => s.url === path);
+  // const section = config.sections.find((s: any) => s.url === path);
 
-  const sortedContent = content.flat().sort((a, b) => {
-    const orderDirection = section.list?.direction === "dsc" ? 1 : -1;
+  // const sortedContent = content.flat().sort((a, b) => {
+  //   const orderDirection = section.list?.direction === "dsc" ? 1 : -1;
 
-    return new Date(a?.metadata.date) < new Date(b?.metadata.date)
-      ? 1 * orderDirection
-      : -1 * orderDirection;
-  });
+  //   return new Date(a?.metadata.date) < new Date(b?.metadata.date)
+  //     ? 1 * orderDirection
+  //     : -1 * orderDirection;
+  // });
 
-  return { data: sortedContent };
+  console.log(111111, content);
+
+  return { data: content.flat() };
 }
 
 /**

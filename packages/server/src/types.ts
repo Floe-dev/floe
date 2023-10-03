@@ -31,17 +31,28 @@ export interface RenderedPostContent extends PostContent {
   content: React.ReactNode;
 }
 
+export type Tree = (
+  | {
+      title: string;
+      pageView: {
+        path: string;
+      };
+    }
+  | {
+      title: string;
+      pages: TreeAPIResponse["data"];
+    }
+  | {
+      title: string;
+      dataView: {
+        path: string;
+        direction: "dsc" | "asc";
+      };
+    }
+)[];
+
 export type TreeAPIResponse = {
-  data: (
-    | {
-        title: string;
-        page: string;
-      }
-    | {
-        title: string;
-        pages: TreeAPIResponse["data"];
-      }
-  )[];
+  data: Tree;
 };
 
 export type Datasource = {
