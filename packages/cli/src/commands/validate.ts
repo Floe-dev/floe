@@ -13,7 +13,8 @@ export function validate(program: Command) {
     .action(async () => {
       console.log(chalk.bold("Validating files..."));
 
-      const files = await glob(".floe/**/*.{md,mdoc}");
+      // TODO: Consider supporting mdoc format in the future
+      const files = await glob("**/*.{md}");
 
       if (files.length === 0) {
         console.log(

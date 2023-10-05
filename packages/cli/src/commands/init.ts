@@ -62,10 +62,10 @@ export function init(program: Command) {
         message: "What do you want to use this project for?",
         choices: [
           { name: "📖 Docs", value: "docs" },
+          { name: "📚 Wiki", value: "wiki" },
           { name: "🚀 Changelog", value: "changelog" },
           { name: "✍️  Blog", value: "blog" },
           { name: "🙋‍♀️ FAQ", value: "faq" },
-          { name: "🤝 Help center", value: "help" },
         ] as { name: string; value: keyof typeof templateSamples }[],
       });
 
@@ -103,17 +103,14 @@ export function init(program: Command) {
           const file = templateSamples[item];
 
           if (item === "docs") {
-            fs.mkdirSync(".floe/docs", { recursive: true });
-            fs.writeFileSync(resolve(".floe", "docs/index.md"), docSample);
-            fs.writeFileSync(
-              resolve(".floe", "docs/getting-started.md"),
-              docSample2
-            );
+            fs.mkdirSync("docs", { recursive: true });
+            fs.writeFileSync(resolve("docs/index.md"), docSample);
+            fs.writeFileSync(resolve("docs/getting-started.md"), docSample2);
             return;
           }
 
-          fs.mkdirSync(`.floe/${item}`, { recursive: true });
-          fs.writeFileSync(resolve(".floe", `${item}/sample.md`), file);
+          fs.mkdirSync(item, { recursive: true });
+          fs.writeFileSync(resolve(`${item}/sample.md`), file);
         });
 
         await sleep(1500);

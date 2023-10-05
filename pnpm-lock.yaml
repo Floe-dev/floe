@@ -356,6 +356,9 @@ importers:
 
   packages/cli:
     dependencies:
+      '@floe/config':
+        specifier: workspace:*
+        version: link:../config
       '@floe/markdoc':
         specifier: workspace:*
         version: link:../markdoc
