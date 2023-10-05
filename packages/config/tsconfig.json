@@ -3,7 +3,8 @@
   "compilerOptions": {
     "esModuleInterop": true,
     "resolveJsonModule": true,
+    "outDir": "./dist",
   },
-  "include": [".", "index.ts", "types.ts"],
+  "include": ["."],
   "exclude": ["dist", "build", "node_modules"]
 }

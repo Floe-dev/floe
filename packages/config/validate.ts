@@ -1,5 +1,5 @@
 import Ajv from "ajv";
-import { schema } from "./schema";
+import { schema } from "./schema.module";
 
 export const validate = (data: any) => {
   const ajv = new Ajv();

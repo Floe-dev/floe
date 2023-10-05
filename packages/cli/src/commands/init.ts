@@ -1,11 +1,9 @@
 import chalk from "chalk";
 import { Command } from "commander";
-import degit from "degit";
 import figlet from "figlet";
 import gradient from "gradient-string";
 import { createSpinner } from "nanospinner";
 import confirm from "@inquirer/confirm";
-import select from "@inquirer/select";
 import checkbox from "@inquirer/checkbox";
 import fs from "fs";
 import Jimp from "jimp";
@@ -16,6 +14,7 @@ import { docSample } from "../default-files/sample-doc.js";
 import { docSample2 } from "../default-files/sample-doc2.js";
 import { postSample } from "../default-files/sample-post.js";
 import { resolve } from "path";
+import { defaultConfig } from "@floe/config";
 
 const templateSamples = {
   blog: blogSample,
@@ -113,6 +112,14 @@ export function init(program: Command) {
           fs.writeFileSync(resolve(`${item}/sample.md`), file);
         });
 
+        /**
+         * Create config file
+         */
+        fs.writeFileSync(
+          resolve(".floe/config.json"),
+          JSON.stringify(defaultConfig, null, 2)
+        );
+
         await sleep(1500);
 
         const randomMessages = [
@@ -138,9 +145,9 @@ export function init(program: Command) {
           text: chalk.green("Templates created!"),
           mark: chalk.green("✔"),
         });
-      } catch (e) {
+      } catch (e: any) {
         spinner.error({
-          text: "Ruh roh there was a problem downloading the template.",
+          text: "Ruh roh! There was an error: " + e.message,
           mark: "✖",
         });
       }
