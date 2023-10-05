@@ -7,6 +7,7 @@ import confirm from "@inquirer/confirm";
 import checkbox from "@inquirer/checkbox";
 import fs from "fs";
 import Jimp from "jimp";
+import { glob } from "glob";
 import { sleep } from "../utils/sleep.js";
 import { blogSample } from "../default-files/sample-blog.js";
 import { changelogSample } from "../default-files/sample-changelog.js";
@@ -73,6 +74,11 @@ export function init(program: Command) {
         return;
       }
 
+      const useExistingFilesAnswer = await confirm({
+        message:
+          "Would you like Floe to index existing markdown files in this repository?",
+      });
+
       const spinner = createSpinner("Generating sample images...").start();
       await sleep(1000);
 
@@ -115,6 +121,44 @@ export function init(program: Command) {
         /**
          * Create config file
          */
+        const newFilesPattern = answer.map((item) => `${item}/**/*.md`);
+        // TODO: Might need to add to this in the future
+        const ignorePatterns = ["node_modules/**"];
+        const existingMDFiles = await glob(["*.md", "**/*.{md}"], {
+          ignore: [...ignorePatterns, ...newFilesPattern],
+        });
+        const newMDFiles = await glob(newFilesPattern);
+        const allFiles = [
+          ...(useExistingFilesAnswer ? existingMDFiles : []),
+          ...newMDFiles,
+        ];
+
+        /**
+         * Recursively creates sections based on file path
+         */
+        // const sections = allFiles.reduce((acc, file) => {
+        //   const split = file.split("/");
+        //   const fileName = split[split.length - 1];
+        //   const sectionName = split[0].replace(".md", "");
+
+        //   if (acc[sectionName]) {
+        //     return acc;
+        //   }
+
+        //   return {
+        //     ...acc,
+        //     [sectionName]: {
+        //       title: sectionName,
+        //       pages: [],
+        //     },
+        //   };
+        // }, {});
+        console.log(111111, allFiles);
+
+        const config = {
+          ...defaultConfig,
+        };
+
         fs.writeFileSync(
           resolve(".floe/config.json"),
           JSON.stringify(defaultConfig, null, 2)

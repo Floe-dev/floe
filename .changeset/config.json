@@ -3,7 +3,7 @@
   "changelog": "@changesets/cli/changelog",
   "commit": false,
   "fixed": [],
-  "linked": [["@floe/markdoc", "@floe/api", "@floe/cli"]],
+  "linked": [["@floe/markdoc", "@floe/api", "@floe/cli", "@floe/config"]],
   "access": "restricted",
   "baseBranch": "main",
   "updateInternalDependencies": "patch",

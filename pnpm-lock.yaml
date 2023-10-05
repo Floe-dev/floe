@@ -404,6 +404,9 @@ importers:
       jimp:
         specifier: ^0.22.10
         version: 0.22.10
+      minimatch:
+        specifier: ^9.0.3
+        version: 9.0.3
       nanospinner:
         specifier: ^1.1.0
         version: 1.1.0
@@ -445,6 +448,9 @@ importers:
       '@types/node':
         specifier: ^20.8.2
         version: 20.8.2
+      eslint-config-custom:
+        specifier: workspace:*
+        version: link:../eslint-config-custom
       ts-node:
         specifier: ^10.9.1
         version: 10.9.1(@types/node@20.8.2)(typescript@5.2.2)
