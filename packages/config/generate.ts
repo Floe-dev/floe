@@ -1,5 +1,5 @@
 import fs from "fs";
-import { schemaString } from ".";
+import { schemaString } from "./schema";
 
 const output_path = "./schema.json";
 

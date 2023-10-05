@@ -2,6 +2,7 @@
   "extends": "tsconfig/base.json",
   "compilerOptions": {
     "esModuleInterop": true,
+    "resolveJsonModule": true,
   },
   "include": [".", "index.ts", "types.ts"],
   "exclude": ["dist", "build", "node_modules"]
