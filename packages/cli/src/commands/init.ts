@@ -15,6 +15,7 @@ import { docSample } from "../default-files/sample-doc.js";
 import { docSample2 } from "../default-files/sample-doc2.js";
 import { postSample } from "../default-files/sample-post.js";
 import { resolve } from "path";
+import { capitalize } from "../utils/capitalize.js";
 import { defaultConfig } from "@floe/config";
 
 const templateSamples = {
@@ -22,7 +23,7 @@ const templateSamples = {
   changelog: changelogSample,
   docs: docSample,
   faq: postSample,
-  help: postSample,
+  wiki: postSample,
 };
 
 export function init(program: Command) {
@@ -134,26 +135,44 @@ export function init(program: Command) {
         ];
 
         /**
-         * Recursively creates sections based on file path
+         * Recursively creates sections in this format [
          */
-        // const sections = allFiles.reduce((acc, file) => {
-        //   const split = file.split("/");
-        //   const fileName = split[split.length - 1];
-        //   const sectionName = split[0].replace(".md", "");
+        const sections = allFiles.reduce((acc, file) => {
+          const parts = file.split("/");
+          // @ts-ignore
+          const createPages = (pages: any[], parts: string[]) => {
+            const [first, ...rest] = parts;
+            const title = capitalize(first.replace(".md", ""));
 
-        //   if (acc[sectionName]) {
-        //     return acc;
-        //   }
+            if (rest.length === 0) {
+              return {
+                title,
+                pageView: {
+                  path: file.replace(".md", ""),
+                },
+              };
+            }
 
-        //   return {
-        //     ...acc,
-        //     [sectionName]: {
-        //       title: sectionName,
-        //       pages: [],
-        //     },
-        //   };
-        // }, {});
-        console.log(111111, allFiles);
+            const existingPage = pages.find((page) => page.title === title);
+
+            if (existingPage) {
+              existingPage.pages = createPages(existingPage.pages, rest);
+              return pages;
+            }
+
+            // @ts-ignore
+            const newPage = {
+              title,
+              pages: createPages([], rest),
+            };
+
+            return [...pages, newPage];
+          };
+
+          return createPages(acc, parts);
+        }, []);
+
+        console.log(22222, sections);
 
         const config = {
           ...defaultConfig,
@@ -190,10 +209,8 @@ export function init(program: Command) {
           mark: chalk.green("✔"),
         });
       } catch (e: any) {
-        spinner.error({
-          text: "Ruh roh! There was an error: " + e.message,
-          mark: "✖",
-        });
+        spinner.stop();
+        program.error("Ruh roh! There was an error: " + e.message);
       }
 
       figlet("success", (err, data) => {
