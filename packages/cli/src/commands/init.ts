@@ -70,11 +70,6 @@ export function init(program: Command) {
         ] as { name: string; value: keyof typeof templateSamples }[],
       });
 
-      if (!answer.length) {
-        console.log(chalk.red("You must select at least one option."));
-        return;
-      }
-
       const useExistingFilesAnswer = await confirm({
         message:
           "Would you like Floe to index existing markdown files in this repository?",
@@ -125,7 +120,7 @@ export function init(program: Command) {
         const newFilesPattern = answer.map((item) => `${item}/**/*.md`);
         // TODO: Might need to add to this in the future
         const ignorePatterns = ["node_modules/**"];
-        const existingMDFiles = await glob(["*.md", "**/*.{md}"], {
+        const existingMDFiles = await glob(["*.md", "**/*.md"], {
           ignore: [...ignorePatterns, ...newFilesPattern],
         });
         const newMDFiles = await glob(newFilesPattern);
