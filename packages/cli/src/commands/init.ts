@@ -153,34 +153,37 @@ export function init(program: Command) {
               };
             }
 
-            const existingPage = pages.find((page) => page.title === title);
+            const existingSection = pages.find(
+              (page) => page.title === title && page.pages
+            );
 
-            if (existingPage) {
-              existingPage.pages = createPages(existingPage.pages, rest);
+            if (existingSection) {
+              existingSection.pages.push(
+                createPages(existingSection.pages, rest)
+              );
               return pages;
             }
 
-            // @ts-ignore
-            const newPage = {
-              title,
-              pages: createPages([], rest),
-            };
-
-            return [...pages, newPage];
+            return [
+              ...pages,
+              {
+                title,
+                pages: [createPages([], rest)],
+              },
+            ];
           };
 
           return createPages(acc, parts);
         }, []);
 
-        console.log(22222, sections);
-
         const config = {
           ...defaultConfig,
+          sections,
         };
 
         fs.writeFileSync(
           resolve(".floe/config.json"),
-          JSON.stringify(defaultConfig, null, 2)
+          JSON.stringify(config, null, 2)
         );
 
         await sleep(1500);
