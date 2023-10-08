@@ -5,4 +5,4 @@ export const defaultConfig = {
   sections: [],
 } as const;
 
-// export { validate } from "./validate";
+export { validate } from "./validate";
