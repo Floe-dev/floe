@@ -5,6 +5,9 @@
     "Config": {
       "type": "object",
       "properties": {
+        "$schema": {
+          "type": "string"
+        },
         "sections": {
           "type": "array",
           "items": {
@@ -29,7 +32,6 @@
                   }
                 },
                 "required": [
-                  "title",
                   "pageView"
                 ],
                 "additionalProperties": false
@@ -41,11 +43,10 @@
                     "type": "string"
                   },
                   "pages": {
-                    "$ref": "#/definitions/Config"
+                    "$ref": "#/definitions/alias-types.ts-0-279-types.ts-0-350"
                   }
                 },
                 "required": [
-                  "title",
                   "pages"
                 ],
                 "additionalProperties": false
@@ -78,7 +79,6 @@
                   }
                 },
                 "required": [
-                  "title",
                   "dataView"
                 ],
                 "additionalProperties": false
@@ -88,9 +88,88 @@
         }
       },
       "required": [
+        "$schema",
         "sections"
       ],
       "additionalProperties": false
+    },
+    "alias-types.ts-0-279-types.ts-0-350": {
+      "type": "array",
+      "items": {
+        "anyOf": [
+          {
+            "type": "object",
+            "properties": {
+              "title": {
+                "type": "string"
+              },
+              "pageView": {
+                "type": "object",
+                "properties": {
+                  "path": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "path"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "pageView"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "title": {
+                "type": "string"
+              },
+              "pages": {
+                "$ref": "#/definitions/alias-types.ts-0-279-types.ts-0-350"
+              }
+            },
+            "required": [
+              "pages"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "title": {
+                "type": "string"
+              },
+              "dataView": {
+                "type": "object",
+                "properties": {
+                  "path": {
+                    "type": "string"
+                  },
+                  "direction": {
+                    "type": "string",
+                    "enum": [
+                      "dsc",
+                      "asc"
+                    ]
+                  }
+                },
+                "required": [
+                  "path",
+                  "direction"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "dataView"
+            ],
+            "additionalProperties": false
+          }
+        ]
+      }
     }
   }
 }

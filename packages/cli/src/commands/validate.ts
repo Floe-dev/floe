@@ -6,6 +6,7 @@ import { createSpinner } from "nanospinner";
 import { validate as validateMarkdoc } from "@floe/markdoc";
 import { validate as validateSchema } from "@floe/config";
 import fs from "fs";
+import axios from "axios";
 import { sleep } from "../utils/sleep.js";
 
 export function validate(program: Command) {
@@ -13,20 +14,40 @@ export function validate(program: Command) {
     .command("validate")
     .description("Validate Markdoc")
     .action(async () => {
-      console.log(chalk.bold("Validating schema..."));
-      const schema = JSON.parse(fs.readFileSync(".floe/config.json", "utf-8"));
+      const spinner1 = createSpinner("Validating config...").start();
+      const config = JSON.parse(fs.readFileSync(".floe/config.json", "utf-8"));
+      const schemaURL = config.$schema;
 
-      console.log(schema);
+      const schema = await axios.get(schemaURL).catch((e) => {
+        spinner1.error({
+          text: chalk.red("Could not fetch schema"),
+          mark: chalk.red("✖"),
+        });
 
-      if (!schema) {
-        throw new Error("No schema found");
+        process.exit(1);
+      });
+
+      if (!config) {
+        throw new Error("No config found");
       }
 
-      console.log(3333, validateSchema(schema));
+      const { valid, errors } = validateSchema(config);
 
-      await sleep(2000);
+      if (!valid) {
+        console.log(chalk.red("Config file is invalid"));
+        errors?.forEach((e) => console.error(e));
 
-      console.log(chalk.bold("Validating files..."));
+        return;
+      }
+
+      await sleep(1000);
+
+      spinner1.success({
+        text: chalk.green("Config is valid"),
+        mark: chalk.green("✔"),
+      });
+
+      const spinner2 = createSpinner("Validating files...").start();
 
       // TODO: Only use md files defined in schema
       const files = await glob(["*.md", "**/*.md"]);
@@ -41,26 +62,40 @@ export function validate(program: Command) {
         return;
       }
 
-      const spinner = createSpinner("Validating files...").start();
-
-      await sleep(2000);
-
-      spinner.stop();
+      await sleep(1000);
 
       /**
        * Get contents of each file
        */
-      files.forEach(async (file) => {
-        const contents = readFileSync(file, "utf-8");
-        const result = validateMarkdoc(contents);
+      const mdValidList = files
+        .map((file) => {
+          const contents = readFileSync(file, "utf-8");
+          const result = validateMarkdoc(contents);
 
-        if (result.length === 0) {
-          console.log(chalk.green(`✔ ${file}`));
-          return;
-        }
+          if (result.length === 0) {
+            return undefined;
+          }
 
-        console.log(chalk.red(`✖ ${file}`));
-        console.log(result);
+          return result;
+        })
+        .filter((f) => !!f);
+
+      if (!mdValidList.length) {
+        spinner2.success({
+          text: chalk.green("Markdown is valid"),
+          mark: chalk.green("✔"),
+        });
+
+        return;
+      }
+
+      spinner2.error({
+        text: chalk.red("Invalid markdown:"),
+        mark: chalk.red("✖"),
+      });
+
+      mdValidList.forEach((result) => {
+        console.log(chalk.red(`✖ ${JSON.stringify(result)}`));
       });
     });
 }
