@@ -3,6 +3,7 @@ import Image from "next/image";
 import cn from "classnames";
 import Link from "next/link";
 import { Datasource, Project, Tree } from "@floe/next";
+// import githubLogo from "public/github-mark.svg";
 import { MobileNav } from "./MobileNav";
 
 interface NavProps {
@@ -16,11 +17,11 @@ interface NavProps {
   };
 }
 
-const Nav = ({ project, tree, params }: NavProps) => {
+const Nav = ({ datasource, project, tree, params }: NavProps) => {
   return (
     <header
       className={cn(
-        "fixed w-full top-0 z-50 backdrop-blur-2xl bg-background-100/70 dark:bg-background-200/70 border-b border-gray-100 dark:border-gray-800"
+        "sticky w-full top-0 z-50 backdrop-blur-2xl bg-background-100/70 dark:bg-background-200/70 border-b border-gray-100 dark:border-gray-800"
       )}
     >
       <nav
@@ -46,6 +47,24 @@ const Nav = ({ project, tree, params }: NavProps) => {
               )}
             </Link>
           </div>
+        </div>
+        <div>
+          <Link
+            href={`https://github.com/${datasource.owner}/${datasource.repo}`}
+            className="flex items-center gap-2"
+            target="_blank"
+          >
+            <Image
+              priority
+              src="/github-mark.svg"
+              alt="Github logo"
+              width={24}
+              height={24}
+            />
+            <p className="text-sm font-medium truncate max-w-[120px] lowercase text-gray-900">
+              {datasource.owner}/{datasource.repo}
+            </p>
+          </Link>
         </div>
       </nav>
     </header>
