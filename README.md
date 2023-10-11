@@ -1,6 +1,8 @@
 ![banner](https://github.com/Floe-dev/floe/assets/9045634/41c40819-5c26-4593-b2a0-5057b24dc98b)
 
 <p align="center">
+  ✨ Coming Soon ✨
+    <br />
   <h3 align="center">Content, in Context</h3>
 
   <p align="center">
@@ -16,8 +18,6 @@
     <!-- <a href="https://github.com/Floe-dev/floe/issues">🐛 Bugs</a>
     ·
     <a href="https://floe.canny.io/">🗺️ Roadmap</a> -->
-    ✨ Coming Soon ✨
-    <br />
     Beautiful docs, wikis, and changelogs. Powered by AI.
   </p>
 </p>
