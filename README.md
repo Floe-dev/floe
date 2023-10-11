@@ -1,30 +1,34 @@
 ![banner](https://github.com/Floe-dev/floe/assets/9045634/41c40819-5c26-4593-b2a0-5057b24dc98b)
 
 <p align="center">
-  <h3 align="center">Product Release Comms Made Easy</h3>
+  <h3 align="center">Content, in Context</h3>
 
   <p align="center">
-    Open-source product release content (changelogs, docs, blogs), announcements, and feedback.
+    <!-- Open-source product release content (changelogs, docs, blogs), announcements, and feedback.
     <br />
-    <a href="https://www.notion.so/floe-dev/Welcome-to-Floe-3db77b5e72a74c86a7756deb4bb2eb45?pvs=4"><strong>Learn more »</strong></a>
-    <br />
+    <a href="https://www.notion.so/floe-dev/Welcome-to-Floe-3db77b5e72a74c86a7756deb4bb2eb45?pvs=4"><strong>Learn more »</strong></a> -->
+    <!-- <br />
     <br />
     <a href="https://discord.gg/7TteWgp4rw">💬 Discord</a>
     ·
     <a href="https://floe.dev">🌐 Website</a>
+    · -->
+    <!-- <a href="https://github.com/Floe-dev/floe/issues">🐛 Bugs</a>
     ·
-    <a href="https://github.com/Floe-dev/floe/issues">🐛 Bugs</a>
-    ·
-    <a href="https://floe.canny.io/">🗺️ Roadmap</a>
+    <a href="https://floe.canny.io/">🗺️ Roadmap</a> -->
+    Beautiful docs, wikis, and changelogs. Powered by AI.
+    <br />
+    ✨ Coming Soon ✨
   </p>
 </p>
 
+> ℹ️ Floe is in active development. If you're interested in a demo, or want to contribute, join the [Discord](https://discord.gg/7TteWgp4rw).
+
+<!--
 <p align="center">
    <a href="https://github.com/Floe-dev/floe/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-AGPLv3-purple" alt="License"></a>
    <a href="https://github.com/Floe-dev/floe/issues?q=is:open+is:issue+label:%22help+wanted%22"><img src="https://img.shields.io/badge/Help%20Wanted-Contribute-blue"></a>
 </p>
-
-> ℹ️ Floe is currently in alpha. You will probably experience bugs, and in the interest of moving quickly I may introduce breaking changes.
 
 ## Features
 
@@ -90,4 +94,4 @@ Floe is in alpha. While in alpha, you can expect bugs, and breaking changes to t
 
 ## Contributing
 
-To contribute check out the guidelines [here](/CONTRIBUTING.md).
+To contribute check out the guidelines [here](/CONTRIBUTING.md). -->
