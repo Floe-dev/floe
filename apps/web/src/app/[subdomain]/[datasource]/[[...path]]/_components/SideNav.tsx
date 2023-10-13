@@ -6,11 +6,13 @@ import { ChevronRightIcon } from "@heroicons/react/24/outline";
 import { generateURL } from "@/utils/generateURL";
 import classNames from "classnames";
 import Image from "next/image";
-import { Project, Tree } from "@floe/next";
+import { Project, Tree, Datasource } from "@floe/next";
+import { DatasourceSelector } from "./DatasourceSelector";
 
 interface SideNavProps {
   project: Project;
   tree: Tree;
+  datasource: Datasource;
   params: {
     subdomain: string;
     datasource: string;
@@ -18,24 +20,28 @@ interface SideNavProps {
   };
 }
 
-const SideNav = ({ project, tree, params }: SideNavProps) => {
+const SideNav = ({ project, datasource, tree, params }: SideNavProps) => {
   return (
     <>
-      <Link href={project.homepageURL ?? ""} className="hidden px-2 lg:block">
-        {project.logo ? (
-          <Image
-            priority
-            src={project.logo}
-            width="0"
-            height="0"
-            sizes="100vw"
-            className="w-auto h-6 dark:invert"
-            alt="Follow us on Twitter"
-          />
-        ) : (
-          <h1 className="text-black dark:text-white">{project.name}</h1>
-        )}
-      </Link>
+      <div className="flex items-center justify-between">
+        <Link href={project.homepageURL ?? ""} className="hidden px-2 lg:block">
+          {project.logo ? (
+            <Image
+              priority
+              src={project.logo}
+              width="0"
+              height="0"
+              sizes="100vw"
+              className="w-auto h-6 dark:invert"
+              alt="Follow us on Twitter"
+            />
+          ) : (
+            <h1 className="text-black dark:text-white">{project.name}</h1>
+          )}
+        </Link>
+        <DatasourceSelector project={project} datasource={datasource} />
+      </div>
+
       <ul className="w-full p-0 mt-8 text-lg prose lg:text-sm dark:prose-invert">
         {buildRecursiveTree(tree ?? [], params)}
       </ul>
