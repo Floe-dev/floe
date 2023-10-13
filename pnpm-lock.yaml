@@ -362,9 +362,6 @@ importers:
       '@floe/markdoc':
         specifier: workspace:*
         version: link:../markdoc
-      '@floe/utils':
-        specifier: workspace:*
-        version: link:../utils
       '@inquirer/checkbox':
         specifier: ^1.3.11
         version: 1.3.11
