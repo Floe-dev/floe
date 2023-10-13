@@ -98,8 +98,6 @@ async function handler(
   //     : -1 * orderDirection;
   // });
 
-  console.log(111111, content);
-
   return { data: content.flat() };
 }
 
