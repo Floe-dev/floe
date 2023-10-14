@@ -30,7 +30,12 @@ const Nav = ({ datasource, project, tree, params }: NavProps) => {
       >
         <div className="flex items-center justify-between flex-1">
           <div className="flex gap-4 lg:hidden">
-            <MobileNav project={project} tree={tree} params={params} />
+            <MobileNav
+              project={project}
+              tree={tree}
+              params={params}
+              datasource={datasource}
+            />
             <Link href={project.homepageURL ?? ""} className="-m-1.5 p-1.5">
               {project.logo ? (
                 <Image

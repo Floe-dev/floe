@@ -4,14 +4,16 @@ import { Dialog } from "@headlessui/react";
 import { useState } from "react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/20/solid";
 import SideNav from "./SideNav";
-import { Project, Tree } from "@floe/next";
+import { Project, Tree, Datasource } from "@floe/next";
 
 export const MobileNav = ({
   tree,
   params,
   project,
+  datasource,
 }: {
   project: Project;
+  datasource: Datasource;
   tree: Tree;
   params: {
     subdomain: string;
@@ -35,7 +37,12 @@ export const MobileNav = ({
         onClose={() => setIsOpen(false)}
         className="fixed inset-0 z-50 flex items-start w-full p-6 pt-20 overflow-y-auto bg-white/70 dark:bg-zinc-900/60 backdrop-blur lg:hidden"
       >
-        <SideNav tree={tree} params={params} project={project} />
+        <SideNav
+          tree={tree}
+          params={params}
+          project={project}
+          datasource={datasource}
+        />
         <button
           type="button"
           onClick={() => setIsOpen(false)}
