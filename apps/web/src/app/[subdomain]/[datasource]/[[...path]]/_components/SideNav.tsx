@@ -8,6 +8,7 @@ import classNames from "classnames";
 import Image from "next/image";
 import { Project, Tree, Datasource } from "@floe/next";
 import { DatasourceSelector } from "./DatasourceSelector";
+import { isPageView, isDataView } from "@/utils/tree";
 
 interface SideNavProps {
   project: Project;
@@ -49,44 +50,6 @@ const SideNav = ({ project, datasource, tree, params }: SideNavProps) => {
   );
 };
 
-function isPageView(page: Tree[number]): page is {
-  title: string;
-  pageView: {
-    path: string;
-  };
-} {
-  return (
-    (
-      page as {
-        title: string;
-        pageView: {
-          path: string;
-        };
-      }
-    ).pageView !== undefined
-  );
-}
-
-function isDataView(page: Tree[number]): page is {
-  title: string;
-  dataView: {
-    path: string;
-    direction: "dsc" | "asc";
-  };
-} {
-  return (
-    (
-      page as {
-        title: string;
-        dataView: {
-          path: string;
-          direction: "dsc" | "asc";
-        };
-      }
-    ).dataView !== undefined
-  );
-}
-
 const renderItem = (
   params: {
     subdomain: string;
@@ -105,7 +68,7 @@ const renderItem = (
   return (
     <li className="flex p-0 text-lg list-none rounded-lg lg:text-sm" key={path}>
       <Link
-        href={generateURL(params.subdomain, params.datasource, "", path)}
+        href={generateURL(params.subdomain, params.datasource, path)}
         className={classNames(
           "flex flex-1 px-2 py-1 rounded-lg font-normal no-underline",
           {

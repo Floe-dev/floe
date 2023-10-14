@@ -1,10 +1,9 @@
 export function generateURL(
   subdomain: string,
   datasource: string,
-  tab?: string,
   path?: string
 ) {
-  const dynamicPath = [datasource, tab, path].filter(Boolean).join("/");
+  const dynamicPath = [datasource, path].filter(Boolean).join("/");
 
   if (process.env.NODE_ENV === "production") {
     return `https://${subdomain}.floe.dev/${dynamicPath}`;

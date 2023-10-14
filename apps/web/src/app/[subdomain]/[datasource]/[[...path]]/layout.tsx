@@ -2,6 +2,9 @@ import { getFloeClient } from "@/app/floe-client";
 import SideNav from "./_components/SideNav";
 import Nav from "./_components/Nav";
 import { Footer } from "./Footer";
+import { getFirstPageOfTree } from "@/utils/tree";
+import { redirect } from "next/navigation";
+import { generateURL } from "@/utils/generateURL";
 
 export default async function ChangelogLayout({
   params,
@@ -14,6 +17,12 @@ export default async function ChangelogLayout({
   const project = await floeClient.project.get();
   const tree = await floeClient.tree.get(null, params.datasource);
   const datasource = await floeClient.datasource.get(params.datasource);
+
+  if (!params.path?.length) {
+    redirect(
+      generateURL(params.subdomain, params.datasource, getFirstPageOfTree(tree))
+    );
+  }
 
   return (
     <div className="flex">
