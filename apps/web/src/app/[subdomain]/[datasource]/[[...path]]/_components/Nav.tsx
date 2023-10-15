@@ -2,12 +2,11 @@ import React from "react";
 import Image from "next/image";
 import cn from "classnames";
 import Link from "next/link";
-import { Datasource, Project, Tree } from "@floe/next";
+import { Datasource, Project } from "@floe/next";
 // import githubLogo from "public/github-mark.svg";
 import { MobileNav } from "./MobileNav";
 
 interface NavProps {
-  tree: Tree;
   project: Project;
   datasource: Datasource;
   params: {
@@ -17,7 +16,7 @@ interface NavProps {
   };
 }
 
-const Nav = ({ datasource, project, tree, params }: NavProps) => {
+const Nav = ({ datasource, project, params }: NavProps) => {
   return (
     <header
       className={cn(
@@ -32,7 +31,6 @@ const Nav = ({ datasource, project, tree, params }: NavProps) => {
           <div className="flex gap-4 lg:hidden">
             <MobileNav
               project={project}
-              tree={tree}
               params={params}
               datasource={datasource}
             />

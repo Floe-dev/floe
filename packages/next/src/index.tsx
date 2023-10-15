@@ -8,7 +8,8 @@ export type {
   RenderedPostContent,
   Project,
   Datasource,
-  Tree,
+  Sections,
+  FloeClientFactory,
 } from "@floe/server";
 export type { FloePageProps } from "./withFloeServerPages";
 export { withFloeServerPages } from "./withFloeServerPages";

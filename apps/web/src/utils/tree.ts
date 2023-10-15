@@ -1,6 +1,6 @@
-import { Tree } from "@floe/next";
+import { Sections } from "@floe/next";
 
-export function isPageView(page: Tree[number]): page is {
+export function isPageView(page: Sections[number]): page is {
   title: string;
   pageView: {
     path: string;
@@ -18,7 +18,7 @@ export function isPageView(page: Tree[number]): page is {
   );
 }
 
-export function isDataView(page: Tree[number]): page is {
+export function isDataView(page: Sections[number]): page is {
   title: string;
   dataView: {
     path: string;
@@ -38,7 +38,7 @@ export function isDataView(page: Tree[number]): page is {
   );
 }
 
-export function getFirstPageOfTree(tree: Tree) {
+export function getFirstPageOfTree(tree: Sections) {
   if (!tree.length) return null;
   if (isPageView(tree[0])) return tree[0].pageView.path;
   if (isDataView(tree[0])) return tree[0].dataView.path;

@@ -6,13 +6,12 @@ import { ChevronRightIcon } from "@heroicons/react/24/outline";
 import { generateURL } from "@/utils/generateURL";
 import classNames from "classnames";
 import Image from "next/image";
-import { Project, Tree, Datasource } from "@floe/next";
+import { Project, Datasource, Sections } from "@floe/next";
 import { DatasourceSelector } from "./DatasourceSelector";
 import { isPageView, isDataView } from "@/utils/tree";
 
 interface SideNavProps {
   project: Project;
-  tree: Tree;
   datasource: Datasource;
   params: {
     subdomain: string;
@@ -21,7 +20,7 @@ interface SideNavProps {
   };
 }
 
-const SideNav = ({ project, datasource, tree, params }: SideNavProps) => {
+const SideNav = ({ project, datasource, params }: SideNavProps) => {
   return (
     <>
       <div className="flex items-center justify-between">
@@ -44,7 +43,7 @@ const SideNav = ({ project, datasource, tree, params }: SideNavProps) => {
       </div>
 
       <ul className="w-full p-0 mt-8 text-lg prose lg:text-sm dark:prose-invert">
-        {buildRecursiveTree(tree ?? [], params)}
+        {buildRecursiveTree(datasource.sections ?? [], params)}
       </ul>
     </>
   );
@@ -88,7 +87,7 @@ const renderItem = (
 };
 
 const buildRecursiveTree = (
-  pages: Tree,
+  pages: Sections,
   params: {
     subdomain: string;
     datasource: string;
@@ -108,7 +107,7 @@ const buildRecursiveTree = (
       return null;
     }
 
-    const defaultOpen = (p: Tree): boolean =>
+    const defaultOpen = (p: Sections): boolean =>
       p.some((page) => {
         const path = (params?.path ?? []).join("/");
 

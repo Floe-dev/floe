@@ -31,7 +31,7 @@ export interface RenderedPostContent extends PostContent {
   content: React.ReactNode;
 }
 
-export type Tree = (
+export type Sections = (
   | {
       title: string;
       pageView: {
@@ -40,7 +40,7 @@ export type Tree = (
     }
   | {
       title: string;
-      pages: TreeAPIResponse["data"];
+      pages: Sections;
     }
   | {
       title: string;
@@ -51,10 +51,6 @@ export type Tree = (
     }
 )[];
 
-export type TreeAPIResponse = {
-  data: Tree;
-};
-
 export type Datasource = {
   id: string;
   branch: string;
@@ -62,6 +58,7 @@ export type Datasource = {
   repo: string;
   name: string;
   slug: string;
+  sections: Sections | null;
 };
 
 export type Project = {

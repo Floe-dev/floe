@@ -39,18 +39,24 @@ async function handler(
     });
   }
 
-  const response = await getRepositoryContent(octokit, {
-    owner: datasource.owner,
-    repo: datasource.repo,
-    path: `.floe/config.json`,
-    ref: datasource.baseBranch,
-  });
+  let sections = null;
 
-  const content = JSON.parse(response);
+  try {
+    const response = await getRepositoryContent(octokit, {
+      owner: datasource.owner,
+      repo: datasource.repo,
+      path: `.floe/config.json`,
+      ref: datasource.baseBranch,
+    });
+
+    const sections = JSON.parse(response).sections;
+  } catch (e) {
+    console.log("Config not found");
+  }
 
   return {
     data: {
-      sections: content.sections,
+      sections,
       id: datasource.id,
       branch: datasource.baseBranch,
       owner: datasource.owner,

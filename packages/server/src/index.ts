@@ -1,7 +1,6 @@
 import api from "./api";
 import {
   PostAPIResponse,
-  TreeAPIResponse,
   ProjectAPIResponse,
   DatasourceAPIResponse,
 } from "./types";
@@ -65,29 +64,6 @@ export class FloeClientFactory {
     };
   }
 
-  get tree() {
-    return {
-      get: async (path: string, datasourceSlug: string) => {
-        const queryParams = new URLSearchParams({
-          path,
-          ...(datasourceSlug && { datasourceSlug }),
-        });
-
-        const response = await this.api<TreeAPIResponse>(
-          `v1/tree?${queryParams}`
-        );
-
-        if (!response) {
-          return undefined;
-        }
-
-        const { data } = response;
-
-        return data;
-      },
-    };
-  }
-
   get post() {
     return {
       getListOrNode: async (path: string, datasourceSlug: string) => {
@@ -132,4 +108,9 @@ const FloeClient = (auth: Auth, options?: Options) =>
   new FloeClientFactory(auth, options);
 
 export default FloeClient;
-export type { Project, Datasource, Tree, RenderedPostContent } from "./types";
+export type {
+  Project,
+  Datasource,
+  Sections,
+  RenderedPostContent,
+} from "./types";
