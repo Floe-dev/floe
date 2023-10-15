@@ -2,7 +2,6 @@ import React from "react";
 import { getFloeClient } from "@/app/floe-client";
 import { withFloeServerPages, FloePageProps } from "@floe/next";
 import Link from "next/link";
-import { redirect } from "next/navigation";
 import DocItem from "./DocPage";
 import NotFound from "@/app/NotFound";
 
@@ -30,10 +29,6 @@ async function DocsPage({
   if (isNotFound || isError) {
     return <NotFound />;
   }
-  // const redirectPage = getFirstTreeMatch(path, tree);
-  // redirect(
-  //   generateURL(params.subdomain, params.datasource, redirectPage)
-  // );
 
   const renderPostOrPosts = async () => {
     return (

@@ -38,10 +38,10 @@ export function isDataView(page: Sections[number]): page is {
   );
 }
 
-export function getFirstPageOfTree(tree: Sections) {
+export function getFirstPageOfSections(tree: Sections) {
   if (!tree.length) return null;
   if (isPageView(tree[0])) return tree[0].pageView.path;
   if (isDataView(tree[0])) return tree[0].dataView.path;
 
-  return getFirstPageOfTree(tree[0].pages);
+  return getFirstPageOfSections(tree[0].pages);
 }

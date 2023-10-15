@@ -1,4 +1,7 @@
 import { getFloeClient } from "@/app/floe-client";
+import { getFirstPageOfSections } from "@/utils/tree";
+import { redirect } from "next/navigation";
+import { generateURL } from "@/utils/generateURL";
 import SideNav from "./_components/SideNav";
 import Nav from "./_components/Nav";
 import { Footer } from "./Footer";
@@ -13,6 +16,16 @@ export default async function ChangelogLayout({
   const floeClient = getFloeClient(params.subdomain);
   const project = await floeClient.project.get();
   const datasource = await floeClient.datasource.get(params.datasource);
+
+  if (!params.path?.length) {
+    redirect(
+      generateURL(
+        params.subdomain,
+        params.datasource,
+        getFirstPageOfSections(datasource.sections)
+      )
+    );
+  }
 
   return (
     <div className="flex">

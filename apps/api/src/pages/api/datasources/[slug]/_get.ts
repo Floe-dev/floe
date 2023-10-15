@@ -49,9 +49,9 @@ async function handler(
       ref: datasource.baseBranch,
     });
 
-    const sections = JSON.parse(response).sections;
+    sections = JSON.parse(response).sections;
   } catch (e) {
-    console.log("Config not found");
+    console.log(".floe/config not found");
   }
 
   return {
