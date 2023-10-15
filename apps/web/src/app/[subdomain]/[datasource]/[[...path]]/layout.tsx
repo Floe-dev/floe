@@ -1,7 +1,8 @@
 import { getFloeClient } from "@/app/floe-client";
-import { getFirstPageOfSections } from "@/utils/tree";
+import { getFirstPageOfSections } from "@/utils/sections";
 import { redirect } from "next/navigation";
 import { generateURL } from "@/utils/generateURL";
+import ErrorPage from "@/app/ErrorPage";
 import SideNav from "./_components/SideNav";
 import Nav from "./_components/Nav";
 import { Footer } from "./Footer";
@@ -16,6 +17,10 @@ export default async function ChangelogLayout({
   const floeClient = getFloeClient(params.subdomain);
   const project = await floeClient.project.get();
   const datasource = await floeClient.datasource.get(params.datasource);
+
+  if (!datasource.sections) {
+    return <ErrorPage message="Config not found." />;
+  }
 
   if (!params.path?.length) {
     redirect(

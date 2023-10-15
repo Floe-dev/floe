@@ -8,7 +8,7 @@ import classNames from "classnames";
 import Image from "next/image";
 import { Project, Datasource, Sections } from "@floe/next";
 import { DatasourceSelector } from "./DatasourceSelector";
-import { isPageView, isDataView } from "@/utils/tree";
+import { isPageView, isDataView } from "@/utils/sections";
 
 interface SideNavProps {
   project: Project;

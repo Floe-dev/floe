@@ -3,7 +3,7 @@ import { getFloeClient } from "@/app/floe-client";
 import { withFloeServerPages, FloePageProps } from "@floe/next";
 import Link from "next/link";
 import DocItem from "./DocPage";
-import NotFound from "@/app/NotFound";
+import ErrorPage from "@/app/ErrorPage";
 
 export const revalidate = 10;
 
@@ -27,7 +27,7 @@ async function DocsPage({
   const datasource = await floeClient.datasource.get(params.datasource);
 
   if (isNotFound || isError) {
-    return <NotFound />;
+    return <ErrorPage message="Not found ¯\_(ツ)_/¯" />;
   }
 
   const renderPostOrPosts = async () => {
