@@ -39,7 +39,9 @@ const SideNav = ({ project, datasource, params }: SideNavProps) => {
             <h1 className="text-black dark:text-white">{project.name}</h1>
           )}
         </Link>
-        <DatasourceSelector project={project} datasource={datasource} />
+        <div className="hidden lg:block">
+          <DatasourceSelector project={project} datasource={datasource} />
+        </div>
       </div>
 
       <ul className="w-full p-0 mt-8 text-lg prose lg:text-sm dark:prose-invert">

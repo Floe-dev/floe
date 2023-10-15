@@ -1,10 +1,12 @@
+"use client";
+
 import React from "react";
 import Image from "next/image";
 import cn from "classnames";
 import Link from "next/link";
 import { Datasource, Project } from "@floe/next";
-// import githubLogo from "public/github-mark.svg";
 import { MobileNav } from "./MobileNav";
+import { DatasourceSelector } from "./DatasourceSelector";
 
 interface NavProps {
   project: Project;
@@ -51,7 +53,10 @@ const Nav = ({ datasource, project, params }: NavProps) => {
             </Link>
           </div>
         </div>
-        <div>
+        <div className="block lg:hidden">
+          <DatasourceSelector project={project} datasource={datasource} />
+        </div>
+        <div className="hidden lg:block">
           <Link
             href={`https://github.com/${datasource.owner}/${datasource.repo}`}
             className="flex items-center gap-2"
