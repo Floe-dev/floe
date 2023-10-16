@@ -4,7 +4,7 @@ import { readFileSync } from "fs";
 import { glob } from "glob";
 import { createSpinner } from "nanospinner";
 import { validate as validateMarkdoc } from "@floe/markdoc";
-import { validate as validateSchema } from "@floe/config";
+import { validate as validateSchema } from "../../../config/dist/src/index.js";
 import fs from "fs";
 import axios from "axios";
 import { sleep } from "../utils/sleep.js";

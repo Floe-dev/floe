@@ -5,6 +5,6 @@
     "resolveJsonModule": true,
     "outDir": "./dist",
   },
-  "include": ["."],
+  "include": ["src"],
   "exclude": ["dist", "build", "node_modules"]
 }

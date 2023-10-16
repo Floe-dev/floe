@@ -1,5 +1,34 @@
 # @floe/cli
 
+## 1.0.0-alpha.8
+
+### Minor Changes
+
+- Attempt to fix import issues.
+
+### Patch Changes
+
+- Updated dependencies
+  - @floe/config@1.0.0-alpha.8
+
+## 1.0.0-alpha.7
+
+### Minor Changes
+
+- Attempt to fix broken path to package.json
+
+### Patch Changes
+
+- Updated dependencies
+  - @floe/config@1.0.0-alpha.7
+
+## 1.0.0-alpha.6
+
+### Patch Changes
+
+- Updated dependencies
+  - @floe/config@1.0.0-alpha.6
+
 ## 1.0.0-alpha.5
 
 ### Minor Changes
