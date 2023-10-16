@@ -1,5 +1,12 @@
 # @floe/config
 
+## 1.0.0-alpha.9
+
+### Minor Changes
+
+- Fix.
+- 0819ff0: Fix attempt for CLI.
+
 ## 1.0.0-alpha.8
 
 ### Minor Changes
