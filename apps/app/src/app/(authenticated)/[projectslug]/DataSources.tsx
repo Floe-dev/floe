@@ -1,13 +1,14 @@
 "use client";
 
 import { Fragment, useState } from "react";
-import { Modal, EmptyState, Card, Pill } from "@/components";
+import { Modal, EmptyState, Card } from "@/components";
 import { useProjectContext } from "@/context/project";
 import {
   CheckIcon,
   ChevronUpDownIcon,
   CircleStackIcon,
   EllipsisVerticalIcon,
+  ArrowTopRightOnSquareIcon,
 } from "@heroicons/react/24/outline";
 import { api } from "@/utils/trpc";
 import { Combobox, Menu, Transition } from "@headlessui/react";
@@ -24,6 +25,8 @@ import slugify from "slugify";
 import Image from "next/image";
 import github from "public/github.png";
 import gitbranch from "public/git-branch.svg";
+import { DatasourceConfigured } from "./DatasourceConfigured";
+import Link from "next/link";
 
 type FormData = {
   name: string;
@@ -129,13 +132,23 @@ const DataSources = () => {
               className="flex items-center justify-between py-5 gap-x-6 first:pt-0 last:pb-0"
             >
               <div>
-                <h3 className="text-sm font-semibold leading-6 text-gray-900">
+                <h3 className="flex items-center gap-2 mb-1 text-sm font-semibold leading-6 text-gray-900">
                   {datasource.name}
-                  {/* <Pill color="gray" fontStlye="mono" text={datasource.id} /> */}
+                  {/* @ts-ignore */}
+                  <DatasourceConfigured datasource={datasource} />
                 </h3>
-                <h4 className="flex items-center gap-2 text-xs leading-6 text-gray-500">
+                <h4 className="flex items-center gap-2">
                   <Image src={github} alt="Github" className="w-4 h-4 invert" />
-                  {datasource.owner}/{datasource.repo}
+                  <Link
+                    href={`https://github.com/${datasource.owner}/${datasource.repo}`}
+                    className="flex items-center gap-1 text-xs leading-6 text-gray-500 hover:underline"
+                  >
+                    {datasource.owner}/{datasource.repo}
+                    <ArrowTopRightOnSquareIcon
+                      className="w-3.5 h-3.5 text-gray-500"
+                      aria-hidden="true"
+                    />
+                  </Link>
                 </h4>
                 <h4 className="flex items-center gap-2 text-xs leading-6 text-gray-500">
                   <Image src={gitbranch} alt="Github" className="w-4 h-4" />
