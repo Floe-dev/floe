@@ -127,10 +127,15 @@ const DataSources = () => {
             >
               <div>
                 <h3 className="text-sm font-semibold leading-6 text-gray-900">
-                  {datasource.owner} / {datasource.repo} /{" "}
-                  {datasource.baseBranch}
+                  {datasource.name}
+                  {/* <Pill color="gray" fontStlye="mono" text={datasource.id} /> */}
                 </h3>
-                <Pill color="gray" fontStlye="mono" text={datasource.id} />
+                <h4 className="text-xs leading-6 text-gray-500">
+                  {datasource.owner}/{datasource.repo}
+                </h4>
+                <h4 className="text-xs leading-6 text-gray-500">
+                  {datasource.baseBranch}
+                </h4>
               </div>
               <Menu as="div" className="relative flex-none">
                 <Menu.Button className="-m-2.5 block p-2.5 text-gray-500 hover:text-gray-900">
