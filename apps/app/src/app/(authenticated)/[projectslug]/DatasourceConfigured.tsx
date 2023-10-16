@@ -34,11 +34,15 @@ export const DatasourceConfigured = ({
               <span className="font-mono font-semibold">{branch}</span> branch.
               To add a Floe configuration:
             </p>
-            <p>1. Navigate to the root of your repository</p>
+            <p>1. Navigate to the root of your repository.</p>
             <p>2. Run the following command:</p>
             <pre className="">
               <code>npx @floe/cli@latest init</code>
             </pre>
+            <p>
+              3. Deploy to your{" "}
+              <span className="font-mono font-semibold">{branch}</span> branch.
+            </p>
           </div>
         }
       >
