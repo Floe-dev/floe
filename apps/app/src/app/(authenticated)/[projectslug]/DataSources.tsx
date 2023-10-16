@@ -8,7 +8,7 @@ import {
   ChevronUpDownIcon,
   CircleStackIcon,
   EllipsisVerticalIcon,
-  ArrowTopRightOnSquareIcon,
+  ArrowUpRightIcon,
 } from "@heroicons/react/24/outline";
 import { api } from "@/utils/trpc";
 import { Combobox, Menu, Transition } from "@headlessui/react";
@@ -96,6 +96,10 @@ const DataSources = () => {
     resolver: yupResolver(datasourceSchema),
   });
 
+  if (!currentProject) {
+    return;
+  }
+
   const emptyUI = (
     <EmptyState
       icon={CircleStackIcon}
@@ -110,6 +114,11 @@ const DataSources = () => {
         strict: true,
       })
     : "";
+
+  const siteLink =
+    process.env.NODE_ENV === "production"
+      ? `https://${currentProject.slug}.floe.dev`
+      : `http://localhost:3000/${currentProject.slug}`;
 
   return (
     <Card
@@ -132,8 +141,15 @@ const DataSources = () => {
               className="flex items-center justify-between py-5 gap-x-6 first:pt-0 last:pb-0"
             >
               <div>
-                <h3 className="flex items-center gap-2 mb-1 text-sm font-semibold leading-6 text-gray-900">
-                  {datasource.name}
+                <h3 className="flex items-center gap-2 mb-1">
+                  <Link
+                    href={`${siteLink}/${datasource.slug}`}
+                    className="flex items-center gap-1 text-sm font-semibold leading-6 text-gray-900 hover:underline"
+                    target="_blank"
+                  >
+                    {datasource.name}
+                    <ArrowUpRightIcon className="w-4 h-4" aria-hidden="true" />
+                  </Link>
                   {/* @ts-ignore */}
                   <DatasourceConfigured datasource={datasource} />
                 </h3>
@@ -142,12 +158,13 @@ const DataSources = () => {
                   <Link
                     href={`https://github.com/${datasource.owner}/${datasource.repo}`}
                     className="flex items-center gap-1 text-xs leading-6 text-gray-500 hover:underline"
+                    target="_blank"
                   >
                     {datasource.owner}/{datasource.repo}
-                    <ArrowTopRightOnSquareIcon
+                    {/* <ArrowUpRightIcon
                       className="w-3.5 h-3.5 text-gray-500"
                       aria-hidden="true"
-                    />
+                    /> */}
                   </Link>
                 </h4>
                 <h4 className="flex items-center gap-2 text-xs leading-6 text-gray-500">

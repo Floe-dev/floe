@@ -1,6 +1,6 @@
 import { DataSource } from "@floe/db";
 import { api } from "@/utils/trpc";
-import { Pill } from "@/components";
+import { Pill, HoverCard } from "@/components";
 
 interface DatasourceConfiguredProps {
   datasource: DataSource;
@@ -21,8 +21,43 @@ export const DatasourceConfigured = ({
   }
 
   if (!data) {
-    return <Pill color="yellow" text="Not Configured" />;
+    return (
+      <HoverCard
+        content={
+          <div className="text-sm prose">
+            <p>
+              A Floe configuration file was not found in the{" "}
+              <span className="font-mono font-semibold">
+                {owner}/{repository}
+              </span>{" "}
+              repository on the{" "}
+              <span className="font-mono font-semibold">{branch}</span> branch.
+              To add a Floe configuration:
+            </p>
+            <p>1. Navigate to the root of your repository</p>
+            <p>2. Run the following command:</p>
+            <pre className="">
+              <code>npx @floe/cli@latest init</code>
+            </pre>
+          </div>
+        }
+      >
+        <div className="cursor-pointer">
+          <Pill color="yellow" text="Not Configured" />
+        </div>
+      </HoverCard>
+    );
   }
 
-  return <Pill color="green" text="Configured" />;
+  return (
+    <HoverCard
+      content={
+        <p className="text-sm prose">Floe is configured and ready to go 🎉</p>
+      }
+    >
+      <div className="cursor-pointer">
+        <Pill color="green" text="Configured" />
+      </div>
+    </HoverCard>
+  );
 };
