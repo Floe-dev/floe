@@ -1,6 +1,6 @@
 {
   "name": "@floe/ui",
-  "version": "1.0.0-alpha.3",
+  "version": "1.0.0-alpha.4",
   "private": true,
   "main": "./index.tsx",
   "types": "./index.tsx",

@@ -1,6 +1,6 @@
 {
   "name": "@floe/utils",
-  "version": "1.0.0-alpha.3",
+  "version": "1.0.0-alpha.4",
   "description": "",
   "private": true,
   "main": "src/index.ts",

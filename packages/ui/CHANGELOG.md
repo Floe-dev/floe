@@ -1,5 +1,11 @@
 # @floe/ui
 
+## 1.0.0-alpha.4
+
+### Minor Changes
+
+- Upgrade Floe to uses config files.
+
 ## 1.0.0-alpha.3
 
 ### Minor Changes

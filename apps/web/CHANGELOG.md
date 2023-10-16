@@ -1,5 +1,18 @@
 # @floe/web
 
+## 1.0.0-alpha.12
+
+### Minor Changes
+
+- Upgrade Floe to uses config files.
+
+### Patch Changes
+
+- Updated dependencies
+  - @floe/next@1.0.0-alpha.12
+  - @floe/ui@1.0.0-alpha.4
+  - @floe/utils@1.0.0-alpha.4
+
 ## 1.0.0-alpha.11
 
 ### Minor Changes

@@ -1,5 +1,16 @@
 # @floe/next
 
+## 1.0.0-alpha.12
+
+### Minor Changes
+
+- Upgrade Floe to uses config files.
+
+### Patch Changes
+
+- Updated dependencies
+  - @floe/server@1.0.0-alpha.10
+
 ## 1.0.0-alpha.11
 
 ### Minor Changes

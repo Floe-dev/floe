@@ -1,5 +1,16 @@
 # @floe/server
 
+## 1.0.0-alpha.10
+
+### Minor Changes
+
+- Upgrade Floe to uses config files.
+
+### Patch Changes
+
+- Updated dependencies
+  - @floe/markdoc@1.0.0-alpha.5
+
 ## 1.0.0-alpha.9
 
 ### Minor Changes

@@ -1,6 +1,6 @@
 {
   "name": "@floe/markdoc",
-  "version": "1.0.0-alpha.3",
+  "version": "1.0.0-alpha.5",
   "description": "",
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",

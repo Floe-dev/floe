@@ -1,5 +1,18 @@
 # @floe/api
 
+## 1.0.0-alpha.5
+
+### Minor Changes
+
+- Upgrade Floe to uses config files.
+
+### Patch Changes
+
+- Updated dependencies
+  - @floe/db@1.0.0-alpha.4
+  - @floe/markdoc@1.0.0-alpha.5
+  - @floe/utils@1.0.0-alpha.4
+
 ## 1.0.0-alpha.3
 
 ### Minor Changes
