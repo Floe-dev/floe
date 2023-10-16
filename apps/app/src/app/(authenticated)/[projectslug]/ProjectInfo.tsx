@@ -45,7 +45,11 @@ export const ProjectInfo = () => {
         )}
       </div>
       <Button className="self-start" variant="outline">
-        <Link href={siteLink} className="flex items-center gap-1">
+        <Link
+          href={`${siteLink}/${currentProject.datasources[0].slug}`}
+          className="flex items-center gap-1"
+          target="_blank"
+        >
           <span>View Site</span>
           <ArrowUpRightIcon className="w-4 h-4" />
         </Link>
