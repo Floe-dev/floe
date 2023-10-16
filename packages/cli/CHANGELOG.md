@@ -1,5 +1,77 @@
 # @floe/cli
 
+## 1.0.0-alpha.12
+
+### Patch Changes
+
+- Fix.
+- Updated dependencies
+  - @floe/config@1.0.0-alpha.12
+
+## 1.0.0-alpha.11
+
+### Minor Changes
+
+- Fix.
+
+### Patch Changes
+
+- Updated dependencies
+  - @floe/config@1.0.0-alpha.11
+
+## 1.0.0-alpha.10
+
+### Minor Changes
+
+- Fix.
+
+### Patch Changes
+
+- Updated dependencies
+  - @floe/config@1.0.0-alpha.10
+
+## 1.0.0-alpha.9
+
+### Minor Changes
+
+- Fix.
+- 0819ff0: Fix attempt for CLI.
+
+### Patch Changes
+
+- Updated dependencies
+- Updated dependencies [0819ff0]
+  - @floe/config@1.0.0-alpha.9
+
+## 1.0.0-alpha.8
+
+### Minor Changes
+
+- Attempt to fix import issues.
+
+### Patch Changes
+
+- Updated dependencies
+  - @floe/config@1.0.0-alpha.8
+
+## 1.0.0-alpha.7
+
+### Minor Changes
+
+- Attempt to fix broken path to package.json
+
+### Patch Changes
+
+- Updated dependencies
+  - @floe/config@1.0.0-alpha.7
+
+## 1.0.0-alpha.6
+
+### Patch Changes
+
+- Updated dependencies
+  - @floe/config@1.0.0-alpha.6
+
 ## 1.0.0-alpha.5
 
 ### Minor Changes

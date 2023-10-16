@@ -1,6 +1,6 @@
 {
   "name": "@floe/config",
-  "version": "1.0.0-alpha.5",
+  "version": "1.0.0-alpha.12",
   "description": "",
   "scripts": {
     "generate": "ts-node --esm generate.ts",
@@ -11,7 +11,8 @@
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "files": [
-    "schema.json"
+    "schema.json",
+    "dist"
   ],
   "author": "",
   "license": "ISC",
