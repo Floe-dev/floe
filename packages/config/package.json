@@ -1,6 +1,6 @@
 {
   "name": "@floe/config",
-  "version": "1.0.0-alpha.8",
+  "version": "1.0.0-alpha.7",
   "description": "",
   "scripts": {
     "generate": "ts-node --esm generate.ts",
@@ -8,19 +8,19 @@
     "build": "tsc -p tsconfig.json",
     "dev": "tsc -p tsconfig.json --watch"
   },
-  "main": "./dist/src/index.js",
-  "types": "./dist/src/index.d.ts",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "files": [
     "schema.json"
   ],
   "exports": {
     ".": {
       "types": {
-        "default": "./dist/src/index.js",
-        "require": "./dist/src/index.js"
+        "default": "./dist/index.js",
+        "require": "./dist/index.js"
       },
-      "default": "./dist/src/index.js",
-      "require": "./dist/src/index.js"
+      "default": "./dist/index.js",
+      "require": "./dist/index.js"
     },
     "./package.json": "./package.json"
   },
