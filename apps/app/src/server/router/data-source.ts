@@ -11,6 +11,8 @@ export const dataSourceRouter = router({
         owner: z.string(),
         repository: z.string(),
         baseBranch: z.string(),
+        name: z.string().min(3).max(24),
+        slug: z.string().min(3),
       })
     )
     .mutation(async ({ input, ctx }) => {
@@ -18,13 +20,15 @@ export const dataSourceRouter = router({
         owner: input.owner,
         repo: input.repository,
         ref: input.baseBranch,
-        rules: [".floe/**/*.md"],
+        rules: ["**/*.md"],
       });
 
       const posts = files.map((f) => ({ filename: f }));
 
       const dataSource = await prisma.dataSource.create({
         data: {
+          name: input.name,
+          slug: input.slug,
           projectId: input.projectId,
           owner: input.owner,
           repo: input.repository,

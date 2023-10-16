@@ -63,6 +63,8 @@ model Project {
 
 model DataSource {
   id         String    @id @default(cuid())
+  name       String
+  slug       String
   repo       String
   owner      String
   baseBranch String
@@ -73,6 +75,7 @@ model DataSource {
   createdAt  DateTime  @default(now())
   updatedAt  DateTime? @updatedAt
 
+  @@unique([projectId, slug])
   @@index([projectId])
 }
 

@@ -1,13 +1,14 @@
 "use client";
 
 import { Fragment, useState } from "react";
-import { Modal, EmptyState, Card, Pill } from "@/components";
+import { Modal, EmptyState, Card } from "@/components";
 import { useProjectContext } from "@/context/project";
 import {
   CheckIcon,
   ChevronUpDownIcon,
   CircleStackIcon,
   EllipsisVerticalIcon,
+  ArrowUpRightIcon,
 } from "@heroicons/react/24/outline";
 import { api } from "@/utils/trpc";
 import { Combobox, Menu, Transition } from "@headlessui/react";
@@ -16,6 +17,20 @@ import { inferRouterOutputs } from "@trpc/server";
 import { AppRouter } from "@/server";
 import cn from "classnames";
 import { useQueryClient } from "@tanstack/react-query";
+import { Input } from "@floe/ui";
+import * as yup from "yup";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import slugify from "slugify";
+import Image from "next/image";
+import github from "public/github.png";
+import gitbranch from "public/git-branch.svg";
+import { DatasourceConfigured } from "./DatasourceConfigured";
+import Link from "next/link";
+
+type FormData = {
+  name: string;
+};
 
 type RepositorySearchResults =
   inferRouterOutputs<AppRouter>["repository"]["search"];
@@ -23,8 +38,15 @@ type RepositorySearchResults =
 type BranchSearchResults =
   inferRouterOutputs<AppRouter>["repository"]["searchBranches"];
 
+const datasourceSchema = yup
+  .object({
+    name: yup.string().min(3).max(24).required("A project name is required."),
+  })
+  .required();
+
 const DataSources = () => {
   const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
   const { currentProject, queryKey } = useProjectContext();
   const [branchQuery, setBranchQuery] = useState("");
   const [repositoryQuery, setRepositoryQuery] = useState("");
@@ -64,6 +86,19 @@ const DataSources = () => {
   const { mutateAsync: deleteDataSource } = api.dataSource.delete.useMutation({
     onSuccess: () => queryClient.invalidateQueries({ queryKey }),
   });
+  const {
+    watch,
+    register,
+    getValues,
+    formState: { errors, isValid },
+  } = useForm<FormData>({
+    mode: "onChange",
+    resolver: yupResolver(datasourceSchema),
+  });
+
+  if (!currentProject) {
+    return;
+  }
 
   const emptyUI = (
     <EmptyState
@@ -72,6 +107,18 @@ const DataSources = () => {
       description="A data source is a repository containing Floe markdown files. You can connect multiple data sources to a single project."
     />
   );
+
+  const slug = watch("name")
+    ? slugify(watch("name"), {
+        lower: true,
+        strict: true,
+      })
+    : "";
+
+  const siteLink =
+    process.env.NODE_ENV === "production"
+      ? `https://${currentProject.slug}.floe.dev`
+      : `http://localhost:3000/${currentProject.slug}`;
 
   return (
     <Card
@@ -91,14 +138,39 @@ const DataSources = () => {
           {currentProject?.datasources.map((datasource) => (
             <li
               key={datasource.id}
-              className="flex items-center justify-between py-5 gap-x-6"
+              className="flex items-center justify-between py-5 gap-x-6 first:pt-0 last:pb-0"
             >
               <div>
-                <h3 className="text-sm font-semibold leading-6 text-gray-900">
-                  {datasource.owner} / {datasource.repo} /{" "}
-                  {datasource.baseBranch}
+                <h3 className="flex items-center gap-2 mb-1">
+                  <Link
+                    href={`${siteLink}/${datasource.slug}`}
+                    className="flex items-center gap-1 text-sm font-semibold leading-6 text-gray-900 hover:underline"
+                    target="_blank"
+                  >
+                    {datasource.name}
+                    <ArrowUpRightIcon className="w-4 h-4" aria-hidden="true" />
+                  </Link>
+                  {/* @ts-ignore */}
+                  <DatasourceConfigured datasource={datasource} />
                 </h3>
-                <Pill color="gray" fontStlye="mono" text={datasource.id} />
+                <h4 className="flex items-center gap-2">
+                  <Image src={github} alt="Github" className="w-4 h-4 invert" />
+                  <Link
+                    href={`https://github.com/${datasource.owner}/${datasource.repo}`}
+                    className="flex items-center gap-1 text-xs leading-6 text-gray-500 hover:underline"
+                    target="_blank"
+                  >
+                    {datasource.owner}/{datasource.repo}
+                    {/* <ArrowUpRightIcon
+                      className="w-3.5 h-3.5 text-gray-500"
+                      aria-hidden="true"
+                    /> */}
+                  </Link>
+                </h4>
+                <h4 className="flex items-center gap-2 text-xs leading-6 text-gray-500">
+                  <Image src={gitbranch} alt="Github" className="w-4 h-4" />
+                  {datasource.baseBranch}
+                </h4>
               </div>
               <Menu as="div" className="relative flex-none">
                 <Menu.Button className="-m-2.5 block p-2.5 text-gray-500 hover:text-gray-900">
@@ -150,12 +222,18 @@ const DataSources = () => {
           {
             text: "Add data source",
             type: "submit",
+            disbaled: !isValid || loading,
             onClick: async () => {
+              setLoading(true);
               await mutateAsync({
+                name: getValues("name"),
+                slug,
                 projectId: currentProject!.id,
                 owner: selectedRepository!.owner.login,
                 repository: selectedRepository!.name,
                 baseBranch: selectedBranch!.name,
+              }).finally(() => {
+                setLoading(false);
               });
               setOpen(false);
             },
@@ -163,6 +241,24 @@ const DataSources = () => {
         ]}
         content={
           <form className="flex flex-col items-start gap-6">
+            <div className="flex w-full gap-4">
+              <Input
+                label="Name*"
+                placeholder="API"
+                errortext={errors.name?.message}
+                {...register("name", {
+                  required: true,
+                })}
+                disabled={isLoading}
+              />
+              <Input
+                label="Slug*"
+                placeholder="api"
+                value={slug}
+                disabled
+                className="bg-gray-100"
+              />
+            </div>
             <Combobox
               as="div"
               value={selectedRepository}

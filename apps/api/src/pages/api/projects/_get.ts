@@ -1,5 +1,6 @@
 import { NextApiRequestExtension } from "@/lib/types/privateMiddleware";
 import { defaultResponder } from "@/lib/helpers/defaultResponder";
+import { getRepositoryContent } from "@floe/utils";
 
 async function handler({ project }: NextApiRequestExtension) {
   const {
@@ -28,12 +29,18 @@ async function handler({ project }: NextApiRequestExtension) {
     twitchURL,
   } = project;
 
-  const datasourceFields = datasources.map((datasource) => ({
-    id: datasource.id,
-    branch: datasource.baseBranch,
-    owner: datasource.owner,
-    repo: datasource.repo,
-  }));
+  const datasourceFields = await Promise.all(
+    datasources.map(async (datasource) => {
+      return {
+        id: datasource.id,
+        branch: datasource.baseBranch,
+        owner: datasource.owner,
+        repo: datasource.repo,
+        name: datasource.name,
+        slug: datasource.slug,
+      };
+    })
+  );
 
   return {
     data: {

@@ -13,96 +13,92 @@ import {
 import { Markdoc, markdocConfig } from "@floe/markdoc";
 import { z } from "zod";
 import yaml from "js-yaml";
-import prisma from "@floe/db";
-import { DataSource, Post } from "@floe/db";
+import { DataSource } from "@floe/db";
 import { defaultResponder } from "@/lib/helpers/defaultResponder";
 
 async function handler(
-  { query, project, octokit, slug }: NextApiRequestExtension,
+  { query, project, octokit }: NextApiRequestExtension,
   res: NextApiResponseExtension
 ) {
-  const { path } = query as { path?: string };
+  const { path = "", datasourceSlug } = query as {
+    path?: string;
+    datasourceSlug?: string;
+  };
 
-  if (!path) {
+  if (!datasourceSlug) {
     return res.status(400).json({
       error: {
-        message: "path parameter is required",
+        message: "datasourceSlug parameter is required",
       },
     });
   }
 
-  const contents = Promise.all(
-    project.datasources.map(async (datasource) => {
-      const imagesVersion = "v1";
-      const baseURL =
-        process.env.NEXT_PUBLIC_FLOE_BASE_URL ?? "https://api.floe.dev/";
-      const imageBasePath = `${baseURL}${imagesVersion}/images?slug=${project.slug}&datasourceId=${datasource.id}`;
+  let content;
 
-      try {
-        const posts = await getFileTree(octokit, {
-          owner: datasource.owner,
-          repo: datasource.repo,
-          ref: datasource.baseBranch,
-          rules: [
-            `.floe/${path}/*.md`,
-            `.floe/${path}.md`,
-            `.floe/${path}/index.md`,
-          ],
-        });
+  const datasource = project.datasources.find(
+    (d) => d.slug === datasourceSlug
+  ) as DataSource;
 
-        // const posts = await prisma.post.findMany({
-        //   where: {
-        //     filename: {
-        //       in: files,
-        //     },
-        //     datasourceId: datasource.id,
-        //     datasource: {
-        //       project: {
-        //         slug,
-        //       },
-        //     },
-        //   },
-        // });
+  const imagesVersion = "v1";
+  const baseURL =
+    process.env.NEXT_PUBLIC_FLOE_BASE_URL ?? "https://api.floe.dev/";
+  const imageBasePath = `${baseURL}${imagesVersion}/images?slug=${project.slug}&datasourceId=${datasource.id}`;
 
-        return Promise.all(
-          posts.map(async (post) => {
-            return generatePostContent(
-              // @ts-ignore
-              octokit,
-              datasource,
-              post,
-              imageBasePath
-            );
-          })
+  try {
+    const posts = await getFileTree(octokit, {
+      owner: datasource.owner,
+      repo: datasource.repo,
+      ref: datasource.baseBranch,
+      rules: [`${path}/*.md`, `${path}.md`],
+    });
+
+    content = Promise.all(
+      posts.map(async (post) => {
+        return generatePostContent(
+          // @ts-ignore
+          octokit,
+          datasource,
+          post,
+          imageBasePath
         );
-      } catch (e: any) {
-        return res.status(400).json({
-          error: e.message,
-        });
-      }
-    })
-  );
+      })
+    );
+  } catch (e: any) {
+    return res.status(400).json({
+      error: e.message,
+    });
+  }
 
-  const content = (await contents).flat(2);
-  const node = content.find(
-    (c) =>
-      c &&
-      (c.filename.includes("index.md") || c.filename === slugToFilename(path))
-  );
+  const response = await getRepositoryContent(octokit, {
+    owner: datasource.owner,
+    repo: datasource.repo,
+    path: `.floe/config.json`,
+    ref: datasource.baseBranch,
+  });
 
-  // if multiple files are returned for a "node", return the first one
-  // (TODO and later the one matching the default data source)
+  const config = JSON.parse(response);
+
+  content = (await content).flat();
+
+  const node = content.find((c) => c && c.filename === slugToFilename(path));
+
   if (node) {
     return {
       data: node,
     };
   }
 
-  const sortedContent = content.sort((a, b) =>
-    new Date(a?.metadata.date) < new Date(b?.metadata.date) ? 1 : -1
-  );
+  // const section = config.sections.find((s: any) => s.url === path);
 
-  return { data: sortedContent };
+  // const sortedContent = content.flat().sort((a, b) => {
+  //   const orderDirection = section.list?.direction === "dsc" ? 1 : -1;
+
+  //   return new Date(a?.metadata.date) < new Date(b?.metadata.date)
+  //     ? 1 * orderDirection
+  //     : -1 * orderDirection;
+  // });
+
+  return { data: content.flat() };
 }
 
 /**

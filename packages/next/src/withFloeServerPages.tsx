@@ -2,10 +2,10 @@ import { FloeClientFactory, RenderedPostContent } from "@floe/server";
 
 export interface FloePageProps {
   params: {
-    [key in string]?: string[] | undefined;
+    [key in string]?: string[] | string | undefined;
   };
   searchParams: {
-    [key in string]?: string[] | undefined;
+    [key in string]?: string[] | string | undefined;
   };
   isError: boolean;
   isNode: boolean;
@@ -15,17 +15,23 @@ export interface FloePageProps {
   floeClient: FloeClientFactory;
 }
 
-export function withFloeServerPages(
-  Component: ({
+export function withFloeServerPages({
+  Page,
+  floeClient,
+  path,
+  datasourceSlug,
+}: {
+  Page: ({
     params,
     isError,
     isNode,
     post,
     posts,
-  }: FloePageProps) => Promise<JSX.Element> | JSX.Element,
-  floeClient: FloeClientFactory,
-  basePath = ""
-) {
+  }: FloePageProps) => Promise<JSX.Element> | JSX.Element;
+  floeClient: FloeClientFactory;
+  path: string;
+  datasourceSlug: string;
+}) {
   // eslint-disable-next-line react/display-name
   return async ({ params }: { params: FloePageProps["params"] }) => {
     let postOrPosts: Awaited<
@@ -36,11 +42,7 @@ export function withFloeServerPages(
     let isError = false;
 
     try {
-      postOrPosts = await floeClient.post.getListOrNode(
-        decodeURIComponent(
-          basePath + (params.slug ? `/${params.slug.join("/")}` : "")
-        )
-      );
+      postOrPosts = await floeClient.post.getListOrNode(path, datasourceSlug);
     } catch (e) {
       isError = true;
     }
@@ -55,7 +57,7 @@ export function withFloeServerPages(
 
     return (
       // @ts-ignore
-      <Component
+      <Page
         post={post}
         posts={posts}
         params={params}

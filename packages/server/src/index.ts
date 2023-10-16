@@ -1,8 +1,8 @@
 import api from "./api";
 import {
   PostAPIResponse,
-  PostTreeAPIResponse,
   ProjectAPIResponse,
+  DatasourceAPIResponse,
 } from "./types";
 import { Components, render } from "@floe/markdoc";
 import { isNode } from "./utils/isNode";
@@ -46,12 +46,30 @@ export class FloeClientFactory {
     };
   }
 
+  get datasource() {
+    return {
+      get: async (slug: string) => {
+        const response = await this.api<DatasourceAPIResponse>(
+          `v1/datasources/${slug}`
+        );
+
+        if (!response) {
+          return undefined;
+        }
+
+        const { data } = response;
+
+        return data;
+      },
+    };
+  }
+
   get post() {
     return {
-      getListOrNode: async (path: string, datasourceId?: string) => {
+      getListOrNode: async (path: string, datasourceSlug: string) => {
         const queryParams = new URLSearchParams({
           path,
-          ...(datasourceId && { datasourceId }),
+          ...(datasourceSlug && { datasourceSlug }),
         });
 
         const response = await this.api<PostAPIResponse>(
@@ -82,25 +100,6 @@ export class FloeClientFactory {
           })),
         };
       },
-
-      getTree: async (path: string, datasourceId?: string) => {
-        const queryParams = new URLSearchParams({
-          path,
-          ...(datasourceId && { datasourceId }),
-        });
-
-        const response = await this.api<PostTreeAPIResponse>(
-          `v1/posts/tree?${queryParams}`
-        );
-
-        if (!response) {
-          return undefined;
-        }
-
-        const { data } = response;
-
-        return data;
-      },
     };
   }
 }
@@ -109,4 +108,9 @@ const FloeClient = (auth: Auth, options?: Options) =>
   new FloeClientFactory(auth, options);
 
 export default FloeClient;
-export type { Project, RenderedPostContent } from "./types";
+export type {
+  Project,
+  Datasource,
+  Sections,
+  RenderedPostContent,
+} from "./types";

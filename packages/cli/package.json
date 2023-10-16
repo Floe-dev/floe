@@ -30,6 +30,7 @@
     "typescript": "^5.2.2"
   },
   "dependencies": {
+    "@floe/config": "workspace:*",
     "@floe/markdoc": "workspace:*",
     "@inquirer/checkbox": "^1.3.11",
     "@inquirer/confirm": "^2.0.12",

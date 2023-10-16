@@ -56,7 +56,7 @@ export async function handlePushEvents(context: Context<"push">) {
     owner: owner,
     repo,
     ref: branch,
-    rules: [".floe/**/*.md"],
+    rules: ["**/*.md"],
   });
 
   const posts = files.map((f) => ({ filename: f }));

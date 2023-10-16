@@ -1,14 +1,13 @@
 import chalk from "chalk";
 import { Command } from "commander";
-import degit from "degit";
 import figlet from "figlet";
 import gradient from "gradient-string";
 import { createSpinner } from "nanospinner";
 import confirm from "@inquirer/confirm";
-import select from "@inquirer/select";
 import checkbox from "@inquirer/checkbox";
 import fs from "fs";
 import Jimp from "jimp";
+import { glob } from "glob";
 import { sleep } from "../utils/sleep.js";
 import { blogSample } from "../default-files/sample-blog.js";
 import { changelogSample } from "../default-files/sample-changelog.js";
@@ -16,13 +15,15 @@ import { docSample } from "../default-files/sample-doc.js";
 import { docSample2 } from "../default-files/sample-doc2.js";
 import { postSample } from "../default-files/sample-post.js";
 import { resolve } from "path";
+import { capitalize } from "../utils/capitalize.js";
+import { defaultConfig } from "@floe/config";
 
 const templateSamples = {
   blog: blogSample,
   changelog: changelogSample,
   docs: docSample,
   faq: postSample,
-  help: postSample,
+  wiki: postSample,
 };
 
 export function init(program: Command) {
@@ -62,17 +63,17 @@ export function init(program: Command) {
         message: "What do you want to use this project for?",
         choices: [
           { name: "📖 Docs", value: "docs" },
+          { name: "📚 Wiki", value: "wiki" },
           { name: "🚀 Changelog", value: "changelog" },
           { name: "✍️  Blog", value: "blog" },
           { name: "🙋‍♀️ FAQ", value: "faq" },
-          { name: "🤝 Help center", value: "help" },
         ] as { name: string; value: keyof typeof templateSamples }[],
       });
 
-      if (!answer.length) {
-        console.log(chalk.red("You must select at least one option."));
-        return;
-      }
+      const useExistingFilesAnswer = await confirm({
+        message:
+          "Would you like Floe to index existing markdown files in this repository?",
+      });
 
       const spinner = createSpinner("Generating sample images...").start();
       await sleep(1000);
@@ -103,18 +104,82 @@ export function init(program: Command) {
           const file = templateSamples[item];
 
           if (item === "docs") {
-            fs.mkdirSync(".floe/docs", { recursive: true });
-            fs.writeFileSync(resolve(".floe", "docs/index.md"), docSample);
-            fs.writeFileSync(
-              resolve(".floe", "docs/getting-started.md"),
-              docSample2
-            );
+            fs.mkdirSync("docs", { recursive: true });
+            fs.writeFileSync(resolve("docs/index.md"), docSample);
+            fs.writeFileSync(resolve("docs/getting-started.md"), docSample2);
             return;
           }
 
-          fs.mkdirSync(`.floe/${item}`, { recursive: true });
-          fs.writeFileSync(resolve(".floe", `${item}/sample.md`), file);
+          fs.mkdirSync(item, { recursive: true });
+          fs.writeFileSync(resolve(`${item}/sample.md`), file);
         });
+
+        /**
+         * Create config file
+         */
+        const newFilesPattern = answer.map((item) => `${item}/**/*.md`);
+        // TODO: Might need to add to this in the future
+        const ignorePatterns = ["node_modules/**"];
+        const existingMDFiles = await glob(["*.md", "**/*.md"], {
+          ignore: [...ignorePatterns, ...newFilesPattern],
+        });
+        const newMDFiles = await glob(newFilesPattern);
+        const allFiles = [
+          ...(useExistingFilesAnswer ? existingMDFiles : []),
+          ...newMDFiles,
+        ];
+
+        /**
+         * Recursively creates sections in this format [
+         */
+        const sections = allFiles.reduce((acc, file) => {
+          const parts = file.split("/");
+          // @ts-ignore
+          const createPages = (pages: any[], parts: string[]) => {
+            const [first, ...rest] = parts;
+            const title = capitalize(first.replace(".md", ""));
+
+            if (rest.length === 0) {
+              return {
+                title,
+                pageView: {
+                  path: file.replace(".md", ""),
+                },
+              };
+            }
+
+            const existingSection = pages.find(
+              (page) => page.title === title && page.pages
+            );
+
+            if (existingSection) {
+              existingSection.pages.push(
+                createPages(existingSection.pages, rest)
+              );
+              return pages;
+            }
+
+            return [
+              ...pages,
+              {
+                title,
+                pages: [createPages([], rest)],
+              },
+            ];
+          };
+
+          return createPages(acc, parts);
+        }, []);
+
+        const config = {
+          ...defaultConfig,
+          sections,
+        };
+
+        fs.writeFileSync(
+          resolve(".floe/config.json"),
+          JSON.stringify(config, null, 2)
+        );
 
         await sleep(1500);
 
@@ -141,11 +206,9 @@ export function init(program: Command) {
           text: chalk.green("Templates created!"),
           mark: chalk.green("✔"),
         });
-      } catch (e) {
-        spinner.error({
-          text: "Ruh roh there was a problem downloading the template.",
-          mark: "✖",
-        });
+      } catch (e: any) {
+        spinner.stop();
+        program.error("Ruh roh! There was an error: " + e.message);
       }
 
       figlet("success", (err, data) => {

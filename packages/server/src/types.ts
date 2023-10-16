@@ -31,10 +31,34 @@ export interface RenderedPostContent extends PostContent {
   content: React.ReactNode;
 }
 
-export type PostTreeAPIResponse = {
-  data: {
-    [key: string]: any;
-  };
+export type Sections = (
+  | {
+      title: string;
+      pageView: {
+        path: string;
+      };
+    }
+  | {
+      title: string;
+      pages: Sections;
+    }
+  | {
+      title: string;
+      dataView: {
+        path: string;
+        direction: "dsc" | "asc";
+      };
+    }
+)[];
+
+export type Datasource = {
+  id: string;
+  branch: string;
+  owner: string;
+  repo: string;
+  name: string;
+  slug: string;
+  sections: Sections | null;
 };
 
 export type Project = {
@@ -65,6 +89,8 @@ export type Project = {
     branch: string;
     owner: string;
     repo: string;
+    name: string;
+    slug: string;
   }[];
 };
 
@@ -73,4 +99,8 @@ export type Project = {
  */
 export type ProjectAPIResponse = {
   data: Project;
+};
+
+export type DatasourceAPIResponse = {
+  data: Datasource;
 };

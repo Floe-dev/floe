@@ -74,6 +74,8 @@ export const projectRouter = router({
           datasources: {
             create: [
               {
+                name: STARTER_REPO,
+                slug: STARTER_REPO,
                 owner: STARTER_OWNER,
                 repo: STARTER_REPO,
                 baseBranch: STARTER_BRANCH,

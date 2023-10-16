@@ -13,7 +13,7 @@ export const contentType = "image/png";
 export default async function Image({
   params,
 }: {
-  params: { subdomain: string };
+  params: { subdomain: string; tab: string };
 }) {
   const floeClient = getFloeClient(params.subdomain);
   const project = await floeClient.project.get();
