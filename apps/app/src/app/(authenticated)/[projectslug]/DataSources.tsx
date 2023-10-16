@@ -21,6 +21,9 @@ import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import slugify from "slugify";
+import Image from "next/image";
+import github from "public/github.png";
+import gitbranch from "public/git-branch.svg";
 
 type FormData = {
   name: string;
@@ -123,17 +126,19 @@ const DataSources = () => {
           {currentProject?.datasources.map((datasource) => (
             <li
               key={datasource.id}
-              className="flex items-center justify-between py-5 gap-x-6"
+              className="flex items-center justify-between py-5 gap-x-6 first:pt-0 last:pb-0"
             >
               <div>
                 <h3 className="text-sm font-semibold leading-6 text-gray-900">
                   {datasource.name}
                   {/* <Pill color="gray" fontStlye="mono" text={datasource.id} /> */}
                 </h3>
-                <h4 className="text-xs leading-6 text-gray-500">
+                <h4 className="flex items-center gap-2 text-xs leading-6 text-gray-500">
+                  <Image src={github} alt="Github" className="w-4 h-4 invert" />
                   {datasource.owner}/{datasource.repo}
                 </h4>
-                <h4 className="text-xs leading-6 text-gray-500">
+                <h4 className="flex items-center gap-2 text-xs leading-6 text-gray-500">
+                  <Image src={gitbranch} alt="Github" className="w-4 h-4" />
                   {datasource.baseBranch}
                 </h4>
               </div>

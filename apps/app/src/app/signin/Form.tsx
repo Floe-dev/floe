@@ -5,6 +5,7 @@ import { getProviders } from "next-auth/react";
 import { Button } from "@/components";
 import logo from "public/logo.png";
 import github from "public/github.png";
+``;
 import Image from "next/image";
 
 const Form = ({
