@@ -1,6 +1,6 @@
 {
   "name": "@floe/config",
-  "version": "1.0.0-alpha.9",
+  "version": "1.0.0-alpha.12",
   "description": "",
   "scripts": {
     "generate": "ts-node --esm generate.ts",
@@ -11,19 +11,9 @@
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "files": [
-    "schema.json"
+    "schema.json",
+    "dist"
   ],
-  "exports": {
-    ".": {
-      "types": {
-        "default": "./dist/index.js",
-        "require": "./dist/index.js"
-      },
-      "default": "./dist/index.js",
-      "require": "./dist/index.js"
-    },
-    "./package.json": "./package.json"
-  },
   "author": "",
   "license": "ISC",
   "devDependencies": {
