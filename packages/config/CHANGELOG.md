@@ -1,5 +1,17 @@
 # @floe/config
 
+## 1.0.0-alpha.14
+
+### Minor Changes
+
+- Fix.
+
+## 1.0.0-alpha.13
+
+### Minor Changes
+
+- Fix issue with versions.
+
 ## 1.0.0-alpha.12
 
 ### Patch Changes
