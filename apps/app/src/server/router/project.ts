@@ -53,14 +53,14 @@ export const projectRouter = router({
       const STARTER_REPO = "floe-sample-data";
       const STARTER_BRANCH = "main";
 
-      const files = await getFileTree(ctx.octokit, {
-        owner: STARTER_OWNER,
-        repo: STARTER_REPO,
-        ref: STARTER_BRANCH,
-        rules: [".floe/**/*.md"],
-      });
+      // const files = await getFileTree(ctx.octokit, {
+      //   owner: STARTER_OWNER,
+      //   repo: STARTER_REPO,
+      //   ref: STARTER_BRANCH,
+      //   rules: [".floe/**/*.md"],
+      // });
 
-      const posts = files.map((f) => ({ filename: f }));
+      // const posts = files.map((f) => ({ filename: f }));
 
       const project = await prisma.project.create({
         data: {
@@ -80,9 +80,9 @@ export const projectRouter = router({
                 repo: STARTER_REPO,
                 baseBranch: STARTER_BRANCH,
                 path: "/",
-                posts: {
-                  create: posts,
-                },
+                // posts: {
+                //   create: posts,
+                // },
               },
             ],
           },

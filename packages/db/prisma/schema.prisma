@@ -71,7 +71,7 @@ model DataSource {
   path       String
   project    Project?  @relation(fields: [projectId], references: [id], onDelete: Cascade)
   projectId  String?
-  posts      Post[]
+  // posts      Post[]
   createdAt  DateTime  @default(now())
   updatedAt  DateTime? @updatedAt
 
@@ -79,43 +79,43 @@ model DataSource {
   @@index([projectId])
 }
 
-model Post {
-  id           String     @id @default(cuid())
-  filename     String
-  datasource   DataSource @relation(fields: [datasourceId], references: [id], onDelete: Cascade)
-  datasourceId String
-  reactions    Reaction[]
-  createdAt    DateTime   @default(now())
-  updatedAt    DateTime   @updatedAt
+// model Post {
+//   id           String     @id @default(cuid())
+//   filename     String
+//   datasource   DataSource @relation(fields: [datasourceId], references: [id], onDelete: Cascade)
+//   datasourceId String
+//   reactions    Reaction[]
+//   createdAt    DateTime   @default(now())
+//   updatedAt    DateTime   @updatedAt
 
-  @@unique(fields: [datasourceId, filename], name: "unique_post")
-  @@index([datasourceId])
-}
+//   @@unique(fields: [datasourceId, filename], name: "unique_post")
+//   @@index([datasourceId])
+// }
 
-enum ReactionType {
-  THUMBS_UP
-  THUMBS_DOWN
-  LAUGH
-  HOORAY
-  CONFUSED
-  HEART
-  RANDOM
-}
+// enum ReactionType {
+//   THUMBS_UP
+//   THUMBS_DOWN
+//   LAUGH
+//   HOORAY
+//   CONFUSED
+//   HEART
+//   RANDOM
+// }
 
-model Reaction {
-  id               String       @id @default(cuid())
-  ipAddress        String
-  type             ReactionType
-  value            Boolean      @default(false)
-  post             Post         @relation(fields: [postDataSourceId, postFilename], references: [datasourceId, filename], onDelete: Cascade)
-  postDataSourceId String
-  postFilename     String
-  createdAt        DateTime     @default(now())
-  updatedAt        DateTime     @updatedAt
+// model Reaction {
+//   id               String       @id @default(cuid())
+//   ipAddress        String
+//   type             ReactionType
+//   value            Boolean      @default(false)
+//   post             Post         @relation(fields: [postDataSourceId, postFilename], references: [datasourceId, filename], onDelete: Cascade)
+//   postDataSourceId String
+//   postFilename     String
+//   createdAt        DateTime     @default(now())
+//   updatedAt        DateTime     @updatedAt
 
-  @@unique(fields: [postDataSourceId, postFilename, ipAddress, type], name: "unique_reaction")
-  @@index([postDataSourceId, postFilename])
-}
+//   @@unique(fields: [postDataSourceId, postFilename, ipAddress, type], name: "unique_reaction")
+//   @@index([postDataSourceId, postFilename])
+// }
 
 //
 // ACCOUNT MODEL
