@@ -26,7 +26,7 @@ i. Scroll to the bottom and generate a private key (save this for later)
 
 3. Configure your database. The product app uses a MySQL database with [PlanetScale](https://planetscale.com/), but you can use whatever MySQL database you like. Get the database connection URL and save for later.
 
-4. Add environment variables to `.env` inside `apps/app`, `apps/api`, and `apps/web`. You can copy the `.env.example` files to see which are required. Here is a break down for how to populate them:
+4. Add environment variables to `.env` inside `apps/app`, `apps/api`, `apps/web`, and `packages/db`. You can copy the `.env.example` files to see which are required. Here is a break down for how to populate them:
 
 a. Set `APP_ID` to the value from Step 2g.
 b. Set `PRIVATE_KEY` to the value from Step 2i.
@@ -52,7 +52,7 @@ pnpm dev
 
 Your dashboard should be running on port `localhost:3001`, api on `localhost:4000`, and your website on `localhost:3000`. If not...🤷‍♂️
 
-7. You can now configure the web application according to the [usual setup instructions](https://www.notion.so/floe-dev/Docs-UI-Templates-ef503e987aaa4dabb1e388cac9e14d62?pvs=4) 🎉
+7. You can now use the web application locally. Navigate to `localhost:3001` to login, then follow the in-app instructions.
 
 ## Workflow
 
