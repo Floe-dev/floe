@@ -44,16 +44,15 @@ export const ProjectInfo = () => {
           </p>
         )}
       </div>
-      <Button className="self-start" variant="outline">
-        <Link
-          href={`${siteLink}/${currentProject.datasources[0].slug}`}
-          className="flex items-center gap-1"
-          target="_blank"
-        >
+      <Link
+        href={`${siteLink}/${currentProject.datasources[0].slug}`}
+        target="_blank"
+      >
+        <Button className="self-start" variant="outline">
           <span>View Site</span>
           <ArrowUpRightIcon className="w-4 h-4" />
-        </Link>
-      </Button>
+        </Button>
+      </Link>
     </div>
   );
 };
