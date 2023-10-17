@@ -1,9 +1,10 @@
 import { Fragment } from "react";
 import { Menu, Transition } from "@headlessui/react";
-import { ChevronUpDownIcon } from "@heroicons/react/20/solid";
+import { ChevronUpDownIcon, CheckIcon } from "@heroicons/react/20/solid";
 import cn from "classnames";
 import Link from "next/link";
 import { Project, Datasource } from "@floe/next";
+import { generateURL } from "@/utils/generateURL";
 
 interface DatasourceSelectorProps {
   project: Project;
@@ -48,7 +49,7 @@ export const DatasourceSelector = ({
                 <Menu.Item key={ds.id}>
                   {({ active }) => (
                     <Link
-                      href={`/${project.slug}/${ds.slug}`}
+                      href={generateURL(project.slug, ds.slug)}
                       className={cn(
                         "flex justify-between px-4 py-2 text-sm capitalize",
                         {
@@ -58,12 +59,12 @@ export const DatasourceSelector = ({
                       )}
                     >
                       {ds.name}
-                      {/* {currentProject?.id === project.id && (
-                          <CheckIcon
-                            className="flex-shrink-0 w-5 h-5 ml-2 text-gray-500"
-                            aria-hidden="true"
-                          />
-                        )} */}
+                      {ds?.slug === datasource.slug && (
+                        <CheckIcon
+                          className="flex-shrink-0 w-5 h-5 ml-2 text-gray-500"
+                          aria-hidden="true"
+                        />
+                      )}
                     </Link>
                   )}
                 </Menu.Item>
