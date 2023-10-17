@@ -16,7 +16,7 @@ export const Image = ({
       width="0"
       height="0"
       sizes="100vw"
-      className="w-auto h-auto mx-auto rounded-xl"
+      className="w-full h-auto mx-auto rounded-xl"
     />
     <p className="-mt-4 text-center gray-500 dark:text-gray-400">{caption}</p>
   </div>
