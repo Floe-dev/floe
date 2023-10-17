@@ -16,14 +16,14 @@ export const dataSourceRouter = router({
       })
     )
     .mutation(async ({ input, ctx }) => {
-      const files = await getFileTree(ctx.octokit, {
-        owner: input.owner,
-        repo: input.repository,
-        ref: input.baseBranch,
-        rules: ["**/*.md"],
-      });
+      // const files = await getFileTree(ctx.octokit, {
+      //   owner: input.owner,
+      //   repo: input.repository,
+      //   ref: input.baseBranch,
+      //   rules: ["**/*.md"],
+      // });
 
-      const posts = files.map((f) => ({ filename: f }));
+      // const posts = files.map((f) => ({ filename: f }));
 
       const dataSource = await prisma.dataSource.create({
         data: {
@@ -34,9 +34,9 @@ export const dataSourceRouter = router({
           repo: input.repository,
           baseBranch: input.baseBranch,
           path: "/",
-          posts: {
-            create: posts,
-          },
+          // posts: {
+          //   create: posts,
+          // },
         },
       });
 

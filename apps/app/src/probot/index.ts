@@ -1,5 +1,5 @@
 import { Probot } from "probot";
-import { handlePushEvents } from "./push-handler";
+// import { handlePushEvents } from "./push-handler";
 
 const appHandler = (app: Probot) => {
   /**
