@@ -1,5 +1,11 @@
 # @floe/cli
 
+## 1.0.0-alpha.15
+
+### Minor Changes
+
+- Bug fixes.
+
 ## 1.0.0-alpha.14
 
 ### Minor Changes

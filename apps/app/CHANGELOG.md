@@ -1,5 +1,11 @@
 # @floe/app
 
+## 1.0.0-alpha.5
+
+### Minor Changes
+
+- Bug fixes.
+
 ## 1.0.0-alpha.4
 
 ### Minor Changes

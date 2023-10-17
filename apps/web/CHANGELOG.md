@@ -1,5 +1,11 @@
 # @floe/web
 
+## 1.0.0-alpha.13
+
+### Minor Changes
+
+- Bug fixes.
+
 ## 1.0.0-alpha.12
 
 ### Minor Changes
