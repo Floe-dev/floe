@@ -4,7 +4,6 @@ import prisma from "@floe/db";
 import { protectedProcedure, router } from "@/server/trpc";
 import { validateUserHasInstallation } from "@/server/validators/user-has-installation";
 import { validateUserHasProject } from "../validators/user-has-project";
-import { getFileTree } from "@floe/utils";
 
 export const projectRouter = router({
   listByInstallationId: protectedProcedure
@@ -46,6 +45,10 @@ export const projectRouter = router({
       })
     )
     .mutation(async (args) => {
+      /**
+       * VALIDATORS
+       */
+      await validateUserHasInstallation(args);
       // TODO: Validate once restrictions decided on. For now unlimited project creation is allowed.
       const { input, ctx } = args;
 
