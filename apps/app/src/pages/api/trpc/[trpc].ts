@@ -1,3 +1,3 @@
-import { NextApiHandler } from "@floe/trpc";
+import { NextApiHandler } from "@floe/trpc/next";
 
 export default NextApiHandler;

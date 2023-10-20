@@ -3,6 +3,6 @@
   "compilerOptions": {
     "outDir": "./dist",
   },
-  "include": ["src"],
-  "exclude": ["dist", "build", "node_modules"]
+  "include": ["client", "next", "server"],
+  "exclude": ["node_modules"]
 }

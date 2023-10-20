@@ -1,6 +1,6 @@
 "use client";
 
-import { api } from "@floe/trpc";
+import { api } from "@floe/trpc/client";
 import { Card } from "@/components";
 import { useProjectContext } from "@/context/project";
 import { KeyTable } from "../KeyTable";

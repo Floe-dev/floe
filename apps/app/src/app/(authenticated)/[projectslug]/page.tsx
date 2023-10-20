@@ -5,7 +5,7 @@ import DataSources from "./DataSources";
 import { useEffect } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { useQueryClient } from "@tanstack/react-query";
-import { api } from "@floe/trpc";
+import { api } from "@floe/trpc/client";
 import { useProjectContext } from "@/context/project";
 import { ProjectInfo } from "./ProjectInfo";
 

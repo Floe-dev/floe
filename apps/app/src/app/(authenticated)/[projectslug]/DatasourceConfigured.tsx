@@ -1,5 +1,5 @@
 import { DataSource } from "@floe/db";
-import { api } from "@floe/trpc";
+import { api } from "@floe/trpc/client";
 import { Pill, HoverCard } from "@/components";
 
 interface DatasourceConfiguredProps {

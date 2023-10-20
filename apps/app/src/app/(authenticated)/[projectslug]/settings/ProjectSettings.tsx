@@ -11,7 +11,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import cn from "classnames";
 import { useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
-import { api } from "@floe/trpc";
+import { api } from "@floe/trpc/client";
 import { useRouter } from "next/navigation";
 
 type FormData = {

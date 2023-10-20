@@ -11,6 +11,7 @@
     "typecheck": "npx tsc --project ./tsconfig.json --noEmit"
   },
   "dependencies": {
+    "@floe/db": "workspace:*",
     "@floe/trpc": "workspace:*",
     "@floe/ui": "workspace:*",
     "@floe/utils": "workspace:*",
@@ -29,6 +30,7 @@
     "@types/react-dom": "18.2.7",
     "@uploadthing/react": "^5.5.0",
     "autoprefixer": "10.4.14",
+    "bcrypt": "^5.1.0",
     "classnames": "^2.3.2",
     "cookies-next": "^2.1.2",
     "eslint": "8.45.0",

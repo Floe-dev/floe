@@ -1,9 +1,9 @@
 "use client";
 
 import React, { useContext, useMemo } from "react";
-import { api } from "@floe/trpc";
+import { api } from "@floe/trpc/client";
 import { usePathname } from "next/navigation";
-import type { AppRouter } from "@floe/trpc";
+import type { AppRouter } from "@floe/trpc/server";
 import { inferRouterOutputs } from "@trpc/server";
 import { useInstallationsContext } from "./installations";
 import { getQueryKey } from "@trpc/react-query";

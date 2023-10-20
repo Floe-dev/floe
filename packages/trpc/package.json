@@ -1,27 +1,29 @@
 {
   "name": "@floe/trpc",
-  "sideEffects": false,
   "private": true,
   "version": "1.0.0-alpha.0",
-  "main": "src/index.ts",
   "scripts": {
     "lint": "next lint",
     "clean": "rm -rf node_modules && rm -rf dist && rm -rf .next",
     "typecheck": "npx tsc --project ./tsconfig.json --noEmit"
   },
   "devDependencies": {
-    "eslint-config-custom": "workspace:*",
+    "@octokit/types": "^11.1.0",
+    "@types/bcrypt": "^5.0.0",
+    "@types/node": "^20.8.7",
     "@types/react": "18.2.15",
     "@types/react-dom": "18.2.7",
+    "eslint-config-custom": "workspace:*",
     "tsconfig": "workspace:*"
   },
   "dependencies": {
     "@floe/db": "workspace:*",
     "@floe/utils": "workspace:*",
     "@tanstack/react-query": "^4.32.0",
-    "@trpc/client": "^10.35.0",
-    "@trpc/react-query": "^10.35.0",
-    "@trpc/server": "^10.35.0",
+    "@trpc/client": "^10.13.0",
+    "@trpc/next": "^10.13.0",
+    "@trpc/react-query": "^10.13.0",
+    "@trpc/server": "^10.13.0",
     "bcrypt": "^5.1.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
