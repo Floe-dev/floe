@@ -18,6 +18,7 @@
   },
   "dependencies": {
     "@floe/db": "workspace:*",
+    "@floe/nextauth": "workspace:*",
     "@floe/utils": "workspace:*",
     "@tanstack/react-query": "^4.32.0",
     "@trpc/client": "^10.13.0",

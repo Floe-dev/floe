@@ -1,7 +1,6 @@
-import { authOptions } from "@/pages/api/auth/[...nextauth]";
 import { inferAsyncReturnType } from "@trpc/server";
 import * as trpcNext from "@trpc/server/adapters/next";
-import { getServerSession } from "next-auth";
+import { authOptions, getServerSession } from "@floe/nextauth";
 import { getToken } from "next-auth/jwt";
 import { Octokit } from "@floe/utils";
 
