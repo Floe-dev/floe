@@ -7,7 +7,7 @@ import { Context } from "./context";
  */
 const t = initTRPC.context<Context>().create();
 
-const isAuthed = t.middleware(({ next, ctx }) => {
+const isSession = t.middleware(({ next, ctx }) => {
   if (!ctx.session?.user) {
     throw new TRPCError({
       code: "UNAUTHORIZED",
@@ -22,23 +22,27 @@ const isAuthed = t.middleware(({ next, ctx }) => {
   });
 });
 
-// const isTokenValud = t.middleware(({ next, ctx }) => {
-//   fetch("https://api.github.com/user", {
-//     headers: {
-//       Authorization: `token ${ctx.githubAuthToken}`,
-//     },
-//   })
-//     .then((res) => res.json())
-//     .then((json) => {
-//       if (json.message === "Bad credentials") {
-//         throw new TRPCError({
-//           code: "UNAUTHORIZED",
-//         });
-//       }
-//     });
+const isValidToken = t.middleware(async ({ next, ctx }) => {
+  try {
+    const response = await fetch("https://api.github.com/user", {
+      headers: {
+        Authorization: `token ${ctx.token}`,
+      },
+    });
 
-//   return next();
-// });
+    if (response.status !== 200) {
+      throw new TRPCError({
+        code: "UNAUTHORIZED",
+      });
+    }
+  } catch (error) {
+    throw new TRPCError({
+      code: "UNAUTHORIZED",
+    });
+  }
+
+  return next();
+});
 
 /**
  * Export reusable router and procedure helpers
@@ -46,4 +50,5 @@ const isAuthed = t.middleware(({ next, ctx }) => {
  */
 export const router = t.router;
 export const publicProcedure = t.procedure;
-export const protectedProcedure = t.procedure.use(isAuthed);
+export const protectedProcedure = t.procedure.use(isSession);
+export const protectedTokenProcedure = t.procedure.use(isValidToken);

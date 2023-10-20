@@ -1,7 +1,6 @@
-import { createTRPCProxyClient, httpBatchLink } from "@trpc/react-query";
-import type { AppRouter } from "../server";
+import { httpBatchLink } from "@trpc/react-query";
 
-function getBaseUrl() {
+export function getBaseUrl() {
   if (typeof window !== "undefined")
     // browser should use relative path
     return "";
@@ -22,4 +21,5 @@ export const clientOptions = {
   ],
 };
 
-export const api = createTRPCProxyClient<AppRouter>(clientOptions);
+export * from "@trpc/react-query";
+export type { AppRouter } from "../server";

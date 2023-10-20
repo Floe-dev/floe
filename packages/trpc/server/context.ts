@@ -8,11 +8,12 @@ export async function createContext(opts: trpcNext.CreateNextContextOptions) {
   const { req, res } = opts;
   // Fixed with: https://github.com/vercel/next.js/issues/46356#issuecomment-1491822686
   const session = await getServerSession(req, res, authOptions);
+  const userAuthToken = req.headers.authorization;
 
-  const token = await getToken({ req });
+  const token = (await getToken({ req }))?.accessToken ?? userAuthToken;
 
   const octokit = new Octokit({
-    auth: token?.accessToken,
+    auth: token,
   });
 
   return {
@@ -20,6 +21,7 @@ export async function createContext(opts: trpcNext.CreateNextContextOptions) {
     res,
     session,
     octokit,
+    token,
   };
 }
 
