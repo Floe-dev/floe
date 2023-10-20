@@ -10,11 +10,11 @@ import {
   EllipsisVerticalIcon,
   ArrowUpRightIcon,
 } from "@heroicons/react/24/outline";
-import { api } from "@/utils/trpc";
+import { api } from "@floe/trpc";
 import { Combobox, Menu, Transition } from "@headlessui/react";
 import classNames from "classnames";
 import { inferRouterOutputs } from "@trpc/server";
-import { AppRouter } from "@/server";
+import { AppRouter } from "@floe/trpc";
 import cn from "classnames";
 import { useQueryClient } from "@tanstack/react-query";
 import { Input } from "@floe/ui";

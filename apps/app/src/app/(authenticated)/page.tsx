@@ -10,7 +10,7 @@ import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import cn from "classnames";
-import { api } from "@/utils/trpc";
+import { api } from "@floe/trpc";
 import { useInstallationsContext } from "@/context/installations";
 import slugify from "slugify";
 import { ChevronRightIcon } from "@heroicons/react/20/solid";

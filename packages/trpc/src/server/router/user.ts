@@ -1,4 +1,4 @@
 import prisma from "@floe/db";
-import { protectedProcedure, router } from "@/server/trpc";
+import { protectedProcedure, router } from "../trpc";
 
 export const userRouter = router({});

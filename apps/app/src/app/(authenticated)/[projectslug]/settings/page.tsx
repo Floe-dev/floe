@@ -1,6 +1,6 @@
 "use client";
 
-import { api } from "@/utils/trpc";
+import { api } from "@floe/trpc";
 import { Button, Card } from "@/components";
 import { useRouter } from "next/navigation";
 import { useProjectContext } from "@/context/project";

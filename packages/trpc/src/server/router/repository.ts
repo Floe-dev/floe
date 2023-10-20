@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { TRPCError } from "@trpc/server";
 import { Endpoints } from "@floe/utils";
-import { protectedProcedure, router } from "@/server/trpc";
+import { protectedProcedure, router } from "../trpc";
 
 type InstallationRepositoriesResponse =
   Endpoints["GET /user/installations/{installation_id}/repositories"]["response"];

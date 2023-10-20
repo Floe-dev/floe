@@ -90,9 +90,9 @@ importers:
 
   apps/app:
     dependencies:
-      '@floe/db':
+      '@floe/trpc':
         specifier: workspace:*
-        version: link:../../packages/db
+        version: link:../../packages/trpc
       '@floe/ui':
         specifier: workspace:*
         version: link:../../packages/ui
@@ -144,9 +144,6 @@ importers:
       autoprefixer:
         specifier: 10.4.14
         version: 10.4.14(postcss@8.4.26)
-      bcrypt:
-        specifier: ^5.1.0
-        version: 5.1.0
       classnames:
         specifier: ^2.3.2
         version: 2.3.2
@@ -629,6 +626,12 @@ importers:
 
   packages/trpc:
     dependencies:
+      '@floe/db':
+        specifier: workspace:*
+        version: link:../db
+      '@floe/utils':
+        specifier: workspace:*
+        version: link:../utils
       '@tanstack/react-query':
         specifier: ^4.32.0
         version: 4.32.0(react-dom@18.2.0)(react@18.2.0)
@@ -641,6 +644,9 @@ importers:
       '@trpc/server':
         specifier: ^10.35.0
         version: 10.35.0
+      bcrypt:
+        specifier: ^5.1.0
+        version: 5.1.0
       react:
         specifier: 18.2.0
         version: 18.2.0

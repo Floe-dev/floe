@@ -1,6 +1,6 @@
 import { z } from "zod";
 import prisma from "@floe/db";
-import { protectedProcedure, router } from "@/server/trpc";
+import { protectedProcedure, router } from "../trpc";
 import { getFileTree } from "@floe/utils";
 
 export const dataSourceRouter = router({

@@ -2,7 +2,7 @@ import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { NextAuthProvider } from "./context";
-import { TrpcProvider } from "@/utils/TrpcProvider";
+import { TrpcProvider } from "@floe/trpc";
 import "@uploadthing/react/styles.css";
 
 const InterFont = Inter({
