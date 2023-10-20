@@ -1,0 +1,27 @@
+{
+  "name": "@floe/trpc",
+  "sideEffects": false,
+  "private": true,
+  "version": "1.0.0-alpha.0",
+  "main": "index.ts",
+  "scripts": {
+    "lint": "next lint",
+    "clean": "rm -rf node_modules && rm -rf dist && rm -rf .next",
+    "typecheck": "npx tsc --project ./tsconfig.json --noEmit"
+  },
+  "devDependencies": {
+    "eslint-config-custom": "workspace:*",
+    "@types/react": "18.2.15",
+    "@types/react-dom": "18.2.7",
+    "tsconfig": "workspace:*"
+  },
+  "dependencies": {
+    "@tanstack/react-query": "^4.32.0",
+    "@trpc/client": "^10.35.0",
+    "@trpc/react-query": "^10.35.0",
+    "@trpc/server": "^10.35.0",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "zod": "^3.21.4"
+  }
+}

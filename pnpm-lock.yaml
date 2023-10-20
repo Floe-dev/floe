@@ -627,6 +627,43 @@ importers:
         specifier: ^3.3.3
         version: 3.3.3
 
+  packages/trpc:
+    dependencies:
+      '@tanstack/react-query':
+        specifier: ^4.32.0
+        version: 4.32.0(react-dom@18.2.0)(react@18.2.0)
+      '@trpc/client':
+        specifier: ^10.35.0
+        version: 10.35.0(@trpc/server@10.35.0)
+      '@trpc/react-query':
+        specifier: ^10.35.0
+        version: 10.35.0(@tanstack/react-query@4.32.0)(@trpc/client@10.35.0)(@trpc/server@10.35.0)(react-dom@18.2.0)(react@18.2.0)
+      '@trpc/server':
+        specifier: ^10.35.0
+        version: 10.35.0
+      react:
+        specifier: 18.2.0
+        version: 18.2.0
+      react-dom:
+        specifier: 18.2.0
+        version: 18.2.0(react@18.2.0)
+      zod:
+        specifier: ^3.21.4
+        version: 3.21.4
+    devDependencies:
+      '@types/react':
+        specifier: 18.2.15
+        version: 18.2.15
+      '@types/react-dom':
+        specifier: 18.2.7
+        version: 18.2.7
+      eslint-config-custom:
+        specifier: workspace:*
+        version: link:../eslint-config-custom
+      tsconfig:
+        specifier: workspace:*
+        version: link:../tsconfig
+
   packages/tsconfig: {}
 
   packages/ui:
@@ -5280,7 +5317,6 @@ packages:
       '@types/prop-types': 15.7.5
       '@types/scheduler': 0.16.3
       csstype: 3.1.2
-    dev: false
 
   /@types/react@18.2.18:
     resolution: {integrity: sha512-da4NTSeBv/P34xoZPhtcLkmZuJ+oYaCxHmyHzwaDQo9RQPBeXV+06gEk2FpqEcsX9XrnNLvRpVh6bdavDSjtiQ==}

@@ -8,7 +8,6 @@
     "start": "next start",
     "lint": "next lint",
     "clean": "rm -rf node_modules && rm -rf dist && rm -rf .next",
-    "check-types": "npx tsc --project ./tsconfig.json --noEmit",
     "typecheck": "npx tsc --project ./tsconfig.json --noEmit"
   },
   "dependencies": {
