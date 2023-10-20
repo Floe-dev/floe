@@ -1,4 +1,8 @@
 import prisma from "@floe/db";
-import { protectedProcedure, router } from "../trpc";
+import { publicProcedure, router } from "../trpc";
 
-export const userRouter = router({});
+export const userRouter = router({
+  test: publicProcedure.query(async ({ ctx }) => {
+    return "Hello, world!";
+  }),
+});

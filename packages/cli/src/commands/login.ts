@@ -7,6 +7,7 @@ import { validate as validateMarkdoc } from "@floe/markdoc";
 import { validate as validateSchema } from "@floe/config";
 import fs from "fs";
 import axios from "axios";
+import { api } from "@floe/trpc/client";
 import { sleep } from "../utils/sleep.js";
 
 const CLIENT_ID = "Iv1.ee3594a4d2ac274a";
@@ -88,12 +89,15 @@ export function login(program: Command) {
     .command("login")
     .description("Autneticate with Floe")
     .action(async () => {
-      const deviceCode = await requestDeviceCode();
+      // const deviceCode = await requestDeviceCode();
 
-      console.log("Please visit: ", deviceCode.data.verification_uri);
-      console.log("And enter: ", deviceCode.data.user_code);
+      // console.log("Please visit: ", deviceCode.data.verification_uri);
+      // console.log("And enter: ", deviceCode.data.user_code);
 
-      const token = await pollForToken(deviceCode.data.device_code);
-      console.log("TOKEN: ", token);
+      // const token = await pollForToken(deviceCode.data.device_code);
+      // console.log("TOKEN: ", token);
+
+      const res = await api.user.test.query();
+      console.log("RES: ", res);
     });
 }
