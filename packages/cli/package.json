@@ -11,7 +11,7 @@
     "link-cli": "yarn unlink --global @floe/cli && yarn link --global",
     "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist",
     "build": "esbuild src/index.ts --bundle --platform=node --tree-shaking=true --outfile=dist/index.js",
-    "dev": "tsc -p tsconfig.json --watch"
+    "dev": "pnpm build --watch"
   },
   "files": [
     "dist",
