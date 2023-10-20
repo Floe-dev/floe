@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useContext, useMemo } from "react";
-import { api } from "@floe/trpc/client";
+import { api } from "@floe/trpc/react";
 import { usePathname } from "next/navigation";
 import type { AppRouter } from "@floe/trpc/server";
 import { inferRouterOutputs } from "@trpc/server";

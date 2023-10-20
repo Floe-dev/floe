@@ -10,7 +10,7 @@ import {
   EllipsisVerticalIcon,
   ArrowUpRightIcon,
 } from "@heroicons/react/24/outline";
-import { api } from "@floe/trpc/client";
+import { api } from "@floe/trpc/react";
 import { Combobox, Menu, Transition } from "@headlessui/react";
 import classNames from "classnames";
 import { inferRouterOutputs } from "@trpc/server";
