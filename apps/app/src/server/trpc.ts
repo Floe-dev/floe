@@ -22,11 +22,28 @@ const isAuthed = t.middleware(({ next, ctx }) => {
   });
 });
 
+// const isTokenValud = t.middleware(({ next, ctx }) => {
+//   fetch("https://api.github.com/user", {
+//     headers: {
+//       Authorization: `token ${ctx.githubAuthToken}`,
+//     },
+//   })
+//     .then((res) => res.json())
+//     .then((json) => {
+//       if (json.message === "Bad credentials") {
+//         throw new TRPCError({
+//           code: "UNAUTHORIZED",
+//         });
+//       }
+//     });
+
+//   return next();
+// });
 
 /**
  * Export reusable router and procedure helpers
  * that can be used throughout the router
-*/
+ */
 export const router = t.router;
 export const publicProcedure = t.procedure;
 export const protectedProcedure = t.procedure.use(isAuthed);

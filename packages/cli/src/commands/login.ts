@@ -12,31 +12,70 @@ import { sleep } from "../utils/sleep.js";
 const CLIENT_ID = "Iv1.ee3594a4d2ac274a";
 
 function requestDeviceCode() {
-  return axios.post(`https://github.com/login/device/code`, {
-    client_id: CLIENT_ID,
-  });
+  return axios.post(
+    `https://github.com/login/device/code`,
+    {
+      client_id: CLIENT_ID,
+    },
+    {
+      headers: {
+        Accept: "application/json",
+      },
+    }
+  );
 }
 
 function requestToken(deviceCode: string) {
-  return axios.post(`https://github.com/login/oauth/access_token`, {
-    client_id: CLIENT_ID,
-    device_code: deviceCode,
-    grant_type: "urn:ietf:params:oauth:grant-type:device_code",
-  });
+  return axios.post(
+    `https://github.com/login/oauth/access_token`,
+    {
+      client_id: CLIENT_ID,
+      device_code: deviceCode,
+      grant_type: "urn:ietf:params:oauth:grant-type:device_code",
+    },
+    {
+      headers: {
+        Accept: "application/json",
+      },
+    }
+  );
 }
 
-function pollForToken(deviceCode: string, interval: number) {
+function pollForToken(deviceCode: string) {
   return new Promise((resolve, reject) => {
     const poll = async () => {
       try {
         const response = await requestToken(deviceCode);
+        const { error, interval: i } = response.data;
+        const interval = i * 1000;
+
+        if (error) {
+          switch (error) {
+            case "authorization_pending":
+              setTimeout(poll, interval);
+              break;
+            case "slow_down":
+              setTimeout(poll, interval);
+              break;
+            case "expired_token":
+              reject(error);
+              break;
+            case "incorrect_client_credentials":
+              reject(error);
+              break;
+            case "access_denied":
+              reject(error);
+              break;
+            default:
+              reject(error);
+              break;
+          }
+          return;
+        }
+
         resolve(response.data);
       } catch (error: any) {
-        if (error.response.data.error === "authorization_pending") {
-          setTimeout(poll, interval);
-        } else {
-          reject(error);
-        }
+        reject(error);
       }
     };
 
@@ -50,9 +89,11 @@ export function login(program: Command) {
     .description("Autneticate with Floe")
     .action(async () => {
       const deviceCode = await requestDeviceCode();
-      console.log("DEVICECODE: ", deviceCode.data);
 
-      const token = await pollForToken(deviceCode.data.device_code, 5000);
+      console.log("Please visit: ", deviceCode.data.verification_uri);
+      console.log("And enter: ", deviceCode.data.user_code);
+
+      const token = await pollForToken(deviceCode.data.device_code);
       console.log("TOKEN: ", token);
     });
 }
