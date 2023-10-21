@@ -26,7 +26,5 @@ export function add(program: Command) {
           }),
         ],
       });
-      const res = await api.user.test.query();
-      console.log("RES: ", res);
     });
 }
