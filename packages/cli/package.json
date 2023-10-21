@@ -10,8 +10,7 @@
   "scripts": {
     "link-cli": "yarn unlink --global @floe/cli && yarn link --global",
     "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist",
-    "build": "esbuild src/index.ts --bundle --platform=node --tree-shaking=true --outfile=dist/index.js",
-    "dev": "pnpm build --watch"
+    "build": "node build"
   },
   "files": [
     "dist",
@@ -47,6 +46,7 @@
     "gradient-string": "^2.0.2",
     "inquirer": "^9.2.11",
     "jimp": "^0.22.10",
+    "keytar": "^7.9.0",
     "nanospinner": "^1.1.0",
     "pngjs": "^7.0.0"
   },

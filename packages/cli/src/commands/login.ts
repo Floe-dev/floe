@@ -1,4 +1,4 @@
-import chalk from "chalk";
+// import chalk from "chalk";
 import { Command } from "commander";
 import { readFileSync } from "fs";
 import { glob } from "glob";
@@ -7,13 +7,10 @@ import { validate as validateMarkdoc } from "@floe/markdoc";
 import { validate as validateSchema } from "@floe/config";
 import fs from "fs";
 import axios from "axios";
-import {
-  AppRouter,
-  createTRPCProxyClient,
-  httpBatchLink,
-  getBaseUrl,
-} from "@floe/trpc/client";
+import { setPassword } from "keytar";
 import { sleep } from "../utils/sleep.js";
+import { setAccessToken } from "../utils/accessToken.js";
+import { TokenResponse } from "../types.js";
 
 const CLIENT_ID = "Iv1.ee3594a4d2ac274a";
 
@@ -92,34 +89,18 @@ function pollForToken(deviceCode: string) {
 export function login(program: Command) {
   program
     .command("login")
-    .description("Autneticate with Floe")
+    .description("Authenticate with Floe")
     .action(async () => {
       const deviceCode = await requestDeviceCode();
 
       console.log("Please visit: ", deviceCode.data.verification_uri);
       console.log("And enter: ", deviceCode.data.user_code);
 
-      const tokenRes = (await pollForToken(deviceCode.data.device_code)) as {
-        access_token: string;
-        expires_in: number;
-        refresh_token: string;
-        refresh_token_expires_in: number;
-        token_type: string;
-        scope: string;
-      };
+      const tokenRes = (await pollForToken(
+        deviceCode.data.device_code
+      )) as TokenResponse;
       console.log("TOKEN: ", tokenRes);
 
-      const api = createTRPCProxyClient<AppRouter>({
-        links: [
-          httpBatchLink({
-            url: `${getBaseUrl()}/api/trpc`,
-            headers: {
-              Authorization: tokenRes.access_token,
-            },
-          }),
-        ],
-      });
-      const res = await api.user.test.query();
-      console.log("RES: ", res);
+      setAccessToken(tokenRes);
     });
 }
