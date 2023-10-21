@@ -1,5 +1,5 @@
-import { Endpoints } from "@octokit/types";
-import { Octokit } from "octokit";
+import type { Endpoints } from "@octokit/types";
+import { Octokit } from "@octokit/core";
 
 export const getUserInstallations = async (
   octokit: Octokit,
