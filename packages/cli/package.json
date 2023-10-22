@@ -48,7 +48,8 @@
     "jimp": "^0.22.10",
     "keytar": "^7.9.0",
     "nanospinner": "^1.1.0",
-    "pngjs": "^7.0.0"
+    "pngjs": "^7.0.0",
+    "simple-git": "^3.20.0"
   },
   "publishConfig": {
     "access": "public"
