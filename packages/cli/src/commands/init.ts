@@ -1,9 +1,4 @@
 import { Command } from "commander";
-import figlet from "figlet";
-import gradient from "gradient-string";
-import { createSpinner } from "nanospinner";
-import confirm from "@inquirer/confirm";
-import checkbox from "@inquirer/checkbox";
 import fs from "fs";
 import Jimp from "jimp";
 import { glob } from "glob";
@@ -16,7 +11,8 @@ import { postSample } from "../default-files/sample-post.js";
 import { resolve } from "path";
 import { capitalize } from "../utils/capitalize.js";
 import { defaultConfig } from "@floe/config";
-const c = import("chalk").then((m) => m.default);
+const chalkImport = import("chalk").then((m) => m.default);
+const clackImport = import("@clack/prompts");
 
 const templateSamples = {
   blog: blogSample,
@@ -31,7 +27,8 @@ export function init(program: Command) {
     .command("init")
     .description("Setup a new Floe data source")
     .action(async () => {
-      const chalk = await c;
+      const chalk = await chalkImport;
+      const clack = await clackImport;
       /**
        * Check if user is in a git repository
        */
@@ -46,11 +43,13 @@ export function init(program: Command) {
         return;
       }
 
+      clack.intro("init");
+
       /**
        * Check if directory already exists
        */
       if (fs.existsSync(".floe")) {
-        const answer = await confirm({
+        const answer = await clack.confirm({
           message:
             "A `.floe` directory was detected. The contents will be overwritten. Do you want to continue?",
         });
@@ -60,23 +59,22 @@ export function init(program: Command) {
         }
       }
 
-      const answer = await checkbox({
+      const scaffold = (await clack.multiselect({
         message: "What do you want to use this project for?",
-        choices: [
-          { name: "📖 Docs", value: "docs" },
-          { name: "📚 Wiki", value: "wiki" },
-          { name: "🚀 Changelog", value: "changelog" },
-          { name: "✍️  Blog", value: "blog" },
-          { name: "🙋‍♀️ FAQ", value: "faq" },
-        ] as { name: string; value: keyof typeof templateSamples }[],
-      });
+        options: [
+          { value: "docs", label: "📖 Docs", hint: "recommended" },
+          { value: "changelog", label: "🚀 Changelog", hint: "recommended" },
+        ],
+        required: true,
+      })) as (keyof typeof templateSamples)[];
 
-      const useExistingFilesAnswer = await confirm({
+      const useExistingFilesAnswer = await clack.confirm({
         message:
           "Would you like Floe to index existing markdown files in this repository?",
       });
 
-      const spinner = createSpinner("Generating sample images...").start();
+      const spinner = clack.spinner();
+      spinner.start("Generating sample images...");
       await sleep(1000);
 
       try {
@@ -94,14 +92,12 @@ export function init(program: Command) {
         const image2 = await Jimp.read(randomImageUrl2);
         image2.write(resolve(".floe/public/image2.jpg"));
 
-        spinner.update({
-          text: "Generating files...",
-        });
+        spinner.message("Generating files...");
 
         /**
          * Scaffold templates
          */
-        answer.forEach((item) => {
+        scaffold.forEach((item) => {
           const file = templateSamples[item];
 
           if (item === "docs") {
@@ -118,7 +114,7 @@ export function init(program: Command) {
         /**
          * Create config file
          */
-        const newFilesPattern = answer.map((item) => `${item}/**/*.md`);
+        const newFilesPattern = scaffold.map((item) => `${item}/**/*.md`);
         // TODO: Might need to add to this in the future
         const ignorePatterns = ["node_modules/**"];
         const existingMDFiles = await glob(["*.md", "**/*.md"], {
@@ -207,40 +203,25 @@ export function init(program: Command) {
           "Janking jellies...",
         ];
 
-        spinner.update({
-          text: randomMessages[
-            Math.floor(Math.random() * randomMessages.length)
-          ],
-        });
+        spinner.message(
+          randomMessages[Math.floor(Math.random() * randomMessages.length)]
+        );
 
         await sleep(1500);
 
-        spinner.success({
-          text: chalk.green("Templates created!"),
-          mark: chalk.green("✔"),
-        });
+        spinner.stop("✔ Templates created!");
       } catch (e: any) {
         spinner.stop();
         program.error("Ruh roh! There was an error: " + e.message);
       }
 
-      figlet("success", (err, data) => {
-        if (err) {
-          console.log("Something went wrong...");
-          console.dir(err);
-          return;
-        }
-        console.log(gradient.pastel.multiline(data));
-
-        console.log(
-          chalk.green("Your repository is configured for Floe! 🎉 \n\n")
-        );
-        console.log(chalk.bold("Next steps:"));
-        console.log("📡  Push your changes to GitHub");
-        console.log(
-          "🖇️  Connect your data source in the Floe dashboard https://app.floe.dev"
-        );
-        console.log("✍️  Start writing content!");
-      });
+      /**
+       * SUCCESS
+       */
+      clack.outro(
+        chalk.green(
+          "You're all set! 🎉 You can now push your changes to GitHub to see them live."
+        )
+      );
     });
 }
