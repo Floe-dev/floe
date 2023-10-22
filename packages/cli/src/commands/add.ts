@@ -26,5 +26,8 @@ export function add(program: Command) {
           }),
         ],
       });
+
+      const res = await api.content.generate.query();
+      console.log(2222, res);
     });
 }
