@@ -19,6 +19,7 @@
   "dependencies": {
     "@octokit/auth-app": "^6.0.1",
     "@octokit/core": "^5.0.1",
-    "minimatch": "^9.0.3"
+    "minimatch": "^9.0.3",
+    "slugify": "^1.6.6"
   }
 }

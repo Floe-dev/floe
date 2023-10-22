@@ -1,4 +1,4 @@
-import { protectedProcedure, router } from "../trpc";
+import { protectedProcedure, router } from "../../trpc";
 import { getUserInstallations } from "@floe/utils";
 
 export const installationRouter = router({

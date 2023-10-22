@@ -9,8 +9,10 @@ import { docSample } from "../default-files/sample-doc.js";
 import { docSample2 } from "../default-files/sample-doc2.js";
 import { postSample } from "../default-files/sample-post.js";
 import { resolve } from "path";
+import { getApi } from "../utils/api.js";
 import { capitalize } from "../utils/capitalize.js";
 import { defaultConfig } from "@floe/config";
+import { slugify } from "@floe/utils";
 import { execSync } from "child_process";
 const chalkImport = import("chalk").then((m) => m.default);
 const clackImport = import("@clack/prompts");
@@ -80,10 +82,13 @@ const templateSamples = {
 export function init(program: Command) {
   program
     .command("init")
+    .option("-p, --project <project>", "project slug for datasource")
     .description("Setup a new Floe data source")
-    .action(async () => {
+    .action(async (options) => {
       const chalk = await chalkImport;
       const clack = await clackImport;
+      const api = await getApi();
+
       /**
        * Check if user is in a git repository
        */
@@ -98,10 +103,13 @@ export function init(program: Command) {
         return;
       }
 
+      /**
+       * Get the repository, organization, and default branch. These will be
+       * used to create a data source. Best to retreive early to expose
+       * potential errors before taking user time.
+       */
       const { repository, organization } = getGithubOrgandRepo();
       const branch = getDefaultBranch();
-
-      console.log(11111, repository, organization, branch);
 
       clack.intro("init");
 
@@ -123,6 +131,55 @@ export function init(program: Command) {
               }
 
               return answer;
+            },
+          }),
+
+          /**
+           * Create a data source
+           * Only use this option is a project slug is provided
+           */
+          ...(!!options.project && {
+            createDataSource: async () => {
+              const name = (await clack.text({
+                message: "What do you want to call your datasource?",
+                placeholder: "eg. Frontend",
+                initialValue: "",
+                validate(value) {
+                  if (value.length < 3) return `Must be at least 3 characters!`;
+                  if (value.length > 24)
+                    return `Must be less than 24 characters!`;
+                },
+              })) as string;
+
+              const spinner = clack.spinner();
+              spinner.start("Creating data source...");
+
+              const slug = slugify(name);
+
+              try {
+                await api.userDataSource.create.mutate({
+                  owner: organization,
+                  repository,
+                  baseBranch: branch,
+                  name,
+                  slug,
+                  projectSlug: options.project,
+                });
+
+                spinner.stop("✔ Data source created!");
+              } catch (e) {
+                spinner.stop("✖ Data source could not be created.");
+
+                const answer = await clack.confirm({
+                  message:
+                    "Would you like to proceed anyways? You can manually create a datasource in the Floe dashboard later.",
+                });
+
+                if (answer === false) {
+                  clack.cancel("Operation cancelled");
+                  return process.exit(0);
+                }
+              }
             },
           }),
 

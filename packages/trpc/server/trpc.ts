@@ -8,16 +8,13 @@ import { Context } from "./context";
 const t = initTRPC.context<Context>().create();
 
 const isSession = t.middleware(({ next, ctx }) => {
-  if (!ctx.session?.user) {
-    throw new TRPCError({
-      code: "UNAUTHORIZED",
-    });
+  if (!ctx.session || !ctx.session.user) {
+    throw new TRPCError({ code: "UNAUTHORIZED" });
   }
-
   return next({
     ctx: {
-      // Infers the `session` as non-nullable
-      session: ctx.session,
+      // infers the `session` as non-nullable
+      session: { ...ctx.session, user: ctx.session.user },
     },
   });
 });
@@ -29,7 +26,6 @@ const isValidToken = t.middleware(async ({ next, ctx }) => {
         Authorization: `token ${ctx.token}`,
       },
     });
-
     if (response.status !== 200) {
       throw new TRPCError({
         code: "UNAUTHORIZED",

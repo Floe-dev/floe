@@ -1,6 +1,6 @@
 import { z } from "zod";
 import OpenAI from "openai";
-import { protectedTokenProcedure, router } from "../trpc";
+import { protectedTokenProcedure, router } from "../../trpc";
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,

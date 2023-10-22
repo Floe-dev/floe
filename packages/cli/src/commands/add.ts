@@ -1,13 +1,6 @@
 import { Command } from "commander";
-import { getPassword } from "keytar";
-import {
-  AppRouter,
-  createTRPCProxyClient,
-  httpBatchLink,
-  getBaseUrl,
-} from "@floe/trpc/client";
 import { simpleGit, CleanOptions } from "simple-git";
-import { getAccessToken } from "../utils/accessToken.js";
+import { getApi } from "../utils/api.js";
 
 export function add(program: Command) {
   program
@@ -17,19 +10,7 @@ export function add(program: Command) {
       const git = simpleGit();
       const diff = await git.diff();
 
-      console.log(11111, diff);
-      const token = await getAccessToken();
-
-      const api = createTRPCProxyClient<AppRouter>({
-        links: [
-          httpBatchLink({
-            url: `${getBaseUrl()}/api/trpc`,
-            headers: {
-              Authorization: token.access_token,
-            },
-          }),
-        ],
-      });
+      const api = await getApi();
 
       const template = `
         ---
@@ -40,7 +21,7 @@ export function add(program: Command) {
         We are excited to announce the release of our new product. It's been a long time coming, but we're finally ready to share it with you!
       `;
 
-      const res = await api.content.generate.query({
+      const res = await api.userContent.generate.query({
         diff,
         template,
       });
