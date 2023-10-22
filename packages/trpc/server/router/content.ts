@@ -15,8 +15,6 @@ export const contentRouter = router({
       })
     )
     .query(async ({ input }) => {
-      console.log(111111);
-
       try {
         const response = await openai.chat.completions.create({
           model: "gpt-3.5-turbo",
@@ -24,16 +22,21 @@ export const contentRouter = router({
             {
               role: "system",
               content:
-                "You generate markdown content based on a git diff and an example. Mimic the example as closely as possible.",
+                "You are an assistant to a software developer. You help them to generate a markdown file from a git diff.",
             },
-            { role: "user", content: `diff: ${input.diff}` },
-            { role: "user", content: `example: ${input.template}` },
+            {
+              role: "user",
+              content: `
+                Generate a markdown file from the following git diff: ${input.diff}
+                \n\n
+                Example: ${input.template}`,
+            },
           ],
         });
 
         console.log(333333, response.choices[0]);
 
-        return response;
+        return response.choices[0];
       } catch (error) {
         console.log(444444, error);
         return "yodo :(";

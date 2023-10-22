@@ -1,4 +1,3 @@
-import chalk from "chalk";
 import { Command } from "commander";
 import figlet from "figlet";
 import gradient from "gradient-string";
@@ -17,6 +16,7 @@ import { postSample } from "../default-files/sample-post.js";
 import { resolve } from "path";
 import { capitalize } from "../utils/capitalize.js";
 import { defaultConfig } from "@floe/config";
+const c = import("chalk").then((m) => m.default);
 
 const templateSamples = {
   blog: blogSample,
@@ -31,6 +31,7 @@ export function init(program: Command) {
     .command("init")
     .description("Setup a new Floe data source")
     .action(async () => {
+      const chalk = await c;
       /**
        * Check if user is in a git repository
        */
