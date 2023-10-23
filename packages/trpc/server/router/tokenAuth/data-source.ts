@@ -1,6 +1,7 @@
 import { z } from "zod";
 import prisma from "@floe/db";
 import { protectedTokenProcedure, router } from "../../trpc";
+import { validateUserHasProject } from "../../validators/user-has-project";
 
 export const dataSourceRouter = router({
   create: protectedTokenProcedure
@@ -15,10 +16,6 @@ export const dataSourceRouter = router({
       })
     )
     .mutation(async ({ input, ctx }) => {
-      // TODO: VALIDATE
-
-      console.log(999999999, input);
-
       const project = await prisma.project.findUnique({
         where: {
           slug: input.projectSlug,
@@ -28,6 +25,8 @@ export const dataSourceRouter = router({
       if (!project) {
         throw new Error("Project not found");
       }
+
+      await validateUserHasProject({ ctx, input: { projectId: project.id } });
 
       const dataSource = await prisma.dataSource.create({
         data: {

@@ -20,6 +20,7 @@ export async function createContext(opts: trpcNext.CreateNextContextOptions) {
     req,
     res,
     session,
+    profile: session?.profile,
     octokit,
     token,
   };

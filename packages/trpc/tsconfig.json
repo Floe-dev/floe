@@ -4,6 +4,6 @@
     "outDir": "./dist",
     "strictNullChecks": true
   },
-  "include": ["client", "next", "server"],
+  "include": ["client", "next", "server", "nextauth.d.ts"],
   "exclude": ["node_modules"]
 }

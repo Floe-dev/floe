@@ -11,10 +11,7 @@ export const validateUserHasProject = async ({
   input: { projectId: string; [key: string]: unknown };
 }) => {
   const { projectId } = input;
-  const installations = await getUserInstallations(
-    ctx.octokit,
-    ctx.session?.profile.id
-  );
+  const installations = await getUserInstallations(ctx.octokit, ctx.profile.id);
   const userInstallationIds = installations.map((i) => i.id);
 
   try {

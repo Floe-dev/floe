@@ -21,23 +21,25 @@ const isSession = t.middleware(({ next, ctx }) => {
 
 const isValidToken = t.middleware(async ({ next, ctx }) => {
   try {
-    const response = await fetch("https://api.github.com/user", {
-      headers: {
-        Authorization: `token ${ctx.token}`,
-      },
-    });
-    if (response.status !== 200) {
+    const response = await ctx.octokit.request("GET /user");
+    const profile = response.data;
+
+    if (response.status !== 200 || !profile) {
       throw new TRPCError({
         code: "UNAUTHORIZED",
       });
     }
+
+    return next({
+      ctx: {
+        profile,
+      },
+    });
   } catch (error) {
     throw new TRPCError({
       code: "UNAUTHORIZED",
     });
   }
-
-  return next();
 });
 
 /**
