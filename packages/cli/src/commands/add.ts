@@ -1,12 +1,19 @@
 import { Command } from "commander";
 import { getApi } from "../utils/api.js";
 import { execSync } from "child_process";
+import { getDefaultBranch } from "../utils/git";
 
-function gitDiffIgnoreFiles(gitRepoPath: string, ignoredFiles: string[]) {
+function gitDiffIgnoreFiles(
+  gitRepoPath: string,
+  ignoredFiles: string[],
+  branchName: string
+) {
   // Create a list of "!path/to/ignored-file" for each file to ignore
   const ignoreOptions = ignoredFiles.map((file) => `':!${file}'`).join(" ");
 
-  const gitDiffCommand = `git -C ${gitRepoPath} diff -- . ${ignoreOptions}`;
+  // const gitDiffCommand = `git -C ${gitRepoPath} diff ${getDefaultBranch()}...HEAD -- . ${ignoreOptions}`;
+  const gitDiffCommand = `git diff`;
+  const defaultBranch = getDefaultBranch();
 
   return execSync(gitDiffCommand, {
     encoding: "utf-8",
@@ -40,24 +47,33 @@ export function add(program: Command) {
         "pnmp-lock.json",
         "pnpm-lock.yaml",
       ];
-      const diff = gitDiffIgnoreFiles(process.cwd(), ignoredFiles);
-      const commits = listCommitMessagesForBranch(process.cwd(), "gh-app-cli");
+      const currentBranch = execSync("git rev-parse --abbrev-ref HEAD", {
+        encoding: "utf-8",
+      }).trim();
+      const diff = gitDiffIgnoreFiles(
+        process.cwd(),
+        ignoredFiles,
+        currentBranch
+      );
+      const commits = listCommitMessagesForBranch(process.cwd(), currentBranch);
 
-      console.log(11111, commits);
+      const api = await getApi();
 
-      // const api = await getApi();
+      const diffInput = `
+        Commits:
+        ${commits.join("\n")}
+        Diff:
+        ${diff}
+      `;
 
-      // const template = `
-      //   ---
-      //   title: "My first changelog"
-      //   date: 2023-08-31
-      //   image: /image1.jpg
-      //   ---
-      //   We are excited to announce the release of our new product. It's been a long time coming, but we're finally ready to share it with you!
-      // `;
+      const template = `
+        We are excited to announce the release of our new product. It's been a long time coming, but we're finally ready to share it with you!
+      `;
+
+      console.log(111111, diffInput, template);
 
       // const res = await api.userContent.generate.query({
-      //   diff,
+      //   diff: diffInput,
       //   template,
       // });
       // console.log(2222, res);
