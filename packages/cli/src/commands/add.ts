@@ -11,9 +11,7 @@ function gitDiffIgnoreFiles(
   // Create a list of "!path/to/ignored-file" for each file to ignore
   const ignoreOptions = ignoredFiles.map((file) => `':!${file}'`).join(" ");
 
-  // const gitDiffCommand = `git -C ${gitRepoPath} diff ${getDefaultBranch()}...HEAD -- . ${ignoreOptions}`;
-  const gitDiffCommand = `git diff`;
-  const defaultBranch = getDefaultBranch();
+  const gitDiffCommand = `git -C ${gitRepoPath} diff ${getDefaultBranch()}...HEAD -- . ${ignoreOptions}`;
 
   return execSync(gitDiffCommand, {
     encoding: "utf-8",
@@ -70,12 +68,10 @@ export function add(program: Command) {
         We are excited to announce the release of our new product. It's been a long time coming, but we're finally ready to share it with you!
       `;
 
-      console.log(111111, diffInput, template);
-
-      // const res = await api.userContent.generate.query({
-      //   diff: diffInput,
-      //   template,
-      // });
-      // console.log(2222, res);
+      const res = await api.userContent.generate.query({
+        diff: diffInput,
+        template,
+      });
+      console.log(2222, res);
     });
 }

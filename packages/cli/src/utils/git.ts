@@ -44,8 +44,11 @@ export const getGithubOrgandRepo = () => {
 export const getDefaultBranch = () => {
   try {
     const val = execSync(
-      `git remote show origin | sed -n '/HEAD branch/s/.*: //p'`
-    ).toString();
+      `git remote show origin | sed -n '/HEAD branch/s/.*: //p'`,
+      {
+        encoding: "utf-8",
+      }
+    ).trim();
 
     return val;
   } catch (e: any) {

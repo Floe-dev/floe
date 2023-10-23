@@ -16,8 +16,6 @@ export const DatasourceConfigured = ({
     branch,
   });
 
-  console.log(11111, data);
-
   if (isLoading) {
     return null;
   }
