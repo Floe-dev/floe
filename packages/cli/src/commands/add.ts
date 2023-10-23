@@ -1,31 +1,22 @@
 import { Command } from "commander";
 import { getApi } from "../utils/api.js";
 import { execSync } from "child_process";
-import { getDefaultBranch } from "../utils/git";
+import simpleGit, { CleanOptions } from "simple-git";
+import {
+  currentBranch,
+  getDefaultBranch,
+  getGithubOrgandRepo,
+} from "../utils/git";
+const clackImport = import("@clack/prompts");
 
-function gitDiffIgnoreFiles(
-  gitRepoPath: string,
-  ignoredFiles: string[],
-  branchName: string
-) {
-  // Create a list of "!path/to/ignored-file" for each file to ignore
-  const ignoreOptions = ignoredFiles.map((file) => `':!${file}'`).join(" ");
-
-  const gitDiffCommand = `git -C ${gitRepoPath} diff ${getDefaultBranch()}...HEAD -- . ${ignoreOptions}`;
-
-  return execSync(gitDiffCommand, {
-    encoding: "utf-8",
-  });
-}
-
-function listCommitMessagesForBranch(gitRepoPath: string, branchName: string) {
+function listMostRecentGitBranches(gitRepoPath: string) {
   try {
-    const gitLogCommand = `git -C ${gitRepoPath} log --oneline --abbrev=8 ${branchName}`;
+    const gitBranchCommand = `git -C ${gitRepoPath} for-each-ref --sort='-committerdate' --format="%(refname:short)" refs/heads`;
 
-    const commitLog = execSync(gitLogCommand, { encoding: "utf-8" });
-    const commitMessages = commitLog.trim().split("\n");
+    const branchList = execSync(gitBranchCommand, { encoding: "utf-8" });
+    const recentBranches = branchList.trim().split("\n").slice(0, 10);
 
-    return commitMessages;
+    return recentBranches;
   } catch (error: any) {
     console.error("Error:", error.message);
     return [];
@@ -37,41 +28,56 @@ export function add(program: Command) {
     .command("add")
     .description("Add")
     .action(async () => {
-      /**
-       * TODO: Add other generated files here
-       */
-      const ignoredFiles = [
-        "package-lock.json",
-        "pnmp-lock.json",
-        "pnpm-lock.yaml",
-      ];
-      const currentBranch = execSync("git rev-parse --abbrev-ref HEAD", {
-        encoding: "utf-8",
-      }).trim();
-      const diff = gitDiffIgnoreFiles(
-        process.cwd(),
-        ignoredFiles,
-        currentBranch
-      );
-      const commits = listCommitMessagesForBranch(process.cwd(), currentBranch);
+      const clack = await clackImport;
 
-      const api = await getApi();
+      await clack.group({
+        branchSelect: async () => {
+          const selection = await clack.select({
+            message: "Select a branch for content generation:",
+            // options: [
+            //   { value: "ts", label: "TypeScript" },
+            //   { value: "js", label: "JavaScript" },
+            //   { value: "coffee", label: "CoffeeScript", hint: "oh no" },
+            // ],
+            options: listMostRecentGitBranches(process.cwd()).map((branch) => ({
+              value: branch,
+              label: branch,
+            })),
+          });
 
-      const diffInput = `
-        Commits:
-        ${commits.join("\n")}
-        Diff:
-        ${diff}
-      `;
+          return selection;
+        },
 
-      const template = `
-        We are excited to announce the release of our new product. It's been a long time coming, but we're finally ready to share it with you!
-      `;
+        /**
+         * Select a template
+         */
+        // ...
 
-      const res = await api.userContent.generate.query({
-        diff: diffInput,
-        template,
+        /**
+         * Generate completion
+         */
+        generate: async ({ results: { branchSelect } }) => {
+          const api = await getApi();
+          const git = simpleGit();
+
+          const example = `
+            We are excited to announce the release of our new product. It's been a long time coming, but we're finally ready to share it with you!
+          `;
+
+          const { repository, organization } = getGithubOrgandRepo();
+          const baseSha = await git.revparse([branchSelect as string]);
+          const headSha = await git.revparse([getDefaultBranch()]);
+
+          const res = await api.userContent.generate.query({
+            owner: organization,
+            repo: repository,
+            baseSha,
+            headSha,
+            example,
+          });
+
+          console.log(111111, res);
+        },
       });
-      console.log(2222, res);
     });
 }

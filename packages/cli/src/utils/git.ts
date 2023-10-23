@@ -56,3 +56,7 @@ export const getDefaultBranch = () => {
     process.exit(1);
   }
 };
+
+export const currentBranch = execSync("git rev-parse --abbrev-ref HEAD", {
+  encoding: "utf-8",
+}).trim();
