@@ -34,11 +34,6 @@ export function add(program: Command) {
         branchSelect: async () => {
           const selection = await clack.select({
             message: "Select a branch for content generation:",
-            // options: [
-            //   { value: "ts", label: "TypeScript" },
-            //   { value: "js", label: "JavaScript" },
-            //   { value: "coffee", label: "CoffeeScript", hint: "oh no" },
-            // ],
             options: listMostRecentGitBranches(process.cwd()).map((branch) => ({
               value: branch,
               label: branch,
@@ -57,26 +52,36 @@ export function add(program: Command) {
          * Generate completion
          */
         generate: async ({ results: { branchSelect } }) => {
-          const api = await getApi();
-          const git = simpleGit();
+          const spinner = clack.spinner();
+          spinner.start("Generating content...");
 
-          const example = `
-            We are excited to announce the release of our new product. It's been a long time coming, but we're finally ready to share it with you!
-          `;
+          try {
+            const api = await getApi();
+            const git = simpleGit();
 
-          const { repository, organization } = getGithubOrgandRepo();
-          const baseSha = await git.revparse([branchSelect as string]);
-          const headSha = await git.revparse([getDefaultBranch()]);
+            const example = `
+                We are excited to announce the release of our new product. It's been a long time coming, but we're finally ready to share it with you!
+              `;
 
-          const res = await api.userContent.generate.query({
-            owner: organization,
-            repo: repository,
-            baseSha,
-            headSha,
-            example,
-          });
+            const { repository, organization } = getGithubOrgandRepo();
+            const baseSha = await git.revparse([branchSelect as string]);
+            const headSha = await git.revparse([getDefaultBranch()]);
 
-          console.log(111111, res);
+            const res = await api.userContent.generate.query({
+              owner: organization,
+              repo: repository,
+              baseSha,
+              headSha,
+              example,
+            });
+
+            spinner.stop("✔ Successfully generated content.");
+
+            return res;
+          } catch (e: any) {
+            spinner.stop("✖ Failed to generate content.");
+            process.exit(0);
+          }
         },
       });
     });

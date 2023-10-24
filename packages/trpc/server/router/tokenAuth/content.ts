@@ -2,6 +2,7 @@ import { z } from "zod";
 import OpenAI from "openai";
 import { protectedTokenProcedure, router } from "../../trpc";
 import { Octokit } from "@floe/utils";
+import { encodingForModel } from "js-tiktoken";
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
@@ -111,9 +112,18 @@ export const contentRouter = router({
         ctx.octokit
       );
 
+      let diff = resp?.gitDiff ?? "";
+      const GPTModel = "gpt-4-32k";
+      const enc = encodingForModel(GPTModel);
+      const encoding = enc.encode(diff);
+
+      if (encoding.length > 30000) {
+        diff = diff.split(" ").slice(0, 30000).join(" ");
+      }
+
       try {
         const response = await openai.chat.completions.create({
-          model: "gpt-4",
+          model: GPTModel,
           messages: [
             {
               role: "system",
