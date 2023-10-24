@@ -29,12 +29,9 @@ async function getGitHubGitDiff(
       }
     );
 
-    const commits = compareInfo.data.commits?.map((commit) => {
-      return {
-        sha: commit.sha,
-        message: commit.commit.message,
-      };
-    });
+    const commits = compareInfo.data.commits
+      ?.map((commit) => `${commit.sha}: ${commit.commit.message}`)
+      .join("\n");
 
     const ignoreFiles = [
       "package-lock.json",
@@ -112,14 +109,35 @@ export const contentRouter = router({
         ctx.octokit
       );
 
-      let diff = resp?.gitDiff ?? "";
-      const GPTModel = "gpt-4-32k";
-      const enc = encodingForModel(GPTModel);
-      const encoding = enc.encode(diff);
+      let content = `
+      Commits:
+      ${resp?.commits}
 
-      if (encoding.length > 30000) {
-        diff = diff.split(" ").slice(0, 30000).join(" ");
+      Diffs:
+      ${resp?.gitDiff}
+      `;
+      // https://platform.openai.com/docs/models/gpt-3-5
+      const tokenLimit = 4097 - 1000;
+      const GPTModel = "gpt-4";
+      const enc = encodingForModel(GPTModel);
+      const encoding = enc.encode(content);
+      console.log("Estimated diff tokens: ", encoding.length);
+
+      /**
+       * Truncate content if too long
+       */
+      if (encoding.length > tokenLimit) {
+        const splitRatio = encoding.length / tokenLimit;
+        content = content.substring(0, Math.floor(content.length / splitRatio));
+
+        const newEncoding = enc.encode(content);
+        console.log(
+          "Estimated diff tokens after truncated: ",
+          newEncoding.length
+        );
       }
+
+      console.log(111111, content);
 
       try {
         const response = await openai.chat.completions.create({
@@ -128,26 +146,42 @@ export const contentRouter = router({
             {
               role: "system",
               content:
-                "You are an assistant to a software developer. You help them to generate a markdown file from a git diff.",
+                "You are an assistant to a software developer. You help them to generate changelogs from git messages and diffs. You must include a frontmatter at the top of the response. Summarize commit messages and diffs, so not list the commit messages.",
             },
             {
               role: "user",
               content: `
-                Generate a markdown file using the following Diff and Commits. The output should be similar to the Example provided at the bottom.
-                Diff: ${resp?.gitDiff}
-                Commits: ${resp?.commits?.map((commit) => commit.message)}
-                \n\n
-                Example: ${input.example}`,
+                Generate a changelog from the following:
+                Commits:
+                Adds a commute calculator to Local Content
+                wip
+                the commute calculator displays the estimated driving or transit time to a specified destination
+                Diff:
+              `,
+            },
+            {
+              role: "assistant",
+              content: `
+              ---
+              title: "🚌 Commute calculator"
+              ---
+              Now you can quickly lookup the time and distance to points of interest relevant to you. Using the commute calculator, simply type in your destination and go!
+              `,
+            },
+            {
+              role: "user",
+              content: `
+              Generate a changelog from the following:
+               ${content}
+              `,
             },
           ],
         });
 
-        return response.choices[0];
-      } catch (error) {
-        console.log(444444, error);
-        return "yodo :(";
+        return response;
+      } catch (error: any) {
+        console.error("Error:", error.message);
+        throw new Error(error.message);
       }
-
-      return resp;
     }),
 });

@@ -1,13 +1,9 @@
 import { Command } from "commander";
 import { getApi } from "../utils/api.js";
 import { execSync } from "child_process";
-import simpleGit, { CleanOptions } from "simple-git";
-import {
-  currentBranch,
-  getDefaultBranch,
-  getGithubOrgandRepo,
-} from "../utils/git";
+import { getDefaultBranch, getGithubOrgandRepo } from "../utils/git";
 const clackImport = import("@clack/prompts");
+const chalkImport = import("chalk").then((m) => m.default);
 
 function listMostRecentGitBranches(gitRepoPath: string) {
   try {
@@ -29,6 +25,7 @@ export function add(program: Command) {
     .description("Add")
     .action(async () => {
       const clack = await clackImport;
+      const chalk = await chalkImport;
 
       await clack.group({
         branchSelect: async () => {
@@ -57,31 +54,44 @@ export function add(program: Command) {
 
           try {
             const api = await getApi();
-            const git = simpleGit();
 
             const example = `
                 We are excited to announce the release of our new product. It's been a long time coming, but we're finally ready to share it with you!
               `;
 
             const { repository, organization } = getGithubOrgandRepo();
-            const baseSha = await git.revparse([branchSelect as string]);
-            const headSha = await git.revparse([getDefaultBranch()]);
 
             const res = await api.userContent.generate.query({
               owner: organization,
               repo: repository,
-              baseSha,
-              headSha,
+              baseSha: getDefaultBranch(),
+              headSha: branchSelect as string,
               example,
             });
 
             spinner.stop("✔ Successfully generated content.");
 
+            console.log(111111, res.choices);
             return res;
           } catch (e: any) {
-            spinner.stop("✖ Failed to generate content.");
+            spinner.stop(`✖ Failed to generate content: ${e.message}`);
             process.exit(0);
           }
+        },
+
+        /**
+         * Show results and pick a file to save
+         */
+        pick: async ({ results: { generate } }) => {
+          console.log("Output: \n\n");
+          console.log(chalk.dim((generate as any).choices[0].message.content));
+          console.log("\n\n");
+
+          const confirm = await clack.confirm({
+            message: "Would you like to accept this change?",
+          });
+
+          return confirm;
         },
       });
     });
