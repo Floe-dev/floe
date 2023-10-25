@@ -1,4 +1,5 @@
 import fs from "fs";
+import { glob } from "glob";
 import { Command } from "commander";
 import { getApi } from "../utils/api.js";
 import { execSync } from "child_process";
@@ -57,7 +58,17 @@ export function add(program: Command) {
           const selection = await clack.select({
             message: "Select a template for content generation:",
             options: Object.entries(config.prompts).map(([key, val]) => ({
-              value: val,
+              value: Object.entries(val as any).reduce((acc, curr) => {
+                const newAcc = {
+                  ...acc,
+                  [curr[0]]: fs.readFileSync(
+                    `${curr[1] as string}.hbs`,
+                    "utf8"
+                  ),
+                };
+
+                return newAcc;
+              }, {}),
               label: key,
             })),
           });
@@ -71,6 +82,8 @@ export function add(program: Command) {
         generate: async ({ results: { branchSelect, selectTemplate } }) => {
           const spinner = clack.spinner();
           spinner.start("Generating content...");
+          const { system, mock_output, mock_diff, mock_commits } =
+            selectTemplate as any;
 
           try {
             const api = await getApi();
@@ -81,12 +94,15 @@ export function add(program: Command) {
               repo: repository,
               baseSha: getDefaultBranch(),
               headSha: branchSelect as string,
-              messages: selectTemplate as any,
+              prompt: {
+                system,
+                mock_output,
+                mock_diff,
+                mock_commits,
+              },
             });
 
             spinner.stop("✔ Successfully generated content.");
-
-            console.log(111111, res.choices);
             return res;
           } catch (e: any) {
             spinner.stop(`✖ Failed to generate content: ${e.message}`);

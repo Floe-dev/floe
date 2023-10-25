@@ -98,7 +98,12 @@ export const contentRouter = router({
         repo: z.string(),
         baseSha: z.string(),
         headSha: z.string(),
-        messages: z.array(z.object({ role: z.string(), content: z.string() })),
+        prompt: z.object({
+          system: z.string(),
+          mock_output: z.string(),
+          mock_diff: z.string(),
+          mock_commits: z.string(),
+        }),
       })
     )
     .query(async ({ ctx, input }) => {
@@ -110,39 +115,72 @@ export const contentRouter = router({
         ctx.octokit
       );
 
-      const rawMessages = input.messages;
-      const messages = rawMessages.map((message) => ({
-        role: message.role,
-        content: message.content
-          .replace("{DIFF}", resp?.gitDiff ?? "")
-          .replace("{COMMITS}", resp?.commits ?? ""),
-      }));
+      let content = `
+      Here's an example of an interaction:
 
+      ---
+
+      User:
+
+      Commits:
+      ${input.prompt.mock_commits}
+
+      Diff:
+      ${input.prompt.mock_diff}
+
+      ---
+
+      Assistant:
+      ${input.prompt.mock_output}
+      
+      ---
+
+      Now you try!
+
+      User:
+
+      Commits:
+      ${resp?.commits}
+
+      Diff:
+      ${resp?.gitDiff}
+
+      Assistant:
+    `;
       // https://platform.openai.com/docs/models/gpt-3-5
-      // const tokenLimit = 8000 - 1000;
+      const tokenLimit = 8000 - 1000;
       const GPTModel = "gpt-4";
-      // const enc = encodingForModel(GPTModel);
-      // const encoding = enc.encode(content);
-      // console.log("Estimated diff tokens: ", encoding.length);
+      const enc = encodingForModel(GPTModel);
+      const encoding = enc.encode(content);
+      console.log("Estimated diff tokens: ", encoding.length);
 
-      // /**
-      //  * Truncate content if too long
-      //  */
-      // if (encoding.length > tokenLimit) {
-      //   const splitRatio = encoding.length / tokenLimit;
-      //   content = content.substring(0, Math.floor(content.length / splitRatio));
+      /**
+       * Truncate content if too long
+       */
+      if (encoding.length > tokenLimit) {
+        const splitRatio = encoding.length / tokenLimit;
+        content = content.substring(0, Math.floor(content.length / splitRatio));
 
-      //   const newEncoding = enc.encode(content);
-      //   console.log(
-      //     "Estimated diff tokens after truncated: ",
-      //     newEncoding.length
-      //   );
-      // }
+        const newEncoding = enc.encode(content);
+        console.log(
+          "Estimated diff tokens after truncated: ",
+          newEncoding.length
+        );
+      }
 
       try {
         const response = await openai.chat.completions.create({
           model: GPTModel,
-          messages: messages as any,
+          messages: [
+            {
+              role: "system",
+              content: input.prompt.system,
+            },
+            {
+              role: "user",
+              content,
+            },
+          ],
         });
 
         return response;
