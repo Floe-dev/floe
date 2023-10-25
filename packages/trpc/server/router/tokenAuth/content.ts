@@ -17,6 +17,7 @@ async function getGitHubGitDiff(
 ) {
   try {
     const compareInfo = await octokit.request(
+      // could make this more open ended
       `GET /repos/{owner}/{repo}/compare/{base}...{head}`,
       {
         owner,
@@ -97,7 +98,7 @@ export const contentRouter = router({
         repo: z.string(),
         baseSha: z.string(),
         headSha: z.string(),
-        example: z.string(),
+        messages: z.array(z.object({ role: z.string(), content: z.string() })),
       })
     )
     .query(async ({ ctx, input }) => {
@@ -109,73 +110,39 @@ export const contentRouter = router({
         ctx.octokit
       );
 
-      let content = `
-      Commits:
-      ${resp?.commits}
+      const rawMessages = input.messages;
+      const messages = rawMessages.map((message) => ({
+        role: message.role,
+        content: message.content
+          .replace("{DIFF}", resp?.gitDiff ?? "")
+          .replace("{COMMITS}", resp?.commits ?? ""),
+      }));
 
-      Diffs:
-      ${resp?.gitDiff}
-      `;
       // https://platform.openai.com/docs/models/gpt-3-5
-      const tokenLimit = 4097 - 1000;
+      // const tokenLimit = 8000 - 1000;
       const GPTModel = "gpt-4";
-      const enc = encodingForModel(GPTModel);
-      const encoding = enc.encode(content);
-      console.log("Estimated diff tokens: ", encoding.length);
+      // const enc = encodingForModel(GPTModel);
+      // const encoding = enc.encode(content);
+      // console.log("Estimated diff tokens: ", encoding.length);
 
-      /**
-       * Truncate content if too long
-       */
-      if (encoding.length > tokenLimit) {
-        const splitRatio = encoding.length / tokenLimit;
-        content = content.substring(0, Math.floor(content.length / splitRatio));
+      // /**
+      //  * Truncate content if too long
+      //  */
+      // if (encoding.length > tokenLimit) {
+      //   const splitRatio = encoding.length / tokenLimit;
+      //   content = content.substring(0, Math.floor(content.length / splitRatio));
 
-        const newEncoding = enc.encode(content);
-        console.log(
-          "Estimated diff tokens after truncated: ",
-          newEncoding.length
-        );
-      }
-
-      console.log(111111, content);
+      //   const newEncoding = enc.encode(content);
+      //   console.log(
+      //     "Estimated diff tokens after truncated: ",
+      //     newEncoding.length
+      //   );
+      // }
 
       try {
         const response = await openai.chat.completions.create({
           model: GPTModel,
-          messages: [
-            {
-              role: "system",
-              content:
-                "You are an assistant to a software developer. You help them to generate changelogs from git messages and diffs. You must include a frontmatter at the top of the response. Summarize commit messages and diffs, so not list the commit messages.",
-            },
-            {
-              role: "user",
-              content: `
-                Generate a changelog from the following:
-                Commits:
-                Adds a commute calculator to Local Content
-                wip
-                the commute calculator displays the estimated driving or transit time to a specified destination
-                Diff:
-              `,
-            },
-            {
-              role: "assistant",
-              content: `
-              ---
-              title: "🚌 Commute calculator"
-              ---
-              Now you can quickly lookup the time and distance to points of interest relevant to you. Using the commute calculator, simply type in your destination and go!
-              `,
-            },
-            {
-              role: "user",
-              content: `
-              Generate a changelog from the following:
-               ${content}
-              `,
-            },
-          ],
+          messages: messages as any,
         });
 
         return response;

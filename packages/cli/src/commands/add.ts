@@ -1,3 +1,4 @@
+import fs from "fs";
 import { Command } from "commander";
 import { getApi } from "../utils/api.js";
 import { execSync } from "child_process";
@@ -44,21 +45,35 @@ export function add(program: Command) {
          * Select a template
          */
         // ...
+        selectTemplate: async () => {
+          const data = fs.readFileSync(".floe/config.json", "utf8");
+          const config = JSON.parse(data);
+
+          if (!config.prompts) {
+            console.log("No prompts found in config");
+            process.exit(0);
+          }
+
+          const selection = await clack.select({
+            message: "Select a template for content generation:",
+            options: Object.entries(config.prompts).map(([key, val]) => ({
+              value: val,
+              label: key,
+            })),
+          });
+
+          return selection;
+        },
 
         /**
          * Generate completion
          */
-        generate: async ({ results: { branchSelect } }) => {
+        generate: async ({ results: { branchSelect, selectTemplate } }) => {
           const spinner = clack.spinner();
           spinner.start("Generating content...");
 
           try {
             const api = await getApi();
-
-            const example = `
-                We are excited to announce the release of our new product. It's been a long time coming, but we're finally ready to share it with you!
-              `;
-
             const { repository, organization } = getGithubOrgandRepo();
 
             const res = await api.userContent.generate.query({
@@ -66,7 +81,7 @@ export function add(program: Command) {
               repo: repository,
               baseSha: getDefaultBranch(),
               headSha: branchSelect as string,
-              example,
+              messages: selectTemplate as any,
             });
 
             spinner.stop("✔ Successfully generated content.");
