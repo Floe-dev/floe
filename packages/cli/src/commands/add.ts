@@ -79,7 +79,7 @@ export function add(program: Command) {
         generate: async ({ results: { branchSelect, selectTemplate } }) => {
           const spinner = clack.spinner();
           spinner.start("Generating content...");
-          const { system, mock_output, mock_diff, mock_commits } =
+          const { instructions, mock_output, mock_diff, mock_commits } =
             selectTemplate as any;
 
           try {

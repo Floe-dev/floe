@@ -3,11 +3,13 @@ import fs from "fs";
 import Jimp from "jimp";
 import { glob } from "glob";
 import { sleep } from "../utils/sleep.js";
-import { blogSample } from "../default-files/sample-blog.js";
-import { changelogSample } from "../default-files/sample-changelog.js";
-import { docSample } from "../default-files/sample-doc.js";
-import { docSample2 } from "../default-files/sample-doc2.js";
-import { postSample } from "../default-files/sample-post.js";
+import { blogSample } from "../default-files/pages/sample-blog.js";
+import { changelogSample } from "../default-files/pages/sample-changelog.js";
+import { docSample } from "../default-files/pages/sample-doc.js";
+import { docSample2 } from "../default-files/pages/sample-doc2.js";
+import { postSample } from "../default-files/pages/sample-post.js";
+import mockPromptCommits from "../default-files/prompts/mocks/commits.js";
+import mockPromptDiff from "../default-files/prompts/mocks/diff.js";
 import { resolve } from "path";
 import { getApi } from "../utils/api.js";
 import { capitalize } from "../utils/capitalize.js";
@@ -203,6 +205,19 @@ export function init(program: Command) {
               });
 
               /**
+               * Scaffold prompt mocks
+               */
+              fs.mkdirSync(".floe/prompts/mocks", { recursive: true });
+              fs.writeFileSync(
+                resolve(".floe/prompts/mocks/commits.md"),
+                mockPromptCommits
+              );
+              fs.writeFileSync(
+                resolve(".floe/prompts/mocks/diff.md"),
+                mockPromptDiff
+              );
+
+              /**
                * Create config file
                */
               const newFilesPattern = scaffoldSelect!.map(
@@ -277,8 +292,21 @@ export function init(program: Command) {
                 return createPages(acc, parts);
               }, []);
 
+              const prompts = scaffoldSelect?.reduce((acc, curr) => {
+                return {
+                  ...acc,
+                  [curr]: {
+                    instructions: `.floe/prompts/${curr}/instructions`,
+                    mock_output: `.floe/prompts/${curr}/mock_output`,
+                    mock_diff: ".floe/prompts/mocks/diff",
+                    mock_commits: ".floe/prompts/mocks/commits",
+                  },
+                };
+              }, {});
+
               const config = {
                 ...defaultConfig,
+                prompts,
                 sections,
               };
 
