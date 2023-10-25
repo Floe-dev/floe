@@ -8,7 +8,34 @@
         "$schema": {
           "type": "string"
         },
-        "sections": {
+        "prompts": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "properties": {
+              "system": {
+                "type": "string"
+              },
+              "mock_output": {
+                "type": "string"
+              },
+              "mock_diff": {
+                "type": "string"
+              },
+              "mock_commits": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "system",
+              "mock_output",
+              "mock_diff",
+              "mock_commits"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "sideNav": {
           "type": "array",
           "items": {
             "anyOf": [
@@ -43,7 +70,7 @@
                     "type": "string"
                   },
                   "pages": {
-                    "$ref": "#/definitions/alias-types.ts-0-279-types.ts-0-350"
+                    "$ref": "#/definitions/alias-types.ts-0-277-types.ts-0-506"
                   }
                 },
                 "required": [
@@ -89,11 +116,11 @@
       },
       "required": [
         "$schema",
-        "sections"
+        "sideNav"
       ],
       "additionalProperties": false
     },
-    "alias-types.ts-0-279-types.ts-0-350": {
+    "alias-types.ts-0-277-types.ts-0-506": {
       "type": "array",
       "items": {
         "anyOf": [
@@ -128,7 +155,7 @@
                 "type": "string"
               },
               "pages": {
-                "$ref": "#/definitions/alias-types.ts-0-279-types.ts-0-350"
+                "$ref": "#/definitions/alias-types.ts-0-277-types.ts-0-506"
               }
             },
             "required": [

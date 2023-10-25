@@ -1,0 +1,30 @@
+{
+  "$schema": "https://unpkg.com/@floe/config@1.0.0-alpha.14/schema.json",
+  "prompts": {
+    "changelog": {
+      "system": ".floe/prompts/changelog/system",
+      "mock_output": ".floe/prompts/changelog/mock_output",
+      "mock_diff": ".floe/prompts/mocks/diff",
+      "mock_commits": ".floe/prompts/mocks/commits"
+    }
+  },
+  "sections": [
+    {
+      "title": "Docs",
+      "pages": [
+        {
+          "title": "Index",
+          "pageView": {
+            "path": "docs/index"
+          }
+        },
+        {
+          "title": "Getting-started",
+          "pageView": {
+            "path": "docs/getting-started"
+          }
+        }
+      ]
+    }
+  ]
+}

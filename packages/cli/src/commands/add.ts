@@ -61,10 +61,7 @@ export function add(program: Command) {
               value: Object.entries(val as any).reduce((acc, curr) => {
                 const newAcc = {
                   ...acc,
-                  [curr[0]]: fs.readFileSync(
-                    `${curr[1] as string}.hbs`,
-                    "utf8"
-                  ),
+                  [curr[0]]: fs.readFileSync(`${curr[1] as string}.md`, "utf8"),
                 };
 
                 return newAcc;

@@ -209,7 +209,7 @@ export function init(program: Command) {
                 (item) => `${item}/**/*.md`
               );
               // TODO: Might need to add to this in the future
-              const ignorePatterns = ["node_modules/**"];
+              const ignorePatterns = ["node_modules/**", ".floe/prompts/**"];
               const existingMDFiles = await glob(["*.md", "**/*.md"], {
                 ignore: [...ignorePatterns, ...newFilesPattern],
               });

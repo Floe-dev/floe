@@ -1,4 +1,4 @@
-type Sections = (
+type SideNav = (
   | {
       title?: string;
       pageView: {
@@ -7,7 +7,7 @@ type Sections = (
     }
   | {
       title?: string;
-      pages: Sections;
+      pages: SideNav;
     }
   | {
       title?: string;
@@ -18,7 +18,17 @@ type Sections = (
     }
 )[];
 
+type Prompts = {
+  [key: string]: {
+    system: string;
+    mock_output: string;
+    mock_diff: string;
+    mock_commits: string;
+  };
+};
+
 export interface Config {
   $schema: string;
-  sections: Sections;
+  prompts?: Prompts;
+  sideNav: SideNav;
 }
