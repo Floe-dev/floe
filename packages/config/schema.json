@@ -13,7 +13,7 @@
           "additionalProperties": {
             "type": "object",
             "properties": {
-              "system": {
+              "instructions": {
                 "type": "string"
               },
               "mock_output": {
@@ -27,7 +27,7 @@
               }
             },
             "required": [
-              "system",
+              "instructions",
               "mock_output",
               "mock_diff",
               "mock_commits"
@@ -70,7 +70,7 @@
                     "type": "string"
                   },
                   "pages": {
-                    "$ref": "#/definitions/alias-types.ts-0-277-types.ts-0-506"
+                    "$ref": "#/definitions/alias-types.ts-0-277-types.ts-0-512"
                   }
                 },
                 "required": [
@@ -120,7 +120,7 @@
       ],
       "additionalProperties": false
     },
-    "alias-types.ts-0-277-types.ts-0-506": {
+    "alias-types.ts-0-277-types.ts-0-512": {
       "type": "array",
       "items": {
         "anyOf": [
@@ -155,7 +155,7 @@
                 "type": "string"
               },
               "pages": {
-                "$ref": "#/definitions/alias-types.ts-0-277-types.ts-0-506"
+                "$ref": "#/definitions/alias-types.ts-0-277-types.ts-0-512"
               }
             },
             "required": [

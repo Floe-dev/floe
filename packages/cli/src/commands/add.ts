@@ -92,7 +92,7 @@ export function add(program: Command) {
               baseSha: getDefaultBranch(),
               headSha: branchSelect as string,
               prompt: {
-                system,
+                instructions,
                 mock_output,
                 mock_diff,
                 mock_commits,

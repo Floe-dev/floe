@@ -99,7 +99,7 @@ export const contentRouter = router({
         baseSha: z.string(),
         headSha: z.string(),
         prompt: z.object({
-          system: z.string(),
+          instructions: z.string(),
           mock_output: z.string(),
           mock_diff: z.string(),
           mock_commits: z.string(),
@@ -118,8 +118,6 @@ export const contentRouter = router({
       let content = `
       Here's an example of an interaction:
 
-      ---
-
       User:
 
       Commits:
@@ -128,13 +126,9 @@ export const contentRouter = router({
       Diff:
       ${input.prompt.mock_diff}
 
-      ---
-
       Assistant:
       ${input.prompt.mock_output}
       
-      ---
-
       Now you try!
 
       User:
@@ -174,7 +168,7 @@ export const contentRouter = router({
           messages: [
             {
               role: "system",
-              content: input.prompt.system,
+              content: input.prompt.instructions,
             },
             {
               role: "user",

@@ -20,7 +20,7 @@ type SideNav = (
 
 type Prompts = {
   [key: string]: {
-    system: string;
+    instructions: string;
     mock_output: string;
     mock_diff: string;
     mock_commits: string;
