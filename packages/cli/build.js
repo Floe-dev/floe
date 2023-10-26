@@ -1,3 +1,5 @@
+const fs = require("fs");
+
 (async () => {
   const nativeNodeModulesPlugin = {
     name: "native-node-modules",
@@ -38,16 +40,20 @@
     },
   };
 
-  require("esbuild")
+  await require("esbuild")
     .build({
       entryPoints: ["src/index.ts"],
       bundle: true,
       outfile: "dist/index.js",
       platform: "node",
+      loader: { ".md": "copy" },
       treeShaking: true,
       plugins: [nativeNodeModulesPlugin],
     })
-    .then(() => console.log("Build complete ⚡️"))
-    .catch(() => process.exit(1))
-    .finally(() => process.exit(0));
+    .catch(() => process.exit(1));
+
+  fs.cpSync("src/default-files", "dist/default-files", { recursive: true });
+  console.log("Build complete ⚡️");
+
+  process.exit(0);
 })();

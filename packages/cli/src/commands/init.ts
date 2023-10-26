@@ -3,13 +3,6 @@ import fs from "fs";
 import Jimp from "jimp";
 import { glob } from "glob";
 import { sleep } from "../utils/sleep.js";
-import { blogSample } from "../default-files/pages/sample-blog.js";
-import { changelogSample } from "../default-files/pages/sample-changelog.js";
-import { docSample } from "../default-files/pages/sample-doc.js";
-import { docSample2 } from "../default-files/pages/sample-doc2.js";
-import { postSample } from "../default-files/pages/sample-post.js";
-import mockPromptCommits from "../default-files/prompts/mocks/commits.js";
-import mockPromptDiff from "../default-files/prompts/mocks/diff.js";
 import { resolve } from "path";
 import { getApi } from "../utils/api.js";
 import { capitalize } from "../utils/capitalize.js";
@@ -18,14 +11,6 @@ import { slugify } from "@floe/utils";
 import { getGithubOrgandRepo, getDefaultBranch } from "../utils/git";
 const chalkImport = import("chalk").then((m) => m.default);
 const clackImport = import("@clack/prompts");
-
-const templateSamples = {
-  blog: blogSample,
-  changelog: changelogSample,
-  docs: docSample,
-  faq: postSample,
-  wiki: postSample,
-};
 
 export function init(program: Command) {
   program
@@ -36,12 +21,10 @@ export function init(program: Command) {
       const chalk = await chalkImport;
       const clack = await clackImport;
       const api = await getApi();
-
       /**
        * Check if user is in a git repository
        */
       const gitDir = fs.existsSync(".git");
-
       if (!gitDir) {
         console.log(
           chalk.red(
@@ -50,7 +33,6 @@ export function init(program: Command) {
         );
         return;
       }
-
       /**
        * Get the repository, organization, and default branch. These will be
        * used to create a data source. Best to retreive early to expose
@@ -58,9 +40,7 @@ export function init(program: Command) {
        */
       const { repository, organization } = getGithubOrgandRepo();
       const branch = getDefaultBranch();
-
       clack.intro("init");
-
       await clack.group(
         {
           /**
@@ -72,16 +52,13 @@ export function init(program: Command) {
                 message:
                   "A `.floe` directory was detected. The contents will be overwritten. Do you want to continue?",
               });
-
               if (answer === false) {
                 clack.cancel("Operation cancelled");
                 return process.exit(0);
               }
-
               return answer;
             },
           }),
-
           /**
            * Create a data source
            * Only use this option is a project slug is provided
@@ -98,12 +75,9 @@ export function init(program: Command) {
                     return `Must be less than 24 characters!`;
                 },
               })) as string;
-
               const spinner = clack.spinner();
               spinner.start("Creating data source...");
-
               const slug = slugify(name);
-
               try {
                 await api.userDataSource.create.mutate({
                   owner: organization,
@@ -113,16 +87,13 @@ export function init(program: Command) {
                   slug,
                   projectSlug: options.project,
                 });
-
                 spinner.stop("✔ Data source created!");
               } catch (e) {
                 spinner.stop("✖ Data source could not be created.");
-
                 const answer = await clack.confirm({
                   message:
                     "Would you like to proceed anyways? You can manually create a datasource in the Floe dashboard later.",
                 });
-
                 if (answer === false) {
                   clack.cancel("Operation cancelled");
                   return process.exit(0);
@@ -130,7 +101,6 @@ export function init(program: Command) {
               }
             },
           }),
-
           /**
            * Scaffold Selection
            */
@@ -140,14 +110,13 @@ export function init(program: Command) {
               options: [
                 { value: "docs", label: "📖 Docs", hint: "recommended" },
                 {
-                  value: "changelog",
-                  label: "🚀 Changelog",
+                  value: "changelogs",
+                  label: "🚀 Changelogs",
                   hint: "recommended",
                 },
               ],
               required: true,
-            })) as (keyof typeof templateSamples)[],
-
+            })) as ("docs" | "changelogs")[],
           /**
            * Use existing files?
            */
@@ -156,66 +125,49 @@ export function init(program: Command) {
               message:
                 "Would you like Floe to index existing markdown files in this repository?",
             });
-
             return answer;
           },
-
           scaffold: async ({
             results: { scaffoldSelect, useExistingFiles },
           }) => {
             const spinner = clack.spinner();
             spinner.start("Generating sample images...");
             await sleep(1000);
-
             try {
-              /**
-               * Scaffold images
-               */
-              fs.mkdirSync(".floe/public", { recursive: true });
-
-              const randomImageUrl = "https://picsum.photos/500/300.jpg";
-              const image1 = await Jimp.read(randomImageUrl);
-
-              image1.write(resolve(".floe/public/image1.jpg"));
-
-              const randomImageUrl2 = "https://picsum.photos/500/300.jpg";
-              const image2 = await Jimp.read(randomImageUrl2);
-              image2.write(resolve(".floe/public/image2.jpg"));
-
               spinner.message("Generating files...");
+
+              /**
+               * Scaffold images and mock data
+               */
+              fs.cpSync(__dirname + `/default-files/public`, ".floe/public", {
+                recursive: true,
+              });
+              fs.cpSync(
+                __dirname + `/default-files/prompts/mocks`,
+                ".floe/prompts/mocks",
+                { recursive: true }
+              );
 
               /**
                * Scaffold templates
                */
               scaffoldSelect!.forEach((item) => {
-                const file = templateSamples[item];
+                /**
+                 * Copy page files
+                 */
+                fs.cpSync(__dirname + `/default-files/pages/${item}`, item, {
+                  recursive: true,
+                });
 
-                if (item === "docs") {
-                  fs.mkdirSync("docs", { recursive: true });
-                  fs.writeFileSync(resolve("docs/index.md"), docSample);
-                  fs.writeFileSync(
-                    resolve("docs/getting-started.md"),
-                    docSample2
-                  );
-                  return;
-                }
-
-                fs.mkdirSync(item, { recursive: true });
-                fs.writeFileSync(resolve(`${item}/sample.md`), file);
+                /**
+                 * Copy prompts
+                 */
+                fs.cpSync(
+                  __dirname + `/default-files/prompts/${item}`,
+                  `.floe/prompts/${item}`,
+                  { recursive: true }
+                );
               });
-
-              /**
-               * Scaffold prompt mocks
-               */
-              fs.mkdirSync(".floe/prompts/mocks", { recursive: true });
-              fs.writeFileSync(
-                resolve(".floe/prompts/mocks/commits.md"),
-                mockPromptCommits
-              );
-              fs.writeFileSync(
-                resolve(".floe/prompts/mocks/diff.md"),
-                mockPromptDiff
-              );
 
               /**
                * Create config file
@@ -233,7 +185,6 @@ export function init(program: Command) {
                 ...(useExistingFiles ? existingMDFiles : []),
                 ...newMDFiles,
               ];
-
               /**
                * Recursively creates sections in this format [
                */
@@ -247,21 +198,18 @@ export function init(program: Command) {
                 ) => {
                   const [first, ...rest] = parts;
                   const title = capitalize(first.replace(".md", ""));
-
                   /**
                    * If page already exists, add to it
                    */
                   const existingPage = pages.find(
                     (page) => page.title === title && page.pages
                   );
-
                   if (existingPage) {
                     existingPage.pages.push(
                       createPages(existingPage.pages, rest, depth + 1)
                     );
                     return pages;
                   }
-
                   // @ts-ignore
                   const page =
                     /**
@@ -278,20 +226,16 @@ export function init(program: Command) {
                           title,
                           pages: [createPages([], rest, depth + 1)],
                         };
-
                   /**
                    * If we are at the root, return the pages array
                    */
                   if (depth === 0) {
                     return [...pages, page];
                   }
-
                   return page;
                 };
-
                 return createPages(acc, parts);
               }, []);
-
               const prompts = scaffoldSelect?.reduce((acc, curr) => {
                 return {
                   ...acc,
@@ -303,20 +247,16 @@ export function init(program: Command) {
                   },
                 };
               }, {});
-
               const config = {
                 ...defaultConfig,
                 prompts,
                 sections,
               };
-
               fs.writeFileSync(
                 resolve(".floe/config.json"),
                 JSON.stringify(config, null, 2)
               );
-
               await sleep(1500);
-
               const randomMessages = [
                 "Bumbling beebles...",
                 "Golfing gophers...",
@@ -327,15 +267,12 @@ export function init(program: Command) {
                 "Slicing salamis...",
                 "Janking jellies...",
               ];
-
               spinner.message(
                 randomMessages[
                   Math.floor(Math.random() * randomMessages.length)
                 ]
               );
-
               await sleep(1500);
-
               spinner.stop("✔ Templates created!");
             } catch (e: any) {
               spinner.stop();
@@ -350,7 +287,6 @@ export function init(program: Command) {
           },
         }
       );
-
       /**
        * SUCCESS
        */
