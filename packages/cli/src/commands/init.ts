@@ -1,6 +1,5 @@
 import { Command } from "commander";
 import fs from "fs";
-import Jimp from "jimp";
 import { glob } from "glob";
 import { sleep } from "../utils/sleep.js";
 import { resolve } from "path";
@@ -11,6 +10,8 @@ import { slugify } from "@floe/utils";
 import { getGithubOrgandRepo, getDefaultBranch } from "../utils/git";
 const chalkImport = import("chalk").then((m) => m.default);
 const clackImport = import("@clack/prompts");
+
+type PageTypes = "docs" | "changelogs";
 
 export function init(program: Command) {
   program
@@ -59,6 +60,7 @@ export function init(program: Command) {
               return answer;
             },
           }),
+
           /**
            * Create a data source
            * Only use this option is a project slug is provided
@@ -75,9 +77,12 @@ export function init(program: Command) {
                     return `Must be less than 24 characters!`;
                 },
               })) as string;
+
               const spinner = clack.spinner();
               spinner.start("Creating data source...");
+
               const slug = slugify(name);
+
               try {
                 await api.userDataSource.create.mutate({
                   owner: organization,
@@ -101,6 +106,7 @@ export function init(program: Command) {
               }
             },
           }),
+
           /**
            * Scaffold Selection
            */
@@ -116,7 +122,8 @@ export function init(program: Command) {
                 },
               ],
               required: true,
-            })) as ("docs" | "changelogs")[],
+            })) as PageTypes[],
+
           /**
            * Use existing files?
            */
@@ -131,17 +138,19 @@ export function init(program: Command) {
             results: { scaffoldSelect, useExistingFiles },
           }) => {
             const spinner = clack.spinner();
-            spinner.start("Generating sample images...");
-            await sleep(1000);
-            try {
-              spinner.message("Generating files...");
+            spinner.start("Generating project files...");
 
+            try {
               /**
-               * Scaffold images and mock data
+               * Scaffold images
                */
               fs.cpSync(__dirname + `/default-files/public`, ".floe/public", {
                 recursive: true,
               });
+
+              /**
+               * Scaffold mock data
+               */
               fs.cpSync(
                 __dirname + `/default-files/prompts/mocks`,
                 ".floe/prompts/mocks",
@@ -256,26 +265,11 @@ export function init(program: Command) {
                 resolve(".floe/config.json"),
                 JSON.stringify(config, null, 2)
               );
-              await sleep(1500);
-              const randomMessages = [
-                "Bumbling beebles...",
-                "Golfing gophers...",
-                "Shining shoes...",
-                "Dueling ducks...",
-                "Picking pumpkins...",
-                "Branding bananas...",
-                "Slicing salamis...",
-                "Janking jellies...",
-              ];
-              spinner.message(
-                randomMessages[
-                  Math.floor(Math.random() * randomMessages.length)
-                ]
-              );
-              await sleep(1500);
+
+              await sleep(1000);
               spinner.stop("✔ Templates created!");
             } catch (e: any) {
-              spinner.stop();
+              // spinner.stop();
               program.error("Ruh roh! There was an error: " + e.message);
             }
           },
@@ -287,6 +281,7 @@ export function init(program: Command) {
           },
         }
       );
+
       /**
        * SUCCESS
        */
