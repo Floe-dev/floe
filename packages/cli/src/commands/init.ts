@@ -4,10 +4,10 @@ import { glob } from "glob";
 import { sleep } from "../utils/sleep.js";
 import { resolve } from "path";
 import { getApi } from "../utils/api.js";
-import { capitalize } from "../utils/capitalize.js";
 import { defaultConfig } from "@floe/config";
 import { slugify } from "@floe/utils";
 import { getGithubOrgandRepo, getDefaultBranch } from "../utils/git";
+import { generateSideNav } from "../utils/sideNavGenerator.js";
 const chalkImport = import("chalk").then((m) => m.default);
 const clackImport = import("@clack/prompts");
 
@@ -195,54 +195,8 @@ export function init(program: Command) {
               /**
                * Recursively creates sections in this format [
                */
-              const sections = allFiles.reduce((acc, file) => {
-                const parts = file.split("/");
-                // @ts-ignore
-                const createPages = (
-                  pages: any[],
-                  parts: string[],
-                  depth = 0
-                ) => {
-                  const [first, ...rest] = parts;
-                  const title = capitalize(first.replace(".md", ""));
-                  /**
-                   * If page already exists, add to it
-                   */
-                  const existingPage = pages.find(
-                    (page) => page.title === title && page.pages
-                  );
-                  if (existingPage) {
-                    existingPage.pages.push(
-                      createPages(existingPage.pages, rest, depth + 1)
-                    );
-                    return pages;
-                  }
-                  // @ts-ignore
-                  const page =
-                    /**
-                     * If page is a leaf node, return a pageView. If not, return a page with pages
-                     */
-                    rest.length === 0
-                      ? {
-                          title,
-                          pageView: {
-                            path: file.replace(".md", ""),
-                          },
-                        }
-                      : {
-                          title,
-                          pages: [createPages([], rest, depth + 1)],
-                        };
-                  /**
-                   * If we are at the root, return the pages array
-                   */
-                  if (depth === 0) {
-                    return [...pages, page];
-                  }
-                  return page;
-                };
-                return createPages(acc, parts);
-              }, []);
+              const sections = generateSideNav(allFiles);
+
               const prompts = scaffoldSelect?.reduce((acc, curr) => {
                 return {
                   ...acc,

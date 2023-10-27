@@ -1,7 +1,9 @@
 import fs from "fs";
+import { resolve } from "path";
 import { getApi } from "../../utils/api.js";
 import { execSync } from "child_process";
 import { getDefaultBranch, getGithubOrgandRepo } from "../../utils/git";
+import { generateSideNav } from "../../utils/sideNavGenerator.js";
 const clackImport = import("@clack/prompts");
 const chalkImport = import("chalk").then((m) => m.default);
 
@@ -22,6 +24,14 @@ function listMostRecentGitBranches(gitRepoPath: string) {
 export async function generate() {
   const clack = await clackImport;
   const chalk = await chalkImport;
+
+  const data = fs.readFileSync(".floe/config.json", "utf8");
+  const config = JSON.parse(data);
+
+  if (!config) {
+    console.log("No Floe config found");
+    process.exit(0);
+  }
 
   clack.intro("ai generate");
 
@@ -44,9 +54,6 @@ export async function generate() {
        */
       // ...
       selectTemplate: async () => {
-        const data = fs.readFileSync(".floe/config.json", "utf8");
-        const config = JSON.parse(data);
-
         if (!config.prompts) {
           console.log("No prompts found in config");
           process.exit(0);
@@ -122,7 +129,99 @@ export async function generate() {
       /**
        * Let user select where they want to save the output
        */
-      save: async ({ results: { pick, generate } }) => {},
+      selectDirectory: async () => {
+        const root = ".";
+
+        const recursiveSelectDirectory = async (
+          path: string
+        ): Promise<string> => {
+          const directories = fs
+            .readdirSync(path, { withFileTypes: true })
+            .filter((dirent) => dirent.isDirectory())
+            .map((dirent) => dirent.name);
+
+          const options = [
+            {
+              value: "--choose--",
+              label: chalk.green("Choose as directory"),
+            },
+            ...(path !== root
+              ? [
+                  {
+                    value: "..",
+                    label: "..",
+                  },
+                ]
+              : []),
+            ...directories.map((dir) => ({
+              value: dir,
+              label: dir,
+            })),
+          ];
+
+          const selection = await clack.select({
+            message: "Select a directory to save output:",
+            options,
+          });
+
+          if (selection === "..") {
+            process.stdout.write("\x1Bc");
+
+            return recursiveSelectDirectory(
+              path.split("/").slice(0, -1).join("/")
+            );
+          }
+
+          if (selection === "--choose--") {
+            return path;
+          }
+
+          /**
+           * Clear the terminal (but history is not deleted)
+           * It would be better if this wasn't necessary, Clack may eventually build this in:
+           * https://github.com/natemoo-re/clack/issues/96
+           */
+          process.stdout.write("\x1Bc");
+
+          return recursiveSelectDirectory(`${path}/${selection}`);
+        };
+
+        return recursiveSelectDirectory(root);
+      },
+
+      /**
+       * Save file
+       */
+      save: async ({ results: { selectDirectory, generate } }) => {
+        const fileName = await clack.text({
+          message: "Enter a file name:",
+          placeholder: "generated.md",
+        });
+
+        try {
+          fs.writeFileSync(
+            `${selectDirectory}/${fileName as string}`,
+            (generate as any).choices[0].message.content
+          );
+
+          const sections = generateSideNav(
+            // Remove './' from the beginning of the path
+            [`${selectDirectory}/${fileName as string}`.slice(2)],
+            config["sections"]
+          );
+
+          /**
+           * Update config
+           */
+          fs.writeFileSync(
+            resolve(".floe/config.json"),
+            JSON.stringify({ ...config, sections }, null, 2)
+          );
+        } catch (e: any) {
+          console.log(e);
+          process.exit(0);
+        }
+      },
     },
     {
       onCancel: () => {
