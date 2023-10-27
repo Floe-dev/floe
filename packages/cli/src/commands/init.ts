@@ -11,8 +11,6 @@ import { getGithubOrgandRepo, getDefaultBranch } from "../utils/git";
 const chalkImport = import("chalk").then((m) => m.default);
 const clackImport = import("@clack/prompts");
 
-type PageTypes = "docs" | "changelogs";
-
 export function init(program: Command) {
   program
     .command("init")
@@ -122,7 +120,7 @@ export function init(program: Command) {
                 },
               ],
               required: true,
-            })) as PageTypes[],
+            })) as string[],
 
           /**
            * Use existing files?
