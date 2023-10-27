@@ -84,7 +84,7 @@ export function init(program: Command) {
               const slug = slugify(name);
 
               try {
-                await api.userDataSource.create.mutate({
+                await api.dataSource.create.mutate({
                   owner: organization,
                   repository,
                   baseBranch: branch,

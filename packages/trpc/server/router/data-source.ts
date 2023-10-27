@@ -1,10 +1,10 @@
 import { z } from "zod";
 import prisma from "@floe/db";
-import { protectedTokenProcedure, router } from "../../trpc";
-import { validateUserHasProject } from "../../validators/user-has-project";
+import { protectedProcedure, router } from "../trpc";
+import { validateUserHasProject } from "../validators/user-has-project";
 
 export const dataSourceRouter = router({
-  create: protectedTokenProcedure
+  create: protectedProcedure
     .input(
       z.object({
         projectSlug: z.string(),
@@ -41,5 +41,21 @@ export const dataSourceRouter = router({
       });
 
       return dataSource;
+    }),
+
+  delete: protectedProcedure
+    .input(
+      z.object({
+        dataSourceId: z.string(),
+      })
+    )
+    .mutation(async ({ input }) => {
+      // TODO: VALIDATE
+
+      return prisma.dataSource.delete({
+        where: {
+          id: input.dataSourceId,
+        },
+      });
     }),
 });

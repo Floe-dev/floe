@@ -10,7 +10,9 @@ export async function createContext(opts: trpcNext.CreateNextContextOptions) {
   const session = await getServerSession(req, res, authOptions);
   const userAuthToken = req.headers.authorization;
 
-  const token = (await getToken({ req }))?.accessToken ?? userAuthToken;
+  const token = ((await getToken({ req }))?.accessToken ?? userAuthToken) as
+    | string
+    | undefined;
 
   const octokit = new Octokit({
     auth: token,

@@ -1,4 +1,4 @@
-import { protectedProcedure, router } from "../../trpc";
+import { protectedProcedure, router } from "../trpc";
 import { getRepositoryContent } from "@floe/utils";
 import { z } from "zod";
 

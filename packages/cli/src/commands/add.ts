@@ -86,7 +86,7 @@ export function add(program: Command) {
             const api = await getApi();
             const { repository, organization } = getGithubOrgandRepo();
 
-            const res = await api.userContent.generate.query({
+            const res = await api.ai.generateFromDiff.query({
               owner: organization,
               repo: repository,
               baseSha: getDefaultBranch(),

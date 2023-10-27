@@ -1,9 +1,9 @@
 import { z } from "zod";
 import bcrypt from "bcrypt";
 import prisma from "@floe/db";
-import { protectedProcedure, router } from "../../trpc";
-import { validateUserHasInstallation } from "../../validators/user-has-installation";
-import { validateUserHasProject } from "../../validators/user-has-project";
+import { protectedProcedure, router } from "../trpc";
+import { validateUserHasInstallation } from "../validators/user-has-installation";
+import { validateUserHasProject } from "../validators/user-has-project";
 
 export const projectRouter = router({
   listByInstallationId: protectedProcedure
