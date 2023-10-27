@@ -116,6 +116,8 @@ export const aiRouter = router({
       );
 
       let content = `
+      Instructions: ${input.prompt.instructions}
+
       Here's an example of an interaction:
 
       User:
@@ -142,14 +144,15 @@ export const aiRouter = router({
       Assistant:
     `;
       // https://platform.openai.com/docs/models/gpt-3-5
-      const tokenLimit = 8000 - 1000;
-      const GPTModel = "gpt-4";
+      const tokenLimit = 16385;
+      const GPTModel = "gpt-3.5-turbo-16k-0613";
       const enc = encodingForModel(GPTModel);
       const encoding = enc.encode(content);
       console.log("Estimated diff tokens: ", encoding.length);
 
       /**
        * Truncate content if too long
+       * TODO: Can consider chunking content instead
        */
       if (encoding.length > tokenLimit) {
         const splitRatio = encoding.length / tokenLimit;
@@ -166,10 +169,6 @@ export const aiRouter = router({
         const response = await openai.chat.completions.create({
           model: GPTModel,
           messages: [
-            {
-              role: "system",
-              content: input.prompt.instructions,
-            },
             {
               role: "user",
               content,

@@ -111,6 +111,7 @@ export function add(program: Command) {
          */
         pick: async ({ results: { generate } }) => {
           console.log("Output: \n\n");
+          console.log(111111, generate);
           console.log(chalk.dim((generate as any).choices[0].message.content));
           console.log("\n\n");
 

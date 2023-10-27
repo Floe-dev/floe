@@ -2,8 +2,8 @@
   "$schema": "https://unpkg.com/@floe/config@1.0.0-alpha.14/schema.json",
   "prompts": {
     "changelog": {
-      "instructions": ".floe/prompts/changelog/instructions",
-      "mock_output": ".floe/prompts/changelog/mock_output",
+      "instructions": ".floe/prompts/changelogs/instructions",
+      "mock_output": ".floe/prompts/changelogs/mock_output",
       "mock_diff": ".floe/prompts/mocks/diff",
       "mock_commits": ".floe/prompts/mocks/commits"
     }
