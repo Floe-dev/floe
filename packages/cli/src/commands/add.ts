@@ -1,5 +1,4 @@
 import fs from "fs";
-import { glob } from "glob";
 import { Command } from "commander";
 import { getApi } from "../utils/api.js";
 import { execSync } from "child_process";

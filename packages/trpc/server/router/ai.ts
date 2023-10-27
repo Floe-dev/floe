@@ -1,34 +1,12 @@
 import { z } from "zod";
 import OpenAI from "openai";
-import { protectedProcedure, router } from "../trpc";
 import { Octokit } from "@floe/utils";
-import { HNSWLib } from "langchain/vectorstores/hnswlib";
-import { PromptTemplate } from "langchain/prompts";
-import { ChatOpenAI } from "langchain/chat_models/openai";
-import { GithubRepoLoader } from "langchain/document_loaders/web/github";
-import { Document } from "langchain/document";
-import { OpenAIEmbeddings } from "langchain/embeddings/openai";
-import { RetrievalQAChain } from "langchain/chains";
-import { RecursiveCharacterTextSplitter } from "langchain/text_splitter";
 import { encodingForModel } from "js-tiktoken";
-import { mock } from "node:test";
+import { protectedProcedure, router } from "../trpc";
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
-
-async function loadDocuments(accessToken: string) {
-  console.log("Loading docs");
-  const loader = new GithubRepoLoader("https://github.com/Floe-dev/floe", {
-    branch: "main",
-    recursive: true,
-    unknown: "warn",
-    accessToken,
-  });
-  const docs = await loader.load();
-  console.log("Docs loaded", docs);
-  return docs;
-}
 
 async function getGitHubGitDiff(
   owner: string,
@@ -102,19 +80,9 @@ async function getGitHubGitDiff(
       return acc + `filename: ${file.filename}\n${file.patch}\n\n`;
     }, "");
 
-    const diffDocs = compareInfo.data.files
-      ?.filter((file) => !ignoreFiles.includes(file.filename))
-      .map(
-        (file) =>
-          new Document({
-            pageContent: `filename: ${file.filename}\nsha: ${file.sha}\ndiff: ${file.patch}\n\n`,
-          })
-      );
-
     return {
       commits,
       gitDiff,
-      diffDocs,
     };
   } catch (error: any) {
     console.error("Error:", error.message);
@@ -147,85 +115,69 @@ export const aiRouter = router({
         ctx.octokit
       );
 
-      const model = new ChatOpenAI({
-        openAIApiKey: process.env.OPENAI_API_KEY,
-        modelName: "gpt-3.5-turbo-16k-0613",
-      });
-      const directory = "./vectorstore";
-      const embeddings = new OpenAIEmbeddings();
+      let content = `
+      Here's an example of an interaction:
 
-      const vectorStore = await HNSWLib.fromDocuments(
-        resp?.diffDocs ?? [],
-        embeddings
-      );
-      await vectorStore.save(directory);
+      User:
 
-      const loadedVectorStore = await HNSWLib.load(
-        directory,
-        new OpenAIEmbeddings()
-      );
-      // Create a chain that uses the OpenAI LLM and HNSWLib vector store.
-      const chain = RetrievalQAChain.fromLLM(
-        model,
-        loadedVectorStore.asRetriever()
-      );
-      const res = await chain.call({
-        query: `What can you tell me about the the code diff?`,
-      });
+      Commits:
+      ${input.prompt.mock_commits}
 
-      console.log(11111, res);
-      return res;
+      Diff:
+      ${input.prompt.mock_diff}
 
-      // const textSplitter = new RecursiveCharacterTextSplitter({
-      //   chunkSize: 1000,
-      //   chunkOverlap: 100,
-      // });
+      Assistant:
+      ${input.prompt.mock_output}
+      
+      Now you try!
 
-      return null;
+      User:
 
-      const promptTemplate = PromptTemplate.fromTemplate(`
-        Instructions:
-        {instructions}
+      Commits:
+      ${resp?.commits}
 
-        Here's an example of an interaction:
+      Diff:
+      ${resp?.gitDiff}
 
-        User:
+      Assistant:
+    `;
+      // https://platform.openai.com/docs/models/gpt-3-5
+      const tokenLimit = 8000 - 1000;
+      const GPTModel = "gpt-4";
+      const enc = encodingForModel(GPTModel);
+      const encoding = enc.encode(content);
+      console.log("Estimated diff tokens: ", encoding.length);
 
-        Commits:
-        {mock_commits}
+      /**
+       * Truncate content if too long
+       */
+      if (encoding.length > tokenLimit) {
+        const splitRatio = encoding.length / tokenLimit;
+        content = content.substring(0, Math.floor(content.length / splitRatio));
 
-        Diff:
-        {mock_diff}
-
-        Assistant:
-        {mock_ouput}
-        
-        Now you try!
-
-        User:
-
-        Commits:
-        {commits}
-
-        Diff:
-        {diff}
-
-        Assistant:
-      `);
-
-      // const chain = promptTemplate.pipe(model);
+        const newEncoding = enc.encode(content);
+        console.log(
+          "Estimated diff tokens after truncated: ",
+          newEncoding.length
+        );
+      }
 
       try {
-        const result = await chain.invoke({
-          instructions: input.prompt.instructions,
-          mock_commits: input.prompt.mock_commits,
-          mock_diff: input.prompt.mock_diff,
-          mock_ouput: input.prompt.mock_output,
-          commits: resp?.commits ?? "",
-          diff: resp?.gitDiff ?? "",
+        const response = await openai.chat.completions.create({
+          model: GPTModel,
+          messages: [
+            {
+              role: "system",
+              content: input.prompt.instructions,
+            },
+            {
+              role: "user",
+              content,
+            },
+          ],
         });
 
-        return result;
+        return response;
       } catch (error: any) {
         console.error("Error:", error.message);
         throw new Error(error.message);
