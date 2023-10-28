@@ -183,7 +183,11 @@ export function init(program: Command) {
                 (item) => `${item}/**/*.md`
               );
               // TODO: Might need to add to this in the future
-              const ignorePatterns = ["node_modules/**", ".floe/prompts/**"];
+              const ignorePatterns = [
+                "node_modules/**",
+                ".floe/prompts/**",
+                "**/dist/**",
+              ];
               const existingMDFiles = await glob(["*.md", "**/*.md"], {
                 ignore: [...ignorePatterns, ...newFilesPattern],
               });
@@ -192,6 +196,7 @@ export function init(program: Command) {
                 ...(useExistingFiles ? existingMDFiles : []),
                 ...newMDFiles,
               ];
+
               /**
                * Recursively creates sections in this format [
                */
@@ -208,11 +213,13 @@ export function init(program: Command) {
                   },
                 };
               }, {});
+
               const config = {
                 ...defaultConfig,
                 prompts,
                 sections,
               };
+
               fs.writeFileSync(
                 resolve(".floe/config.json"),
                 JSON.stringify(config, null, 2)
