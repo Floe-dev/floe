@@ -3,7 +3,7 @@
   "private": true,
   "version": "1.0.0-alpha.0",
   "scripts": {
-    "lint": "next lint",
+    "lint": "eslint \"**/*.ts*\"",
     "clean": "rm -rf node_modules && rm -rf dist && rm -rf .next",
     "typecheck": "npx tsc --project ./tsconfig.json --noEmit"
   },
