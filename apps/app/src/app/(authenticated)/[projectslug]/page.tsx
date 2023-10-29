@@ -34,7 +34,7 @@ export default function Project() {
       await mutateAsync({
         name: "Sample Data Source",
         slug: "sample-data-source",
-        projectId: currentProject!.id,
+        projectSlug: currentProject!.slug,
         owner,
         repository,
         baseBranch: "main",

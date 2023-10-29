@@ -217,6 +217,11 @@ export async function generate() {
             resolve(".floe/config.json"),
             JSON.stringify({ ...config, sections }, null, 2)
           );
+
+          /**
+           * SUCCESS
+           */
+          clack.outro(chalk.green("Your file was saved and config updated"));
         } catch (e: any) {
           console.log(e);
           process.exit(0);
@@ -230,9 +235,4 @@ export async function generate() {
       },
     }
   );
-
-  /**
-   * SUCCESS
-   */
-  clack.outro(chalk.green("🎉 Success!"));
 }

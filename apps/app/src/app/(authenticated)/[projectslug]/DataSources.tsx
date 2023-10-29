@@ -228,7 +228,7 @@ const DataSources = () => {
               await mutateAsync({
                 name: getValues("name"),
                 slug,
-                projectId: currentProject!.id,
+                projectSlug: currentProject!.slug,
                 owner: selectedRepository!.owner.login,
                 repository: selectedRepository!.name,
                 baseBranch: selectedBranch!.name,
