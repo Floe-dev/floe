@@ -1,4 +1,4 @@
-import NextAuth, { DefaultSession } from "next-auth";
+import NextAuth, { DefaultSession } from "@floe/nextauth";
 
 declare module "next-auth" {
   /**

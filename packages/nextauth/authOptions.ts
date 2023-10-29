@@ -18,6 +18,7 @@ export const authOptions: AuthOptions = {
   ],
   adapter: PrismaAdapter(prisma),
   callbacks: {
+    // @ts-ignore
     session: ({ session, token }) => {
       return {
         ...session,

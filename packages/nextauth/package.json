@@ -11,7 +11,8 @@
   },
   "devDependencies": {
     "eslint-config-custom": "workspace:*",
-    "tsconfig": "workspace:*"
+    "tsconfig": "workspace:*",
+    "typescript": "^5.2.2"
   },
   "dependencies": {
     "@floe/db": "workspace:*",
