@@ -1,6 +1,7 @@
 {
   "name": "@floe/trpc",
   "version": "1.0.0-alpha.7",
+  "main": "dist/react/index.js",
   "exports": {
     "./client": {
       "import": "./dist/client/index.js",
@@ -30,7 +31,7 @@
   "scripts": {
     "build": "tsc",
     "lint": "eslint \"**/*.ts*\"",
-    "clean": "rm -rf node_modules && rm -rf dist",
+    "clean": "rm -rf node_modules && rm -rf dist && rm -rf .turbo",
     "typecheck": "npx tsc --noEmit"
   },
   "devDependencies": {

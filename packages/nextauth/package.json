@@ -6,7 +6,7 @@
   "scripts": {
     "build": "tsc",
     "lint": "eslint \"**/*.ts*\"",
-    "clean": "rm -rf node_modules && rm -rf dist && rm -rf .next",
+    "clean": "rm -rf node_modules && rm -rf dist && rm -rf .turbo",
     "typecheck": "npx tsc --project ./tsconfig.json --noEmit"
   },
   "devDependencies": {
