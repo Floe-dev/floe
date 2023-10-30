@@ -1,5 +1,16 @@
 # @floe/trpc
 
+## 1.0.0-alpha.2
+
+### Minor Changes
+
+- Make @floe/trpc and @floe/nextauth public.
+
+### Patch Changes
+
+- Updated dependencies
+  - @floe/nextauth@1.0.0-alpha.2
+
 ## 1.0.0-alpha.1
 
 ### Minor Changes

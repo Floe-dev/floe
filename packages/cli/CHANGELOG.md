@@ -1,5 +1,12 @@
 # @floe/cli
 
+## 1.0.0-alpha.17
+
+### Patch Changes
+
+- Updated dependencies
+  - @floe/trpc@1.0.0-alpha.2
+
 ## 1.0.0-alpha.16
 
 ### Minor Changes

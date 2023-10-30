@@ -1,7 +1,6 @@
 {
   "name": "@floe/trpc",
-  "private": true,
-  "version": "1.0.0-alpha.1",
+  "version": "1.0.0-alpha.2",
   "scripts": {
     "lint": "eslint \"**/*.ts*\"",
     "clean": "rm -rf node_modules && rm -rf dist && rm -rf .next",
@@ -32,5 +31,8 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "zod": "^3.21.4"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
