@@ -1,5 +1,17 @@
 # @floe/utils
 
+## 1.0.0-alpha.7
+
+### Minor Changes
+
+- Make @floe/utils publishable to NPM.
+
+## 1.0.0-alpha.6
+
+### Minor Changes
+
+- Fix @floe/utils and @floe/cli exports.
+
 ## 1.0.0-alpha.5
 
 ### Minor Changes

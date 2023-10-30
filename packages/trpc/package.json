@@ -1,6 +1,6 @@
 {
   "name": "@floe/trpc",
-  "version": "1.0.0-alpha.3",
+  "version": "1.0.0-alpha.5",
   "exports": {
     "./client": {
       "import": "./dist/client/index.js",
@@ -30,7 +30,7 @@
   "scripts": {
     "build": "tsc",
     "lint": "eslint \"**/*.ts*\"",
-    "clean": "rm -rf node_modules && rm -rf dist && rm -rf .next",
+    "clean": "rm -rf node_modules && rm -rf dist",
     "typecheck": "npx tsc --noEmit"
   },
   "devDependencies": {

@@ -1,9 +1,10 @@
 {
   "name": "@floe/nextauth",
-  "version": "1.0.0-alpha.2",
-  "main": "./index.tsx",
-  "types": "./index.tsx",
+  "version": "1.0.0-alpha.3",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "scripts": {
+    "build": "tsc",
     "lint": "eslint \"**/*.ts*\"",
     "clean": "rm -rf node_modules && rm -rf dist && rm -rf .next",
     "typecheck": "npx tsc --project ./tsconfig.json --noEmit"

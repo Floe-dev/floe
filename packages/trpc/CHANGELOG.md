@@ -1,5 +1,24 @@
 # @floe/trpc
 
+## 1.0.0-alpha.5
+
+### Patch Changes
+
+- Updated dependencies
+  - @floe/utils@1.0.0-alpha.7
+
+## 1.0.0-alpha.4
+
+### Minor Changes
+
+- Fix @floe/utils and @floe/cli exports.
+
+### Patch Changes
+
+- Updated dependencies
+  - @floe/nextauth@1.0.0-alpha.3
+  - @floe/utils@1.0.0-alpha.6
+
 ## 1.0.0-alpha.3
 
 ### Minor Changes

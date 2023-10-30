@@ -1,5 +1,25 @@
 # @floe/cli
 
+## 1.0.0-alpha.20
+
+### Patch Changes
+
+- Updated dependencies
+  - @floe/utils@1.0.0-alpha.7
+  - @floe/trpc@1.0.0-alpha.5
+
+## 1.0.0-alpha.19
+
+### Minor Changes
+
+- Fix @floe/utils and @floe/cli exports.
+
+### Patch Changes
+
+- Updated dependencies
+  - @floe/utils@1.0.0-alpha.6
+  - @floe/trpc@1.0.0-alpha.4
+
 ## 1.0.0-alpha.18
 
 ### Patch Changes

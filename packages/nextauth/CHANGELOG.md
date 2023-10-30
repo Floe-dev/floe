@@ -1,5 +1,11 @@
 # @floe/nextauth
 
+## 1.0.0-alpha.3
+
+### Minor Changes
+
+- Fix @floe/utils and @floe/cli exports.
+
 ## 1.0.0-alpha.2
 
 ### Minor Changes

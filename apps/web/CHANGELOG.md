@@ -1,5 +1,19 @@
 # @floe/web
 
+## 1.0.0-alpha.16
+
+### Patch Changes
+
+- Updated dependencies
+  - @floe/utils@1.0.0-alpha.7
+
+## 1.0.0-alpha.15
+
+### Patch Changes
+
+- Updated dependencies
+  - @floe/utils@1.0.0-alpha.6
+
 ## 1.0.0-alpha.14
 
 ### Minor Changes

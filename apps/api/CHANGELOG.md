@@ -1,5 +1,19 @@
 # @floe/api
 
+## 1.0.0-alpha.20
+
+### Patch Changes
+
+- Updated dependencies
+  - @floe/utils@1.0.0-alpha.7
+
+## 1.0.0-alpha.19
+
+### Patch Changes
+
+- Updated dependencies
+  - @floe/utils@1.0.0-alpha.6
+
 ## 1.0.0-alpha.16
 
 ### Minor Changes

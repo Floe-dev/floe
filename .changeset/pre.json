@@ -20,6 +20,7 @@
     "@floe/trpc": "1.0.0-alpha.0"
   },
   "changesets": [
+    "blue-numbers-juggle",
     "chatty-flowers-study",
     "few-shrimps-bake",
     "flat-spies-glow",
@@ -38,6 +39,7 @@
     "shy-spies-matter",
     "sixty-parents-breathe",
     "slimy-doors-run",
+    "smart-avocados-try",
     "soft-suns-accept",
     "spicy-mice-perform",
     "spicy-peaches-study",
