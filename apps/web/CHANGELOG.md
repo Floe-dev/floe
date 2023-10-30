@@ -1,5 +1,18 @@
 # @floe/web
 
+## 1.0.0-alpha.14
+
+### Minor Changes
+
+- Introduce AI features to CLI.
+
+### Patch Changes
+
+- Updated dependencies
+  - @floe/next@1.0.0-alpha.13
+  - @floe/ui@1.0.0-alpha.5
+  - @floe/utils@1.0.0-alpha.5
+
 ## 1.0.0-alpha.13
 
 ### Minor Changes

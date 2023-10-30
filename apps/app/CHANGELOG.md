@@ -1,5 +1,20 @@
 # @floe/app
 
+## 1.0.0-alpha.6
+
+### Minor Changes
+
+- Introduce AI features to CLI.
+
+### Patch Changes
+
+- Updated dependencies
+  - @floe/db@1.0.0-alpha.5
+  - @floe/nextauth@1.0.0-alpha.1
+  - @floe/trpc@1.0.0-alpha.1
+  - @floe/ui@1.0.0-alpha.5
+  - @floe/utils@1.0.0-alpha.5
+
 ## 1.0.0-alpha.5
 
 ### Minor Changes

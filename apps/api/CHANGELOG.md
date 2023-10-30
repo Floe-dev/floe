@@ -1,5 +1,18 @@
 # @floe/api
 
+## 1.0.0-alpha.16
+
+### Minor Changes
+
+- Introduce AI features to CLI.
+
+### Patch Changes
+
+- Updated dependencies
+  - @floe/db@1.0.0-alpha.5
+  - @floe/markdoc@1.0.0-alpha.16
+  - @floe/utils@1.0.0-alpha.5
+
 ## 1.0.0-alpha.5
 
 ### Minor Changes

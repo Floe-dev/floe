@@ -1,7 +1,7 @@
 {
   "name": "@floe/trpc",
   "private": true,
-  "version": "1.0.0-alpha.0",
+  "version": "1.0.0-alpha.1",
   "scripts": {
     "lint": "eslint \"**/*.ts*\"",
     "clean": "rm -rf node_modules && rm -rf dist && rm -rf .next",

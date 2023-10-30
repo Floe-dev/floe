@@ -1,5 +1,16 @@
 # @floe/server
 
+## 1.0.0-alpha.11
+
+### Minor Changes
+
+- Introduce AI features to CLI.
+
+### Patch Changes
+
+- Updated dependencies
+  - @floe/markdoc@1.0.0-alpha.16
+
 ## 1.0.0-alpha.10
 
 ### Minor Changes

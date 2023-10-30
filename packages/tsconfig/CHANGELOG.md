@@ -1,5 +1,11 @@
 # tsconfig
 
+## 1.0.0-alpha.4
+
+### Minor Changes
+
+- Introduce AI features to CLI.
+
 ## 1.0.0-alpha.3
 
 ### Minor Changes

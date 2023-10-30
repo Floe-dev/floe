@@ -1,5 +1,16 @@
 # @floe/next
 
+## 1.0.0-alpha.13
+
+### Minor Changes
+
+- Introduce AI features to CLI.
+
+### Patch Changes
+
+- Updated dependencies
+  - @floe/server@1.0.0-alpha.11
+
 ## 1.0.0-alpha.12
 
 ### Minor Changes

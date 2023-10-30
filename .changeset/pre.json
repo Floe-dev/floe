@@ -15,7 +15,9 @@
     "@floe/utils": "1.0.0-alpha.0",
     "@floe/cli": "1.0.0-alpha.0",
     "@floe/markdoc": "1.0.0-alpha.0",
-    "@floe/config": "1.0.0-alpha.0"
+    "@floe/config": "1.0.0-alpha.0",
+    "@floe/nextauth": "1.0.0-alpha.0",
+    "@floe/trpc": "1.0.0-alpha.0"
   },
   "changesets": [
     "chatty-flowers-study",
@@ -38,6 +40,7 @@
     "soft-suns-accept",
     "spicy-mice-perform",
     "spicy-peaches-study",
+    "stale-ghosts-deny",
     "thick-parents-leave",
     "tough-pets-sleep",
     "two-deers-hear",

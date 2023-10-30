@@ -1,7 +1,7 @@
 {
   "name": "@floe/nextauth",
   "private": true,
-  "version": "1.0.0-alpha.0",
+  "version": "1.0.0-alpha.1",
   "main": "./index.tsx",
   "types": "./index.tsx",
   "scripts": {

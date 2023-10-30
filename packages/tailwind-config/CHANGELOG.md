@@ -1,5 +1,11 @@
 # @floe/tailwind-config
 
+## 1.0.0-alpha.5
+
+### Minor Changes
+
+- Introduce AI features to CLI.
+
 ## 1.0.0-alpha.4
 
 ### Minor Changes
