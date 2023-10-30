@@ -1,5 +1,11 @@
 # @floe/trpc
 
+## 1.0.0-alpha.3
+
+### Minor Changes
+
+- Fix trpc package exports.
+
 ## 1.0.0-alpha.2
 
 ### Minor Changes

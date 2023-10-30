@@ -1,7 +1,34 @@
 {
   "name": "@floe/trpc",
-  "version": "1.0.0-alpha.2",
+  "version": "1.0.0-alpha.3",
+  "exports": {
+    "./client": {
+      "import": "./dist/client/index.js",
+      "require": "./dist/client/index.js",
+      "default": "./dist/client/index.js",
+      "types": "./dist/client/index.d.ts"
+    },
+    "./server": {
+      "import": "./dist/server/index.js",
+      "require": "./dist/server/index.js",
+      "default": "./dist/server/index.js",
+      "types": "./dist/server/index.d.ts"
+    },
+    "./next": {
+      "import": "./dist/next/index.js",
+      "require": "./dist/next/index.js",
+      "default": "./dist/next/index.js",
+      "types": "./dist/next/index.d.ts"
+    },
+    "./react": {
+      "import": "./dist/react/index.js",
+      "require": "./dist/react/index.js",
+      "default": "./dist/react/index.js",
+      "types": "./dist/react/index.d.ts"
+    }
+  },
   "scripts": {
+    "build": "tsc",
     "lint": "eslint \"**/*.ts*\"",
     "clean": "rm -rf node_modules && rm -rf dist && rm -rf .next",
     "typecheck": "npx tsc --noEmit"
