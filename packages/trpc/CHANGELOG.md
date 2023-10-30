@@ -1,5 +1,12 @@
 # @floe/trpc
 
+## 1.0.0-alpha.6
+
+### Patch Changes
+
+- Updated dependencies
+  - @floe/utils@1.0.0-alpha.8
+
 ## 1.0.0-alpha.5
 
 ### Patch Changes

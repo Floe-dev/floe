@@ -1,5 +1,11 @@
 # @floe/utils
 
+## 1.0.0-alpha.8
+
+### Minor Changes
+
+- Remove private flag on @floe/utils.
+
 ## 1.0.0-alpha.7
 
 ### Minor Changes

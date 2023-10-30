@@ -1,6 +1,6 @@
 {
   "name": "@floe/trpc",
-  "version": "1.0.0-alpha.5",
+  "version": "1.0.0-alpha.6",
   "exports": {
     "./client": {
       "import": "./dist/client/index.js",
