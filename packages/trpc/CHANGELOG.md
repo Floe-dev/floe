@@ -1,5 +1,31 @@
 # @floe/trpc
 
+## 1.0.0-alpha.9
+
+### Minor Changes
+
+- Mark @floe/trpc as having sideEffects: false for pruning.
+
+### Patch Changes
+
+- Updated dependencies
+  - @floe/nextauth@1.0.0-alpha.6
+  - @floe/utils@1.0.0-alpha.10
+  - @floe/db@1.0.0-alpha.7
+
+## 1.0.0-alpha.8
+
+### Minor Changes
+
+- Only import AppRouter type into CLI to try and avoid issue with importing DB.
+
+### Patch Changes
+
+- Updated dependencies
+  - @floe/nextauth@1.0.0-alpha.5
+  - @floe/utils@1.0.0-alpha.9
+  - @floe/db@1.0.0-alpha.6
+
 ## 1.0.0-alpha.7
 
 ### Patch Changes

@@ -3,7 +3,7 @@ import {
   httpBatchLink,
   getBaseUrl,
 } from "@floe/trpc/client";
-import { AppRouter } from "@floe/trpc/server";
+import type { AppRouter } from "@floe/trpc/server";
 import { getAccessToken } from "./accessToken";
 
 export async function getApi() {

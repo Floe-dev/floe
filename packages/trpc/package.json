@@ -1,7 +1,8 @@
 {
   "name": "@floe/trpc",
-  "version": "1.0.0-alpha.7",
+  "version": "1.0.0-alpha.9",
   "main": "dist/react/index.js",
+  "sideEffects": false,
   "exports": {
     "./client": {
       "import": "./dist/client/index.js",

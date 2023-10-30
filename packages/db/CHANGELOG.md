@@ -1,5 +1,17 @@
 # @floe/db
 
+## 1.0.0-alpha.7
+
+### Minor Changes
+
+- Mark @floe/trpc as having sideEffects: false for pruning.
+
+## 1.0.0-alpha.6
+
+### Minor Changes
+
+- Only import AppRouter type into CLI to try and avoid issue with importing DB.
+
 ## 1.0.0-alpha.6
 
 ### Minor Changes
