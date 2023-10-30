@@ -1,4 +1,4 @@
-import { Octokit } from "octokit";
+import { Octokit } from "@octokit/core";
 import { minimatch } from "minimatch";
 
 export const getFileTree = async (

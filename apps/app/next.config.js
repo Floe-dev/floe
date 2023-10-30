@@ -8,6 +8,9 @@ const nextConfig = {
       config.plugins = [...config.plugins, new PrismaPlugin()];
     }
 
+    config.experiments = { ...config.experiments, topLevelAwait: true };
+    config.externals = [...config.externals, "hnswlib-node"];
+
     return config;
   },
 
@@ -53,9 +56,6 @@ module.exports = withSentryConfig(
 
     // Transpiles SDK to be compatible with IE11 (increases bundle size)
     transpileClientSDK: true,
-
-    // Routes browser requests to Sentry through a Next.js rewrite to circumvent ad-blockers (increases server load)
-    tunnelRoute: "/monitoring",
 
     // Hides source maps from generated client bundles
     hideSourceMaps: true,

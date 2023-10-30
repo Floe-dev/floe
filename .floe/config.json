@@ -1,0 +1,329 @@
+{
+  "$schema": "https://unpkg.com/@floe/config@1.0.0-alpha.14/schema.json",
+  "sections": [
+    {
+      "title": "README",
+      "pageView": {
+        "path": "README"
+      }
+    },
+    {
+      "title": "CONTRIBUTING",
+      "pageView": {
+        "path": "CONTRIBUTING"
+      }
+    },
+    {
+      "title": "Apps",
+      "pages": [
+        {
+          "title": "Generated",
+          "pageView": {
+            "path": "apps/generated"
+          }
+        },
+        {
+          "title": "Web",
+          "pages": [
+            {
+              "title": "README",
+              "pageView": {
+                "path": "apps/web/README"
+              }
+            },
+            {
+              "title": "CHANGELOG",
+              "pageView": {
+                "path": "apps/web/CHANGELOG"
+              }
+            }
+          ]
+        },
+        {
+          "title": "App",
+          "pages": [
+            {
+              "title": "README",
+              "pageView": {
+                "path": "apps/app/README"
+              }
+            },
+            {
+              "title": "CHANGELOG",
+              "pageView": {
+                "path": "apps/app/CHANGELOG"
+              }
+            }
+          ]
+        },
+        {
+          "title": "Api",
+          "pages": [
+            {
+              "title": "README",
+              "pageView": {
+                "path": "apps/api/README"
+              }
+            },
+            {
+              "title": "CHANGELOG",
+              "pageView": {
+                "path": "apps/api/CHANGELOG"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Packages",
+      "pages": [
+        {
+          "title": "Utils",
+          "pages": [
+            {
+              "title": "CHANGELOG",
+              "pageView": {
+                "path": "packages/utils/CHANGELOG"
+              }
+            }
+          ]
+        },
+        {
+          "title": "Ui",
+          "pages": [
+            {
+              "title": "README",
+              "pageView": {
+                "path": "packages/ui/README"
+              }
+            },
+            {
+              "title": "CHANGELOG",
+              "pageView": {
+                "path": "packages/ui/CHANGELOG"
+              }
+            }
+          ]
+        },
+        {
+          "title": "Tsconfig",
+          "pages": [
+            {
+              "title": "CHANGELOG",
+              "pageView": {
+                "path": "packages/tsconfig/CHANGELOG"
+              }
+            }
+          ]
+        },
+        {
+          "title": "Tailwind-config",
+          "pages": [
+            {
+              "title": "CHANGELOG",
+              "pageView": {
+                "path": "packages/tailwind-config/CHANGELOG"
+              }
+            }
+          ]
+        },
+        {
+          "title": "Server",
+          "pages": [
+            {
+              "title": "CHANGELOG",
+              "pageView": {
+                "path": "packages/server/CHANGELOG"
+              }
+            }
+          ]
+        },
+        {
+          "title": "Next",
+          "pages": [
+            {
+              "title": "CHANGELOG",
+              "pageView": {
+                "path": "packages/next/CHANGELOG"
+              }
+            }
+          ]
+        },
+        {
+          "title": "Markdoc",
+          "pages": [
+            {
+              "title": "CHANGELOG",
+              "pageView": {
+                "path": "packages/markdoc/CHANGELOG"
+              }
+            }
+          ]
+        },
+        {
+          "title": "Eslint-config-custom",
+          "pages": [
+            {
+              "title": "CHANGELOG",
+              "pageView": {
+                "path": "packages/eslint-config-custom/CHANGELOG"
+              }
+            }
+          ]
+        },
+        {
+          "title": "Db",
+          "pages": [
+            {
+              "title": "CHANGELOG",
+              "pageView": {
+                "path": "packages/db/CHANGELOG"
+              }
+            }
+          ]
+        },
+        {
+          "title": "Config",
+          "pages": [
+            {
+              "title": "CHANGELOG",
+              "pageView": {
+                "path": "packages/config/CHANGELOG"
+              }
+            }
+          ]
+        },
+        {
+          "title": "Cli",
+          "pages": [
+            {
+              "title": "README",
+              "pageView": {
+                "path": "packages/cli/README"
+              }
+            },
+            {
+              "title": "CHANGELOG",
+              "pageView": {
+                "path": "packages/cli/CHANGELOG"
+              }
+            },
+            {
+              "title": "Src",
+              "pages": [
+                {
+                  "title": "Default-files",
+                  "pages": [
+                    {
+                      "title": "Prompts",
+                      "pages": [
+                        {
+                          "title": "Mocks",
+                          "pages": [
+                            {
+                              "title": "Diff",
+                              "pageView": {
+                                "path": "packages/cli/src/default-files/prompts/mocks/diff"
+                              }
+                            },
+                            {
+                              "title": "Commits",
+                              "pageView": {
+                                "path": "packages/cli/src/default-files/prompts/mocks/commits"
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "title": "Changelogs",
+                          "pages": [
+                            {
+                              "title": "Mock_output",
+                              "pageView": {
+                                "path": "packages/cli/src/default-files/prompts/changelogs/mock_output"
+                              }
+                            },
+                            {
+                              "title": "Instructions",
+                              "pageView": {
+                                "path": "packages/cli/src/default-files/prompts/changelogs/instructions"
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "title": "Docs",
+                          "pages": [
+                            {
+                              "title": "Mock_output",
+                              "pageView": {
+                                "path": "packages/cli/src/default-files/prompts/docs/mock_output"
+                              }
+                            },
+                            {
+                              "title": "Instructions",
+                              "pageView": {
+                                "path": "packages/cli/src/default-files/prompts/docs/instructions"
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "title": "Pages",
+                      "pages": [
+                        {
+                          "title": "Docs",
+                          "pages": [
+                            {
+                              "title": "Intro",
+                              "pageView": {
+                                "path": "packages/cli/src/default-files/pages/docs/intro"
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "title": "Changelogs",
+                          "pages": [
+                            {
+                              "title": "2023-10-25",
+                              "pageView": {
+                                "path": "packages/cli/src/default-files/pages/changelogs/2023-10-25"
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Docs",
+      "pages": [
+        {
+          "title": "Intro",
+          "pageView": {
+            "path": "docs/intro"
+          }
+        }
+      ]
+    }
+  ],
+  "prompts": {
+    "docs": {
+      "instructions": ".floe/prompts/docs/instructions",
+      "mock_output": ".floe/prompts/docs/mock_output",
+      "mock_diff": ".floe/prompts/mocks/diff",
+      "mock_commits": ".floe/prompts/mocks/commits"
+    }
+  }
+}

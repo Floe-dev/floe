@@ -1,6 +1,6 @@
 import { getProviders } from "next-auth/react";
 import { getServerSession } from "next-auth/next";
-import { authOptions } from "@/pages/api/auth/[...nextauth]";
+import { authOptions } from "@floe/nextauth";
 import { redirect } from "next/navigation";
 import Form from "./Form";
 

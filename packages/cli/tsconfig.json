@@ -8,6 +8,6 @@
     "outDir": "./dist",
     "resolveJsonModule": true,
   },
-  "include": ["src"],
+  "include": ["src", "esbuild.build.js"],
   "exclude": ["dist", "build", "node_modules"]
 }

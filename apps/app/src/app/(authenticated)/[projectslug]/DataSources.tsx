@@ -10,11 +10,11 @@ import {
   EllipsisVerticalIcon,
   ArrowUpRightIcon,
 } from "@heroicons/react/24/outline";
-import { api } from "@/utils/trpc";
+import { api } from "@floe/trpc/react";
 import { Combobox, Menu, Transition } from "@headlessui/react";
 import classNames from "classnames";
 import { inferRouterOutputs } from "@trpc/server";
-import { AppRouter } from "@/server";
+import { AppRouter } from "@floe/trpc/server";
 import cn from "classnames";
 import { useQueryClient } from "@tanstack/react-query";
 import { Input } from "@floe/ui";
@@ -228,7 +228,7 @@ const DataSources = () => {
               await mutateAsync({
                 name: getValues("name"),
                 slug,
-                projectId: currentProject!.id,
+                projectSlug: currentProject!.slug,
                 owner: selectedRepository!.owner.login,
                 repository: selectedRepository!.name,
                 baseBranch: selectedBranch!.name,

@@ -1,9 +1,9 @@
 "use client";
 
 import React, { useContext, useMemo, useState } from "react";
-import { api } from "@/utils/trpc";
+import { api } from "@floe/trpc/react";
 import { useRouter } from "next/navigation";
-import type { AppRouter } from "@/server";
+import type { AppRouter } from "@floe/trpc/server";
 import { inferRouterOutputs } from "@trpc/server";
 import { getCookie, setCookie } from "cookies-next";
 

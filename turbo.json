@@ -11,6 +11,9 @@
         "MAILCHIMP_API_KEY",
         "MAILCHIMP_SERVER",
         "MAILCHIMP_AUDIENCE_ID",
+
+        "OPENAI_API_KEY",
+
         "NEXT_PUBLIC_FLOE_SLUG",
         "FLOE_API_KEY_SECRET",
         "NEXT_PUBLIC_FLOE_BASE_URL",

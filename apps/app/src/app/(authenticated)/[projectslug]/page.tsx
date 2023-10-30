@@ -5,7 +5,7 @@ import DataSources from "./DataSources";
 import { useEffect } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { useQueryClient } from "@tanstack/react-query";
-import { api } from "@/utils/trpc";
+import { api } from "@floe/trpc/react";
 import { useProjectContext } from "@/context/project";
 import { ProjectInfo } from "./ProjectInfo";
 
@@ -34,7 +34,7 @@ export default function Project() {
       await mutateAsync({
         name: "Sample Data Source",
         slug: "sample-data-source",
-        projectId: currentProject!.id,
+        projectSlug: currentProject!.slug,
         owner,
         repository,
         baseBranch: "main",

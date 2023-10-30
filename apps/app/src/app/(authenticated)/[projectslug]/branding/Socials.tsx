@@ -1,6 +1,6 @@
 "use client";
 
-import { api } from "@/utils/trpc";
+import { api } from "@floe/trpc/react";
 import { Card } from "@/components";
 import { Input } from "@floe/ui";
 import { useProjectContext } from "@/context/project";

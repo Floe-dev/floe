@@ -49,6 +49,7 @@ jobs:
     env:
       NEXT_PUBLIC_FLOE_SLUG: ${{ secrets.NEXT_PUBLIC_FLOE_SLUG }}
       FLOE_API_KEY_SECRET: ${{ secrets.FLOE_API_KEY_SECRET }}
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
     steps:
       - name: ⬇️ Checkout repo
         uses: actions/checkout@v3

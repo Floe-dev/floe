@@ -1,4 +1,3 @@
-import chalk from "chalk";
 import { Command } from "commander";
 import { readFileSync } from "fs";
 import { glob } from "glob";
@@ -8,12 +7,14 @@ import { validate as validateSchema } from "@floe/config";
 import fs from "fs";
 import axios from "axios";
 import { sleep } from "../utils/sleep.js";
+const chalkImport = import("chalk").then((m) => m.default);
 
 export function validate(program: Command) {
   program
     .command("validate")
     .description("Validate Markdoc")
     .action(async () => {
+      const chalk = await chalkImport;
       const spinner1 = createSpinner("Validating config...").start();
       const config = JSON.parse(fs.readFileSync(".floe/config.json", "utf-8"));
       const schemaURL = config.$schema;

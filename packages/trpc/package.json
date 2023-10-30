@@ -1,0 +1,36 @@
+{
+  "name": "@floe/trpc",
+  "private": true,
+  "version": "1.0.0-alpha.0",
+  "scripts": {
+    "lint": "eslint \"**/*.ts*\"",
+    "clean": "rm -rf node_modules && rm -rf dist && rm -rf .next",
+    "typecheck": "npx tsc --noEmit"
+  },
+  "devDependencies": {
+    "@octokit/types": "^11.1.0",
+    "@types/bcrypt": "^5.0.0",
+    "@types/node": "^20.8.7",
+    "@types/react": "18.2.15",
+    "@types/react-dom": "18.2.7",
+    "eslint-config-custom": "workspace:*",
+    "tsconfig": "workspace:*",
+    "typescript": "^5.2.2"
+  },
+  "dependencies": {
+    "@floe/db": "workspace:*",
+    "@floe/nextauth": "workspace:*",
+    "@floe/utils": "workspace:*",
+    "@tanstack/react-query": "^4.32.0",
+    "@trpc/client": "^10.41.0",
+    "@trpc/next": "^10.41.0",
+    "@trpc/react-query": "^10.41.0",
+    "@trpc/server": "^10.41.0",
+    "bcrypt": "^5.1.0",
+    "js-tiktoken": "^1.0.7",
+    "openai": "^4.12.4",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "zod": "^3.21.4"
+  }
+}
