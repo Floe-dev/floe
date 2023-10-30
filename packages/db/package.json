@@ -1,11 +1,11 @@
 {
   "name": "@floe/db",
-  "version": "1.0.0-alpha.5",
+  "version": "1.0.0-alpha.6",
   "description": "",
-  "private": true,
-  "main": "src/index.ts",
-  "types": "src/index.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
+    "build": "tsc",
     "db:connect": "pscale connect floe-cloud staging --port 3309",
     "db:generate": "prisma generate",
     "db:push": "prisma db push",
@@ -17,9 +17,13 @@
     "@types/node": "^20.5.9",
     "prisma": "^5.3.1",
     "ts-node": "^10.9.1",
+    "tsconfig": "workspace:*",
     "typescript": "^5.2.2"
   },
   "dependencies": {
     "@prisma/client": "^5.3.1"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

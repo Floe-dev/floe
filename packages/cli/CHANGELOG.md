@@ -1,5 +1,11 @@
 # @floe/cli
 
+## 1.0.0-alpha.22
+
+### Patch Changes
+
+- @floe/trpc@1.0.0-alpha.7
+
 ## 1.0.0-alpha.21
 
 ### Patch Changes

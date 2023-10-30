@@ -1,5 +1,14 @@
 # @floe/app
 
+## 1.0.0-alpha.12
+
+### Patch Changes
+
+- Updated dependencies
+  - @floe/db@1.0.0-alpha.6
+  - @floe/nextauth@1.0.0-alpha.4
+  - @floe/trpc@1.0.0-alpha.7
+
 ## 1.0.0-alpha.11
 
 ### Patch Changes

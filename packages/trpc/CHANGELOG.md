@@ -1,5 +1,13 @@
 # @floe/trpc
 
+## 1.0.0-alpha.7
+
+### Patch Changes
+
+- Updated dependencies
+  - @floe/db@1.0.0-alpha.6
+  - @floe/nextauth@1.0.0-alpha.4
+
 ## 1.0.0-alpha.6
 
 ### Patch Changes

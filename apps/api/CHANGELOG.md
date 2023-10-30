@@ -1,5 +1,12 @@
 # @floe/api
 
+## 1.0.0-alpha.22
+
+### Patch Changes
+
+- Updated dependencies
+  - @floe/db@1.0.0-alpha.6
+
 ## 1.0.0-alpha.21
 
 ### Patch Changes

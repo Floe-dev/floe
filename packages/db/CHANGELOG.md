@@ -1,5 +1,11 @@
 # @floe/db
 
+## 1.0.0-alpha.6
+
+### Minor Changes
+
+- Make @floe/db package publishable.
+
 ## 1.0.0-alpha.5
 
 ### Minor Changes
