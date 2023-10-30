@@ -1,5 +1,29 @@
 # @floe/api
 
+## 1.0.0-alpha.26
+
+### Minor Changes
+
+- Removes @floe/trpc install in CLI.
+
+### Patch Changes
+
+- Updated dependencies
+  - @floe/utils@1.0.0-alpha.12
+  - @floe/db@1.0.0-alpha.9
+
+## 1.0.0-alpha.25
+
+### Minor Changes
+
+- Attempt to fix tree shaking issues.
+
+### Patch Changes
+
+- Updated dependencies
+  - @floe/utils@1.0.0-alpha.11
+  - @floe/db@1.0.0-alpha.8
+
 ## 1.0.0-alpha.24
 
 ### Minor Changes

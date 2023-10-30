@@ -1,5 +1,31 @@
 # @floe/trpc
 
+## 1.0.0-alpha.11
+
+### Minor Changes
+
+- Removes @floe/trpc install in CLI.
+
+### Patch Changes
+
+- Updated dependencies
+  - @floe/nextauth@1.0.0-alpha.8
+  - @floe/utils@1.0.0-alpha.12
+  - @floe/db@1.0.0-alpha.9
+
+## 1.0.0-alpha.10
+
+### Minor Changes
+
+- Attempt to fix tree shaking issues.
+
+### Patch Changes
+
+- Updated dependencies
+  - @floe/nextauth@1.0.0-alpha.7
+  - @floe/utils@1.0.0-alpha.11
+  - @floe/db@1.0.0-alpha.8
+
 ## 1.0.0-alpha.9
 
 ### Minor Changes

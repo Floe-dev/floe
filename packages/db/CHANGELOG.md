@@ -1,5 +1,17 @@
 # @floe/db
 
+## 1.0.0-alpha.9
+
+### Minor Changes
+
+- Removes @floe/trpc install in CLI.
+
+## 1.0.0-alpha.8
+
+### Minor Changes
+
+- Attempt to fix tree shaking issues.
+
 ## 1.0.0-alpha.7
 
 ### Minor Changes

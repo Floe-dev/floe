@@ -1,5 +1,27 @@
 # @floe/web
 
+## 1.0.0-alpha.21
+
+### Minor Changes
+
+- Removes @floe/trpc install in CLI.
+
+### Patch Changes
+
+- Updated dependencies
+  - @floe/utils@1.0.0-alpha.12
+
+## 1.0.0-alpha.20
+
+### Minor Changes
+
+- Attempt to fix tree shaking issues.
+
+### Patch Changes
+
+- Updated dependencies
+  - @floe/utils@1.0.0-alpha.11
+
 ## 1.0.0-alpha.19
 
 ### Minor Changes

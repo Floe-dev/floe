@@ -1,5 +1,17 @@
 # @floe/utils
 
+## 1.0.0-alpha.12
+
+### Minor Changes
+
+- Removes @floe/trpc install in CLI.
+
+## 1.0.0-alpha.11
+
+### Minor Changes
+
+- Attempt to fix tree shaking issues.
+
 ## 1.0.0-alpha.10
 
 ### Minor Changes

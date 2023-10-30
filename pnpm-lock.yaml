@@ -365,12 +365,12 @@ importers:
       '@floe/markdoc':
         specifier: workspace:*
         version: link:../markdoc
-      '@floe/trpc':
-        specifier: workspace:*
-        version: link:../trpc
       '@floe/utils':
         specifier: workspace:*
         version: link:../utils
+      '@trpc/react-query':
+        specifier: ^10.41.0
+        version: 10.41.0(@tanstack/react-query@4.32.0)(@trpc/client@10.41.0)(@trpc/server@10.41.0)(react-dom@18.2.0)(react@18.2.0)
       axios:
         specifier: ^1.5.0
         version: 1.5.0

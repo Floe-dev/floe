@@ -1,6 +1,6 @@
 {
   "name": "@floe/web",
-  "version": "1.0.0-alpha.19",
+  "version": "1.0.0-alpha.21",
   "private": true,
   "scripts": {
     "dev": "next dev",

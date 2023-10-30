@@ -1,6 +1,6 @@
 {
   "name": "@floe/trpc",
-  "version": "1.0.0-alpha.9",
+  "version": "1.0.0-alpha.11",
   "main": "dist/react/index.js",
   "sideEffects": false,
   "exports": {
