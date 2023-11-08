@@ -18,7 +18,7 @@
     <!-- <a href="https://github.com/Floe-dev/floe/issues">🐛 Bugs</a>
     ·
     <a href="https://floe.canny.io/">🗺️ Roadmap</a> -->
-    Beautiful docs, wikis, and changelogs. Powered by AI.
+    CLI for writing and validating technical content.
   </p>
 </p>
 
