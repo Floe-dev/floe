@@ -1,42 +1,99 @@
-import { Pill } from "@floe/ui";
-import Nav from "./Nav";
-import AmorphousBlob from "../components/AmorphousBlob";
-import Subscribe from "./Subscribe";
+import Link from "next/link";
+import Image from "next/image";
+import { Button, Pill } from "@floe/ui";
+import PencilArt from "public/pencil-art.png";
+import {
+  DocumentCheckIcon,
+  DocumentDuplicateIcon,
+  ArrowPathIcon,
+  DocumentMagnifyingGlassIcon,
+} from "@heroicons/react/24/solid";
+import { Blob } from "./blob";
+import { Title } from "./title";
+import { Card } from "./card";
+import { BetaCard } from "./beta-card";
+import { Footer } from "./footer";
+import { Carousel } from "./carousel";
 
-export default function Page() {
+export default function Page(): JSX.Element {
   return (
-    <>
-      <Nav hideBackground />
-      <div className="relative min-h-screen">
-        {/* HERO */}
-        <div className="relative z-10 flex items-center content-center justify-center pt-32 pb-32 sm:pt-64">
-          <div className="relative max-w-[41rem] mx-auto text-left px-6">
-            <Pill text="Coming Soon" />
-            <h1 className="mt-2 mb-8 text-4xl font-semibold tracking-tight sm:font-bold sm:text-7xl dark:text-white">
-              Product Releases Supercharged ⚡️
-            </h1>
-            <h2 className="mt-2 mb-10 text-lg leading-8 dark:text-gray-300">
-              Beautiful docs, wikis, and changelogs that rollout with your code
-              changes. No manual orchestration required.
-            </h2>
-
-            <Subscribe className="max-w-sm" />
+    <div className="px-6 pt-24 mx-auto max-w-7xl sm:pt-32 lg:px-8 lg:pt-40">
+      <section className="lg:flex lg:items-center lg:gap-x-10">
+        <div className="max-w-2xl mx-auto lg:mx-0 lg:flex-auto">
+          <Pill text="Coming soon" />
+          <Title />
+          <p className="mt-4 mb-10 text-xl leading-8 sm:text-2xl sm:mt-6 sm:mb-10 text-zinc-600">
+            Meet your new writing assistant. Floe is the AI-powered CI platform
+            for writing docs without increasing headcount.
+            {/* The AI-powered CI platform for writing docs at scale, without
+            increasing headcount. */}
+          </p>
+          <div className="flex justify-center gap-4 sm:justify-start">
+            <Link
+              className="flex items-center gap-x-1"
+              href="https://cal.com/nic-haley/book-a-demo"
+              target="_blank"
+            >
+              <Button size="xl">Book a demo</Button>
+            </Link>
+            <Link href="mailto:nic@floe.dev?subject=👋 I'd like to learn more about Floe">
+              <Button color="secondary" size="xl" variant="text">
+                Contact us
+              </Button>
+            </Link>
           </div>
         </div>
-
-        {/* BLOBS */}
-        <AmorphousBlob className="fixed inset-0 w-64 h-64 -translate-x-1/2 -translate-y-1/2 opacity-50" />
-        <AmorphousBlob
-          blur={50}
-          rotation={0}
-          className="fixed inset-0 w-full translate-y-1/3 scale-[1.6] sm:scale-y-100 sm:scale-x-150 sm:translate-y-1/2 opacity-50"
-        />
-        <AmorphousBlob
-          blur={80}
-          rotation={0}
-          className="fixed top-0 w-1/2 scale-x-150 -translate-x-1/2 -translate-y-3/4 h-1/2 left-1/2 opacity-10"
-        />
-      </div>
-    </>
+        <div className="hidden lg:block sm:mt-24 lg:mt-0 lg:flex-shrink-0 lg:flex-grow">
+          <Blob />
+        </div>
+      </section>
+      <section className="my-20 sm:my-40">
+        <div className="m-auto sm:w-4/5">
+          <Carousel />
+        </div>
+      </section>
+      <section className="my-20 sm:my-40">
+        <div className="mb-10 text-center sm:mb-20">
+          <Image
+            alt="Pencil illustration"
+            className="w-32 h-32 mx-auto mb-3 md:h-40 md:w-40"
+            src={PencilArt}
+          />
+          <h2 className="mb-4 text-4xl sm:text-5xl font-garamond">
+            Save time, all the time.
+          </h2>
+          <h4 className="text-lg sm:text-xl text-zinc-600">
+            Take the grunt work out of writing. Floe is like assigning a writing
+            assistant to every pull request.
+          </h4>
+        </div>
+        <div className="grid gap-4 lg:items-center xl:grid-cols-4 lg:grid-cols-2">
+          <Card
+            description="Floe analyzes your codebase, diffs and commits to ensure every change is captured."
+            icon={DocumentMagnifyingGlassIcon}
+            title="Your content, in context"
+          />
+          <Card
+            description="Integrate with CI to automatically create new files and update existing ones."
+            icon={ArrowPathIcon}
+            title="Write, update, automate"
+          />
+          <Card
+            description="Floe's AI-powered linter allows you specify rules for anything, from tone to company vernacular."
+            icon={DocumentCheckIcon}
+            title="Prose linting, supercharged"
+          />
+          <Card
+            description="Floe ships with best practice templates and style guides based on the Good Docs Project."
+            icon={DocumentDuplicateIcon}
+            title="Consistent by design"
+          />
+        </div>
+      </section>
+      <section className="my-20 sm:my-40">
+        <BetaCard />
+      </section>
+      <Footer />
+    </div>
   );
 }

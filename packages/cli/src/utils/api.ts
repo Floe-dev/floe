@@ -1,22 +1,21 @@
-import {
-  createTRPCProxyClient,
-  httpBatchLink,
-  getBaseUrl,
-} from "@floe/trpc/client";
-import { AppRouter } from "@floe/trpc/server";
-import { getAccessToken } from "./accessToken";
+import axios from "axios";
 
-export async function getApi() {
-  const token = await getAccessToken();
+export function getBaseUrl() {
+  if (process.env.VERCEL_URL)
+    // reference for vercel.com
+    return `https://${process.env.VERCEL_URL}`;
 
-  return createTRPCProxyClient<AppRouter>({
-    links: [
-      httpBatchLink({
-        url: `${getBaseUrl()}/api/trpc`,
-        headers: {
-          Authorization: token.access_token,
-        },
-      }),
-    ],
-  });
+  // assume localhost
+  return `http://localhost:${process.env.PORT ?? 4000}`;
 }
+
+const floeApiSecret = process.env.FLOE_API_SECRET;
+const floeApiWorkspace = process.env.FLOE_API_WORKSPACE;
+
+export const api = axios.create({
+  baseURL: getBaseUrl(),
+  headers: {
+    ...(floeApiSecret && { "x-api-key": floeApiSecret }),
+    ...(floeApiWorkspace && { "x-api-workspace": floeApiWorkspace }),
+  },
+});

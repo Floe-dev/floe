@@ -1,66 +1,55 @@
-"use client";
+import { getServerSession } from "next-auth/next";
+import { redirect } from "next/navigation";
+import { db } from "@floe/db";
+import { Nav } from "./nav";
+import { Onboarding } from "./onboarding";
+import { authOptions } from "~/server/auth";
 
-import DashboardLayout from "./DashboardLayout";
-import { InstallationsProvider, useInstallationsContext } from "@/context/installations";
-import { ProjectProvider } from "@/context/project";
-import Onboarding from "./Onboarding";
-import { Spinner } from "@/components";
-import { useEffect } from "react";
-import { useSession, signOut } from "next-auth/react";
+async function getUser() {
+  const session = await getServerSession(authOptions);
 
-export default function AuthenticatedLayout({
+  if (!session) {
+    return null;
+  }
+
+  return db.user.findUnique({
+    where: { id: session.user.id },
+    include: {
+      workspaceMemberships: true,
+    },
+  });
+}
+
+export default async function AuthenticatedLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const { data: session } = useSession();
-
-  useEffect(() => {
-    if (session?.error === "TokenExpired") {
-      signOut();
-    }
-  }, [session?.error]);
+  const session = await getServerSession(authOptions);
 
   /**
-   * Display spinner while signing out
+   * Using next-auth https://next-auth.js.org/configuration/nextjs#basic-usage
+   * wasn't working. This works well though.
    */
-  if (session?.error === "TokenExpired") {
-    return (
-      <div className="grid h-full place-items-center">
-        <Spinner />
-      </div>
-    )
+  if (!session) {
+    return redirect("/signin");
   }
-  
+
+  const user = await getUser();
+
+  if (!user?.workspaceMemberships.length) {
+    return (
+      <>
+        <Nav />
+        <Onboarding />
+      </>
+    );
+  }
+
   return (
-    <InstallationsProvider>
-      <AuthenticatedLayoutChildren>{children}</AuthenticatedLayoutChildren>
-    </InstallationsProvider>
+    <div>
+      <Nav />
+      {children}
+    </div>
   );
 }
-
-const AuthenticatedLayoutChildren = ({
-  children,
-}: {
-  children: React.ReactNode;
-}) => {
-  const { installations, isLoading } = useInstallationsContext();
-
-  if (isLoading) {
-    return (
-      <div className="grid h-full place-items-center">
-        <Spinner />
-      </div>
-    )
-  }
-
-  if (!installations?.length) {
-    return <Onboarding />;
-  }
-
-  return (
-    <ProjectProvider>
-      <DashboardLayout>{children}</DashboardLayout>
-    </ProjectProvider>
-  );
-};

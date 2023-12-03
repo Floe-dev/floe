@@ -6,34 +6,29 @@
       "dependsOn": ["^build", "^db:generate"],
       "outputs": [".next/**", "!.next/cache/**"],
       "env": [
+        "PORT",
         "NODE_ENV",
-
-        "MAILCHIMP_API_KEY",
-        "MAILCHIMP_SERVER",
-        "MAILCHIMP_AUDIENCE_ID",
-
-        "OPENAI_API_KEY",
-
-        "NEXT_PUBLIC_FLOE_SLUG",
-        "FLOE_API_KEY_SECRET",
-        "NEXT_PUBLIC_FLOE_BASE_URL",
-
-        "GITHUB_CLIENT_ID",
-        "GITHUB_CLIENT_SECRET",
+        "VERCEL_URL",
+        "VERCEL",
+        "DATABASE_URL",
+        "NEXTAUTH_SECRET",
+        "NEXTAUTH_URL",
         "APP_ID",
         "PRIVATE_KEY",
-        "VERCEL_URL",
-        "PORT",
-        "ADMIN_API_KEY"
+        "GITHUB_CLIENT_ID",
+        "GITHUB_CLIENT_SECRET",
+        "SKIP_ENV_VALIDATION",
+        "SENDGRID_API",
+        "FLOE_SECRET_KEY",
+        "FLOE_SECRET_IV",
+        "OPENAI_API_KEY",
+        "MAILCHIMP_API_KEY",
+        "MAILCHIMP_SERVER",
+        "MAILCHIMP_AUDIENCE_ID"
       ]
     },
-    "clean": {
-      "cache": false
-    },
     "lint": {},
-    "typecheck": {},
     "dev": {
-      "dependsOn": ["^db:generate"],
       "cache": false,
       "persistent": true
     },

@@ -1,15 +1,14 @@
 import { getProviders } from "next-auth/react";
 import { getServerSession } from "next-auth/next";
-import { authOptions } from "@floe/nextauth";
 import { redirect } from "next/navigation";
-import Form from "./Form";
+import { authOptions } from "~/server/auth";
+import Form from "./form";
 
-export default async function Page() {
+export default async function Page(): Promise<JSX.Element> {
   const providers = await getProviders();
   const session = await getServerSession(authOptions);
 
-  // @ts-ignore
-  if (session?.user && !session?.error) {
+  if (session) {
     return redirect("/");
   }
 

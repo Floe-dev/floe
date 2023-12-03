@@ -1,21 +1,19 @@
 #!/usr/bin/env node
 
+import "dotenv/config";
 import { Command } from "commander";
-
-import { init } from "./commands/init.js";
-import { login } from "./commands/login.js";
-import { ai } from "./commands/ai";
-import { validate } from "./commands/validate.js";
+import { init } from "./commands/init";
+import { aiCreate } from "./commands/ai-create";
+import { aiLint } from "./commands/ai-lint";
 
 const program = new Command();
 
 /**
  * COMMANDS
  */
-ai(program);
 init(program);
-login(program);
-validate(program);
+aiCreate(program);
+aiLint(program);
 
 /**
  * PARSE

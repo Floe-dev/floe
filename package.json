@@ -2,25 +2,19 @@
   "private": true,
   "scripts": {
     "build": "turbo run build",
-    "clean": "turbo run clean && rm -rf node_modules",
-    "dev": "turbo run dev --filter=@floe/app --filter=@floe/api --filter=@floe/web --filter=@floe/hosted",
-    "db:generate": "prisma generate",
-    "db:push": "prisma db push --skip-generate",
-    "db:studio": "prisma studio",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "dev": "turbo run dev --filter=@floe/app --filter=@floe/api --filter=@floe/web",
     "lint": "turbo run lint",
-    "typecheck": "turbo run typecheck"
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "db:generate": "turbo run db:generate",
+    "db:push": "turbo run db:push",
+    "db:studio": "npx prisma studio"
   },
   "devDependencies": {
-    "@turbo/gen": "^1.9.7",
-    "eslint": "^7.32.0",
-    "eslint-config-custom": "workspace:*",
-    "prettier": "^2.5.1",
+    "eslint": "^8.48.0",
+    "prettier": "^3.0.3",
+    "tsconfig": "workspace:*",
     "turbo": "latest"
   },
-  "packageManager": "pnpm@7.15.0",
-  "name": "floe",
-  "dependencies": {
-    "@changesets/cli": "^2.26.2"
-  }
+  "packageManager": "pnpm@8.6.10",
+  "name": "floe-ai"
 }

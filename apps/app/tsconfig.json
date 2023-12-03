@@ -1,26 +1,18 @@
 {
   "extends": "tsconfig/nextjs.json",
   "compilerOptions": {
-    "plugins": [
-      {
-        "name": "next"
-      }
-    ],
     "paths": {
-      "@/*": [
-        "./src/*",
-      ],
-      "react": [ "./node_modules/@types/react" ]
-    },
-    "strictNullChecks": true
+      "~/*": ["./src/*"]
+    }
   },
   "include": [
+    ".eslintrc.js",
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    ".next/types/**/*.ts"
+    "**/*.cjs",
+    "**/*.mjs",
+    ".next/types/**/*.ts",
   ],
-  "exclude": [
-    "node_modules"
-  ]
+  "exclude": ["dist", "build", "node_modules"]
 }

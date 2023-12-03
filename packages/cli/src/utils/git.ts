@@ -1,6 +1,13 @@
-import { execSync } from "child_process";
+import { execSync } from "node:child_process";
 
-export const getGithubOrgandRepo = () => {
+export const gitGithubOrGitlabOrgAndRepo = () => {
+  const githubOrgAndRepo = getOrgAndRepo("github");
+  const gitlabOrgAndRepo = getOrgAndRepo("gitlab");
+
+  return githubOrgAndRepo || gitlabOrgAndRepo;
+};
+
+export const getOrgAndRepo = (provider: "github" | "gitlab") => {
   const gitRepoPath = "."; // Path to Git repository
 
   try {
@@ -8,33 +15,27 @@ export const getGithubOrgandRepo = () => {
     const remoteInfo = val.trim().split("\n");
 
     // Check if any remote URL points to GitHub
-    const githubRemote = remoteInfo.find((remote) =>
-      /github\.com/.test(remote)
-    );
+    const remote = remoteInfo.find((r) => r.includes(`${provider}.com`));
 
-    if (!githubRemote) {
-      console.log(
-        "Must be a GitHub repository. Please create a GitHub repository and try again."
-      );
-      process.exit(1);
+    if (!remote) {
+      return null;
     }
 
-    const match = githubRemote.match(/github\.com[\/:]([^/]+)\/([^/]+)\.git/);
+    const githubMatch = /github\.com[/:]([^/]+)\/([^/]+)\.git/.exec(remote);
+    const gitlabMatch = /gitlab\.com[/:]([^/]+)\/([^/]+)\.git/.exec(remote);
+    const match = provider === "github" ? githubMatch : gitlabMatch;
 
     if (match) {
-      const organization = match[1];
-      const repository = match[2];
+      const owner = match[1];
+      const repo = match[2];
 
       return {
-        organization,
-        repository,
+        owner,
+        repo,
       };
-    } else {
-      console.log(
-        "Could not find GitHub Organization and Repository. Please create a GitHub repository and try again."
-      );
-      process.exit(1);
     }
+
+    return null;
   } catch (e: any) {
     console.error(`Error: ${e.message}`);
     process.exit(1);
@@ -57,6 +58,17 @@ export const getDefaultBranch = () => {
   }
 };
 
-export const currentBranch = execSync("git rev-parse --abbrev-ref HEAD", {
-  encoding: "utf-8",
-}).trim();
+export const getCurrentBranch = () =>
+  execSync("git rev-parse --abbrev-ref HEAD", {
+    encoding: "utf-8",
+  }).trim();
+
+export const getDiff = (basehead: string) => {
+  /**
+   * TODO: May need special handling for CI env
+   */
+
+  return execSync(`git diff ${basehead}`, {
+    encoding: "utf-8",
+  }).trim();
+};

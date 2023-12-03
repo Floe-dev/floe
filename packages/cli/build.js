@@ -1,6 +1,8 @@
-const fs = require("fs");
+const fs = require("node:fs");
 
 (async () => {
+  const args = process.argv.slice(2);
+
   const nativeNodeModulesPlugin = {
     name: "native-node-modules",
     setup(build) {
@@ -40,8 +42,8 @@ const fs = require("fs");
     },
   };
 
-  await require("esbuild")
-    .build({
+  const context = await require("esbuild")
+    .context({
       entryPoints: ["src/index.ts"],
       bundle: true,
       outfile: "dist/index.js",
@@ -52,8 +54,15 @@ const fs = require("fs");
     })
     .catch(() => process.exit(1));
 
+  fs.rmSync("dist", { recursive: true, force: true });
   fs.cpSync("src/default-files", "dist/default-files", { recursive: true });
-  console.log("Build complete ⚡️");
 
-  process.exit(0);
+  if (args.includes("--watch")) {
+    await context.watch();
+    console.log("Watching...");
+  } else {
+    await context.rebuild();
+    console.log("Build complete ⚡️");
+    process.exit(0);
+  }
 })();

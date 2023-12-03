@@ -1,15 +1,9 @@
-const sharedConfig = require("@floe/tailwind-config/tailwind.config.js");
-const { withUt } = require("uploadthing/tw");
+// tailwind config is required for editor support
+import sharedConfig from "@floe/tailwind/tailwind.config.js";
 
-module.exports = withUt({
-  darkMode: "class",
-  lightMode: "class",
+const config = {
   presets: [sharedConfig],
-  content: [
-    "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
-    "../../packages/ui/**/*.{ts,tsx}",
-  ],
-  plugins: [require("@tailwindcss/typography")],
-});
+  content: ["../../packages/ui/**/*.{ts,tsx}"],
+};
+
+export default config;

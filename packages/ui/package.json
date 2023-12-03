@@ -1,27 +1,28 @@
 {
   "name": "@floe/ui",
-  "version": "1.0.0-alpha.5",
-  "private": true,
+  "version": "0.0.0",
   "main": "./index.tsx",
   "types": "./index.tsx",
   "scripts": {
-    "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf lib",
-    "lint": "eslint \"**/*.ts*\"",
-    "typecheck": "npx tsc --project ./tsconfig.json --noEmit",
-    "generate:component": "turbo gen react-component"
-  },
-  "devDependencies": {
-    "@types/react": "^18.2.0",
-    "@types/react-dom": "^18.2.0",
-    "eslint": "^7.32.0",
-    "eslint-config-custom": "workspace:*",
-    "react": "^18.2.0",
-    "tsconfig": "workspace:*",
-    "typescript": "^4.5.2"
+    "lint": "eslint ."
   },
   "dependencies": {
     "@headlessui/react": "^1.7.16",
-    "@heroicons/react": "^2.0.18",
-    "classnames": "^2.3.2"
+    "@heroicons/react": "^2.0.18"
+  },
+  "devDependencies": {
+    "@floe/tailwind": "workspace:*",
+    "@turbo/gen": "^1.10.12",
+    "@types/node": "^20.5.2",
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
+    "autoprefixer": "^10.4.16",
+    "classnames": "^2.3.2",
+    "eslint-config-custom": "workspace:*",
+    "postcss": "^8.4.31",
+    "react": "^18.2.0",
+    "tailwindcss": "^3.3.3",
+    "tsconfig": "workspace:*",
+    "typescript": "^4.5.2"
   }
 }

@@ -1,25 +1,18 @@
 {
   "name": "@floe/utils",
-  "version": "1.0.0-alpha.5",
-  "description": "",
-  "private": true,
-  "main": "src/index.ts",
-  "types": "src/index.ts",
-  "scripts": {},
-  "author": "",
-  "devDependencies": {
-    "@octokit/types": "^11.1.0",
-    "@types/node": "^20.5.9",
-    "eslint": "^7.32.0",
-    "eslint-config-custom": "workspace:*",
-    "ts-node": "^10.9.1",
-    "tsconfig": "workspace:*",
-    "typescript": "^5.2.2"
+  "version": "0.0.0",
+  "main": "./index.tsx",
+  "types": "./index.tsx",
+  "scripts": {
+    "lint": "eslint ."
   },
   "dependencies": {
-    "@octokit/auth-app": "^6.0.1",
-    "@octokit/core": "^5.0.1",
-    "minimatch": "^9.0.3",
     "slugify": "^1.6.6"
+  },
+  "devDependencies": {
+    "@floe/tailwind": "workspace:*",
+    "@types/node": "^20.8.10",
+    "eslint-config-custom": "workspace:*",
+    "tsconfig": "workspace:*"
   }
 }

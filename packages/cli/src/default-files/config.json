@@ -1,0 +1,26 @@
+{
+  "rules": {
+    "no-passive-voice": "Do not use passive voice",
+    "no-contractions": "Do not use contractions",
+    "no-jargon": "Do not use technical jargon",
+    "tone-marketing": "Use a friendly, helpful tone, but keep it professional"
+  },
+  "rulesets": {
+    "marketing": {
+      "include": ["release-notes"],
+      "rules": {
+        "no-passive-voice": "warn",
+        "no-contractions": "warn",
+        "no-jargon": "warn",
+        "tone-marketing": "warn"
+      }
+    }
+  },
+  "prompts": {
+    "release-notes": {
+      "template": ".floe/templates/release-note.md",
+      "ruleSets": ["marketing/**/*.md"],
+      "outdir": "release-notes"
+    }
+  }
+}

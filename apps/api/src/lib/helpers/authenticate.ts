@@ -1,84 +1,66 @@
 import bcrypt from "bcrypt";
-import prisma from "@floe/db";
-import { CustomMiddleware } from "@/lib/types/privateMiddleware";
+import { db } from "@floe/db";
+import type { CustomMiddleware } from "~/types/private-middleware";
 
 export const authenticate: CustomMiddleware = async (req, res, next) => {
-  const query = req.query as { datasourceId?: string };
-  const { datasourceId } = query;
-
-  const slug = req.headers["x-api-slug"] as string | undefined;
+  const slug = req.headers["x-api-workspace"] as string | undefined;
   const key = req.headers["x-api-key"] as string | undefined;
 
-  let admin = false;
-
-  /**
-   * Authenticate as an admin for access to all projects
-   */
-  if (key === process.env.ADMIN_API_KEY) {
-    admin = true;
-  }
-
   if (!key) {
-    return res.status(401).json({
+    res.status(401).json({
       error: {
         message: "No api key provided",
       },
     });
+    return;
   }
 
   if (!slug) {
-    return res.status(401).json({
+    res.status(401).json({
       error: {
-        message: "No project slug provided",
+        message: "No workspace slug provided",
       },
     });
+    return;
   }
 
-  const project = await prisma.project.findUnique({
+  const workspace = await db.workspace.findUnique({
     where: {
       slug,
     },
     include: {
-      datasources: datasourceId
-        ? {
-            where: {
-              id: datasourceId,
-            },
-          }
-        : true,
+      encrytpedKeys: {
+        where: {
+          slug: key.slice(-4),
+        },
+      },
+      githubIntegration: true,
+      gitlabIntegration: true,
     },
   });
 
-  if (!project) {
-    return res.status(401).json({
+  if (!workspace || !workspace.encrytpedKeys[0]) {
+    res.status(401).json({
       error: {
         message: "Invalid API key",
       },
     });
+    return;
   }
 
-  if (datasourceId && !project.datasources.length) {
-    return res.status(400).json({
+  const match = await bcrypt.compare(key, workspace.encrytpedKeys[0].key);
+
+  if (!match) {
+    res.status(401).json({
       error: {
-        message: "Invalid datasourceId",
+        message: "Invalid API key",
       },
     });
+    return;
   }
 
-  if (!admin) {
-    const match = await bcrypt.compare(key, project.encryptedApiKey!);
-
-    if (!match) {
-      return res.status(401).json({
-        error: {
-          message: "Invalid API key",
-        },
-      });
-    }
-  }
-
-  req.project = project;
-  req.projectSlug = slug;
+  req.workspace = workspace;
+  req.workspaceSlug = slug;
 
   await next();
 };

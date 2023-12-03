@@ -1,9 +1,0 @@
-{
-  "extends": "tsconfig/react-library.json",
-  "compilerOptions": {
-    "outDir": "./dist",
-    "strictNullChecks": true
-  },
-  "include": ["client", "next", "server", "nextauth.d.ts"],
-  "exclude": ["node_modules"]
-}
