@@ -26578,35 +26578,6 @@ module.exports = parseParams
 /******/ 	}
 /******/ 	
 /************************************************************************/
-/******/ 	/* webpack/runtime/compat get default export */
-/******/ 	(() => {
-/******/ 		// getDefaultExport function for compatibility with non-harmony modules
-/******/ 		__nccwpck_require__.n = (module) => {
-/******/ 			var getter = module && module.__esModule ?
-/******/ 				() => (module['default']) :
-/******/ 				() => (module);
-/******/ 			__nccwpck_require__.d(getter, { a: getter });
-/******/ 			return getter;
-/******/ 		};
-/******/ 	})();
-/******/ 	
-/******/ 	/* webpack/runtime/define property getters */
-/******/ 	(() => {
-/******/ 		// define getter functions for harmony exports
-/******/ 		__nccwpck_require__.d = (exports, definition) => {
-/******/ 			for(var key in definition) {
-/******/ 				if(__nccwpck_require__.o(definition, key) && !__nccwpck_require__.o(exports, key)) {
-/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
-/******/ 				}
-/******/ 			}
-/******/ 		};
-/******/ 	})();
-/******/ 	
-/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
-/******/ 	(() => {
-/******/ 		__nccwpck_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
-/******/ 	})();
-/******/ 	
 /******/ 	/* webpack/runtime/make namespace object */
 /******/ 	(() => {
 /******/ 		// define __esModule on exports
@@ -26627,15 +26598,62 @@ var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be in strict mode.
 (() => {
 "use strict";
+// ESM COMPAT FLAG
 __nccwpck_require__.r(__webpack_exports__);
-/* harmony import */ var _actions_core__WEBPACK_IMPORTED_MODULE_0__ = __nccwpck_require__(958);
-/* harmony import */ var _actions_core__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__nccwpck_require__.n(_actions_core__WEBPACK_IMPORTED_MODULE_0__);
+
+// EXTERNAL MODULE: ../../node_modules/.pnpm/@actions+core@1.10.1/node_modules/@actions/core/lib/core.js
+var core = __nccwpck_require__(958);
+;// CONCATENATED MODULE: external "node:fs/promises"
+const promises_namespaceObject = require("node:fs/promises");
+;// CONCATENATED MODULE: external "node:path"
+const external_node_path_namespaceObject = require("node:path");
+;// CONCATENATED MODULE: ./src/utils/walk.ts
+
+
+async function walk(dir, parentPath) {
+    /**
+     * Get files from directory
+     */
+    const immediateFiles = await (0,promises_namespaceObject.readdir)(dir);
+    const recursiveFiles = await Promise.all(immediateFiles.map(async (file) => {
+        const path = (0,external_node_path_namespaceObject.join)(dir, file);
+        const stats = await (0,promises_namespaceObject.stat)(path);
+        /**
+         * Check if file or directory
+         */
+        if (stats.isDirectory()) {
+            // Keep track of document hierarchy (if this dir has corresponding doc file)
+            const fileNoExtension = (0,external_node_path_namespaceObject.basename)(path);
+            // Match for md, mdx, or mdoc files
+            const doc = immediateFiles.find((f) => f === `${fileNoExtension}.md` ||
+                f === `${fileNoExtension}.mdx` ||
+                f === `${fileNoExtension}.mdoc`);
+            console.log(22222, doc);
+            return walk(path, doc ? (0,external_node_path_namespaceObject.join)((0,external_node_path_namespaceObject.dirname)(path), doc) : parentPath);
+        }
+        else if (stats.isFile()) {
+            return [
+                {
+                    path,
+                    parentPath,
+                },
+            ];
+        }
+        return [];
+    }));
+    const flattenedFiles = recursiveFiles.reduce((all, folderContents) => all.concat(folderContents), []);
+    return flattenedFiles.sort((a, b) => a.path.localeCompare(b.path));
+}
+
+;// CONCATENATED MODULE: ./src/index.ts
+
 
 async function generateEmbeddings({ docsRootPath }) {
-    console.log(1111, docsRootPath);
+    const embeddingSources = await walk(docsRootPath);
+    console.log(333333, embeddingSources);
 }
 async function run() {
-    const docsRootPath = (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("docs-root-path");
+    const docsRootPath = (0,core.getInput)("docs-root-path");
     try {
         await generateEmbeddings({
             docsRootPath,
@@ -26643,7 +26661,7 @@ async function run() {
     }
     catch (error) {
         if (error instanceof Error)
-            (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.setFailed)(error.message);
+            (0,core.setFailed)(error.message);
     }
 }
 run();
