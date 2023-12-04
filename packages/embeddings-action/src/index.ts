@@ -3,7 +3,8 @@ import { context } from "@actions/github";
 import { walk } from "./utils/walk";
 
 async function generateEmbeddings({ docsRootPath }: { docsRootPath: string }) {
-  console.log(1111, docsRootPath);
+  const embeddingSources = await walk(docsRootPath);
+  console.log(11111, embeddingSources);
 }
 
 async function run(): Promise<void> {
