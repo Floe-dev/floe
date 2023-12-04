@@ -1,0 +1,20 @@
+name: "floe-embeddings-action"
+description: "Generate embeddings for Floe doc tools."
+author: "Floe"
+# inputs:
+#   supabase-url:
+#     required: true
+#     description: "Your Supabase project URL"
+#   supabase-service-role-key:
+#     required: true
+#     description: "Your Supabase SERVICE_ROLE key"
+#   openai-key:
+#     required: true
+#     description: "Your OpenAI API key"
+#   docs-root-path:
+#     required: true
+#     description: "The path to the root of your knowledge base or docs folder"
+#     default: "docs"
+runs:
+  using: "node16"
+  main: "dist/index.js"
