@@ -28,4 +28,4 @@ jobs:
       - uses: actions/checkout@v4
       - uses: ./packages/embeddings-action/
         with:
-          docs-root-path: "docs"
+          docs-root-path: "apps/docs"
