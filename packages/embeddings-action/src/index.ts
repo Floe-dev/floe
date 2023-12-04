@@ -3,7 +3,10 @@ import { context } from "@actions/github";
 import { walk } from "./utils/walk";
 
 async function generateEmbeddings({ docsRootPath }: { docsRootPath: string }) {
-  const embeddingSources = await walk(docsRootPath);
+  const embeddingSources = (await walk(docsRootPath)).filter(({ path }) =>
+    /\.(md|mdx|mdoc)$/i.test(path)
+  );
+
   console.log(333333, embeddingSources);
 }
 

@@ -35,8 +35,6 @@ export async function walk(
             f === `${fileNoExtension}.mdoc`
         );
 
-        console.log(22222, doc);
-
         return walk(path, doc ? join(dirname(path), doc) : parentPath);
       } else if (stats.isFile()) {
         return [
