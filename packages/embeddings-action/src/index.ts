@@ -4,7 +4,7 @@ import { walk } from "./utils/walk";
 
 async function generateEmbeddings({ docsRootPath }: { docsRootPath: string }) {
   const embeddingSources = await walk(docsRootPath);
-  console.log(11111, embeddingSources);
+  console.log(333333, embeddingSources);
 }
 
 async function run(): Promise<void> {
