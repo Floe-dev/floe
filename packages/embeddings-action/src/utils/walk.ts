@@ -1,5 +1,5 @@
 import { readdir, stat } from "node:fs/promises";
-import { dirname, join } from "node:path";
+import { basename, dirname, join } from "node:path";
 
 export interface WalkEntry {
   path: string;
@@ -25,10 +25,17 @@ export async function walk(
        */
       if (stats.isDirectory()) {
         // Keep track of document hierarchy (if this dir has corresponding doc file)
-        // const docPath = `${basename(path)}.md`;
+        const fileNoExtension = basename(path);
 
-        // Match for .md, .mdx, or .mdoc files regex
-        const doc = immediateFiles.find((f) => /\.(md|mdx|mdoc)$/i.exec(f));
+        // Match for md, mdx, or mdoc files
+        const doc = immediateFiles.find(
+          (f) =>
+            f === `${fileNoExtension}.md` ||
+            f === `${fileNoExtension}.mdx` ||
+            f === `${fileNoExtension}.mdoc`
+        );
+
+        console.log(22222, doc);
 
         return walk(path, doc ? join(dirname(path), doc) : parentPath);
       } else if (stats.isFile()) {
