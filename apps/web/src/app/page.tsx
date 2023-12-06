@@ -24,7 +24,7 @@ export default function Page(): JSX.Element {
           <Title />
           <p className="mt-4 mb-10 text-xl leading-8 sm:text-2xl sm:mt-6 sm:mb-10 text-zinc-600">
             Meet your new writing assistant. Floe is the AI-powered CI platform
-            for writing docs without increasing headcount.
+            for writing better docs without the headache.
             {/* The AI-powered CI platform for writing docs at scale, without
             increasing headcount. */}
           </p>
