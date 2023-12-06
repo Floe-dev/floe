@@ -23,8 +23,8 @@ export default function Page(): JSX.Element {
           <Pill text="Coming soon" />
           <Title />
           <p className="mt-4 mb-10 text-xl leading-8 sm:text-2xl sm:mt-6 sm:mb-10 text-zinc-600">
-            Meet your new writing assistant. Floe is the AI-powered CI platform
-            for writing better docs without the headache.
+            Meet your new AI-powered writing assistant. Floe is the CICD
+            platform for writing better docs without the headache.
           </p>
           <div className="flex justify-center gap-4 sm:justify-start">
             <Link
