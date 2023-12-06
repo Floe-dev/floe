@@ -1,5 +1,6 @@
 import { getInput, setOutput, setFailed } from "@actions/core";
 import { OpenAI } from "openai";
+import { Pinecone } from "@pinecone-database/pinecone";
 import { walk } from "./utils/walk";
 
 async function generateEmbeddings({
@@ -29,8 +30,7 @@ async function generateEmbeddings({
   });
 
   /**
-   * Step 2 (Optional): Store in VectorDB
-   * TODO: Add this later.
+   * Step 2: Store embeddings
    */
 }
 
