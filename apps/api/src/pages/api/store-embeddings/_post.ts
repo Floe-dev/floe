@@ -4,7 +4,7 @@ import { Pinecone } from "@pinecone-database/pinecone";
 import type {
   NextApiRequestExtension,
   NextApiResponseExtension,
-} from "~/types/private-middleware";
+} from "~/types/public-middleware"; // TODO: Swap for private handler
 import { defaultResponder } from "~/lib/helpers/default-responder";
 
 const querySchema = z.object({});
@@ -14,6 +14,7 @@ async function handler(
   res: NextApiResponseExtension
 ) {
   const parsed = querySchema.parse(queryObj);
+  console.log(1111111, parsed);
 
   const pinecone = new Pinecone({
     environment: "northamerica-northeast1-gcp",
