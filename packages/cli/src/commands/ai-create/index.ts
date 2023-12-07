@@ -1,5 +1,5 @@
 import type { Command } from "commander";
-import { fromDiff } from "./from-diff";
+import { fromDiff } from "./diff";
 
 export function aiCreate(program: Command) {
   const generateProgram = program

@@ -15,7 +15,7 @@ const chalkImport = import("chalk").then((m) => m.default);
 
 export function fromDiff(program: Command) {
   program
-    .command("from-diff")
+    .command("diff")
     .description("Validate content from diff")
     .option("--owner <owner>", "Owner of the repository")
     .option("--repo <repo>", "Repository name")

@@ -1,14 +1,12 @@
 {
   "rules": {
-    "no-passive-voice": "Do not use passive voice.",
-    "always-use-headers": "Always use headers in markdown files."
+    "pricing": "Don't talk about pricing. For example, don't mention a monthly price, or if something is free."
   },
   "rulesets": {
     "docs": {
       "include": ["**/*.md"],
       "rules": {
-        "no-passive-voice": "error",
-        "always-use-headers": "error"
+        "pricing": "error"
       }
     }
   },
