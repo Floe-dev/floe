@@ -42,7 +42,7 @@ export const authOptions: NextAuthOptions = {
   },
   adapter: PrismaAdapter(db),
   providers: [
-    // @ts-ignore
+    // @ts-expect-error -- Issue with NextAuth types
     {
       id: "sendgrid",
       type: "email",

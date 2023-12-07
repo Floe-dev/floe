@@ -1,12 +1,12 @@
 {
   "rules": {
-    "pricing": "Don't talk about pricing. For example, don't mention a monthly price, or if something is free."
+    "no-pricing": "Don't talk about pricing. For example, don't mention a monthly price, or if something is free."
   },
   "rulesets": {
     "docs": {
       "include": ["**/*.md"],
       "rules": {
-        "pricing": "error"
+        "no-pricing": "error"
       }
     }
   },

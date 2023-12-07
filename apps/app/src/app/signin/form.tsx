@@ -50,12 +50,7 @@ function Form({
                 type="email"
               />
             </div>
-            <Button
-              className="w-full mt-3"
-              color="gray"
-              type="submit"
-              variant="outline"
-            >
+            <Button className="w-full mt-3" type="submit">
               Continue with email
             </Button>
           </form>
