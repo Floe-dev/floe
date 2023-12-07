@@ -136,6 +136,8 @@ async function run(): Promise<void> {
   const pineconeApiKey: string = getInput("pinecone-api-key");
 
   try {
+    // First uncomment generateEmbeddings (to first create embeddings). Once created, comment out generateEmbeddings and uncomment similaritySearch (to search for embeddings).
+    // STEP 1
     // await generateEmbeddings({
     //   openAiKey,
     //   docsRootPath,
@@ -143,10 +145,11 @@ async function run(): Promise<void> {
     //   floeApiWorkspace,
     //   pineconeApiKey,
     // });
-    await similaritySearch({
-      openAiKey,
-      pineconeApiKey,
-    });
+    // STEP 2
+    // await similaritySearch({
+    //   openAiKey,
+    //   pineconeApiKey,
+    // });
   } catch (error) {
     if (error instanceof Error) setFailed(error.message);
   }
