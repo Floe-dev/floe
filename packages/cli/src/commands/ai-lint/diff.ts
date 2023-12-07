@@ -73,7 +73,7 @@ export function fromDiff(program: Command) {
         try {
           const spinner = ora("Validating content...").start();
 
-          const response = await api.get("/api/v1/ai-lint-from-diff", {
+          const response = await api.get("/api/v1/ai-lint-diff", {
             params: {
               owner,
               repo,
