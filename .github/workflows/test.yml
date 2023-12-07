@@ -30,3 +30,4 @@ jobs:
         with:
           docs-root-path: "apps/docs"
           open-ai-key: ${{ secrets.OPENAI_API_KEY }}
+          pinecone-api-key: ${{ secrets.PINECONE_API_KEY }}
