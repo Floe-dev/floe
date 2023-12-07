@@ -24,7 +24,9 @@
         "OPENAI_API_KEY",
         "MAILCHIMP_API_KEY",
         "MAILCHIMP_SERVER",
-        "MAILCHIMP_AUDIENCE_ID"
+        "MAILCHIMP_AUDIENCE_ID",
+        "PINECONE_API_KEY",
+        "PINCECONE_INDEX"
       ]
     },
     "lint": {},

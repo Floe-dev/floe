@@ -15,6 +15,7 @@
     "@floe/utils": "workspace:*",
     "@octokit/auth-app": "^6.0.1",
     "@octokit/core": "^5.0.1",
+    "@pinecone-database/pinecone": "^1.1.2",
     "@sentry/nextjs": "^7.66.0",
     "@types/node": "20.5.9",
     "bcrypt": "^5.1.0",
