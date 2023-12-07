@@ -1,4 +1,4 @@
-import { decryptData } from "@floe/utils";
+// import { decryptData } from "@floe/utils";
 import type {
   Workspace,
   NextApiResponseExtension,
@@ -27,12 +27,10 @@ export async function contents(
     return githubContents;
   } else if (workspace.gitlabIntegration) {
     // TODO: implement
-    const token = decryptData(workspace.gitlabIntegration.encryptedAccessToken);
+    // const token = decryptData(workspace.gitlabIntegration.encryptedAccessToken);
   } else {
     res.status(400).json({
       error: "Workspace does not have a GitHub or GitLab integration",
     });
   }
-
-  return compareInfo;
 }

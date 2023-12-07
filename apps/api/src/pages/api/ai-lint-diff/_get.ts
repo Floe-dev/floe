@@ -145,7 +145,7 @@ async function handler(
         diff.contentsUrl,
         workspace,
         res
-      )) as string;
+      )) as unknown as string; // TODO: Can handle this better later on
 
       /**
        * Convert to lines object that is more LLM friendly
@@ -187,7 +187,7 @@ async function handler(
       return {
         filename: diff.filename,
         violations: responseJson.violations.flatMap((violation) => {
-          const rule = flatRules.find((rule) => rule.code === violation.code);
+          const rule = flatRules.find((r) => r.code === violation.code);
 
           const lineContent = lines[violation.lineNumber];
           const occurrences = getSubstringOccurrences(

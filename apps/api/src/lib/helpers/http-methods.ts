@@ -3,7 +3,7 @@ import type { Middleware } from "next-api-middleware";
 export const httpMethod = (
   allowedHttpMethod: "GET" | "POST" | "PATCH" | "DELETE"
 ): Middleware => {
-  return async function (req, res, next) {
+  return async (req, res, next) => {
     if (req.method === allowedHttpMethod || req.method === "OPTIONS") {
       await next();
     } else {
