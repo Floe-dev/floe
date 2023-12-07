@@ -7,6 +7,46 @@ import { Pinecone } from "@pinecone-database/pinecone";
 import { walk } from "./utils/walk";
 import { getApi } from "./utils/api";
 
+async function similaritySearch({
+  openAiKey,
+  pineconeApiKey,
+}: {
+  openAiKey: string;
+  pineconeApiKey: string;
+}) {
+  const openai = new OpenAI({
+    apiKey: openAiKey,
+  });
+
+  const pinecone = new Pinecone({
+    environment: "northamerica-northeast1-gcp",
+    apiKey: pineconeApiKey,
+  });
+
+  const index = pinecone.Index("floe");
+
+  /**
+   * TODO: This should be a diff (or part of a diff) from a PR
+   */
+  const query = "[https://nextra.site](https://nextra.site)";
+
+  const embeddingResponse = await openai.embeddings.create({
+    model: "text-embedding-ada-002",
+    input: query,
+  });
+
+  const ns = index.namespace("my-first-namespace");
+
+  const result = await ns.query({
+    vector: embeddingResponse.data[0].embedding,
+    topK: 5,
+    includeValues: false,
+    includeMetadata: true,
+  });
+
+  console.log(33333, result.matches[0].metadata);
+}
+
 async function generateEmbeddings({
   docsRootPath,
   openAiKey,
@@ -24,7 +64,7 @@ async function generateEmbeddings({
   // const embeddingSources = (await walk(docsRootPath)).filter(({ path }) =>
   //   /\.(md|mdx|mdoc)$/i.test(path)
   // );
-  const files = await glob(`${docsRootPath}/**/*.{md,mdx, mdoc}`, {
+  const files = await glob(`${docsRootPath}/**/*.{md,mdx,mdoc}`, {
     ignore: "node_modules/**",
   });
   const embeddingSources = files.map((path) => {
@@ -96,11 +136,15 @@ async function run(): Promise<void> {
   const pineconeApiKey: string = getInput("pinecone-api-key");
 
   try {
-    await generateEmbeddings({
+    // await generateEmbeddings({
+    //   openAiKey,
+    //   docsRootPath,
+    //   floeApiSecret,
+    //   floeApiWorkspace,
+    //   pineconeApiKey,
+    // });
+    await similaritySearch({
       openAiKey,
-      docsRootPath,
-      floeApiSecret,
-      floeApiWorkspace,
       pineconeApiKey,
     });
   } catch (error) {
