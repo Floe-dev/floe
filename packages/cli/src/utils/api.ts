@@ -1,15 +1,9 @@
 import axios from "axios";
 
 export function getBaseUrl() {
-  console.log(1111111, process.env.DOCKER_HOST);
-
   if (process.env.VERCEL_URL)
     // reference for vercel.com
     return `https://${process.env.VERCEL_URL}`;
-
-  if (process.env.DOCKER_HOST) {
-    return `http://${process.env.DOCKER_HOST}:4000`;
-  }
 
   // assume localhost
   return `http://localhost:${process.env.PORT ?? 4000}`;

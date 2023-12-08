@@ -41,7 +41,7 @@ jobs:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
           APP_ID: ${{ secrets.APP_ID }}
           PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
-          DOCKER_HOST: ${{ secrets.DOCKER_HOST }}
+          VERCEL_URL: ${{ secrets.VERCEL_URL }}
       - name: Link
         working-directory: ./packages/cli
         run: pnpm link-cli
