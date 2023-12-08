@@ -33,6 +33,8 @@ export function fromDiff(program: Command) {
          */
         checkIfValidRoot();
 
+        console.log(11111);
+
         /**
          * Import ESM modules
          */

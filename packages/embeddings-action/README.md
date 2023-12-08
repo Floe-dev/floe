@@ -14,5 +14,5 @@ This project needs a lot more work. Next steps would be:
 2. Run locally using Act:
 
 ```bash
-act --container-architecture linux/amd64 --secret-file packages/embeddings-action/.env
+act --container-architecture linux/amd64 --secret-file .env.act
 ```

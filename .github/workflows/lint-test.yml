@@ -22,7 +22,7 @@ jobs:
           version: 8
       - run: |
           pnpm i
-      - run:
+      - run: # Install env deps
           | # https://github.com/getsentry/sentry-cli/issues/1069#issuecomment-969439768
           apt update
           apt install -y ca-certificates
@@ -41,3 +41,8 @@ jobs:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
           APP_ID: ${{ secrets.APP_ID }}
           PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
+      - name: Link
+        working-directory: ./packages/cli
+        run: pnpm link-cli
+      - run: |
+          floe ai-lint diff --owner algolia --repo docsearch --base algolia:main --head tnir:website-readme
