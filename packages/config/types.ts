@@ -1,15 +1,11 @@
-export interface Config<T extends Record<string, unknown>> {
+export interface Config {
   $schema: string;
-  rules: {
-    [key in keyof T]: string;
-  };
-  ruleSets: Record<
+  rules: Record<string, string>;
+  rulesets: Record<
     string,
     {
       include: string[];
-      rules: {
-        [key in keyof T]: "error" | "warn" | "off";
-      };
+      rules: Record<string, "error" | "warn" | "off">;
     }
   >;
 }

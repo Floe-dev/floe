@@ -6,3 +6,4 @@ export const defaultConfig = {
 } as const;
 
 export { validate } from "./validate";
+export type { Config } from "./types";

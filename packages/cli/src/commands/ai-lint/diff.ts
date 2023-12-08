@@ -46,11 +46,13 @@ export function fromDiff(program: Command) {
         const repo = options.repo || repoAndOwner?.repo;
         const { rules, rulesets } = getRules();
 
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument -- This is safe
         const rulesetsWithRules = Object.entries(rulesets).map(
           ([key, value]) => {
             return {
               name: key,
               ...value,
+              // eslint-disable-next-line @typescript-eslint/no-unsafe-argument -- This is safe
               rules: Object.entries(value.rules).map(([ruleKey, ruleValue]) => {
                 const description = rules[ruleKey];
 

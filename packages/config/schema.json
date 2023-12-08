@@ -5,69 +5,51 @@
     "Config": {
       "type": "object",
       "properties": {
-        "path": {
+        "$schema": {
           "type": "string"
         },
-        "type": {
-          "type": "string"
-        },
-        "minify": {
-          "type": "boolean"
-        },
-        "schemaId": {
-          "type": "string"
-        },
-        "tsconfig": {
-          "type": "string"
-        },
-        "expose": {
-          "type": "string",
-          "enum": [
-            "all",
-            "none",
-            "export"
-          ]
-        },
-        "topRef": {
-          "type": "boolean"
-        },
-        "jsDoc": {
-          "type": "string",
-          "enum": [
-            "none",
-            "extended",
-            "basic"
-          ]
-        },
-        "sortProps": {
-          "type": "boolean"
-        },
-        "strictTuples": {
-          "type": "boolean"
-        },
-        "skipTypeCheck": {
-          "type": "boolean"
-        },
-        "encodeRefs": {
-          "type": "boolean"
-        },
-        "extraTags": {
-          "type": "array",
-          "items": {
+        "rules": {
+          "type": "object",
+          "additionalProperties": {
             "type": "string"
           }
         },
-        "additionalProperties": {
-          "type": "boolean"
-        },
-        "discriminatorType": {
-          "type": "string",
-          "enum": [
-            "json-schema",
-            "open-api"
-          ]
+        "rulesets": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "properties": {
+              "include": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "rules": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string",
+                  "enum": [
+                    "error",
+                    "warn",
+                    "off"
+                  ]
+                }
+              }
+            },
+            "required": [
+              "include",
+              "rules"
+            ],
+            "additionalProperties": false
+          }
         }
       },
+      "required": [
+        "$schema",
+        "rules",
+        "rulesets"
+      ],
       "additionalProperties": false
     }
   }
