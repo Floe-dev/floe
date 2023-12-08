@@ -12,9 +12,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Install Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: 16
+          node-version: 18
 
       - uses: pnpm/action-setup@v2
         name: Install pnpm
@@ -22,5 +22,22 @@ jobs:
           version: 8
       - run: |
           pnpm i
+      - run:
+          | # https://github.com/getsentry/sentry-cli/issues/1069#issuecomment-969439768
+          apt update
+          apt install -y ca-certificates
       - run: |
           pnpm run build
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          PINECONE_API_KEY: ${{ secrets.PINECONE_API_KEY }}
+          NEXTAUTH_URL: ${{ secrets.NEXTAUTH_URL }}
+          NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
+          GITHUB_CLIENT_ID: ${{ secrets.GITHUB_CLIENT_ID }}
+          GITHUB_CLIENT_SECRET: ${{ secrets.GITHUB_CLIENT_SECRET }}
+          SENDGRID_API: ${{ secrets.SENDGRID_API }}
+          FLOE_SECRET_KEY: ${{ secrets.FLOE_SECRET_KEY }}
+          FLOE_SECRET_IV: ${{ secrets.FLOE_SECRET_IV }}
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          APP_ID: ${{ secrets.APP_ID }}
+          PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
