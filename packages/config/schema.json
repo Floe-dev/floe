@@ -1,0 +1,74 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$ref": "#/definitions/Config",
+  "definitions": {
+    "Config": {
+      "type": "object",
+      "properties": {
+        "path": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        },
+        "minify": {
+          "type": "boolean"
+        },
+        "schemaId": {
+          "type": "string"
+        },
+        "tsconfig": {
+          "type": "string"
+        },
+        "expose": {
+          "type": "string",
+          "enum": [
+            "all",
+            "none",
+            "export"
+          ]
+        },
+        "topRef": {
+          "type": "boolean"
+        },
+        "jsDoc": {
+          "type": "string",
+          "enum": [
+            "none",
+            "extended",
+            "basic"
+          ]
+        },
+        "sortProps": {
+          "type": "boolean"
+        },
+        "strictTuples": {
+          "type": "boolean"
+        },
+        "skipTypeCheck": {
+          "type": "boolean"
+        },
+        "encodeRefs": {
+          "type": "boolean"
+        },
+        "extraTags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": {
+          "type": "boolean"
+        },
+        "discriminatorType": {
+          "type": "string",
+          "enum": [
+            "json-schema",
+            "open-api"
+          ]
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

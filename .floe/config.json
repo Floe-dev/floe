@@ -9,12 +9,5 @@
         "no-pricing": "error"
       }
     }
-  },
-  "prompts": {
-    "release-notes": {
-      "template": ".floe/templates/release-note.md",
-      "ruleSets": ["docs"],
-      "outdir": "release-notes"
-    }
   }
 }
