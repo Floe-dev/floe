@@ -18,6 +18,7 @@
   ],
   "author": "",
   "devDependencies": {
+    "@floe/types": "workspace:*",
     "@types/node": "^20.8.10",
     "esbuild": "^0.19.5",
     "eslint-config-custom": "workspace:*",

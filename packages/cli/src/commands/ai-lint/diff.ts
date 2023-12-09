@@ -1,5 +1,6 @@
 /* eslint-disable no-console -- Need for user output*/
 import type { Command } from "commander";
+import type { AiLintDiffResponse } from "@floe/types";
 import { truncate } from "../../utils/truncate";
 import { getRules } from "../../utils/config";
 import { api } from "../../utils/api";
@@ -46,13 +47,11 @@ export function fromDiff(program: Command) {
         const repo = options.repo || repoAndOwner?.repo;
         const { rules, rulesets } = getRules();
 
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument -- This is safe
         const rulesetsWithRules = Object.entries(rulesets).map(
           ([key, value]) => {
             return {
               name: key,
               ...value,
-              // eslint-disable-next-line @typescript-eslint/no-unsafe-argument -- This is safe
               rules: Object.entries(value.rules).map(([ruleKey, ruleValue]) => {
                 const description = rules[ruleKey];
 
@@ -75,19 +74,22 @@ export function fromDiff(program: Command) {
         try {
           const spinner = ora("Validating content...").start();
 
-          const response = await api.get("/api/v1/ai-lint-diff", {
-            params: {
-              owner,
-              repo,
-              baseSha,
-              headSha,
-              rulesets: rulesetsWithRules,
-            },
-          });
+          const response = await api.get<AiLintDiffResponse>(
+            "/api/v1/ai-lint-diff",
+            {
+              params: {
+                owner,
+                repo,
+                baseSha,
+                headSha,
+                rulesets: rulesetsWithRules,
+              },
+            }
+          );
 
           spinner.succeed("Validation complete!");
 
-          response.data.forEach((diff) => {
+          response.data?.files.forEach((diff) => {
             if (diff.violations.length > 0) {
               const rootErrorLevel = diff.violations.some(
                 (v) => v.level === "error"
@@ -107,7 +109,7 @@ export function fromDiff(program: Command) {
                 );
               }
 
-              diff.violations.forEach((violation: any) => {
+              diff.violations.forEach((violation) => {
                 const icon = violation.level === "error" ? "❌" : "⚠️";
                 const textColor =
                   violation.level === "error" ? chalk.red : chalk.yellow;
@@ -153,13 +155,8 @@ export function fromDiff(program: Command) {
               return;
             }
 
-            console.log(
-              chalk.white.bgGreen(" PASS "),
-              `📂 ${diff.filename}, ${JSON.stringify(diff.location)}`
-            );
+            console.log(chalk.white.bgGreen(" PASS "), `📂 ${diff.filename}`);
           });
-
-          return response.data;
         } catch (error) {
           console.error(error);
           process.exit(1);
