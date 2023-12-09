@@ -1,6 +1,6 @@
 import { z } from "zod";
 import OpenAI from "openai";
-import cache from "memory-cache";
+import { kv } from "@vercel/kv";
 import { minimatch } from "minimatch";
 import type { AiLintDiffResponse } from "@floe/types";
 import { createChecksum } from "~/utils/checksum";
@@ -120,7 +120,7 @@ async function handler(
     rulesets: parsed.rulesets,
   });
   const checksum = createChecksum(checksumKey);
-  const cachedVal = cache.get(checksum);
+  const cachedVal = await kv.get<AiLintDiffResponse>(checksum);
 
   if (cachedVal) {
     console.log("Cache hit");
@@ -246,8 +246,9 @@ async function handler(
     files: deduped,
   };
 
+  await kv.set(checksum, response);
   // Cache for 1 week
-  cache.put(checksum, response, 1000 * 60 * 60 * 24 * 7);
+  await kv.expire(checksum, 60 * 24 * 7);
 
   return response;
 }
