@@ -46,6 +46,7 @@ export function fromDiff(program: Command) {
         const owner = options.owner || repoAndOwner?.owner;
         const repo = options.repo || repoAndOwner?.repo;
         const { rules, rulesets } = getRules();
+        let hasOneError = false;
 
         const rulesetsWithRules = Object.entries(rulesets).map(
           ([key, value]) => {
@@ -98,6 +99,7 @@ export function fromDiff(program: Command) {
                 : "warn";
 
               if (rootErrorLevel === "error") {
+                hasOneError = true;
                 console.log(
                   chalk.white.bgRed(" ERROR "),
                   `📂 ${diff.filename}\n`
@@ -159,6 +161,12 @@ export function fromDiff(program: Command) {
           });
         } catch (error) {
           console.error(error);
+          process.exit(1);
+        }
+
+        // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- The rule is incorrect :/
+        if (hasOneError) {
+          console.log(`\n${chalk.red("Validation failed.")}`);
           process.exit(1);
         }
       }
