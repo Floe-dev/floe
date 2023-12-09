@@ -1,7 +1,9 @@
 import { z } from "zod";
 import OpenAI from "openai";
+import cache from "memory-cache";
 import { minimatch } from "minimatch";
 import type { AiLintDiffResponse } from "@floe/types";
+import { createChecksum } from "~/utils/checksum";
 import type {
   NextApiRequestExtension,
   NextApiResponseExtension,
@@ -108,6 +110,21 @@ async function handler(
     });
 
     return;
+  }
+
+  /**
+   * Check if value is cached
+   */
+  const checksumKey = JSON.stringify({
+    compareInfo,
+    rulesets: parsed.rulesets,
+  });
+  const checksum = createChecksum(checksumKey);
+  const cachedVal = cache.get(checksum);
+
+  if (cachedVal) {
+    console.log("Cache hit");
+    return cachedVal;
   }
 
   /**
@@ -225,9 +242,14 @@ async function handler(
     };
   });
 
-  return {
+  const response = {
     files: deduped,
   };
+
+  // Cache for 1 week
+  cache.put(checksum, response, 1000 * 60 * 60 * 24 * 7);
+
+  return response;
 }
 
 export default defaultResponder(handler);
