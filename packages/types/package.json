@@ -1,0 +1,10 @@
+{
+  "name": "@floe/types",
+  "version": "0.0.0",
+  "private": true,
+  "main": "index.ts",
+  "devDependencies": {
+    "openai": "^4.19.0",
+    "typescript": "^4.5.3"
+  }
+}

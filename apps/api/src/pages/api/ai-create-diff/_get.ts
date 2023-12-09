@@ -1,5 +1,6 @@
 import { z } from "zod";
 import OpenAI from "openai";
+import type { AiCreateDiffResponse } from "@floe/types";
 import type {
   NextApiRequestExtension,
   NextApiResponseExtension,
@@ -86,7 +87,7 @@ function generateUserPrompt(
 async function handler(
   { queryObj, workspace }: NextApiRequestExtension,
   res: NextApiResponseExtension
-) {
+): Promise<AiCreateDiffResponse> {
   const parsed = querySchema.parse(queryObj);
 
   const openai = new OpenAI({
@@ -152,9 +153,7 @@ async function handler(
     ],
   });
 
-  res.status(200).json({
-    response,
-  });
+  return response;
 }
 
 export default defaultResponder(handler);

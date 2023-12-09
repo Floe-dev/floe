@@ -1,6 +1,7 @@
 import { z } from "zod";
 import OpenAI from "openai";
 import { minimatch } from "minimatch";
+import type { AiLintDiffResponse } from "@floe/types";
 import type {
   NextApiRequestExtension,
   NextApiResponseExtension,
@@ -71,7 +72,7 @@ function generateUserPrompt(
 async function handler(
   { queryObj, workspace }: NextApiRequestExtension,
   res: NextApiResponseExtension
-) {
+): Promise<AiLintDiffResponse> {
   const parsed = querySchema.parse(queryObj);
 
   const openai = new OpenAI({
@@ -224,7 +225,9 @@ async function handler(
     };
   });
 
-  return deduped;
+  return {
+    files: deduped,
+  };
 }
 
 export default defaultResponder(handler);

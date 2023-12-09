@@ -30,6 +30,7 @@
     "zod": "^3.22.4"
   },
   "devDependencies": {
+    "@floe/types": "workspace:*",
     "@octokit/types": "^12.3.0",
     "@prisma/nextjs-monorepo-workaround-plugin": "^5.3.1",
     "@types/bcrypt": "^5.0.0",
