@@ -12,16 +12,14 @@ import { defaultResponder } from "~/lib/helpers/default-responder";
 import { compare } from "~/lib/normalizedGitProviders/compare";
 import { handlebars } from "~/utils/handlebars";
 import { contents } from "~/lib/normalizedGitProviders/content";
-import { getSubstringOccurrences } from "~/utils/substring-occurrences";
+import { getCacheKey } from "~/utils/get-cache-key";
 import { stringToLines } from "~/utils/string-to-lines";
 import { exampleContent, exampleOutput, exampleRules } from "./example";
 
-interface Violation {
-  code: string;
-  suggestion: string;
-  substring: string;
-  lineNumber: number;
-}
+type Violation = Pick<
+  NonNullable<AiLintDiffResponse>["files"][number]["violations"][number],
+  "code" | "fix" | "errorDescription" | "startLine" | "endLine"
+>;
 
 const querySchema = z.object({
   owner: z.string(),
@@ -84,18 +82,19 @@ async function handler(
   const systemInstructions = [
     "Your job is to function as a prose linter. You will be given CONTENT (an object where keys represent lineNumbers, and values represent content) and RULES (a dictionary). For every rule:",
     "1. Determine places where the rule is violated. You must only report on supplied rules. DO NOT add rules that have not been provided by the user.",
-    "2. Report the code of the rule.",
-    "3. Suggest a possible suggestion for fixing the violation. The suggested solution should not be the same as the violation.",
-    "4. Report the substring of the violation.",
-    "5. Report the lineNumber in which the violation occured.",
+    "2. Report the `code` of the rule.",
+    "3. Describe why the violation was triggered in `errorDescription`.",
+    "4. Suggest a `fix` for the violated lines. If the violation spans multiple lines, insert a newline character '\\n' between each line. If no fix is available, you can return 'undefined'.",
+    "5. Report the `startLine` and `endLine` numbers in which the violation occured.",
     "Return a JSON response object with the following shape:",
     `{
       "violations": [
         {
           "code": "...",
-          "suggestion": "...",
-          "substring": "...",
-          "lineNumber": "...",
+          "errorDescription": "...",
+          "fix": "...",
+          "startLine": "...",
+          "endLine": "...",
         },
         ...
       ]
@@ -116,16 +115,22 @@ async function handler(
    * Check if value is cached
    */
   const checksumKey = JSON.stringify({
+    systemInstructions,
     compareInfo,
     rulesets: parsed.rulesets,
   });
   const checksum = createChecksum(checksumKey);
-  const cachedVal = await kv.get<AiLintDiffResponse>(checksum);
+  const cacheKey = getCacheKey(1, workspace.slug, "ai-lint-diff", checksum);
+  const cachedVal = await kv.get<AiLintDiffResponse>(cacheKey);
 
   if (cachedVal) {
     console.log("Cache hit");
-    return cachedVal;
+    return {
+      ...cachedVal,
+      cached: true,
+    };
   }
+  console.log("Cache miss");
 
   /**
    * We only want to evaluate diffs that are included in a ruleset
@@ -204,24 +209,20 @@ async function handler(
 
       return {
         filename: diff.filename,
-        violations: responseJson.violations.flatMap((violation) => {
+        violations: responseJson.violations.map((violation) => {
           const rule = flatRules.find((r) => r.code === violation.code);
+          let lineContent = "";
 
-          const lineContent = lines[violation.lineNumber];
-          const occurrences = getSubstringOccurrences(
+          for (let i = violation.startLine; i <= violation.endLine; i++) {
+            lineContent += `${lines[i]}${i !== violation.endLine ? "\n" : ""}`;
+          }
+
+          return {
+            ...violation,
             lineContent,
-            violation.substring
-          );
-
-          return occurrences.map((columns) => {
-            return {
-              ...violation,
-              lineContent,
-              level: rule?.level,
-              description: rule?.description,
-              columns,
-            };
-          });
+            level: rule?.level,
+            description: rule?.description,
+          };
         }),
       };
     })
@@ -246,11 +247,14 @@ async function handler(
     files: deduped,
   };
 
-  await kv.set(checksum, response);
+  await kv.set(cacheKey, response);
   // Cache for 1 week
   await kv.expire(checksum, 60 * 24 * 7);
 
-  return response;
+  return {
+    ...response,
+    cached: false,
+  };
 }
 
 export default defaultResponder(handler);

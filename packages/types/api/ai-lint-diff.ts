@@ -2,16 +2,17 @@ export type AiLintDiffResponse =
   | {
       files: {
         violations: {
-          lineContent: string;
           level: "error" | "warn" | undefined;
           description: string | undefined;
-          columns: number[];
           code: string;
-          suggestion: string;
-          substring: string;
-          lineNumber: number;
+          errorDescription: string;
+          fix: string | undefined;
+          startLine: number;
+          endLine: number;
+          lineContent: string;
         }[];
         filename: string;
       }[];
+      cached: boolean;
     }
   | undefined;

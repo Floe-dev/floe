@@ -88,7 +88,11 @@ export function fromDiff(program: Command) {
             }
           );
 
-          spinner.succeed("Validation complete!");
+          const completionText = response.data?.cached
+            ? "Validated from cache\n"
+            : "Validated from API\n";
+
+          spinner.succeed(completionText);
 
           response.data?.files.forEach((diff) => {
             if (diff.violations.length > 0) {
@@ -113,35 +117,22 @@ export function fromDiff(program: Command) {
 
               diff.violations.forEach((violation) => {
                 const icon = violation.level === "error" ? "❌" : "⚠️";
-                const textColor =
-                  violation.level === "error" ? chalk.red : chalk.yellow;
 
                 /**
                  * Log violation code and description
                  */
                 console.log(
-                  chalk.bold(`${icon}  ${violation.code}:`),
-                  violation.description
+                  chalk.bold(
+                    `${icon} ${violation.code} @@${violation.startLine},${violation.endLine}:`
+                  ),
+                  violation.errorDescription
                 );
 
                 /**
-                 * Log substring in context
+                 * Log lines with violations
                  */
                 console.log(
-                  chalk.dim(
-                    truncate(
-                      violation.lineContent.substring(0, violation.columns[0]),
-                      40,
-                      true
-                    )
-                  ) +
-                    textColor(violation.substring) +
-                    chalk.dim(
-                      truncate(
-                        violation.lineContent.substring(violation.columns[1]),
-                        40
-                      )
-                    ),
+                  chalk.dim.strikethrough(truncate(violation.lineContent, 100)),
                   "\n"
                 );
 
@@ -149,8 +140,9 @@ export function fromDiff(program: Command) {
                  * Log suggestion
                  */
                 console.log(
-                  chalk.italic.dim(`💡 ${violation.suggestion}`),
-                  "\n"
+                  chalk.italic(
+                    `💡 ${violation.fix ? violation.fix : "No fix available"}`
+                  )
                 );
               });
 
