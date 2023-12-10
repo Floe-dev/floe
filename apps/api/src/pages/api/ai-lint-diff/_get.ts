@@ -15,6 +15,7 @@ import { contents } from "~/lib/normalizedGitProviders/content";
 import { getSubstringOccurrences } from "~/utils/substring-occurrences";
 import { stringToLines } from "~/utils/string-to-lines";
 import { exampleContent, exampleOutput, exampleRules } from "./example";
+import { getCacheKey } from "~/utils/get-cache-key";
 
 interface Violation {
   code: string;
@@ -87,7 +88,7 @@ async function handler(
     "2. Report the code of the rule.",
     "3. Suggest a possible suggestion for fixing the violation. The suggested solution should not be the same as the violation.",
     "4. Report the substring of the violation.",
-    "5. Report the lineNumber in which the violation occured.",
+    "5. Report the startLine and endLine numbers in which the violation occured.",
     "Return a JSON response object with the following shape:",
     `{
       "violations": [
@@ -95,7 +96,8 @@ async function handler(
           "code": "...",
           "suggestion": "...",
           "substring": "...",
-          "lineNumber": "...",
+          "startLine": "...",
+          "endLine": "...",
         },
         ...
       ]
@@ -116,11 +118,13 @@ async function handler(
    * Check if value is cached
    */
   const checksumKey = JSON.stringify({
+    systemInstructions,
     compareInfo,
     rulesets: parsed.rulesets,
   });
   const checksum = createChecksum(checksumKey);
-  const cachedVal = await kv.get<AiLintDiffResponse>(checksum);
+  const cacheKey = getCacheKey(1, workspace.slug, "ai-lint-diff", checksum);
+  const cachedVal = await kv.get<AiLintDiffResponse>(cacheKey);
 
   if (cachedVal) {
     console.log("Cache hit");
@@ -246,7 +250,7 @@ async function handler(
     files: deduped,
   };
 
-  await kv.set(checksum, response);
+  await kv.set(cacheKey, response);
   // Cache for 1 week
   await kv.expire(checksum, 60 * 24 * 7);
 
