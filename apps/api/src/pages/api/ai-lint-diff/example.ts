@@ -21,26 +21,18 @@ export const exampleRules = [
 export const exampleOutput = {
   violations: [
     {
-      code: "no-passive-voice",
-      suggestion:
-        "Consider rewording in active voice: 'Werner Heisenberg formulated the uncertainty principle in 1927.'",
-      substring: "was formulated",
+      code: "no-spelling-mistakes",
+      errorDescription: "The word 'moveies' is misspelled",
+      fix: "These are my top 5 favourite movies of all time:",
       startLine: 1,
       endLine: 1,
     },
     {
-      code: "no-spelling-mistakes",
-      suggestion: "Fix spelling mistake: 'presisely' -> 'precisely'",
-      substring: "presisely",
-      startLine: 4,
-      endLine: 4,
-    },
-    {
-      code: "no-acronyms",
-      suggestion: "Do not use the acronym 'HUP'",
-      substring: "HUP",
+      code: "no-lettered-lists",
+      errorDescription: "A lettered list is used. Use a numbered list instead.",
+      fix: "1. The Matrix\n2. Babe: Pig in the City\n3. Titanic",
       startLine: 2,
-      endLine: 2,
+      endLine: 4,
     },
   ],
 };
