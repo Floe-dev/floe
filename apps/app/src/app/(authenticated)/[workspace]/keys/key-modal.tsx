@@ -32,6 +32,7 @@ export function KeyModal({
       startTransition(async () => {
         const key = await rollKey(name, workspace.id);
         setOpen(false);
+        // eslint-disable-next-line no-alert -- This is temporary
         alert(key);
       });
     } catch (e) {

@@ -20,7 +20,7 @@ const oraImport = import("ora").then((m) => m.default);
 
 export function fromDiff(program: Command) {
   program
-    .command("from-diff")
+    .command("diff")
     .description("Generate content from diff")
     .requiredOption("--template <template>", "Template file")
     .option("--rulesets <rulesets...>", "Rulesets")
@@ -101,7 +101,7 @@ export function fromDiff(program: Command) {
         try {
           const spinner = ora("Generating content...").start();
 
-          const response = await api.get("/api/v1/ai-create-from-diff", {
+          const response = await api.get("/api/v1/ai-create-diff", {
             params: {
               owner,
               repo,

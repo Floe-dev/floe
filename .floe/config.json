@@ -1,22 +1,13 @@
 {
   "rules": {
-    "no-passive-voice": "Do not use passive voice.",
-    "always-use-headers": "Always use headers in markdown files."
+    "no-pricing": "Don't talk about pricing. For example, don't mention a monthly price, or if something is free."
   },
   "rulesets": {
     "docs": {
       "include": ["**/*.md"],
       "rules": {
-        "no-passive-voice": "error",
-        "always-use-headers": "error"
+        "no-pricing": "error"
       }
-    }
-  },
-  "prompts": {
-    "release-notes": {
-      "template": ".floe/templates/release-note.md",
-      "ruleSets": ["docs"],
-      "outdir": "release-notes"
     }
   }
 }

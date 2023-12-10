@@ -18,6 +18,7 @@
     "@pinecone-database/pinecone": "^1.1.2",
     "@sentry/nextjs": "^7.66.0",
     "@types/node": "20.5.9",
+    "@vercel/kv": "^1.0.1",
     "bcrypt": "^5.1.0",
     "handlebars": "^4.7.8",
     "js-tiktoken": "^1.0.7",
@@ -30,9 +31,11 @@
     "zod": "^3.22.4"
   },
   "devDependencies": {
+    "@floe/types": "workspace:*",
     "@octokit/types": "^12.3.0",
     "@prisma/nextjs-monorepo-workaround-plugin": "^5.3.1",
     "@types/bcrypt": "^5.0.0",
+    "@types/memory-cache": "^0.2.5",
     "@types/qs": "^6.9.10",
     "eslint-config-custom": "workspace:*",
     "tsconfig": "workspace:*"

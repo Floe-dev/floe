@@ -23,9 +23,10 @@ export const defaultHandler =
     const versionNumber = parseInt(query.version, 10);
 
     if (isNaN(versionNumber)) {
-      return res.status(400).json({
+      res.status(400).json({
         message: "Invalid version",
       });
+      return;
     }
 
     const handler = (
@@ -33,18 +34,18 @@ export const defaultHandler =
     )?.default;
 
     if (!handler) {
-      return res.status(405).json({
+      res.status(405).json({
         message: `Method Not Allowed (Allow: ${Object.keys(handlers).join(
           ","
         )})`,
       });
+      return;
     }
 
     try {
       await handler(req, res);
-      return;
     } catch (error) {
       console.error(error);
-      return res.status(500).json({ message: "Something went wrong" });
+      res.status(500).json({ message: "Something went wrong" });
     }
   };

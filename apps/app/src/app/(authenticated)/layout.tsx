@@ -1,9 +1,9 @@
 import { getServerSession } from "next-auth/next";
 import { redirect } from "next/navigation";
 import { db } from "@floe/db";
+import { authOptions } from "~/server/auth";
 import { Nav } from "./nav";
 import { Onboarding } from "./onboarding";
-import { authOptions } from "~/server/auth";
 
 async function getUser() {
   const session = await getServerSession(authOptions);

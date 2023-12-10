@@ -31,7 +31,6 @@ function Keys({ workspace }: KeyProps) {
             onClick: () => {
               setOpen(true);
             },
-            variant: "outline",
           },
         ]}
         subtitle="API keys allow you to authenticate with the API."

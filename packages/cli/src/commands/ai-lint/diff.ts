@@ -1,5 +1,6 @@
 /* eslint-disable no-console -- Need for user output*/
 import type { Command } from "commander";
+import type { AiLintDiffResponse } from "@floe/types";
 import { truncate } from "../../utils/truncate";
 import { getRules } from "../../utils/config";
 import { api } from "../../utils/api";
@@ -15,7 +16,7 @@ const chalkImport = import("chalk").then((m) => m.default);
 
 export function fromDiff(program: Command) {
   program
-    .command("from-diff")
+    .command("diff")
     .description("Validate content from diff")
     .option("--owner <owner>", "Owner of the repository")
     .option("--repo <repo>", "Repository name")
@@ -45,6 +46,7 @@ export function fromDiff(program: Command) {
         const owner = options.owner || repoAndOwner?.owner;
         const repo = options.repo || repoAndOwner?.repo;
         const { rules, rulesets } = getRules();
+        let hasOneError = false;
 
         const rulesetsWithRules = Object.entries(rulesets).map(
           ([key, value]) => {
@@ -73,19 +75,22 @@ export function fromDiff(program: Command) {
         try {
           const spinner = ora("Validating content...").start();
 
-          const response = await api.get("/api/v1/ai-lint-from-diff", {
-            params: {
-              owner,
-              repo,
-              baseSha,
-              headSha,
-              rulesets: rulesetsWithRules,
-            },
-          });
+          const response = await api.get<AiLintDiffResponse>(
+            "/api/v1/ai-lint-diff",
+            {
+              params: {
+                owner,
+                repo,
+                baseSha,
+                headSha,
+                rulesets: rulesetsWithRules,
+              },
+            }
+          );
 
           spinner.succeed("Validation complete!");
 
-          response.data.forEach((diff) => {
+          response.data?.files.forEach((diff) => {
             if (diff.violations.length > 0) {
               const rootErrorLevel = diff.violations.some(
                 (v) => v.level === "error"
@@ -94,6 +99,7 @@ export function fromDiff(program: Command) {
                 : "warn";
 
               if (rootErrorLevel === "error") {
+                hasOneError = true;
                 console.log(
                   chalk.white.bgRed(" ERROR "),
                   `📂 ${diff.filename}\n`
@@ -105,7 +111,7 @@ export function fromDiff(program: Command) {
                 );
               }
 
-              diff.violations.forEach((violation: any) => {
+              diff.violations.forEach((violation) => {
                 const icon = violation.level === "error" ? "❌" : "⚠️";
                 const textColor =
                   violation.level === "error" ? chalk.red : chalk.yellow;
@@ -151,15 +157,16 @@ export function fromDiff(program: Command) {
               return;
             }
 
-            console.log(
-              chalk.white.bgGreen(" PASS "),
-              `📂 ${diff.filename}, ${JSON.stringify(diff.location)}`
-            );
+            console.log(chalk.white.bgGreen(" PASS "), `📂 ${diff.filename}`);
           });
-
-          return response.data;
         } catch (error) {
           console.error(error);
+          process.exit(1);
+        }
+
+        // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- The rule is incorrect :/
+        if (hasOneError) {
+          console.log(`\n${chalk.red("Validation failed.")}`);
           process.exit(1);
         }
       }

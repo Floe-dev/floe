@@ -1,6 +1,9 @@
 import { z } from "zod";
 import OpenAI from "openai";
+import { kv } from "@vercel/kv";
 import { minimatch } from "minimatch";
+import type { AiLintDiffResponse } from "@floe/types";
+import { createChecksum } from "~/utils/checksum";
 import type {
   NextApiRequestExtension,
   NextApiResponseExtension,
@@ -71,7 +74,7 @@ function generateUserPrompt(
 async function handler(
   { queryObj, workspace }: NextApiRequestExtension,
   res: NextApiResponseExtension
-) {
+): Promise<AiLintDiffResponse> {
   const parsed = querySchema.parse(queryObj);
 
   const openai = new OpenAI({
@@ -110,6 +113,21 @@ async function handler(
   }
 
   /**
+   * Check if value is cached
+   */
+  const checksumKey = JSON.stringify({
+    compareInfo,
+    rulesets: parsed.rulesets,
+  });
+  const checksum = createChecksum(checksumKey);
+  const cachedVal = await kv.get<AiLintDiffResponse>(checksum);
+
+  if (cachedVal) {
+    console.log("Cache hit");
+    return cachedVal;
+  }
+
+  /**
    * We only want to evaluate diffs that are included in a ruleset
    */
   const diffsToEvaluate = compareInfo.diffs
@@ -145,7 +163,7 @@ async function handler(
         diff.contentsUrl,
         workspace,
         res
-      )) as string;
+      )) as unknown as string; // TODO: Can handle this better later on
 
       /**
        * Convert to lines object that is more LLM friendly
@@ -187,7 +205,7 @@ async function handler(
       return {
         filename: diff.filename,
         violations: responseJson.violations.flatMap((violation) => {
-          const rule = flatRules.find((rule) => rule.code === violation.code);
+          const rule = flatRules.find((r) => r.code === violation.code);
 
           const lineContent = lines[violation.lineNumber];
           const occurrences = getSubstringOccurrences(
@@ -224,7 +242,15 @@ async function handler(
     };
   });
 
-  return deduped;
+  const response = {
+    files: deduped,
+  };
+
+  await kv.set(checksum, response);
+  // Cache for 1 week
+  await kv.expire(checksum, 60 * 24 * 7);
+
+  return response;
 }
 
 export default defaultResponder(handler);
