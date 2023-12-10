@@ -88,11 +88,17 @@ export function fromDiff(program: Command) {
             }
           );
 
-          const completionText = response.data?.cached
-            ? "Validated from cache\n"
-            : "Validated from API\n";
+          spinner.stop();
 
-          spinner.succeed(completionText);
+          if (response.data?.cached) {
+            console.log(chalk.dim("Validated from cache"));
+          }
+
+          if (response.data?.files.length === 0) {
+            console.log(
+              chalk.dim("No violations found for current selection\n")
+            );
+          }
 
           response.data?.files.forEach((diff) => {
             if (diff.violations.length > 0) {
@@ -161,6 +167,8 @@ export function fromDiff(program: Command) {
           console.log(`\n${chalk.red("Validation failed.")}`);
           process.exit(1);
         }
+
+        console.log(`\n${chalk.green("Validation passed.")}`);
       }
     );
 }

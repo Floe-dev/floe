@@ -5,9 +5,7 @@
   },
   "rulesets": {
     "docs": {
-      "include": [
-        "**/*.md"
-      ],
+      "include": ["**/*.mdxx"],
       "rules": {
         "overly-enthusiastic": "error"
       }
