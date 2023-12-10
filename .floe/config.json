@@ -1,12 +1,13 @@
 {
+  "$schema": "https://unpkg.com/@floe/config@0.0.0/schema.json",
   "rules": {
-    "no-pricing": "Don't talk about pricing. For example, don't mention a monthly price, or if something is free."
+    "overly-enthusiastic": "Make every sentence end with an exclamation mark!"
   },
   "rulesets": {
     "docs": {
-      "include": ["**/*.md"],
+      "include": ["**/*.mdx"],
       "rules": {
-        "no-pricing": "error"
+        "overly-enthusiastic": "error"
       }
     }
   }
