@@ -138,8 +138,7 @@ export function fromDiff(program: Command) {
                  * Log lines with violations
                  */
                 console.log(
-                  chalk.dim.strikethrough(truncate(violation.lineContent, 100)),
-                  "\n"
+                  chalk.dim.strikethrough(truncate(violation.lineContent, 100))
                 );
 
                 /**
@@ -148,7 +147,8 @@ export function fromDiff(program: Command) {
                 console.log(
                   chalk.italic(
                     `💡 ${violation.fix ? violation.fix : "No fix available"}`
-                  )
+                  ),
+                  "\n"
                 );
               });
 
