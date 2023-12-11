@@ -14,8 +14,7 @@
     "@floe/tailwind": "0.0.0",
     "tsconfig": "0.0.0",
     "@floe/types": "0.0.0",
-    "@floe/ui": "0.0.0",
-    "@floe/utils": "0.0.0"
+    "@floe/ui": "0.0.0"
   },
   "changesets": ["popular-rules-beam"]
 }

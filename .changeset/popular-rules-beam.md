@@ -12,7 +12,6 @@
 "tsconfig": minor
 "@floe/types": minor
 "@floe/ui": minor
-"@floe/utils": minor
 ---
 
 Create initial alpha version.
