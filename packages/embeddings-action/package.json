@@ -1,6 +1,6 @@
 {
   "name": "@floe/embeddings-action",
-  "version": "0.0.0",
+  "version": "0.1.0-alpha.0",
   "main": "src/index.ts",
   "scripts": {
     "build": "ncc build --source-map --license licenses.txt",

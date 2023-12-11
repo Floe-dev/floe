@@ -1,0 +1,21 @@
+{
+  "mode": "pre",
+  "tag": "alpha",
+  "initialVersions": {
+    "@floe/api": "0.0.0",
+    "@floe/app": "0.0.0",
+    "@floe/docs": "0.0.0",
+    "@floe/web": "0.0.0",
+    "@floe/cli": "0.0.0",
+    "@floe/config": "0.0.0",
+    "@floe/db": "0.0.0",
+    "@floe/embeddings-action": "0.0.0",
+    "eslint-config-custom": "0.0.0",
+    "@floe/tailwind": "0.0.0",
+    "tsconfig": "0.0.0",
+    "@floe/types": "0.0.0",
+    "@floe/ui": "0.0.0",
+    "@floe/utils": "0.0.0"
+  },
+  "changesets": ["popular-rules-beam"]
+}
