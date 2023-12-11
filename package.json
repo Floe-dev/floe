@@ -15,7 +15,7 @@
     "tsconfig": "workspace:*",
     "turbo": "latest"
   },
-  "packageManager": "pnpm@8.6.10",
+  "packageManager": "pnpm@8.12.0",
   "name": "floe-ai",
   "dependencies": {
     "@changesets/cli": "^2.27.1"
