@@ -3,6 +3,7 @@
   "version": "0.1.0-alpha.0",
   "main": "./index.tsx",
   "types": "./index.tsx",
+  "private": true,
   "scripts": {
     "lint": "eslint ."
   },
