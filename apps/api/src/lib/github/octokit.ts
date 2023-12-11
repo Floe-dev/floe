@@ -17,16 +17,22 @@ export const getOctokit = async (installationId: number) => {
       privateKey: process.env.PRIVATE_KEY,
     });
 
+    console.log("INSTALLATION ID: ", installationId);
+
     // Retrieve installation access token
     const installationAuthentication = await auth({
       type: "installation",
       installationId,
     });
 
+    console.log("GITHUB TOKEN: ", installationAuthentication.token);
+
     return new Octokit({
       auth: installationAuthentication.token,
     });
   } catch (error) {
+    console.log("ERROR: ", error.message);
+
     throw new HttpError({
       message:
         "Could not authenticate with GitHub. Please make sure the GitHub App is installed.",
