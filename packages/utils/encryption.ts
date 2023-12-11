@@ -2,7 +2,7 @@ import crypto from "node:crypto";
 
 const envryptionMethod = "aes-256-cbc";
 
-if (!process.env.FLOE_SECRET_KEY || !process.env.FLOE_SECRET_KEY) {
+if (!process.env.FLOE_SECRET_KEY || !process.env.FLOE_SECRET_IV) {
   throw new Error("floeSecretKey and floeSecretIV are required");
 }
 
@@ -14,7 +14,7 @@ const key = crypto
   .substring(0, 32);
 const encryptionIV = crypto
   .createHash("sha512")
-  .update(process.env.FLOE_SECRET_KEY)
+  .update(process.env.FLOE_SECRET_IV)
   .digest("hex")
   .substring(0, 16);
 
