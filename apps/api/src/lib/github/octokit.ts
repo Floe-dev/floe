@@ -28,8 +28,9 @@ export const getOctokit = async (installationId: number) => {
     });
   } catch (error) {
     throw new HttpError({
-      message: "Could not authenticate with GitHub",
-      statusCode: 500,
+      message:
+        "Could not authenticate with GitHub. Please make sure the GitHub App is installed.",
+      statusCode: 403,
     });
   }
 };
