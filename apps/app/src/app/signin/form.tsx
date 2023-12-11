@@ -1,24 +1,15 @@
 "use client";
 
 import { signIn } from "next-auth/react";
-import type { getProviders } from "next-auth/react";
 import { Button, Input } from "@floe/ui";
 import Image from "next/image";
 import type { FormEvent } from "react";
 import { useSearchParams } from "next/navigation";
 import logo from "public/logo.png";
 
-function Form({
-  providers,
-}: {
-  providers: Awaited<ReturnType<typeof getProviders>>;
-}): JSX.Element | undefined {
+function Form(): JSX.Element | undefined {
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get("callbackUrl") || "/";
-
-  if (!providers) {
-    return undefined;
-  }
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
