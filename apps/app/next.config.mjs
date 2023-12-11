@@ -1,4 +1,4 @@
-import { PrismaPlugin } from "@prisma/nextjs-monorepo-workaround-plugin";
+const { PrismaPlugin } = require("@prisma/nextjs-monorepo-workaround-plugin");
 /**
  * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially useful
  * for Docker builds.
@@ -6,15 +6,16 @@ import { PrismaPlugin } from "@prisma/nextjs-monorepo-workaround-plugin";
 await import("./src/env.mjs");
 
 /** @type {import("next").NextConfig} */
-const config = {
-  webpack: (c, { isServer }) => {
+const nextConfig = {
+  webpack: (config, { isServer }) => {
     if (isServer) {
-      c.plugins = [...c.plugins, new PrismaPlugin()];
+      config.plugins = [...config.plugins, new PrismaPlugin()];
     }
 
     return config;
   },
+
   transpilePackages: ["@floe/ui"],
 };
 
-export default config;
+export default nextConfig;
