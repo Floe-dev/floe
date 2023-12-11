@@ -1,4 +1,4 @@
-import { decryptData } from "@floe/utils";
+import { decryptData } from "@floe/lib/encryption";
 import type {
   NextApiResponseExtension,
   Workspace,

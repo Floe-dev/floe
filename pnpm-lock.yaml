@@ -26,9 +26,9 @@ importers:
       '@floe/db':
         specifier: workspace:*
         version: link:../../packages/db
-      '@floe/utils':
+      '@floe/lib':
         specifier: workspace:*
-        version: link:../../packages/utils
+        version: link:../../packages/lib
       '@octokit/auth-app':
         specifier: ^6.0.1
         version: 6.0.1
@@ -108,12 +108,12 @@ importers:
       '@floe/db':
         specifier: workspace:*
         version: link:../../packages/db
+      '@floe/lib':
+        specifier: workspace:*
+        version: link:../../packages/lib
       '@floe/ui':
         specifier: workspace:*
         version: link:../../packages/ui
-      '@floe/utils':
-        specifier: workspace:*
-        version: link:../../packages/utils
       '@hookform/resolvers':
         specifier: ^3.3.2
         version: 3.3.2(react-hook-form@7.47.0)
@@ -451,6 +451,22 @@ importers:
         specifier: ^4.5.3
         version: 4.9.5
 
+  packages/lib:
+    dependencies:
+      slugify:
+        specifier: ^1.6.6
+        version: 1.6.6
+    devDependencies:
+      '@types/node':
+        specifier: ^20.8.10
+        version: 20.8.10
+      eslint-config-custom:
+        specifier: workspace:*
+        version: link:../eslint-config-custom
+      tsconfig:
+        specifier: workspace:*
+        version: link:../tsconfig
+
   packages/tailwind:
     devDependencies:
       '@tailwindcss/forms':
@@ -519,25 +535,6 @@ importers:
       typescript:
         specifier: ^4.5.2
         version: 4.9.5
-
-  packages/utils:
-    dependencies:
-      slugify:
-        specifier: ^1.6.6
-        version: 1.6.6
-    devDependencies:
-      '@floe/tailwind':
-        specifier: workspace:*
-        version: link:../tailwind
-      '@types/node':
-        specifier: ^20.8.10
-        version: 20.8.10
-      eslint-config-custom:
-        specifier: workspace:*
-        version: link:../eslint-config-custom
-      tsconfig:
-        specifier: workspace:*
-        version: link:../tsconfig
 
 packages:
 

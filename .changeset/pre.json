@@ -15,7 +15,10 @@
     "tsconfig": "0.0.0",
     "@floe/types": "0.0.0",
     "@floe/ui": "0.0.0",
-    "@floe/utils": "0.0.0"
+    "@floe/lib": "0.0.0"
   },
-  "changesets": ["popular-rules-beam"]
+  "changesets": [
+    "popular-rules-beam",
+    "slimy-bikes-divide"
+  ]
 }

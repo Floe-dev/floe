@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { Input } from "@floe/ui";
-import { slugify } from "@floe/utils";
+import { slugify } from "@floe/lib/slugify";
 import { getServerSession } from "next-auth";
 import { db } from "@floe/db";
 import { authOptions } from "~/server/auth";

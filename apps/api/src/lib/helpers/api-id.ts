@@ -5,9 +5,7 @@ export const apiID: CustomMiddleware = async (req, res, next) => {
 
   if (!slug) {
     res.status(401).json({
-      error: {
-        message: "No workspace slug provided",
-      },
+      message: "No workspace slug provided",
     });
     return;
   }

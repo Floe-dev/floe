@@ -3,7 +3,7 @@ import type { Command } from "commander";
 import type { AiLintDiffResponse } from "@floe/types";
 import { truncate } from "../../utils/truncate";
 import { getRules } from "../../utils/config";
-import { api } from "../../utils/api";
+import { api, logError } from "../../utils/api";
 import { checkIfValidRoot } from "../../utils/check-if-valid-root";
 import {
   getDefaultBranch,
@@ -75,9 +75,8 @@ export function fromDiff(program: Command) {
         try {
           const spinner = ora("Validating content...").start();
 
-          const response = await api.get<AiLintDiffResponse>(
-            "/api/v1/ai-lint-diff",
-            {
+          const response = await api
+            .get<AiLintDiffResponse>("/api/v1/ai-lint-diff", {
               params: {
                 owner,
                 repo,
@@ -85,8 +84,12 @@ export function fromDiff(program: Command) {
                 headSha,
                 rulesets: rulesetsWithRules,
               },
-            }
-          );
+            })
+            .catch(async (error) => {
+              spinner.stop();
+              await logError(error);
+              process.exit(1);
+            });
 
           spinner.stop();
 

@@ -8,18 +8,14 @@ export const authenticate: CustomMiddleware = async (req, res, next) => {
 
   if (!key) {
     res.status(401).json({
-      error: {
-        message: "No api key provided",
-      },
+      message: "No api key provided",
     });
     return;
   }
 
   if (!slug) {
     res.status(401).json({
-      error: {
-        message: "No workspace slug provided",
-      },
+      message: "No workspace slug provided",
     });
     return;
   }
@@ -41,9 +37,7 @@ export const authenticate: CustomMiddleware = async (req, res, next) => {
 
   if (!workspace || !workspace.encrytpedKeys[0]) {
     res.status(401).json({
-      error: {
-        message: "Invalid API key",
-      },
+      message: "Invalid API key",
     });
     return;
   }
@@ -52,9 +46,7 @@ export const authenticate: CustomMiddleware = async (req, res, next) => {
 
   if (!match) {
     res.status(401).json({
-      error: {
-        message: "Invalid API key",
-      },
+      message: "Invalid API key",
     });
     return;
   }

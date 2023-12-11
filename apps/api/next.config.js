@@ -10,7 +10,7 @@ const nextConfig = {
     return config;
   },
 
-  transpilePackages: ["@floe/db", "@floe/utils"],
+  transpilePackages: ["@floe/db", "@floe/lib"],
 
   async headers() {
     return [
