@@ -12,6 +12,8 @@ export const getOctokit = async (installationId: number) => {
    * See Step 1: https://docs.github.com/en/apps/creating-github-apps/authenticating-with-a-github-app/generating-an-installation-access-token-for-a-github-app#generating-an-installation-access-token
    */
   try {
+    console.log("PRIVATE KEY: ", process.env.PRIVATE_KEY);
+
     const auth = createAppAuth({
       appId: process.env.APP_ID,
       privateKey: JSON.parse(process.env.PRIVATE_KEY).privateKey,
