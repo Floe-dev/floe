@@ -14,6 +14,7 @@ const navigation = [
 
 export function Nav({
   user,
+  workspace,
 }: {
   user: Prisma.UserGetPayload<{
     include: {
@@ -24,6 +25,7 @@ export function Nav({
       };
     };
   }>;
+  workspace: string;
 }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const workspaces = user.workspaceMemberships.map(
@@ -131,30 +133,28 @@ export function Nav({
                           Your workspaces
                         </div>
                         <ul className="mt-2 -mx-2 space-y-1">
-                          {workspaces.map((workspace) => (
-                            <li key={workspace.name}>
+                          {workspaces.map((ws) => (
+                            <li key={ws.name}>
                               <a
                                 className={classNames(
-                                  workspace.slug
+                                  ws.slug === workspace
                                     ? "bg-gray-50 text-amber-600"
                                     : "text-gray-700 hover:text-amber-600 hover:bg-gray-50",
                                   "group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold"
                                 )}
-                                href={workspace.slug}
+                                href={ws.slug}
                               >
                                 <span
                                   className={classNames(
-                                    workspace.slug
+                                    ws.slug === workspace
                                       ? "text-amber-600 border-amber-600"
                                       : "text-gray-400 border-gray-200 group-hover:border-amber-600 group-hover:text-amber-600",
-                                    "flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border text-[0.625rem] font-medium bg-white"
+                                    "capitalize flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border text-[0.625rem] font-medium bg-white"
                                   )}
                                 >
-                                  {workspace.slug}
+                                  {ws.slug[0]}
                                 </span>
-                                <span className="truncate">
-                                  {workspace.name}
-                                </span>
+                                <span className="truncate">{ws.name}</span>
                               </a>
                             </li>
                           ))}
@@ -216,28 +216,28 @@ export function Nav({
                   Your workspaces
                 </div>
                 <ul className="mt-2 -mx-2 space-y-1">
-                  {workspaces.map((worskapce) => (
-                    <li key={worskapce.name}>
+                  {workspaces.map((ws) => (
+                    <li key={ws.name}>
                       <a
                         className={classNames(
-                          worskapce.slug
+                          ws.slug === workspace
                             ? "bg-gray-50 text-amber-600"
                             : "text-gray-700 hover:text-amber-600 hover:bg-gray-50",
                           "group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold"
                         )}
-                        href={worskapce.slug}
+                        href={ws.slug}
                       >
                         <span
                           className={classNames(
-                            worskapce.slug
+                            ws.slug === workspace
                               ? "text-amber-600 border-amber-600"
                               : "text-gray-400 border-gray-200 group-hover:border-amber-600 group-hover:text-amber-600",
-                            "flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border text-[0.625rem] font-medium bg-white"
+                            "capitalize flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border text-[0.625rem] font-medium bg-white"
                           )}
                         >
-                          {worskapce.slug}
+                          {ws.slug[0]}
                         </span>
-                        <span className="truncate">{worskapce.name}</span>
+                        <span className="truncate">{ws.name}</span>
                       </a>
                     </li>
                   ))}

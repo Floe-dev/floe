@@ -24,14 +24,16 @@ async function getUser() {
 
 export default async function WorkspaceLayout({
   children,
+  params,
 }: {
   children: React.ReactNode;
+  params: { workspace: string };
 }) {
   const user = await getUser();
 
   return (
     <>
-      <Nav user={user} />
+      <Nav user={user} workspace={params.workspace} />
       <main className="py-10 lg:pl-72">
         <div className="px-4 sm:px-6 lg:px-8">{children}</div>
       </main>
