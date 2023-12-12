@@ -14,7 +14,7 @@ export const getOctokit = async (installationId: number) => {
   try {
     const auth = createAppAuth({
       appId: process.env.APP_ID,
-      privateKey: process.env.PRIVATE_KEY,
+      privateKey: JSON.parse(process.env.PRIVATE_KEY).privateKey,
     });
 
     console.log("INSTALLATION ID: ", installationId);
