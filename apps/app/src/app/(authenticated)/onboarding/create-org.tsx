@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { Input } from "@floe/ui";
+import { Button, Input } from "@floe/ui";
 import { slugify } from "@floe/lib/slugify";
 import { getServerSession } from "next-auth";
 import { db } from "@floe/db";
@@ -46,27 +46,21 @@ export function CreateOrg() {
   }
 
   return (
-    // <Card
-    //   bottomActions={[
-    //     {
-    //       text: isLoading ? "..." : "Next step",
-    //       type: "submit",
-    //       disabled: !isValid || isLoading,
-    //       onClick: async () => {
-    //         await mutateAsync({
-    //           name: getValues("name"),
-    //           slug,
-    //         });
-    //       },
-    //     },
-    //   ]}
-    //   title="Workspace"
-    // >
-    <form action={createWorkspace} className="flex flex-col items-start gap-6">
-      <div className="flex w-full gap-4">
-        <Input label="Name*" name="name" placeholder="Acme Inc" type="text" />
-      </div>
-    </form>
-    // </Card>
+    <>
+      <p className="mb-2 text-sm text-zinc-500">1 / 2</p>
+      <h2 className="mt-0 mb-2">Create a workspace</h2>
+      <p className="mb-6">Please tell us a bit about your company.</p>
+      <form action={createWorkspace} className="flex flex-col items-start">
+        <Input
+          label="Company name*"
+          name="name"
+          placeholder="Acme Inc"
+          type="text"
+        />
+        <Button className="w-full mt-3" type="submit">
+          Continue
+        </Button>
+      </form>
+    </>
   );
 }

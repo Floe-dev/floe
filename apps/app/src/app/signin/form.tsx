@@ -26,8 +26,8 @@ function Form() {
           placeholder="blur"
           src={logo}
         />
-        <h3>Welcome</h3>
-        <p>Please enter your company email to continue.</p>
+        <h2 className="mb-2">Welcome</h2>
+        <p className="mb-6">Please enter your company email to continue.</p>
         <form onSubmit={handleSubmit}>
           <div className="space-y-2">
             <Input
