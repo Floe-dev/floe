@@ -8,7 +8,7 @@ type Variants = "contained" | "text";
 
 const classes = {
   base: "focus:outline-none inline-flex gap-2 items-center whitespace-nowrap flex-shrink-0 font-medium disabled:opacity-75 justify-center",
-  disabled: "opacity-50 cursor-not-allowed",
+  disabled: "opacity-50 cursor-not-allowed pointer-events-none",
   pill: "rounded-full",
   size: {
     sm: "px-2 py-1 text-xs rounded shadow-sm",

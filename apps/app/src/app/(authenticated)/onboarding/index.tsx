@@ -1,51 +1,28 @@
-import { Button, Input } from "@floe/ui";
-import { z } from "zod";
-import { db } from "@floe/db";
-import { slugify } from "@floe/lib/slugify";
-import { getServerSession } from "next-auth";
-import { authOptions } from "~/server/auth";
+"use client";
+
+import { Button, Input, Spinner } from "@floe/ui";
+// @ts-expect-error -- Expected according to: https://github.com/vercel/next.js/issues/56041
+import { useFormState, useFormStatus } from "react-dom";
 import { Nav } from "./nav";
+import { createWorkspace } from "./actions";
 
-const schema = z
-  .object({
-    name: z.string().min(3).max(24),
-  })
-  .required();
+const initialState = {
+  message: null,
+};
 
-async function createWorkspace(formData: FormData) {
-  "use server";
+function SubmitButton() {
+  const { pending } = useFormStatus();
 
-  const { name } = schema.parse({
-    name: formData.get("name"),
-  });
-  const slug = slugify(name);
-
-  const session = await getServerSession(authOptions);
-  const userId = session?.user.id;
-
-  if (!userId) {
-    throw new Error("User not found");
-  }
-
-  return db.workspace.create({
-    data: {
-      name,
-      slug,
-      members: {
-        createMany: {
-          data: [
-            {
-              userId: session.user.id,
-              role: "OWNER",
-            },
-          ],
-        },
-      },
-    },
-  });
+  return (
+    <Button className="w-full mt-3" disabled={pending} type="submit">
+      {pending ? <Spinner /> : "Continue"}
+    </Button>
+  );
 }
 
 export function Onboarding() {
+  const [state, formAction] = useFormState(createWorkspace, initialState);
+
   return (
     <>
       <Nav />
@@ -60,9 +37,7 @@ export function Onboarding() {
               placeholder="Acme Inc"
               type="text"
             />
-            <Button className="w-full mt-3" type="submit">
-              Continue
-            </Button>
+            <SubmitButton />
           </form>
         </div>
       </div>

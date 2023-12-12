@@ -502,6 +502,9 @@ importers:
 
   packages/ui:
     dependencies:
+      '@floe/lib':
+        specifier: workspace:*
+        version: link:../lib
       '@headlessui/react':
         specifier: ^1.7.16
         version: 1.7.16(react-dom@18.2.0)(react@18.2.0)
