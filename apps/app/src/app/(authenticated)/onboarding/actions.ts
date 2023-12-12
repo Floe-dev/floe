@@ -25,20 +25,37 @@ export async function createWorkspace(formData: FormData) {
     throw new Error("User not found");
   }
 
-  return db.workspace.create({
-    data: {
-      name,
-      slug,
-      members: {
-        createMany: {
-          data: [
-            {
-              userId: session.user.id,
-              role: "OWNER",
-            },
-          ],
+  try {
+    const workspace = await db.workspace.create({
+      data: {
+        name,
+        slug,
+        members: {
+          createMany: {
+            data: [
+              {
+                userId: session.user.id,
+                role: "OWNER",
+              },
+            ],
+          },
         },
       },
-    },
-  });
+    });
+
+    return {
+      status: "success",
+      message: "Workspace created successfully!",
+      slug: workspace.slug,
+    };
+  } catch (e) {
+    return {
+      status: "error",
+      message:
+        e.code === "P2002"
+          ? "A workspace with that name already exists."
+          : "Workspace could not be created.",
+      slug: null,
+    };
+  }
 }
