@@ -26,7 +26,7 @@ async function getUser() {
 export default async function Root() {
   const user = await getUser();
 
-  if (!user?.workspaceMemberships.length) {
+  if (!user?.completedOnboarding) {
     return <Onboarding />;
   }
 
