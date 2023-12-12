@@ -13,10 +13,12 @@ export const getOctokit = async (installationId: number) => {
    */
   try {
     console.log("PRIVATE KEY: ", process.env.PRIVATE_KEY);
+    const privateKey = JSON.parse(process.env.PRIVATE_KEY).privateKey;
+    console.log("PRIVATE KEY_PARSED: ", privateKey);
 
     const auth = createAppAuth({
       appId: process.env.APP_ID,
-      privateKey: JSON.parse(process.env.PRIVATE_KEY).privateKey,
+      privateKey,
     });
 
     console.log("INSTALLATION ID: ", installationId);
