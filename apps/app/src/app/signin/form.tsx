@@ -7,7 +7,7 @@ import type { FormEvent } from "react";
 import { useSearchParams } from "next/navigation";
 import logo from "public/logo.png";
 
-function Form(): JSX.Element | undefined {
+function Form() {
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get("callbackUrl") || "/";
 

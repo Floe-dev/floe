@@ -31,6 +31,10 @@ declare module "next-auth" {
  * @see https://next-auth.js.org/configuration/options
  */
 export const authOptions: NextAuthOptions = {
+  pages: {
+    signIn: "/signin",
+    verifyRequest: "/verify-request",
+  },
   callbacks: {
     session: ({ session, user }) => ({
       ...session,
