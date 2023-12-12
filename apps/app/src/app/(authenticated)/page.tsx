@@ -24,16 +24,6 @@ async function getUser() {
 }
 
 export default async function Root() {
-  const session = await getServerSession(authOptions);
-
-  /**
-   * Using next-auth https://next-auth.js.org/configuration/nextjs#basic-usage
-   * wasn't working. This works well though.
-   */
-  if (!session) {
-    return redirect("/signin");
-  }
-
   const user = await getUser();
 
   if (!user?.workspaceMemberships.length) {
