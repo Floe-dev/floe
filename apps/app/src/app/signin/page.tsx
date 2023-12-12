@@ -10,5 +10,9 @@ export default async function Page(): Promise<JSX.Element> {
     return redirect("/");
   }
 
-  return <Form />;
+  return (
+    <div className="px-4">
+      <Form />
+    </div>
+  );
 }

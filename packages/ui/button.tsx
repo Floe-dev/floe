@@ -7,7 +7,7 @@ import cn from "classnames";
 type Variants = "contained" | "text";
 
 const classes = {
-  base: "focus:outline-none inline-flex gap-2 items-center whitespace-nowrap flex-shrink-0 font-medium disabled:opacity-75",
+  base: "focus:outline-none inline-flex gap-2 items-center whitespace-nowrap flex-shrink-0 font-medium disabled:opacity-75 justify-center",
   disabled: "opacity-50 cursor-not-allowed",
   pill: "rounded-full",
   size: {
