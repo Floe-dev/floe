@@ -245,19 +245,17 @@ export function Nav({
               </li>
               <li className="mt-auto -mx-6">
                 <Menu as="div" className="relative">
-                  <Menu.Button className="flex items-center w-full px-6 py-3 text-sm font-semibold leading-6 text-zinc-900 gap-x-4 hover:bg-zinc-50">
+                  <Menu.Button className="flex items-center w-full px-6 py-3 text-sm leading-6 gap-x-4 hover:bg-zinc-50">
                     <span className="sr-only">Open user menu</span>
-                    <img
-                      alt=""
-                      className="w-8 h-8 rounded-full bg-zinc-50"
-                      src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                    />
                     <span className="hidden lg:flex lg:items-center">
+                      <span className="text-zinc-400 border-zinc-200 group-hover:border-amber-600 group-hover:text-amber-600 capitalize flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border text-[0.625rem] font-medium bg-white">
+                        {user.email[0]}
+                      </span>
                       <span
                         aria-hidden="true"
-                        className="ml-4 text-sm font-semibold leading-6 text-zinc-900"
+                        className="ml-4 text-sm text-zinc-600"
                       >
-                        Tom Cook
+                        {user.email}
                       </span>
                     </span>
                   </Menu.Button>

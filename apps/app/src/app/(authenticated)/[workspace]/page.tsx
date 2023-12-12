@@ -25,6 +25,8 @@ async function getWorkspace(workspaceSlug: string) {
       },
     },
     include: {
+      githubIntegration: true,
+      gitlabIntegration: true,
       encrytpedKeys: {
         select: {
           name: true,
@@ -170,9 +172,13 @@ export default async function Workspace({
   }
 
   return (
-    <>
+    <div>
+      <div className="prose prose-zinc">
+        <h2 className="mb-2">Welcome back</h2>
+        <p>Manage your keys and integrations.</p>
+      </div>
       <AuthConnect workspace={workspace} />
       <Keys workspace={workspace} />
-    </>
+    </div>
   );
 }

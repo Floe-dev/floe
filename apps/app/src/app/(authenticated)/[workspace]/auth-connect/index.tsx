@@ -9,6 +9,8 @@ import { setGitlabToken } from "./actions";
 interface AuthConnectProps {
   workspace: Prisma.WorkspaceGetPayload<{
     include: {
+      githubIntegration: true;
+      gitlabIntegration: true;
       encrytpedKeys: {
         select: {
           name: true;
@@ -38,6 +40,10 @@ export function AuthConnect({ workspace }: AuthConnectProps) {
       console.error(e);
     }
   };
+
+  if (workspace.gitlabIntegration || workspace.githubIntegration) {
+    return null;
+  }
 
   return (
     <div>
