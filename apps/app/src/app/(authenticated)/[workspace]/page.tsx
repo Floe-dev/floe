@@ -1,7 +1,8 @@
 import { getServerSession } from "next-auth";
-import { Prisma, db } from "@floe/db";
 import { Octokit } from "octokit";
 import { redirect } from "next/navigation";
+import { db } from "@floe/db";
+import type { Prisma } from "@floe/db";
 import { env } from "~/env.mjs";
 import { authOptions } from "~/server/auth";
 import Keys from "./keys";

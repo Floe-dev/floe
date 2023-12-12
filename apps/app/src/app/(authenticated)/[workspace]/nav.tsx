@@ -1,36 +1,34 @@
 "use client";
 import logo from "public/logo.png";
+import type { Prisma } from "@floe/db";
 import { Dialog, Transition } from "@headlessui/react";
 import { classNames } from "@floe/lib/class-names";
 import Image from "next/image";
-import {
-  Bars3Icon,
-  CalendarIcon,
-  ChartPieIcon,
-  DocumentDuplicateIcon,
-  FolderIcon,
-  HomeIcon,
-  UsersIcon,
-  XMarkIcon,
-} from "@heroicons/react/24/outline";
+import { Bars3Icon, HomeIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { Fragment, useState } from "react";
 import { signOut } from "next-auth/react";
 
 const navigation = [
   { name: "Dashboard", href: "#", icon: HomeIcon, current: true },
 ];
-const teams = [
-  { id: 1, name: "Heroicons", href: "#", initial: "H", current: false },
-  { id: 2, name: "Tailwind Labs", href: "#", initial: "T", current: false },
-  { id: 3, name: "Workcation", href: "#", initial: "W", current: false },
-];
-const userNavigation = [
-  { name: "Your profile", href: "#" },
-  { name: "Sign out", href: "#" },
-];
 
-export function Nav() {
+export function Nav({
+  user,
+}: {
+  user: Prisma.UserGetPayload<{
+    include: {
+      workspaceMemberships: {
+        include: {
+          workspace: true;
+        };
+      };
+    };
+  }>;
+}) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const workspaces = user.workspaceMemberships.map(
+    (membership) => membership.workspace
+  );
 
   return (
     <div>
@@ -130,31 +128,33 @@ export function Nav() {
                       </li>
                       <li>
                         <div className="text-xs font-semibold leading-6 text-gray-400">
-                          Your teams
+                          Your workspaces
                         </div>
                         <ul className="mt-2 -mx-2 space-y-1">
-                          {teams.map((team) => (
-                            <li key={team.name}>
+                          {workspaces.map((workspace) => (
+                            <li key={workspace.name}>
                               <a
                                 className={classNames(
-                                  team.current
+                                  workspace.slug
                                     ? "bg-gray-50 text-amber-600"
                                     : "text-gray-700 hover:text-amber-600 hover:bg-gray-50",
                                   "group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold"
                                 )}
-                                href={team.href}
+                                href={workspace.slug}
                               >
                                 <span
                                   className={classNames(
-                                    team.current
+                                    workspace.slug
                                       ? "text-amber-600 border-amber-600"
                                       : "text-gray-400 border-gray-200 group-hover:border-amber-600 group-hover:text-amber-600",
                                     "flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border text-[0.625rem] font-medium bg-white"
                                   )}
                                 >
-                                  {team.initial}
+                                  {workspace.slug}
                                 </span>
-                                <span className="truncate">{team.name}</span>
+                                <span className="truncate">
+                                  {workspace.name}
+                                </span>
                               </a>
                             </li>
                           ))}
@@ -213,31 +213,31 @@ export function Nav() {
               </li>
               <li>
                 <div className="text-xs font-semibold leading-6 text-gray-400">
-                  Your teams
+                  Your workspaces
                 </div>
                 <ul className="mt-2 -mx-2 space-y-1">
-                  {teams.map((team) => (
-                    <li key={team.name}>
+                  {workspaces.map((worskapce) => (
+                    <li key={worskapce.name}>
                       <a
                         className={classNames(
-                          team.current
+                          worskapce.slug
                             ? "bg-gray-50 text-amber-600"
                             : "text-gray-700 hover:text-amber-600 hover:bg-gray-50",
                           "group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold"
                         )}
-                        href={team.href}
+                        href={worskapce.slug}
                       >
                         <span
                           className={classNames(
-                            team.current
+                            worskapce.slug
                               ? "text-amber-600 border-amber-600"
                               : "text-gray-400 border-gray-200 group-hover:border-amber-600 group-hover:text-amber-600",
                             "flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border text-[0.625rem] font-medium bg-white"
                           )}
                         >
-                          {team.initial}
+                          {worskapce.slug}
                         </span>
-                        <span className="truncate">{team.name}</span>
+                        <span className="truncate">{worskapce.name}</span>
                       </a>
                     </li>
                   ))}
