@@ -40,16 +40,17 @@ export default async function AuthenticatedLayout({
   if (!user?.workspaceMemberships.length) {
     return (
       <>
-        <Nav />
         <Onboarding />
       </>
     );
   }
 
   return (
-    <div>
+    <>
       <Nav />
-      {children}
-    </div>
+      <main className="py-10 lg:pl-72">
+        <div className="px-4 sm:px-6 lg:px-8">{children}</div>
+      </main>
+    </>
   );
 }
