@@ -21,10 +21,18 @@ export function Step1() {
   const [_, startTransition] = useTransition();
   const [message, setMessage] = useState("");
   const [error, setError] = useState(false);
-  const { step, setSearchParams } = useStepsContext();
+  const { step, setSearchParams, workspace } = useStepsContext();
 
   // const [state, formAction] = useFormState(createWorkspace, initialState);
   const handleFormSubmit = (formData: FormData) => {
+    if (workspace) {
+      setSearchParams({
+        s: step + 1,
+      });
+
+      return;
+    }
+
     try {
       startTransition(async () => {
         const { message: m, status, slug } = await createWorkspace(formData);
@@ -54,20 +62,16 @@ export function Step1() {
       <p className="mb-6">Please tell us a bit about your company.</p>
       <form action={handleFormSubmit} className="flex flex-col items-start">
         <Input
+          disabled={Boolean(workspace)}
           label="Company name*"
           name="name"
           placeholder="Acme Inc"
           type="text"
+          value={workspace?.name}
         />
         <SubmitButton />
-        {message ? (
-          <p
-            className={`mt-2 text-sm ${
-              error ? "text-red-500" : "text-green-500"
-            }`}
-          >
-            {message}
-          </p>
+        {message && error ? (
+          <p className="mt-2 text-sm text-red-500">{message}</p>
         ) : null}
       </form>
     </>

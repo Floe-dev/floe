@@ -12,6 +12,7 @@ export interface DefaultContext {
       gitlabIntegration: true;
     };
   }> | null;
+  workspaceLoading: boolean;
 }
 
 export const StepsContext = createContext<DefaultContext>({} as DefaultContext);

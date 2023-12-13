@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
+import { Spinner } from "@floe/ui";
 import { Nav } from "./nav";
 import { Step1 } from "./step-1";
 import { Step2 } from "./step-2";
@@ -21,6 +22,7 @@ export default function New() {
   const step = parseInt(searchParams.get("s") ?? "1", 10);
   const workspaceSlug = searchParams.get("w");
   const [workspace, setWorkspace] = useState<DefaultContext["workspace"]>(null);
+  const [workspaceLoading, setWorkspaceLoading] = useState(false);
 
   const setSearchParams = (
     obj: Record<string, string | number | undefined | null>
@@ -36,7 +38,7 @@ export default function New() {
     const search = current.toString();
     const query = search ? `?${search}` : "";
 
-    router.push(`${pathname}${query}`);
+    router.replace(`${pathname}${query}`);
   };
 
   /**
@@ -46,6 +48,7 @@ export default function New() {
     // eslint-disable-next-line @typescript-eslint/no-floating-promises -- Need anonymous async function
     (async () => {
       if (workspaceSlug) {
+        setWorkspaceLoading(true);
         const w = await getWorkspace(workspaceSlug);
 
         if (!w) {
@@ -53,6 +56,7 @@ export default function New() {
         }
 
         setWorkspace(w);
+        setWorkspaceLoading(false);
       }
     })();
   }, [workspaceSlug, router]);
@@ -62,11 +66,19 @@ export default function New() {
       <Nav />
       <div className="flex flex-col items-center justify-center pt-32">
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-[360px] prose prose-zinc">
-          <StepsContext.Provider value={{ step, setSearchParams, workspace }}>
-            <p className="text-sm text-zinc-500">
-              {step} / {Object.keys(steps).length}
-            </p>
-            {steps[step]}
+          <StepsContext.Provider
+            value={{ step, setSearchParams, workspace, workspaceLoading }}
+          >
+            {workspaceLoading ? (
+              <Spinner />
+            ) : (
+              <>
+                <p className="text-sm text-zinc-500">
+                  {step} / {Object.keys(steps).length}
+                </p>
+                {steps[step]}
+              </>
+            )}
           </StepsContext.Provider>
         </div>
       </div>

@@ -1,30 +1,27 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect } from "react";
 import { Button } from "@floe/ui";
-import { useSearchParams } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import { useStepsContext } from "./context";
-import { setInstallationOnWorkspace } from "./actions";
 
 export function Step2() {
-  const searchParams = useSearchParams();
   const { workspace } = useStepsContext();
-
-  useEffect(() => {
-    const code = searchParams.get("code");
-    const installationId = searchParams.get("installation_id");
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises -- Need anonymous async function
-    (async () => {
-      if (code && installationId && workspace) {
-        await setInstallationOnWorkspace(code, workspace, installationId);
-      }
-    })();
-  }, [searchParams, workspace]);
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
 
   if (!workspace) {
     return null;
   }
+
+  let arr = [];
+
+  searchParams.forEach((val, key) => {
+    arr.push(key, val);
+  });
+
+  const valuesToInclude = [workspace.id, workspace.slug, pathname, ...arr];
+  const encodedState = encodeURIComponent(valuesToInclude.join(","));
 
   return (
     <>
@@ -34,7 +31,7 @@ export function Step2() {
         <div className="">GitHub</div>
         <div className="text-right">
           <Link
-            href={`https://github.com/apps/floe-app/installations/new?state=${workspace.slug}`}
+            href={`https://github.com/apps/floe-app/installations/new?state=${encodedState}`}
           >
             <Button disabled={Boolean(workspace.githubIntegration)}>
               {workspace.githubIntegration ? "Linked" : "Link account"}
@@ -45,9 +42,11 @@ export function Step2() {
         <div className="">GitLab</div>
         <div className="text-right text-zinc-500">Coming soon</div>
       </div>
-      <Button className="w-full mt-3" disabled={!workspace.githubIntegration}>
-        Continue
-      </Button>
+      <Link href={`/${workspace.slug}`}>
+        <Button className="w-full mt-3" disabled={!workspace.githubIntegration}>
+          Continue
+        </Button>
+      </Link>
     </>
   );
 }
