@@ -3,7 +3,6 @@
 import { Button, Modal, Input } from "@floe/ui";
 import type { Prisma } from "@floe/db";
 import Link from "next/link";
-import { getSession, signIn } from "next-auth/react";
 import { useState, useTransition } from "react";
 import { setGitlabToken } from "./actions";
 
@@ -26,12 +25,9 @@ interface AuthConnectProps {
 /**
  * Component to allow a user to connect their org to either a GitHub or GitLab
  */
-export async function AuthConnect({ workspace }: AuthConnectProps) {
+export function AuthConnect({ workspace }: AuthConnectProps) {
   const [open, setOpen] = useState(false);
   const [_, startTransition] = useTransition();
-
-  const session = await getSession();
-  console.log(11111, session);
 
   const handleFormSubmit = (formData: FormData) => {
     try {
@@ -51,7 +47,6 @@ export async function AuthConnect({ workspace }: AuthConnectProps) {
 
   return (
     <div>
-      <Button onClick={() => signIn("github")}>Link GitHub Account</Button>
       <Link
         href={`https://github.com/apps/floe-app/installations/new?state=${workspace.slug}`}
       >

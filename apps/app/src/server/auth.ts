@@ -1,5 +1,4 @@
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
-import GitHubProvider from "next-auth/providers/github";
 import type { MembershipRole } from "@floe/db";
 import {
   getServerSession,
@@ -32,10 +31,6 @@ declare module "next-auth" {
  * @see https://next-auth.js.org/configuration/options
  */
 export const authOptions: NextAuthOptions = {
-  pages: {
-    signIn: "/signin",
-    verifyRequest: "/verify-request",
-  },
   callbacks: {
     session: ({ session, user }) => ({
       ...session,
@@ -82,10 +77,6 @@ export const authOptions: NextAuthOptions = {
         }
       },
     },
-    GitHubProvider({
-      clientId: env.GITHUB_CLIENT_ID,
-      clientSecret: env.GITHUB_CLIENT_SECRET,
-    }),
   ],
 };
 
