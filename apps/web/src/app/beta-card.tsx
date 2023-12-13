@@ -11,7 +11,7 @@ export function BetaCard() {
       <p className="mb-8 text-lg sm:text-xl text-zinc-700">
         The Floe Closed Beta will offer early access to the Floe CLI and CI
         platform. Beta Partners will also benefit from dedicated integration
-        support, and crucially, the opportunity to help shape product.
+        support, and crucially, the opportunity to help shape the product.
       </p>
       <div className="flex justify-center gap-4 sm:justify-start">
         <Link
