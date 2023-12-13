@@ -47,19 +47,26 @@ export function AuthConnect({ workspace }: AuthConnectProps) {
 
   return (
     <div>
-      <Link
-        href={`https://github.com/apps/floe-app/installations/new?state=${workspace.slug}`}
-      >
-        <Button>Connect to GitHub</Button>
-      </Link>
-      <Button
+      <div className="px-6 py-5 prose rounded-lg shadow bg-amber-200 max-w-[400px] my-8">
+        <h2 className="mb-2 text-lg font-semibold">Connect to GitHub ⚠️ </h2>
+        <p>
+          Floe relies on GitHub to retrieve contextual information, such as pull
+          requests.
+        </p>
+        <Link
+          href={`https://github.com/apps/floe-app/installations/new?state=${workspace.slug}`}
+        >
+          <Button>Connect to GitHub</Button>
+        </Link>
+      </div>
+      {/* <Button
         onClick={() => {
           setOpen(true);
         }}
       >
         Connect to GitLab
-      </Button>
-      <Modal.Root open={open} setOpen={setOpen}>
+      </Button> */}
+      {/* <Modal.Root open={open} setOpen={setOpen}>
         <form action={handleFormSubmit}>
           <Modal.Body title="Connect to GitLab">
             <Input
@@ -72,7 +79,7 @@ export function AuthConnect({ workspace }: AuthConnectProps) {
             <Button type="submit">Connect</Button>
           </Modal.Footer>
         </form>
-      </Modal.Root>
+      </Modal.Root> */}
     </div>
   );
 }
