@@ -31,6 +31,7 @@ export function Step2() {
         <div className="">GitHub</div>
         <div className="text-right">
           <Link
+            className={workspace.githubIntegration ? "pointer-events-none" : ""}
             href={`https://github.com/apps/floe-app/installations/new?state=${encodedState}`}
           >
             <Button disabled={Boolean(workspace.githubIntegration)}>
