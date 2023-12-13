@@ -14,7 +14,7 @@ export function Step2() {
     return null;
   }
 
-  let arr = [];
+  const arr: string[] = [];
 
   searchParams.forEach((val, key) => {
     arr.push(key, val);
