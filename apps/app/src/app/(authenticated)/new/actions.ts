@@ -59,3 +59,17 @@ export async function createWorkspace(formData: FormData) {
     };
   }
 }
+
+export const getWorkspace = async (slug: string) => {
+  const workspace = await db.workspace.findUnique({
+    where: {
+      slug,
+    },
+  });
+
+  if (!workspace) {
+    return null;
+  }
+
+  return workspace;
+};

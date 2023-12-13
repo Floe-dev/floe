@@ -1,0 +1,72 @@
+"use client";
+
+import { useEffect } from "react";
+import { useRouter, usePathname, useSearchParams } from "next/navigation";
+import { Nav } from "./nav";
+import { Step1 } from "./step-1";
+import { Step2 } from "./step-2";
+import { StepsContext } from "./context";
+import { getWorkspace } from "./actions";
+
+const steps = {
+  1: <Step1 />,
+  2: <Step2 />,
+};
+
+export default function New() {
+  // const [step, setStep] = useState(1);
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const step = parseInt(searchParams.get("s") ?? "1", 10);
+  const workspaceSlug = searchParams.get("w");
+
+  const setSearchParams = (
+    obj: Record<string, string | number | undefined | null>
+  ) => {
+    // now you got a read/write object
+    const current = new URLSearchParams(Array.from(searchParams.entries()));
+
+    Object.entries(obj).forEach(([key, value]) => {
+      if (value === null || value === undefined) current.delete(key);
+      else current.set(key, value.toString());
+    });
+
+    const search = current.toString();
+    const query = search ? `?${search}` : "";
+
+    router.push(`${pathname}${query}`);
+  };
+
+  /**
+   * If the workspace in the query param doesn't exist, start over
+   */
+  useEffect(() => {
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises -- Need anonymous async function
+    (async () => {
+      if (workspaceSlug) {
+        const workspace = await getWorkspace(workspaceSlug);
+
+        if (!workspace) {
+          router.push(`/new`);
+        }
+      }
+    })();
+  }, [workspaceSlug, router]);
+
+  return (
+    <>
+      <Nav />
+      <div className="flex flex-col items-center justify-center pt-32">
+        <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-[360px] prose prose-zinc">
+          <StepsContext.Provider value={{ step, setSearchParams }}>
+            <p className="text-sm text-zinc-500">
+              {step} / {Object.keys(steps).length}
+            </p>
+            {steps[step]}
+          </StepsContext.Provider>
+        </div>
+      </div>
+    </>
+  );
+}

@@ -54,6 +54,7 @@ model User {
     name                 String?
     emailVerified        DateTime?
     image                String?
+    completedOnboarding  Boolean               @default(false)
     accounts             Account[]
     sessions             Session[]
     workspaceMemberships WorkspaceMembership[]
@@ -77,6 +78,10 @@ model Workspace {
     id                String                @id @default(cuid())
     name              String
     slug              String                @unique
+    docsOwner         String?
+    docsRepository    String?
+    docsBranch        String?
+    docsPath          String?
     members           WorkspaceMembership[]
     encrytpedKeys     EncryptedKey[]
     githubIntegration GithubIntegration?
