@@ -20,10 +20,12 @@ const handler = (req) => {
   }
 
   if (!setupAction || setupAction !== "install") {
-    redirect(`/${state}?installation_error=1`);
+    redirect(`/new?w=${state}&s=2&installation_error=1`);
   }
 
-  redirect(`/${state}?installation_id=${installationId}&code=${code}`);
+  redirect(
+    `/new?w=${state}&s=2&installation_id=${installationId}&code=${code}`
+  );
 };
 
 export { handler as GET, handler as POST };

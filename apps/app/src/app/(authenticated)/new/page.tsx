@@ -1,12 +1,13 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import { Nav } from "./nav";
 import { Step1 } from "./step-1";
 import { Step2 } from "./step-2";
-import { StepsContext } from "./context";
 import { getWorkspace } from "./actions";
+import { StepsContext } from "./context";
+import type { DefaultContext } from "./context";
 
 const steps = {
   1: <Step1 />,
@@ -14,12 +15,12 @@ const steps = {
 };
 
 export default function New() {
-  // const [step, setStep] = useState(1);
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const step = parseInt(searchParams.get("s") ?? "1", 10);
   const workspaceSlug = searchParams.get("w");
+  const [workspace, setWorkspace] = useState<DefaultContext["workspace"]>(null);
 
   const setSearchParams = (
     obj: Record<string, string | number | undefined | null>
@@ -45,11 +46,13 @@ export default function New() {
     // eslint-disable-next-line @typescript-eslint/no-floating-promises -- Need anonymous async function
     (async () => {
       if (workspaceSlug) {
-        const workspace = await getWorkspace(workspaceSlug);
+        const w = await getWorkspace(workspaceSlug);
 
-        if (!workspace) {
+        if (!w) {
           router.push(`/new`);
         }
+
+        setWorkspace(w);
       }
     })();
   }, [workspaceSlug, router]);
@@ -59,7 +62,7 @@ export default function New() {
       <Nav />
       <div className="flex flex-col items-center justify-center pt-32">
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-[360px] prose prose-zinc">
-          <StepsContext.Provider value={{ step, setSearchParams }}>
+          <StepsContext.Provider value={{ step, setSearchParams, workspace }}>
             <p className="text-sm text-zinc-500">
               {step} / {Object.keys(steps).length}
             </p>
