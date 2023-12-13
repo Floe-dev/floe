@@ -36,13 +36,18 @@ export function Step2() {
           <Link
             href={`https://github.com/apps/floe-app/installations/new?state=${workspace.slug}`}
           >
-            <Button>Link account</Button>
+            <Button disabled={Boolean(workspace.githubIntegration)}>
+              {workspace.githubIntegration ? "Linked" : "Link account"}
+            </Button>
           </Link>
         </div>
 
         <div className="">GitLab</div>
         <div className="text-right text-zinc-500">Coming soon</div>
       </div>
+      <Button className="w-full mt-3" disabled={!workspace.githubIntegration}>
+        Continue
+      </Button>
     </>
   );
 }

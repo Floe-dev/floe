@@ -83,13 +83,6 @@ export async function getWorkspace(workspaceSlug: string) {
     include: {
       githubIntegration: true,
       gitlabIntegration: true,
-      encrytpedKeys: {
-        select: {
-          name: true,
-          slug: true,
-          createdAt: true,
-        },
-      },
     },
   });
 }
@@ -101,13 +94,8 @@ export async function setInstallationOnWorkspace(
   code: string,
   workspace: Prisma.WorkspaceGetPayload<{
     include: {
-      encrytpedKeys: {
-        select: {
-          name: true;
-          slug: true;
-          createdAt: true;
-        };
-      };
+      githubIntegration: true;
+      gitlabIntegration: true;
     };
   }>,
   installationId: string

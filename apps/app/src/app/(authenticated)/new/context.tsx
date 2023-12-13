@@ -10,13 +10,6 @@ export interface DefaultContext {
     include: {
       githubIntegration: true;
       gitlabIntegration: true;
-      encrytpedKeys: {
-        select: {
-          name: true;
-          slug: true;
-          createdAt: true;
-        };
-      };
     };
   }> | null;
 }
