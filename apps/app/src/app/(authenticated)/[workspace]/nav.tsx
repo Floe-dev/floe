@@ -4,7 +4,7 @@ import type { Prisma } from "@floe/db";
 import { Menu, Dialog, Transition } from "@headlessui/react";
 import { classNames } from "@floe/lib/class-names";
 import Image from "next/image";
-import { Bars3Icon, HomeIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import { Bars3Icon, HomeIcon, XMarkIcon } from "@heroicons/react/20/solid";
 import { Fragment, useState } from "react";
 import { signOut } from "next-auth/react";
 
@@ -104,7 +104,7 @@ export function Nav({
                                   item.current
                                     ? "bg-zinc-50 text-amber-600"
                                     : "text-zinc-700 hover:text-amber-600 hover:bg-zinc-50",
-                                  "group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold"
+                                  "group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold items-center"
                                 )}
                                 href={item.href}
                               >
@@ -114,7 +114,7 @@ export function Nav({
                                     item.current
                                       ? "text-amber-600"
                                       : "text-zinc-400 group-hover:text-amber-600",
-                                    "h-6 w-6 shrink-0"
+                                    "h-5 w-5 shrink-0"
                                   )}
                                 />
                                 {item.name}
@@ -182,7 +182,7 @@ export function Nav({
                           item.current
                             ? "bg-zinc-50 text-amber-600"
                             : "text-zinc-700 hover:text-amber-600 hover:bg-zinc-50",
-                          "group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold"
+                          "group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold items-center"
                         )}
                         href={item.href}
                       >
@@ -192,7 +192,7 @@ export function Nav({
                             item.current
                               ? "text-amber-600"
                               : "text-zinc-400 group-hover:text-amber-600",
-                            "h-6 w-6 shrink-0"
+                            "h-5 w-5 shrink-0"
                           )}
                         />
                         {item.name}
