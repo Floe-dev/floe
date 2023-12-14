@@ -54,10 +54,16 @@ export function KeyModal({
     }
   };
 
+  const closeModal = () => {
+    setOpen(false);
+    setName("");
+    setNewKey("");
+  };
+
   return (
     <>
       {/* Create key modal */}
-      <Modal.Root open={open ? !newKey : false} setOpen={setOpen}>
+      <Modal.Root open={open ? !newKey : false} setOpen={closeModal}>
         <form action={handleFormSubmit}>
           <Modal.Body
             subTitle="Give your key a descriptive name."
@@ -79,10 +85,10 @@ export function KeyModal({
       </Modal.Root>
 
       {/* Copy key modal */}
-      <Modal.Root open={open ? Boolean(newKey) : false} setOpen={setOpen}>
+      <Modal.Root open={open ? Boolean(newKey) : false} setOpen={closeModal}>
         <form
           action={() => {
-            setOpen(false);
+            closeModal();
           }}
         >
           <Modal.Body
