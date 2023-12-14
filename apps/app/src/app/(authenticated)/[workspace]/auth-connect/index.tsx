@@ -1,10 +1,11 @@
 "use client";
 
-import { Button, Modal, Input } from "@floe/ui";
+import { Button } from "@floe/ui";
 import type { Prisma } from "@floe/db";
 import Link from "next/link";
-import { useState, useTransition } from "react";
-import { setGitlabToken } from "./actions";
+import { useGitHubInstallationURL } from "~/lib/github-installation-url";
+// import { useState, useTransition } from "react";
+// import { setGitlabToken } from "./actions";
 
 interface AuthConnectProps {
   workspace: Prisma.WorkspaceGetPayload<{
@@ -26,22 +27,30 @@ interface AuthConnectProps {
  * Component to allow a user to connect their org to either a GitHub or GitLab
  */
 export function AuthConnect({ workspace }: AuthConnectProps) {
-  const [open, setOpen] = useState(false);
-  const [_, startTransition] = useTransition();
+  // const [open, setOpen] = useState(false);
+  // const [_, startTransition] = useTransition();
 
-  const handleFormSubmit = (formData: FormData) => {
-    try {
-      startTransition(async () => {
-        await setGitlabToken(workspace.id, formData);
-        setOpen(false);
-      });
-    } catch (e) {
-      // TODO: Add toast alert to handle error
-      console.error(e);
-    }
-  };
+  // const handleFormSubmit = (formData: FormData) => {
+  //   try {
+  //     startTransition(async () => {
+  //       await setGitlabToken(workspace.id, formData);
+  //       setOpen(false);
+  //     });
+  //   } catch (e) {
+  //     // TODO: Add toast alert to handle error
+  //     console.error(e);
+  //   }
+  // };
+  const installationUrl = useGitHubInstallationURL(
+    workspace.id,
+    workspace.slug
+  );
 
-  if (workspace.gitlabIntegration || workspace.githubIntegration) {
+  if (
+    workspace.gitlabIntegration ||
+    workspace.githubIntegration ||
+    !installationUrl
+  ) {
     return null;
   }
 
@@ -53,12 +62,11 @@ export function AuthConnect({ workspace }: AuthConnectProps) {
           Floe relies on GitHub to retrieve contextual information, such as pull
           requests.
         </p>
-        <Link
-          href={`https://github.com/apps/floe-app/installations/new?state=${workspace.slug}`}
-        >
+        <Link href={installationUrl}>
           <Button>Connect to GitHub</Button>
         </Link>
       </div>
+      {/* TODO: Can add GitLab integration back later */}
       {/* <Button
         onClick={() => {
           setOpen(true);

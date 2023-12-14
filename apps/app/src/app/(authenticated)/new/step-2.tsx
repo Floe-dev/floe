@@ -1,26 +1,20 @@
 "use client";
 
 import { Button } from "@floe/ui";
-import { redirect, usePathname, useSearchParams } from "next/navigation";
+import { redirect } from "next/navigation";
+import { useGitHubInstallationURL } from "~/lib/github-installation-url";
 import { useStepsContext } from "./context";
 
 export function Step2() {
   const { workspace } = useStepsContext();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
+  const installationUrl = useGitHubInstallationURL(
+    workspace?.id,
+    workspace?.slug
+  );
 
-  if (!workspace) {
+  if (!workspace || !installationUrl) {
     return null;
   }
-
-  const arr: string[] = [];
-
-  searchParams.forEach((val, key) => {
-    arr.push(key, val);
-  });
-
-  const valuesToInclude = [workspace.id, workspace.slug, pathname, ...arr];
-  const encodedState = encodeURIComponent(valuesToInclude.join(","));
 
   return (
     <>
@@ -37,9 +31,7 @@ export function Step2() {
                 return;
               }
 
-              window.open(
-                `https://github.com/apps/floe-app/installations/new?state=${encodedState}`
-              );
+              window.open(installationUrl);
             }}
           >
             {workspace.githubIntegration ? "Linked" : "Link account"}

@@ -6,6 +6,7 @@ import { redirect } from "next/navigation";
 import { Octokit } from "octokit";
 import { env } from "~/env.mjs";
 import { authOptions } from "~/server/auth";
+import { parseGitHubInstallationCallback } from "~/lib/github-installation-url";
 
 const schema = z
   .object({
@@ -35,26 +36,7 @@ const handler = async (req) => {
     });
   }
 
-  console.log("installationId", installationId);
-  console.log("code", code);
-  console.log("state", state);
-
-  const [id, slug, path, ...params] = state
-    .split(",")
-    .map((value) => decodeURIComponent(value));
-
-  // In the params array, even numbers are keys, while odd numbers are values.
-  // Convert to a query string.
-  const queryString = params
-    .reduce((acc, cur, i) => {
-      // If even
-      if (i % 2 === 0) {
-        return [...acc, `${cur}=${params[i + 1]}`];
-      }
-      return acc;
-    }, [])
-    .join("&");
-  const url = `${path}${queryString.length ? "?" : ""}${queryString}`;
+  const { id, slug, path, url } = parseGitHubInstallationCallback(state);
 
   if (!path || !slug || !id) {
     throw new HttpError({
