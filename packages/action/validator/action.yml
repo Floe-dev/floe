@@ -2,5 +2,5 @@ name: "Floe Validator"
 description: "Floe Validator"
 
 runs:
-  using: "node16"
+  using: "node20"
   main: "../dist/validator/index.js"

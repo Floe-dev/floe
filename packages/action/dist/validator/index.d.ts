@@ -1,1 +1,1 @@
-declare function run(): void;
+declare function run(): Promise<void>;

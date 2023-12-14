@@ -7,10 +7,10 @@ require('./sourcemap-register.js');/******/ (() => { // webpackBootstrap
 /************************************************************************/
 var __webpack_exports__ = {};
 
-function run() {
+async function run() {
     console.log("Hello World");
 }
-run();
+void run();
 
 module.exports = __webpack_exports__;
 /******/ })()

@@ -315,6 +315,9 @@ importers:
       '@actions/github':
         specifier: ^6.0.0
         version: 6.0.0
+      '@floe/cli':
+        specifier: workspace:*
+        version: link:../cli
       axios:
         specifier: ^1.6.0
         version: 1.6.0
@@ -325,6 +328,9 @@ importers:
         specifier: ^9.0.1
         version: 9.0.1
     devDependencies:
+      '@types/get-installed-path':
+        specifier: ^4.0.3
+        version: 4.0.3
       '@types/node':
         specifier: ^20.8.10
         version: 20.9.0
@@ -3280,6 +3286,10 @@ packages:
 
   /@types/estree@1.0.3:
     resolution: {integrity: sha512-CS2rOaoQ/eAgAfcTfq6amKG7bsN+EMcgGY4FAFQdvSj2y1ixvOZTUA9mOtCai7E1SYu283XNw7urKK30nP3wkQ==}
+
+  /@types/get-installed-path@4.0.3:
+    resolution: {integrity: sha512-Xe6nTuvKO3dumMspsmf1ewkre85fhmQmM1yIv2fkyZRYqXU1ONYAH9b2HMDiykPvdjFUheud4pizBEpI7t6OUw==}
+    dev: true
 
   /@types/glob@7.2.0:
     resolution: {integrity: sha512-ZUxbzKl0IfJILTS6t7ip5fQQM/J3TJYubDm3nMbgubNNYS62eXeUpoLUC8/7fJNiFYHTrGPQn7hspDUzIHX3UA==}

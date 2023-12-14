@@ -1,5 +1,5 @@
-function run() {
+async function run() {
   console.log("Hello World");
 }
 
-run();
+void run();
