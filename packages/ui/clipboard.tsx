@@ -26,11 +26,17 @@ export function Clipboard({
   };
 
   return (
-    <button className={className} onClick={() => copyToClipboard()}>
+    <button
+      className={className}
+      onClick={async (e) => {
+        e.preventDefault();
+        await copyToClipboard();
+      }}
+    >
       {!copied ? (
         <ClipboardDocumentIcon className="w-5 h-5 text-gray-400 animate-fade-in" />
       ) : (
-        <ClipboardDocumentCheckIcon className="w-5 h-5 text-green-500 animate-fade-in" />
+        <ClipboardDocumentCheckIcon className="w-5 h-5 text-green-600 animate-fade-in" />
       )}
     </button>
   );

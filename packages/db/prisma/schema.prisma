@@ -50,10 +50,11 @@ model Session {
 
 model User {
     id                   String                @id @default(cuid())
+    email                String                @unique
     name                 String?
-    email                String?               @unique
     emailVerified        DateTime?
     image                String?
+    completedOnboarding  Boolean               @default(false)
     accounts             Account[]
     sessions             Session[]
     workspaceMemberships WorkspaceMembership[]
@@ -77,6 +78,10 @@ model Workspace {
     id                String                @id @default(cuid())
     name              String
     slug              String                @unique
+    docsOwner         String?
+    docsRepository    String?
+    docsBranch        String?
+    docsPath          String?
     members           WorkspaceMembership[]
     encrytpedKeys     EncryptedKey[]
     githubIntegration GithubIntegration?
