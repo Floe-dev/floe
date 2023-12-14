@@ -1,26 +1,4 @@
-import axios from "axios";
-
 const chalkImport = import("chalk").then((m) => m.default);
-
-export function getBaseUrl() {
-  if (process.env.FLOE_API_ENDPOINT)
-    // reference for vercel.com
-    return process.env.FLOE_API_ENDPOINT;
-
-  // assume localhost
-  return "https://api.floe.dev";
-}
-
-const floeApiSecret = process.env.FLOE_API_SECRET;
-const floeApiWorkspace = process.env.FLOE_API_WORKSPACE;
-
-export const api = axios.create({
-  baseURL: getBaseUrl(),
-  headers: {
-    ...(floeApiSecret && { "x-api-key": floeApiSecret }),
-    ...(floeApiWorkspace && { "x-api-workspace": floeApiWorkspace }),
-  },
-});
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any -- This is the type returned by Axios
 export async function logError(error: any) {

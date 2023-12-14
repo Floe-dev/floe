@@ -1,6 +1,6 @@
 {
   "name": "@floe/config",
-  "version": "0.1.0-alpha.0",
+  "version": "0.1.0-alpha.2",
   "description": "",
   "scripts": {
     "generate": "ts-node --esm generate.ts",

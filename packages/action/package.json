@@ -1,6 +1,6 @@
 {
   "name": "@floe/action",
-  "version": "0.1.0-alpha.0",
+  "version": "0.1.0-alpha.1",
   "private": true,
   "scripts": {
     "build": "pnpm validator:build",
@@ -10,7 +10,8 @@
   "dependencies": {
     "@actions/core": "^1.10.1",
     "@actions/github": "^6.0.0",
-    "@floe/cli": "workspace:*",
+    "@floe/lib": "workspace:*",
+    "@floe/types": "workspace:*",
     "axios": "^1.6.0",
     "glob": "^10.3.10",
     "uuid": "^9.0.1"

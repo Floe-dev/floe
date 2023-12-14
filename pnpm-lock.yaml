@@ -315,9 +315,12 @@ importers:
       '@actions/github':
         specifier: ^6.0.0
         version: 6.0.0
-      '@floe/cli':
+      '@floe/lib':
         specifier: workspace:*
-        version: link:../cli
+        version: link:../lib
+      '@floe/types':
+        specifier: workspace:*
+        version: link:../types
       axios:
         specifier: ^1.6.0
         version: 1.6.0
@@ -355,6 +358,9 @@ importers:
       '@floe/config':
         specifier: workspace:*
         version: link:../config
+      '@floe/lib':
+        specifier: workspace:*
+        version: link:../lib
       '@inquirer/prompts':
         specifier: ^3.3.0
         version: 3.3.0
@@ -463,10 +469,16 @@ importers:
 
   packages/lib:
     dependencies:
+      axios:
+        specifier: ^1.6.0
+        version: 1.6.0
       slugify:
         specifier: ^1.6.6
         version: 1.6.6
     devDependencies:
+      '@floe/config':
+        specifier: workspace:*
+        version: link:../config
       '@types/node':
         specifier: ^20.8.10
         version: 20.8.10
