@@ -33,7 +33,7 @@ function Root({ open, setOpen, children }: RootProps) {
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <div className="fixed inset-0 transition-opacity bg-gray-500 bg-opacity-75" />
+          <div className="fixed inset-0 transition-opacity bg-opacity-75 bg-zinc-500" />
         </Transition.Child>
 
         <div className="fixed inset-0 z-50 overflow-y-auto">
@@ -50,7 +50,7 @@ function Root({ open, setOpen, children }: RootProps) {
               <Dialog.Panel className="relative text-left transition-all transform shadow-xl sm:my-8 sm:w-full sm:max-w-lg">
                 <div className="absolute top-0 right-0 hidden pt-4 pr-4 sm:block">
                   <button
-                    className="text-gray-400 bg-white rounded-md hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2"
+                    className="bg-white rounded-md text-zinc-400 hover:text-zinc-500 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2"
                     onClick={() => {
                       setOpen(false);
                     }}
@@ -78,13 +78,13 @@ function Body({ title, subTitle, children }: BodyProps) {
           {title ? (
             <Dialog.Title
               as="h3"
-              className="text-base font-semibold leading-6 text-gray-900"
+              className="text-lg font-semibold leading-6 text-zinc-900"
             >
               {title}
             </Dialog.Title>
           ) : null}
           {subTitle ? (
-            <Dialog.Title as="h3" className="mt-2 text-sm text-gray-500">
+            <Dialog.Title as="h3" className="mt-2 text-zinc-500">
               {subTitle}
             </Dialog.Title>
           ) : null}
@@ -97,7 +97,7 @@ function Body({ title, subTitle, children }: BodyProps) {
 
 function Footer({ children }: FooterProps) {
   return (
-    <div className="px-4 py-3 rounded-b-lg bg-gray-50 sm:flex sm:flex-row-reverse sm:px-6">
+    <div className="px-4 py-3 rounded-b-lg bg-zinc-50 sm:flex sm:flex-row-reverse sm:px-6">
       {children}
     </div>
   );
