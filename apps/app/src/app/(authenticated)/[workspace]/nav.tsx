@@ -24,11 +24,11 @@ export function Nav({
         };
       };
     };
-  }>;
+  }> | null;
   workspace: string;
 }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const workspaces = user.workspaceMemberships.map(
+  const workspaces = user?.workspaceMemberships.map(
     (membership) => membership.workspace
   );
 
@@ -133,7 +133,7 @@ export function Nav({
                           Your workspaces
                         </div>
                         <ul className="mt-2 -mx-2 space-y-1">
-                          {workspaces.map((ws) => (
+                          {workspaces?.map((ws) => (
                             <li key={ws.name}>
                               <a
                                 className={classNames(
@@ -216,7 +216,7 @@ export function Nav({
                   Your workspaces
                 </div>
                 <ul className="mt-2 -mx-2 space-y-1">
-                  {workspaces.map((ws) => (
+                  {workspaces?.map((ws) => (
                     <li key={ws.name}>
                       <a
                         className={classNames(
@@ -247,15 +247,15 @@ export function Nav({
                 <Menu as="div" className="relative">
                   <Menu.Button className="flex items-center w-full px-6 py-3 text-sm leading-6 gap-x-4 hover:bg-zinc-50">
                     <span className="sr-only">Open user menu</span>
-                    <span className="hidden lg:flex lg:items-center">
+                    <span className="hidden overflow-hidden lg:flex lg:items-center">
                       <span className="text-zinc-400 border-zinc-200 group-hover:border-amber-600 group-hover:text-amber-600 capitalize flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border text-[0.625rem] font-medium bg-white">
-                        {user.email[0]}
+                        {user?.email[0]}
                       </span>
                       <span
                         aria-hidden="true"
-                        className="ml-4 text-sm text-zinc-600"
+                        className="ml-3 text-sm truncate text-zinc-600"
                       >
-                        {user.email}
+                        {user?.email}
                       </span>
                     </span>
                   </Menu.Button>
