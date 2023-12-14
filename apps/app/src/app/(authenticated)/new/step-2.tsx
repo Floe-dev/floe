@@ -37,7 +37,7 @@ export function Step2() {
                 return;
               }
 
-              redirect(
+              window.open(
                 `https://github.com/apps/floe-app/installations/new?state=${encodedState}`
               );
             }}
