@@ -1,5 +1,5 @@
 {
-  "name": "@floe/embeddings-action",
+  "name": "@floe/action",
   "version": "0.1.0-alpha.0",
   "main": "src/index.ts",
   "private": true,
@@ -10,10 +10,8 @@
   "dependencies": {
     "@actions/core": "^1.10.1",
     "@actions/github": "^6.0.0",
-    "@pinecone-database/pinecone": "^1.1.2",
     "axios": "^1.6.0",
     "glob": "^10.3.10",
-    "openai": "^4.19.0",
     "uuid": "^9.0.1"
   },
   "devDependencies": {

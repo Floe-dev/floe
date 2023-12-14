@@ -1,0 +1,12 @@
+name: "lint"
+on:
+  pull_request:
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Validate
+        uses: ./packages/action
+        with:
+          validatePullRequest: "true"
