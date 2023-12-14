@@ -54,7 +54,6 @@ model User {
     name                 String?
     emailVerified        DateTime?
     image                String?
-    completedOnboarding  Boolean               @default(false)
     accounts             Account[]
     sessions             Session[]
     workspaceMemberships WorkspaceMembership[]

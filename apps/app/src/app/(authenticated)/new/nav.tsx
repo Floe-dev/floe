@@ -7,12 +7,7 @@ import { signOut } from "next-auth/react";
 export function Nav() {
   return (
     <nav className="flex justify-between p-6">
-      <Image
-        alt="Floe logo"
-        className="w-auto h-6"
-        placeholder="blur"
-        src={logo}
-      />
+      <Image alt="Floe logo" className="w-auto h-6" src={logo} />
       <button
         className="self-start text-sm text-zinc-500"
         onClick={() => signOut()}
