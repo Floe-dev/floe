@@ -26,12 +26,12 @@ const classes = {
     primary: {
       contained:
         "text-white bg-amber-600 hover:bg-amber-700 focus:ring-2 focus:ring-amber-500 focus:ring-opacity-50",
-      text: "hover:bg-zinc-950/10 text-amber-700 shadow-none",
+      text: "hover:bg-zinc-950/10 text-amber-700 !shadow-none",
     },
     secondary: {
       contained:
         "text-white bg-zinc-800 hover:bg-zinc-900 focus:ring-2 focus:ring-amber-700 focus:ring-opacity-50",
-      text: "hover:bg-zinc-950/10 text-zinc-700 shadow-none",
+      text: "hover:bg-zinc-950/10 text-zinc-700 !shadow-none",
     },
   },
 } as const;

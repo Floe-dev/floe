@@ -1,8 +1,7 @@
 "use client";
 
-import Link from "next/link";
 import { Button } from "@floe/ui";
-import { usePathname, useSearchParams } from "next/navigation";
+import { redirect, usePathname, useSearchParams } from "next/navigation";
 import { useStepsContext } from "./context";
 
 export function Step2() {
@@ -28,26 +27,46 @@ export function Step2() {
       <h2 className="mb-2">Connect</h2>
       <p className="mb-6">Floe relies on git providers for context.</p>
       <div className="grid grid-cols-2 gap-4">
-        <div className="">GitHub</div>
+        <div className="text-zinc-500">GitHub</div>
         <div className="text-right">
-          <Link
-            className={workspace.githubIntegration ? "pointer-events-none" : ""}
-            href={`https://github.com/apps/floe-app/installations/new?state=${encodedState}`}
+          <Button
+            color="secondary"
+            disabled={Boolean(workspace.githubIntegration)}
+            onClick={() => {
+              if (workspace.githubIntegration) {
+                return;
+              }
+
+              redirect(
+                `https://github.com/apps/floe-app/installations/new?state=${encodedState}`
+              );
+            }}
           >
-            <Button disabled={Boolean(workspace.githubIntegration)}>
-              {workspace.githubIntegration ? "Linked" : "Link account"}
-            </Button>
-          </Link>
+            {workspace.githubIntegration ? "Linked" : "Link account"}
+          </Button>
         </div>
 
-        <div className="">GitLab</div>
-        <div className="text-right text-zinc-500">Coming soon</div>
+        <div className="text-zinc-500">GitLab</div>
+        {/* <div className="text-sm text-right text-zinc-500">Coming soon</div> */}
+        <div className="text-right">
+          <Button color="secondary" disabled variant="text">
+            Coming soon
+          </Button>
+        </div>
       </div>
-      <Link href={`/${workspace.slug}`}>
-        <Button className="w-full mt-3" disabled={!workspace.githubIntegration}>
-          Continue
-        </Button>
-      </Link>
+      <Button
+        className="w-full mt-3"
+        disabled={!workspace.githubIntegration}
+        onClick={() => {
+          if (!workspace.githubIntegration) {
+            return;
+          }
+
+          redirect(`/${workspace.slug}`);
+        }}
+      >
+        Continue
+      </Button>
     </>
   );
 }
