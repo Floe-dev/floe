@@ -1,10 +1,10 @@
 {
   "name": "@floe/action",
   "version": "0.1.0-alpha.0",
-  "main": "src/index.ts",
   "private": true,
   "scripts": {
-    "build": "ncc build --source-map --license licenses.txt",
+    "build": "pnpm validator:build",
+    "validator:build": "ncc build src/validator/index.ts --out dist/validator --source-map --license licenses.txt",
     "lint": "eslint ."
   },
   "dependencies": {
