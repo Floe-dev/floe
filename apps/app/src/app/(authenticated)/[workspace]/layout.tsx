@@ -34,7 +34,7 @@ export default async function WorkspaceLayout({
   return (
     <>
       <Nav user={user} workspace={params.workspace} />
-      <main className="py-10 lg:pl-72">
+      <main className="z-50 py-10 lg:pl-72">
         <div className="px-4 sm:px-6 lg:px-8">{children}</div>
       </main>
     </>
