@@ -11,7 +11,7 @@ function SubmitButton() {
   const { pending } = useFormStatus();
 
   return (
-    <Button className="w-full mt-3" disabled={pending} type="submit">
+    <Button className="w-full mt-6" disabled={pending} type="submit">
       {pending ? <Spinner /> : "Continue"}
     </Button>
   );
@@ -58,8 +58,8 @@ export function Step1() {
 
   return (
     <>
-      <h2 className="mb-2">Create a workspace</h2>
-      <p className="mb-6">Please tell us a bit about your company.</p>
+      <h2 className="mt-0 mb-2">Create a workspace</h2>
+      <p className="mb-10">Please tell us a bit about your company.</p>
       <form action={handleFormSubmit} className="flex flex-col items-start">
         <Input
           disabled={Boolean(workspace)}

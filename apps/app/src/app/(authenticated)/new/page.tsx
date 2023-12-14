@@ -22,7 +22,7 @@ export default function New() {
   const step = parseInt(searchParams.get("s") ?? "1", 10);
   const workspaceSlug = searchParams.get("w");
   const [workspace, setWorkspace] = useState<DefaultContext["workspace"]>(null);
-  const [workspaceLoading, setWorkspaceLoading] = useState(false);
+  const [workspaceLoading, setWorkspaceLoading] = useState(true);
 
   const setSearchParams = (
     obj: Record<string, string | number | undefined | null>
@@ -57,6 +57,8 @@ export default function New() {
 
         setWorkspace(w);
         setWorkspaceLoading(false);
+      } else {
+        setWorkspaceLoading(false);
       }
     })();
   }, [workspaceSlug, router]);
@@ -64,13 +66,15 @@ export default function New() {
   return (
     <>
       <Nav />
-      <div className="flex flex-col items-center justify-center pt-32">
-        <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-[360px] prose prose-zinc">
+      <div className="flex flex-col items-center justify-center pt-16">
+        <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-[360px] prose prose-zinc flex flex-col">
           <StepsContext.Provider
             value={{ step, setSearchParams, workspace, workspaceLoading }}
           >
             {workspaceLoading ? (
-              <Spinner />
+              <span className="mx-auto">
+                <Spinner color="zinc" />
+              </span>
             ) : (
               <>
                 <p className="text-sm text-zinc-500">
