@@ -1,8 +1,6 @@
 name: "Floe Validator"
 description: "Floe Validator"
 
-inputs:
-
 runs:
   using: "node16"
   main: "../dist/validator/index.js"
