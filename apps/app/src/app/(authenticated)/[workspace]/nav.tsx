@@ -268,10 +268,10 @@ export function Nav({
                     leaveFrom="transform opacity-100 scale-100"
                     leaveTo="transform opacity-0 scale-95"
                   >
-                    <Menu.Items className="absolute bottom-full left-6 z-10 mb-2.5 w-32 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-zinc-900/5 focus:outline-none">
+                    <Menu.Items className="absolute bottom-full left-6 z-10 mb-2.5 min-w-[150px] origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-zinc-900/5 focus:outline-none">
                       <Menu.Item>
                         <button
-                          className="block px-3 py-1 text-sm leading-6 text-zinc-900"
+                          className="block w-full px-3 py-1 text-sm leading-6 text-left text-zinc-900 hover:bg-zinc-50"
                           onClick={() => signOut()}
                           type="button"
                         >
@@ -301,14 +301,40 @@ export function Nav({
         <div className="flex-1 text-sm font-semibold leading-6 text-zinc-900">
           Dashboard
         </div>
-        <a href="#">
-          <span className="sr-only">Your profile</span>
-          <img
-            alt=""
-            className="w-8 h-8 rounded-full bg-zinc-50"
-            src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-          />
-        </a>
+        <div>
+          <Menu as="div" className="relative">
+            <Menu.Button>
+              <span className="sr-only">Open user menu</span>
+              <span className="flex items-center justify-center w-8 h-8 text-xs font-medium capitalize bg-white border rounded-lg text-zinc-400 border-zinc-200 group-hover:border-amber-600 group-hover:text-amber-600 shrink-0">
+                {user?.email[0]}
+              </span>
+            </Menu.Button>
+            <Transition
+              as={Fragment}
+              enter="transition ease-out duration-100"
+              enterFrom="transform opacity-0 scale-95"
+              enterTo="transform opacity-100 scale-100"
+              leave="transition ease-in duration-75"
+              leaveFrom="transform opacity-100 scale-100"
+              leaveTo="transform opacity-0 scale-95"
+            >
+              <Menu.Items className="absolute top-full right-0 z-10 mt-2.5 min-w-32 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-zinc-900/5 focus:outline-none">
+                <p className="block px-3 py-1 mb-2 text-sm leading-6 text-zinc-500">
+                  {user?.email}
+                </p>
+                <Menu.Item>
+                  <button
+                    className="block w-full px-3 py-1 text-sm leading-6 text-left text-zinc-900 hover:bg-zinc-50"
+                    onClick={() => signOut()}
+                    type="button"
+                  >
+                    Sign out
+                  </button>
+                </Menu.Item>
+              </Menu.Items>
+            </Transition>
+          </Menu>
+        </div>
       </div>
     </div>
   );
