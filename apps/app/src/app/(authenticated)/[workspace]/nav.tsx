@@ -89,14 +89,9 @@ export function Nav({
                   </div>
                 </Transition.Child>
                 {/* Sidebar component, swap this element with another sidebar if you like */}
-                <div className="flex flex-col px-6 pb-2 overflow-y-auto bg-white grow gap-y-5">
-                  <div className="flex items-center h-16 shrink-0">
-                    <Image
-                      alt="Floe logo"
-                      className="w-auto h-6"
-                      placeholder="blur"
-                      src={logo}
-                    />
+                <div className="flex flex-col px-6 pt-6 pb-2 overflow-y-auto bg-white grow gap-y-5">
+                  <div className="flex items-center mb-6 shrink-0">
+                    <Image alt="Floe logo" className="w-auto h-6" src={logo} />
                   </div>
                   <nav className="flex flex-col flex-1">
                     <ul className="flex flex-col flex-1 gap-y-7">
@@ -172,14 +167,9 @@ export function Nav({
       {/* Static sidebar for desktop */}
       <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
         {/* Sidebar component, swap this element with another sidebar if you like */}
-        <div className="flex flex-col px-6 overflow-y-auto bg-white border-r border-zinc-200 grow gap-y-5">
-          <div className="flex items-center h-16 shrink-0">
-            <Image
-              alt="Floe logo"
-              className="w-auto h-6"
-              placeholder="blur"
-              src={logo}
-            />
+        <div className="flex flex-col px-6 pt-6 overflow-y-auto bg-white border-r border-zinc-200 grow gap-y-5">
+          <div className="flex items-center mb-6 shrink-0">
+            <Image alt="Floe logo" className="w-auto h-6" src={logo} />
           </div>
           <nav className="flex flex-col flex-1">
             <ul className="flex flex-col flex-1 gap-y-7">
