@@ -37,7 +37,7 @@ function Keys({ workspace }: KeyProps) {
         title="API key"
       >
         <Table workspace={workspace} />
-        <KeyModal open={open} workspace={workspace} setOpen={setOpen} />
+        <KeyModal open={open} setOpen={setOpen} workspace={workspace} />
       </Card>
     </div>
   );
