@@ -40,7 +40,6 @@ async function run() {
     });
 
     const comments = await fetchComments({
-      token,
       owner,
       repo,
       issueNumber,

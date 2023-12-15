@@ -1,12 +1,12 @@
 import axios from "axios";
 
 export function getBaseUrl() {
-  if (process.env.FLOE_API_ENDPOINT)
+  if (process.env.VERCEL_URL)
     // reference for vercel.com
-    return process.env.FLOE_API_ENDPOINT;
+    return process.env.VERCEL_URL;
 
   // assume localhost
-  return "https://api.floe.dev";
+  return "http://localhost:4000";
 }
 
 const floeApiSecret = process.env.FLOE_API_SECRET;

@@ -1,21 +1,20 @@
-import * as github from "@actions/github";
+import { api } from "@floe/lib/axios";
+import type { GetIssueCommentsResponse } from "@floe/types";
 
 export async function fetchComments({
-  token,
   owner,
   repo,
   issueNumber,
 }: {
-  token: string;
   owner: string;
   repo: string;
   issueNumber: number;
 }) {
-  const octokit = github.getOctokit(token);
-
-  return octokit.paginate(octokit.rest.issues.listComments, {
-    owner,
-    repo,
-    issue_number: issueNumber,
+  return api.get<GetIssueCommentsResponse>("/api/v1/issue-comments", {
+    params: {
+      owner,
+      repo,
+      issueNumber,
+    },
   });
 }
