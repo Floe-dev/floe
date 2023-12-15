@@ -14,6 +14,7 @@ import { handlebars } from "~/utils/handlebars";
 import { contents } from "~/lib/normalizedGitProviders/content";
 import { getCacheKey } from "~/utils/get-cache-key";
 import { stringToLines } from "~/utils/string-to-lines";
+import { zParse } from "~/utils/z-parse";
 import { exampleContent, exampleOutput, exampleRules } from "./example";
 
 type Violation = Pick<
@@ -73,7 +74,7 @@ async function handler(
   { queryObj, workspace }: NextApiRequestExtension,
   res: NextApiResponseExtension
 ): Promise<AiLintDiffResponse> {
-  const parsed = querySchema.parse(queryObj);
+  const parsed = zParse(querySchema, queryObj);
 
   const openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY,
@@ -176,7 +177,8 @@ async function handler(
       const lines = stringToLines(content);
 
       const response = await openai.chat.completions.create({
-        model: "gpt-4-1106-preview",
+        // model: "gpt-4-1106-preview",
+        model: "gpt-3.5-turbo-1106",
         temperature: 0,
         response_format: { type: "json_object" },
         // Last updated date

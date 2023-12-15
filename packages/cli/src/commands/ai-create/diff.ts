@@ -8,7 +8,7 @@ import {
   colors,
   animals,
 } from "unique-names-generator";
-import { api } from "../../utils/api";
+import { api } from "@floe/lib/axios";
 import { checkIfValidRoot } from "../../utils/check-if-valid-root";
 import {
   getDefaultBranch,

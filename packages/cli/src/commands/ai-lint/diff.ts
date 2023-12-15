@@ -1,9 +1,10 @@
 /* eslint-disable no-console -- Need for user output*/
 import type { Command } from "commander";
+import { api } from "@floe/lib/axios";
 import type { AiLintDiffResponse } from "@floe/types";
+import { getRules } from "@floe/lib/rules";
 import { truncate } from "../../utils/truncate";
-import { getRules } from "../../utils/config";
-import { api, logError } from "../../utils/api";
+import { logError } from "../../utils/logging";
 import { checkIfValidRoot } from "../../utils/check-if-valid-root";
 import {
   getDefaultBranch,
@@ -45,32 +46,8 @@ export function fromDiff(program: Command) {
         const headSha = options.head || getCurrentBranch();
         const owner = options.owner || repoAndOwner?.owner;
         const repo = options.repo || repoAndOwner?.repo;
-        const { rules, rulesets } = getRules();
+        const { rulesetsWithRules } = getRules();
         let hasOneError = false;
-
-        const rulesetsWithRules = Object.entries(rulesets).map(
-          ([key, value]) => {
-            return {
-              name: key,
-              ...value,
-              rules: Object.entries(value.rules).map(([ruleKey, ruleValue]) => {
-                const description = rules[ruleKey];
-
-                if (!description) {
-                  throw new Error(
-                    `Invalid config. Rule "${ruleKey}" does not exist in "rules".`
-                  );
-                }
-
-                return {
-                  code: ruleKey,
-                  level: ruleValue,
-                  description,
-                };
-              }),
-            };
-          }
-        );
 
         try {
           const spinner = ora("Validating content...").start();

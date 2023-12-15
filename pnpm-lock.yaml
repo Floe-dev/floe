@@ -69,6 +69,9 @@ importers:
       next-api-middleware:
         specifier: ^2.0.1
         version: 2.0.1(next@14.0.1)
+      octokit:
+        specifier: ^3.1.1
+        version: 3.1.1
       openai:
         specifier: ^4.19.0
         version: 4.19.0
@@ -81,6 +84,9 @@ importers:
       zod:
         specifier: ^3.22.4
         version: 3.22.4
+      zod-validation-error:
+        specifier: ^2.1.0
+        version: 2.1.0(zod@3.22.4)
     devDependencies:
       '@floe/types':
         specifier: workspace:*
@@ -307,11 +313,60 @@ importers:
         specifier: ^4.5.3
         version: 4.9.5
 
+  packages/action:
+    dependencies:
+      '@actions/core':
+        specifier: ^1.10.1
+        version: 1.10.1
+      '@actions/github':
+        specifier: ^6.0.0
+        version: 6.0.0
+      '@floe/lib':
+        specifier: workspace:*
+        version: link:../lib
+      '@floe/types':
+        specifier: workspace:*
+        version: link:../types
+      axios:
+        specifier: ^1.6.0
+        version: 1.6.0
+      glob:
+        specifier: ^10.3.10
+        version: 10.3.10
+      uuid:
+        specifier: ^9.0.1
+        version: 9.0.1
+    devDependencies:
+      '@types/get-installed-path':
+        specifier: ^4.0.3
+        version: 4.0.3
+      '@types/node':
+        specifier: ^20.8.10
+        version: 20.9.0
+      '@types/uuid':
+        specifier: ^9.0.7
+        version: 9.0.7
+      '@vercel/ncc':
+        specifier: ^0.38.1
+        version: 0.38.1
+      eslint-config-custom:
+        specifier: workspace:*
+        version: link:../eslint-config-custom
+      tsconfig:
+        specifier: workspace:*
+        version: link:../tsconfig
+      typescript:
+        specifier: ^5.3.2
+        version: 5.3.2
+
   packages/cli:
     dependencies:
       '@floe/config':
         specifier: workspace:*
         version: link:../config
+      '@floe/lib':
+        specifier: workspace:*
+        version: link:../lib
       '@inquirer/prompts':
         specifier: ^3.3.0
         version: 3.3.0
@@ -406,49 +461,6 @@ importers:
         specifier: ^5.2.2
         version: 5.2.2
 
-  packages/embeddings-action:
-    dependencies:
-      '@actions/core':
-        specifier: ^1.10.1
-        version: 1.10.1
-      '@actions/github':
-        specifier: ^6.0.0
-        version: 6.0.0
-      '@pinecone-database/pinecone':
-        specifier: ^1.1.2
-        version: 1.1.2
-      axios:
-        specifier: ^1.6.0
-        version: 1.6.0
-      glob:
-        specifier: ^10.3.10
-        version: 10.3.10
-      openai:
-        specifier: ^4.19.0
-        version: 4.19.0
-      uuid:
-        specifier: ^9.0.1
-        version: 9.0.1
-    devDependencies:
-      '@types/node':
-        specifier: ^20.8.10
-        version: 20.8.10
-      '@types/uuid':
-        specifier: ^9.0.7
-        version: 9.0.7
-      '@vercel/ncc':
-        specifier: ^0.38.1
-        version: 0.38.1
-      eslint-config-custom:
-        specifier: workspace:*
-        version: link:../eslint-config-custom
-      tsconfig:
-        specifier: workspace:*
-        version: link:../tsconfig
-      typescript:
-        specifier: ^5.3.2
-        version: 5.3.2
-
   packages/eslint-config-custom:
     devDependencies:
       '@vercel/style-guide':
@@ -463,10 +475,16 @@ importers:
 
   packages/lib:
     dependencies:
+      axios:
+        specifier: ^1.6.0
+        version: 1.6.0
       slugify:
         specifier: ^1.6.6
         version: 1.6.6
     devDependencies:
+      '@floe/config':
+        specifier: workspace:*
+        version: link:../config
       '@types/node':
         specifier: ^20.8.10
         version: 20.8.10
@@ -493,6 +511,9 @@ importers:
 
   packages/types:
     devDependencies:
+      '@octokit/types':
+        specifier: ^12.3.0
+        version: 12.3.0
       openai:
         specifier: ^4.19.0
         version: 4.19.0
@@ -3286,6 +3307,10 @@ packages:
 
   /@types/estree@1.0.3:
     resolution: {integrity: sha512-CS2rOaoQ/eAgAfcTfq6amKG7bsN+EMcgGY4FAFQdvSj2y1ixvOZTUA9mOtCai7E1SYu283XNw7urKK30nP3wkQ==}
+
+  /@types/get-installed-path@4.0.3:
+    resolution: {integrity: sha512-Xe6nTuvKO3dumMspsmf1ewkre85fhmQmM1yIv2fkyZRYqXU1ONYAH9b2HMDiykPvdjFUheud4pizBEpI7t6OUw==}
+    dev: true
 
   /@types/glob@7.2.0:
     resolution: {integrity: sha512-ZUxbzKl0IfJILTS6t7ip5fQQM/J3TJYubDm3nMbgubNNYS62eXeUpoLUC8/7fJNiFYHTrGPQn7hspDUzIHX3UA==}
@@ -11879,6 +11904,15 @@ packages:
   /yocto-queue@0.1.0:
     resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}
     engines: {node: '>=10'}
+
+  /zod-validation-error@2.1.0(zod@3.22.4):
+    resolution: {integrity: sha512-VJh93e2wb4c3tWtGgTa0OF/dTt/zoPCPzXq4V11ZjxmEAFaPi/Zss1xIZdEB5RD8GD00U0/iVXgqkF77RV7pdQ==}
+    engines: {node: '>=18.0.0'}
+    peerDependencies:
+      zod: ^3.18.0
+    dependencies:
+      zod: 3.22.4
+    dev: false
 
   /zod@3.22.4:
     resolution: {integrity: sha512-iC+8Io04lddc+mVqQ9AZ7OQ2MrUKGN+oIQyq1vemgt46jwCwLfhq7/pwnBnNXXXZb8VTVLKwp9EDkx+ryxIWmg==}

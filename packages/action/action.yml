@@ -1,0 +1,16 @@
+name: "Floe Action"
+description: "AI Writing Assistant."
+author: "Floe"
+inputs:
+  validatePullRequest:
+    description: "Validate Pull Request"
+    default: false
+    type: "boolean"
+
+runs:
+  using: "composite"
+  steps:
+    - name: "Validate Pull Request"
+      # uses: floe-dev/floe/validator@v1
+      uses: ./packages/action/validator
+      if: ${{ inputs.validatePullRequest == 'true' }}
