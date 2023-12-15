@@ -38913,11 +38913,11 @@ axios.default = axios;
 ;// CONCATENATED MODULE: ../lib/axios.ts
 
 function getBaseUrl() {
-    if (process.env.VERCEL_URL)
+    if (process.env.FLOE_API_ENDPOINT)
         // reference for vercel.com
-        return process.env.VERCEL_URL;
+        return process.env.FLOE_API_ENDPOINT;
     // assume localhost
-    return "http://localhost:4000";
+    return "https://api.floe.dev";
 }
 const floeApiSecret = process.env.FLOE_API_SECRET;
 const floeApiWorkspace = process.env.FLOE_API_WORKSPACE;
