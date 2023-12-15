@@ -39028,7 +39028,7 @@ async function run() {
         core.debug((0,external_node_util_.inspect)(response.data));
     }
     catch (error) {
-        core.debug((0,external_node_util_.inspect)(error));
+        core.error((0,external_node_util_.inspect)(error));
         if (error instanceof Error) {
             core.setFailed(error.message);
         }
