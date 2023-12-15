@@ -1,7 +1,7 @@
 {
   "functions": {
-    "api/*": {
-      "maxDuration": 30
+    "src/pages/api/*": {
+      "maxDuration": 60
     }
   }
 }
