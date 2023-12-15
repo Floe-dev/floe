@@ -9,9 +9,6 @@ inputs:
 
 runs:
   using: "composite"
-  env:
-    FLOE_API_WORKSPACE: ${{ secrets.FLOE_API_WORKSPACE }}
-    FLOE_API_SECRET: ${{ secrets.FLOE_API_SECRET }}
   steps:
     - name: "Validate Pull Request"
       # uses: floe-dev/floe/validator@v1

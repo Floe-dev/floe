@@ -4,6 +4,9 @@ on:
 
 jobs:
   lint:
+    env:
+      FLOE_API_WORKSPACE: ${{ secrets.FLOE_API_WORKSPACE }}
+      FLOE_API_SECRET: ${{ secrets.FLOE_API_SECRET }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
