@@ -37241,12 +37241,14 @@ var github = __nccwpck_require__(7131);
 async function run() {
     const headSHA = process.env.GITHUB_HEAD_REF;
     const baseSHA = process.env.GITHUB_BASE_REF;
+    console.log(1111, headSHA, baseSHA);
     if (!headSHA || !baseSHA) {
         process.exit(1);
     }
     const owner = github.context.payload.repository?.owner;
     const repo = github.context.payload.repository?.name;
     const prNumber = github.context.payload.pull_request?.number;
+    console.log(22222, owner, repo, prNumber);
     const { rulesetsWithRules } = getRules();
     const response = await api.get("/api/v1/ai-lint-diff", {
         params: {
