@@ -60,7 +60,7 @@ async function run() {
 
     core.debug(inspect(response.data));
   } catch (error) {
-    core.debug(inspect(error));
+    core.error(inspect(error));
 
     if (error instanceof Error) {
       core.setFailed(error.message);
