@@ -50,7 +50,9 @@ async function handler({
       side: parsed.side,
       start_side: parsed.startSide,
     })
-    .catch(() => {
+    .catch((e) => {
+      console.error(e.message);
+
       throw new HttpError({
         message: "Could not create comment on GitHub.",
         statusCode: 500,

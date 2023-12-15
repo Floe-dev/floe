@@ -1,11 +1,12 @@
 "use client";
 
 import { Button } from "@floe/ui";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useGitHubInstallationURL } from "~/lib/github-installation-url";
 import { useStepsContext } from "./context";
 
 export function Step2() {
+  const router = useRouter();
   const { workspace } = useStepsContext();
   const installationUrl = useGitHubInstallationURL(
     workspace?.id,
@@ -54,7 +55,7 @@ export function Step2() {
             return;
           }
 
-          redirect(`/${workspace.slug}`);
+          router.replace(`/${workspace.slug}`);
         }}
       >
         Continue
