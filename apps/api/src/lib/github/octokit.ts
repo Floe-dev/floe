@@ -1,4 +1,4 @@
-import { Octokit } from "@octokit/core";
+import { Octokit } from "octokit";
 import { createAppAuth } from "@octokit/auth-app";
 import { HttpError } from "@floe/lib/http-error";
 
