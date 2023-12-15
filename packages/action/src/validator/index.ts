@@ -1,25 +1,35 @@
+import { inspect } from "node:util";
 import { api } from "@floe/lib/axios";
 import { getRules } from "@floe/lib/rules";
 import type { AiLintDiffResponse } from "@floe/types";
+import * as core from "@actions/core";
 import * as github from "@actions/github";
+import { fetchComments } from "./comments";
+import type { Inputs } from "./types";
 
 async function run() {
-  const headSha = process.env.GITHUB_HEAD_REF;
-  const baseSha = process.env.GITHUB_BASE_REF;
+  try {
+    const { token }: Inputs = {
+      token: core.getInput("token"),
+    };
+    const headSha = process.env.GITHUB_HEAD_REF;
+    const baseSha = process.env.GITHUB_BASE_REF;
 
-  if (!headSha || !baseSha) {
-    process.exit(1);
-  }
+    if (!headSha || !baseSha) {
+      throw new Error("Missing headSha or baseSha");
+    }
 
-  const owner = github.context.payload.repository?.owner.login;
-  const repo = github.context.payload.repository?.name;
-  const prNumber = github.context.payload.pull_request?.number;
+    const owner = github.context.payload.repository?.owner.login;
+    const repo = github.context.payload.repository?.name;
+    const issueNumber = github.context.payload.pull_request?.number;
 
-  const { rulesetsWithRules } = getRules();
-  console.log(22222, rulesetsWithRules);
+    if (!owner || !repo || !issueNumber) {
+      throw new Error("Missing owner, repo, or prNumber");
+    }
 
-  const response = await api
-    .get<AiLintDiffResponse>("/api/v1/ai-lint-diff", {
+    const { rulesetsWithRules } = getRules();
+
+    const response = await api.get<AiLintDiffResponse>("/api/v1/ai-lint-diff", {
       params: {
         owner,
         repo,
@@ -27,25 +37,36 @@ async function run() {
         headSha,
         rulesets: rulesetsWithRules,
       },
-    })
-    .catch((error) => {
-      if (error.response) {
-        // The request was made and the server responded with a status code
-        // that falls out of the range of 2xx
-        console.log("Response error: ", error.response);
-      } else if (error.request) {
-        // The request was made but no response was received
-        // `error.request` is an instance of XMLHttpRequest in the browser
-        // and an instance of http.ClientRequest in node.js
-        console.log("Request error: ", error.request);
-      } else {
-        // Something happened in setting up the request that triggered an Error
-        console.log("An error occurred: ", error.message);
-      }
-      process.exit(1);
     });
 
-  console.log(1111, response.data?.files);
+    const comments = await fetchComments({
+      token,
+      owner,
+      repo,
+      issueNumber,
+    });
+
+    core.debug(inspect(comments));
+
+    response.data?.files.forEach((diff) => {
+      if (diff.violations.length > 0) {
+        diff.violations.forEach((violation) => {
+          // Step 1: Check if the violation is already a comment on the PR
+          // Step 2: Create a comment on the PR, update a comment, or do nothing
+        });
+      }
+    });
+
+    // Add core.summary
+
+    core.debug(inspect(response.data?.files));
+  } catch (error) {
+    core.debug(inspect(error));
+
+    if (error instanceof Error) {
+      core.setFailed(error.message);
+    }
+  }
 }
 
 void run();
