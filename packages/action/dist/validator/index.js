@@ -34273,35 +34273,6 @@ module.exports = JSON.parse('{"application/1d-interleaved-parityfec":{"source":"
 /******/ 	}
 /******/ 	
 /************************************************************************/
-/******/ 	/* webpack/runtime/compat get default export */
-/******/ 	(() => {
-/******/ 		// getDefaultExport function for compatibility with non-harmony modules
-/******/ 		__nccwpck_require__.n = (module) => {
-/******/ 			var getter = module && module.__esModule ?
-/******/ 				() => (module['default']) :
-/******/ 				() => (module);
-/******/ 			__nccwpck_require__.d(getter, { a: getter });
-/******/ 			return getter;
-/******/ 		};
-/******/ 	})();
-/******/ 	
-/******/ 	/* webpack/runtime/define property getters */
-/******/ 	(() => {
-/******/ 		// define getter functions for harmony exports
-/******/ 		__nccwpck_require__.d = (exports, definition) => {
-/******/ 			for(var key in definition) {
-/******/ 				if(__nccwpck_require__.o(definition, key) && !__nccwpck_require__.o(exports, key)) {
-/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
-/******/ 				}
-/******/ 			}
-/******/ 		};
-/******/ 	})();
-/******/ 	
-/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
-/******/ 	(() => {
-/******/ 		__nccwpck_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
-/******/ 	})();
-/******/ 	
 /******/ 	/* webpack/runtime/make namespace object */
 /******/ 	(() => {
 /******/ 		// define __esModule on exports
@@ -34327,6 +34298,10 @@ __nccwpck_require__.r(__webpack_exports__);
 
 // EXTERNAL MODULE: external "node:util"
 var external_node_util_ = __nccwpck_require__(7261);
+// EXTERNAL MODULE: ../../node_modules/.pnpm/@actions+core@1.10.1/node_modules/@actions/core/lib/core.js
+var core = __nccwpck_require__(4237);
+// EXTERNAL MODULE: ../../node_modules/.pnpm/@actions+github@6.0.0/node_modules/@actions/github/lib/github.js
+var github = __nccwpck_require__(7131);
 ;// CONCATENATED MODULE: ../../node_modules/.pnpm/axios@1.6.0/node_modules/axios/lib/helpers/bind.js
 
 
@@ -38921,7 +38896,7 @@ function getBaseUrl() {
 }
 const floeApiSecret = process.env.FLOE_API_SECRET;
 const floeApiWorkspace = process.env.FLOE_API_WORKSPACE;
-const api = lib_axios.create({
+const axios_api = lib_axios.create({
     baseURL: getBaseUrl(),
     headers: {
         ...(floeApiSecret && { "x-api-key": floeApiSecret }),
@@ -38929,42 +38904,6 @@ const api = lib_axios.create({
     },
 });
 
-;// CONCATENATED MODULE: external "node:fs"
-const external_node_fs_namespaceObject = require("node:fs");
-var external_node_fs_default = /*#__PURE__*/__nccwpck_require__.n(external_node_fs_namespaceObject);
-;// CONCATENATED MODULE: external "node:path"
-const external_node_path_namespaceObject = require("node:path");
-var external_node_path_default = /*#__PURE__*/__nccwpck_require__.n(external_node_path_namespaceObject);
-;// CONCATENATED MODULE: ../lib/rules.ts
-
-
-const getRules = () => {
-    const config = external_node_fs_default().readFileSync(external_node_path_default().join(process.cwd(), ".floe/config.json"), "utf-8");
-    const { rules, rulesets } = JSON.parse(config);
-    const rulesetsWithRules = Object.entries(rulesets).map(([key, value]) => {
-        return {
-            name: key,
-            ...value,
-            rules: Object.entries(value.rules).map(([ruleKey, ruleValue]) => {
-                const description = rules[ruleKey];
-                if (!description) {
-                    throw new Error(`Invalid config. Rule "${ruleKey}" does not exist in "rules".`);
-                }
-                return {
-                    code: ruleKey,
-                    level: ruleValue,
-                    description,
-                };
-            }),
-        };
-    });
-    return { rules, rulesets, rulesetsWithRules };
-};
-
-// EXTERNAL MODULE: ../../node_modules/.pnpm/@actions+core@1.10.1/node_modules/@actions/core/lib/core.js
-var core = __nccwpck_require__(4237);
-// EXTERNAL MODULE: ../../node_modules/.pnpm/@actions+github@6.0.0/node_modules/@actions/github/lib/github.js
-var github = __nccwpck_require__(7131);
 ;// CONCATENATED MODULE: ./src/validator/comments.ts
 
 async function fetchComments({ owner, repo, issueNumber, }) {
@@ -38976,19 +38915,28 @@ async function fetchComments({ owner, repo, issueNumber, }) {
         },
     });
 }
+async function createComment({ body, owner, repo, issueNumber, line, startLine, side, startSide, }) {
+    return axios_api.post("/api/v1/issue-comments", {
+        params: {
+            owner,
+            repo,
+            issueNumber,
+            body,
+            line,
+            startLine,
+            side,
+            startSide,
+        },
+    });
+}
 
 ;// CONCATENATED MODULE: ./src/validator/index.ts
 
 
 
 
-
-
 async function run() {
     try {
-        const { token } = {
-            token: core.getInput("token"),
-        };
         const headSha = process.env.GITHUB_HEAD_REF;
         const baseSha = process.env.GITHUB_BASE_REF;
         if (!headSha || !baseSha) {
@@ -39000,32 +38948,40 @@ async function run() {
         if (!owner || !repo || !issueNumber) {
             throw new Error("Missing owner, repo, or prNumber");
         }
-        const { rulesetsWithRules } = getRules();
-        const response = await api.get("/api/v1/ai-lint-diff", {
-            params: {
-                owner,
-                repo,
-                baseSha,
-                headSha,
-                rulesets: rulesetsWithRules,
-            },
-        });
-        const comments = await fetchComments({
+        // const { rulesetsWithRules } = getRules();
+        // const response = await api.get<AiLintDiffResponse>("/api/v1/ai-lint-diff", {
+        //   params: {
+        //     owner,
+        //     repo,
+        //     baseSha,
+        //     headSha,
+        //     rulesets: rulesetsWithRules,
+        //   },
+        // });
+        // const comments = await fetchComments({
+        //   owner,
+        //   repo,
+        //   issueNumber,
+        // });
+        // console.log(11111, comments);
+        // Test comment
+        const newComment = await createComment({
             owner,
             repo,
             issueNumber,
+            body: "Hello, world!",
         });
-        console.log(11111, comments);
-        response.data?.files.forEach((diff) => {
-            if (diff.violations.length > 0) {
-                diff.violations.forEach((violation) => {
-                    // Step 1: Check if the violation is already a comment on the PR
-                    // Step 2: Create a comment on the PR, update a comment, or do nothing
-                });
-            }
-        });
+        console.log(22222, newComment);
+        // response.data?.files.forEach((diff) => {
+        //   if (diff.violations.length > 0) {
+        //     diff.violations.forEach((violation) => {
+        //       // Step 1: Check if the violation is already a comment on the PR
+        //       // Step 2: Create a comment on the PR, update a comment, or do nothing
+        //     });
+        //   }
+        // });
         // Add core.summary
-        core.debug((0,external_node_util_.inspect)(response.data));
+        // core.debug(inspect(response.data));
     }
     catch (error) {
         core.error((0,external_node_util_.inspect)(error));
