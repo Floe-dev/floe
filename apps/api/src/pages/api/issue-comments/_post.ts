@@ -11,6 +11,10 @@ const querySchema = z.object({
   body: z.string(),
   owner: z.string(),
   issueNumber: z.coerce.number(),
+  line: z.coerce.number().optional(),
+  startLine: z.coerce.number().optional(),
+  side: z.enum(["LEFT", "RIGHT"]).optional(),
+  startSide: z.enum(["LEFT", "RIGHT"]).optional(),
 });
 
 async function handler({
@@ -41,6 +45,10 @@ async function handler({
       repo: parsed.repo,
       owner: parsed.owner,
       issue_number: parsed.issueNumber,
+      line: parsed.line,
+      start_line: parsed.startLine,
+      side: parsed.side,
+      start_side: parsed.startSide,
     })
     .catch(() => {
       throw new HttpError({
