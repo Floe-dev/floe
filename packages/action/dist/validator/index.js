@@ -8271,8 +8271,9 @@ async function run() {
     const stringifiedContext = process.env.GITHUB_CONTEXT;
     const headSHA = process.env.GITHUB_SHA;
     const baseSHA = process.env.GITHUB_BASE_REF;
+    console.log(1111, process.env);
     if (!stringifiedContext || !headSHA || !baseSHA) {
-        console.log("Missing environment variables");
+        console.log("Missing environment variables", stringifiedContext, headSHA, baseSHA);
         process.exit(1);
     }
     const context = JSON.parse(stringifiedContext);
