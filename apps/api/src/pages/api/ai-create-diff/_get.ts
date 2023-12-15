@@ -12,6 +12,7 @@ import {
   commitsToString,
   diffsToString,
 } from "~/lib/normalizedGitProviders/strings";
+import { zParse } from "~/utils/z-parse";
 
 const querySchema = z.object({
   owner: z.string(),
@@ -88,7 +89,7 @@ async function handler(
   { queryObj, workspace }: NextApiRequestExtension,
   res: NextApiResponseExtension
 ): Promise<AiCreateDiffResponse> {
-  const parsed = querySchema.parse(queryObj);
+  const parsed = zParse(querySchema, queryObj);
 
   const openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY,

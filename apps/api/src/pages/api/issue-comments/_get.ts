@@ -4,6 +4,7 @@ import type { GetIssueCommentsResponse } from "@floe/types";
 import type { NextApiRequestExtension } from "~/types/private-middleware";
 import { getOctokit } from "~/lib/github/octokit";
 import { defaultResponder } from "~/lib/helpers/default-responder";
+import { zParse } from "~/utils/z-parse";
 
 const querySchema = z.object({
   owner: z.string(),
@@ -15,7 +16,7 @@ async function handler({
   queryObj,
   workspace,
 }: NextApiRequestExtension): Promise<GetIssueCommentsResponse> {
-  const parsed = querySchema.parse(queryObj);
+  const parsed = zParse(querySchema, queryObj);
 
   if (workspace.gitlabIntegration) {
     throw new HttpError({

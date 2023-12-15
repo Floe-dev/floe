@@ -15,6 +15,7 @@ import { contents } from "~/lib/normalizedGitProviders/content";
 import { getCacheKey } from "~/utils/get-cache-key";
 import { stringToLines } from "~/utils/string-to-lines";
 import { exampleContent, exampleOutput, exampleRules } from "./example";
+import { zParse } from "~/utils/z-parse";
 
 type Violation = Pick<
   NonNullable<AiLintDiffResponse>["files"][number]["violations"][number],
@@ -73,7 +74,7 @@ async function handler(
   { queryObj, workspace }: NextApiRequestExtension,
   res: NextApiResponseExtension
 ): Promise<AiLintDiffResponse> {
-  const parsed = querySchema.parse(queryObj);
+  const parsed = zParse(querySchema, queryObj);
 
   const openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY,
