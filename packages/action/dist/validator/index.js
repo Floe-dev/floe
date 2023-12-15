@@ -37241,14 +37241,13 @@ var github = __nccwpck_require__(7131);
 async function run() {
     const headSHA = process.env.GITHUB_HEAD_REF;
     const baseSHA = process.env.GITHUB_BASE_REF;
-    console.log(1111, headSHA, baseSHA);
     if (!headSHA || !baseSHA) {
         process.exit(1);
     }
     const owner = github.context.payload.repository?.owner.login;
-    const repo = github.context.payload.repository?.name;
+    const repo = github.context.payload.repository?.full_name;
     const prNumber = github.context.payload.pull_request?.number;
-    console.log(22222, owner, repo, prNumber);
+    console.log(22222, github.context.payload.repository);
     const { rulesetsWithRules } = getRules();
     const response = await api.get("/api/v1/ai-lint-diff", {
         params: {
@@ -37263,7 +37262,7 @@ async function run() {
         if (error.response) {
             // The request was made and the server responded with a status code
             // that falls out of the range of 2xx
-            console.log("Response error: ", error.response.data.message);
+            console.log("Response error: ", error.response);
         }
         else if (error.request) {
             // The request was made but no response was received
