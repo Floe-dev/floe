@@ -9,7 +9,7 @@ import { zParse } from "~/utils/z-parse";
 const querySchema = z.object({
   owner: z.string(),
   repo: z.string(),
-  issueNumber: z.number(),
+  issueNumber: z.coerce.number(),
 });
 
 async function handler({

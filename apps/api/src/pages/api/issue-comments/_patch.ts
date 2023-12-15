@@ -11,7 +11,7 @@ const querySchema = z.object({
   repo: z.string(),
   owner: z.string(),
   commentId: z.number(),
-  issueNumber: z.number(),
+  issueNumber: z.coerce.number(),
 });
 
 async function handler({

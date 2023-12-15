@@ -14,8 +14,8 @@ import { handlebars } from "~/utils/handlebars";
 import { contents } from "~/lib/normalizedGitProviders/content";
 import { getCacheKey } from "~/utils/get-cache-key";
 import { stringToLines } from "~/utils/string-to-lines";
-import { exampleContent, exampleOutput, exampleRules } from "./example";
 import { zParse } from "~/utils/z-parse";
+import { exampleContent, exampleOutput, exampleRules } from "./example";
 
 type Violation = Pick<
   NonNullable<AiLintDiffResponse>["files"][number]["violations"][number],
