@@ -13,7 +13,7 @@ async function run() {
     process.exit(1);
   }
 
-  const owner = github.context.payload.repository?.owner;
+  const owner = github.context.payload.repository?.owner.login;
   const repo = github.context.payload.repository?.name;
   const prNumber = github.context.payload.pull_request?.number;
 
