@@ -7,6 +7,8 @@ async function run() {
   const headSHA = process.env.GITHUB_SHA;
   const baseSHA = process.env.GITHUB_BASE_REF;
 
+  console.log(1111, stringifiedContext, headSHA, baseSHA);
+
   if (!stringifiedContext || !headSHA || !baseSHA) {
     console.log("Missing environment variables");
     process.exit(1);
