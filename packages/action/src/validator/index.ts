@@ -46,7 +46,7 @@ async function run() {
       issueNumber,
     });
 
-    core.debug(inspect(comments));
+    console.log(11111, comments);
 
     response.data?.files.forEach((diff) => {
       if (diff.violations.length > 0) {
@@ -59,7 +59,7 @@ async function run() {
 
     // Add core.summary
 
-    core.debug(inspect(response.data?.files));
+    core.debug(inspect(response.data));
   } catch (error) {
     core.debug(inspect(error));
 
