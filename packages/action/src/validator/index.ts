@@ -1,28 +1,19 @@
 import { api } from "@floe/lib/axios";
 import { getRules } from "@floe/lib/rules";
 import type { AiLintDiffResponse } from "@floe/types";
+import * as github from "@actions/github";
 
 async function run() {
-  const stringifiedContext = process.env.GITHUB_CONTEXT;
-  const headSHA = process.env.GITHUB_SHA;
+  const headSHA = process.env.GITHUB_HEAD_REF;
   const baseSHA = process.env.GITHUB_BASE_REF;
 
-  console.log(1111, process.env);
-
-  if (!stringifiedContext || !headSHA || !baseSHA) {
-    console.log(
-      "Missing environment variables",
-      stringifiedContext,
-      headSHA,
-      baseSHA
-    );
+  if (!headSHA || !baseSHA) {
     process.exit(1);
   }
 
-  const context = JSON.parse(stringifiedContext);
-  const owner = context.payload.repository.owner.login;
-  const repo = context.payload.repository.name;
-  const prNumber = context.payload.number;
+  const owner = github.context.payload.repository?.owner;
+  const repo = github.context.payload.repository?.name;
+  const prNumber = github.context.payload.pull_request?.number;
 
   const { rulesetsWithRules } = getRules();
 
