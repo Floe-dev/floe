@@ -4,10 +4,10 @@ import type { AiLintDiffResponse } from "@floe/types";
 import * as github from "@actions/github";
 
 async function run() {
-  const headSHA = process.env.GITHUB_HEAD_REF;
-  const baseSHA = process.env.GITHUB_BASE_REF;
+  const headSha = process.env.GITHUB_HEAD_REF;
+  const baseSha = process.env.GITHUB_BASE_REF;
 
-  if (!headSHA || !baseSHA) {
+  if (!headSha || !baseSha) {
     process.exit(1);
   }
 
@@ -23,8 +23,8 @@ async function run() {
       params: {
         owner,
         repo,
-        baseSHA,
-        headSHA,
+        baseSha,
+        headSha,
         rulesets: rulesetsWithRules,
       },
     })

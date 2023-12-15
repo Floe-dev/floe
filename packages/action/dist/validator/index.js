@@ -37239,9 +37239,9 @@ var github = __nccwpck_require__(7131);
 
 
 async function run() {
-    const headSHA = process.env.GITHUB_HEAD_REF;
-    const baseSHA = process.env.GITHUB_BASE_REF;
-    if (!headSHA || !baseSHA) {
+    const headSha = process.env.GITHUB_HEAD_REF;
+    const baseSha = process.env.GITHUB_BASE_REF;
+    if (!headSha || !baseSha) {
         process.exit(1);
     }
     const owner = github.context.payload.repository?.owner.login;
@@ -37253,8 +37253,8 @@ async function run() {
         params: {
             owner,
             repo,
-            baseSHA,
-            headSHA,
+            baseSha,
+            headSha,
             rulesets: rulesetsWithRules,
         },
     })
