@@ -12,12 +12,11 @@ async function run() {
   }
 
   const owner = github.context.payload.repository?.owner.login;
-  const repo = github.context.payload.repository?.full_name;
+  const repo = github.context.payload.repository?.name;
   const prNumber = github.context.payload.pull_request?.number;
 
-  console.log(22222, github.context.payload.repository);
-
   const { rulesetsWithRules } = getRules();
+  console.log(22222, rulesetsWithRules);
 
   const response = await api
     .get<AiLintDiffResponse>("/api/v1/ai-lint-diff", {
