@@ -1,26 +1,22 @@
 import { z } from "zod";
 import { HttpError } from "@floe/lib/http-error";
-import type { PostIssueCommentsResponse } from "@floe/types";
+import type { PatchReviewCommentsResponse } from "@floe/types";
 import type { NextApiRequestExtension } from "~/types/private-middleware";
 import { getOctokit } from "~/lib/github/octokit";
 import { defaultResponder } from "~/lib/helpers/default-responder";
 import { zParse } from "~/utils/z-parse";
 
 const querySchema = z.object({
-  repo: z.string(),
   body: z.string(),
+  repo: z.string(),
   owner: z.string(),
-  issueNumber: z.coerce.number(),
-  line: z.coerce.number().optional(),
-  startLine: z.coerce.number().optional(),
-  side: z.enum(["LEFT", "RIGHT"]).optional(),
-  startSide: z.enum(["LEFT", "RIGHT"]).optional(),
+  commentId: z.number(),
 });
 
 async function handler({
   queryObj,
   workspace,
-}: NextApiRequestExtension): Promise<PostIssueCommentsResponse> {
+}: NextApiRequestExtension): Promise<PatchReviewCommentsResponse> {
   const parsed = zParse(querySchema, queryObj);
 
   if (workspace.gitlabIntegration) {
@@ -39,20 +35,16 @@ async function handler({
 
   const octokit = await getOctokit(workspace.githubIntegration.installationId);
 
-  const comments = await octokit.rest.issues
-    .createComment({
+  const comments = await octokit.rest.pulls
+    .updateReviewComment({
       body: parsed.body,
       repo: parsed.repo,
       owner: parsed.owner,
-      issue_number: parsed.issueNumber,
-      line: parsed.line,
-      start_line: parsed.startLine,
-      side: parsed.side,
-      start_side: parsed.startSide,
+      comment_id: parsed.commentId,
     })
     .catch(() => {
       throw new HttpError({
-        message: "Could not create comment on GitHub.",
+        message: "Could not update comment on GitHub.",
         statusCode: 500,
       });
     });

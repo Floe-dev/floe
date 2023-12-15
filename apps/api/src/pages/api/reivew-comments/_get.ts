@@ -1,23 +1,21 @@
 import { z } from "zod";
 import { HttpError } from "@floe/lib/http-error";
-import type { PatchIssueCommentsResponse } from "@floe/types";
+import type { GetReviewCommentsResponse } from "@floe/types";
 import type { NextApiRequestExtension } from "~/types/private-middleware";
 import { getOctokit } from "~/lib/github/octokit";
 import { defaultResponder } from "~/lib/helpers/default-responder";
 import { zParse } from "~/utils/z-parse";
 
 const querySchema = z.object({
-  body: z.string(),
-  repo: z.string(),
   owner: z.string(),
-  commentId: z.number(),
-  issueNumber: z.coerce.number(),
+  repo: z.string(),
+  pullNumber: z.coerce.number(),
 });
 
 async function handler({
   queryObj,
   workspace,
-}: NextApiRequestExtension): Promise<PatchIssueCommentsResponse> {
+}: NextApiRequestExtension): Promise<GetReviewCommentsResponse> {
   const parsed = zParse(querySchema, queryObj);
 
   if (workspace.gitlabIntegration) {
@@ -36,22 +34,20 @@ async function handler({
 
   const octokit = await getOctokit(workspace.githubIntegration.installationId);
 
-  const comments = await octokit.rest.issues
-    .updateComment({
-      body: parsed.body,
-      repo: parsed.repo,
+  const comments = await octokit
+    .paginate(octokit.rest.pulls.listReviewComments, {
       owner: parsed.owner,
-      comment_id: parsed.commentId,
-      issue_number: parsed.issueNumber,
+      repo: parsed.repo,
+      pull_number: parsed.pullNumber,
     })
     .catch(() => {
       throw new HttpError({
-        message: "Could not update comment on GitHub.",
+        message: "Could not fetch comments from GitHub.",
         statusCode: 500,
       });
     });
 
-  return comments.data;
+  return comments;
 }
 
 export default defaultResponder(handler);

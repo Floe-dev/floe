@@ -5,13 +5,9 @@ import type { AiLintDiffResponse } from "@floe/types";
 import * as core from "@actions/core";
 import * as github from "@actions/github";
 import { fetchComments } from "./comments";
-import type { Inputs } from "./types";
 
 async function run() {
   try {
-    const { token }: Inputs = {
-      token: core.getInput("token"),
-    };
     const headSha = process.env.GITHUB_HEAD_REF;
     const baseSha = process.env.GITHUB_BASE_REF;
 
@@ -21,9 +17,9 @@ async function run() {
 
     const owner = github.context.payload.repository?.owner.login;
     const repo = github.context.payload.repository?.name;
-    const issueNumber = github.context.payload.pull_request?.number;
+    const pullNumber = github.context.payload.pull_request?.number;
 
-    if (!owner || !repo || !issueNumber) {
+    if (!owner || !repo || !pullNumber) {
       throw new Error("Missing owner, repo, or prNumber");
     }
 
@@ -42,7 +38,7 @@ async function run() {
     const comments = await fetchComments({
       owner,
       repo,
-      issueNumber,
+      pullNumber,
     });
 
     console.log(11111, comments);

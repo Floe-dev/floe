@@ -1,20 +1,20 @@
 import { api } from "@floe/lib/axios";
-import type { GetIssueCommentsResponse } from "@floe/types";
+import type { GetReviewCommentsResponse } from "@floe/types";
 
 export async function fetchComments({
   owner,
   repo,
-  issueNumber,
+  pullNumber,
 }: {
   owner: string;
   repo: string;
-  issueNumber: number;
+  pullNumber: number;
 }) {
-  return api.get<GetIssueCommentsResponse>("/api/v1/issue-comments", {
+  return api.get<GetReviewCommentsResponse>("/api/v1/review-comments", {
     params: {
       owner,
       repo,
-      issueNumber,
+      pullNumber,
     },
   });
 }
