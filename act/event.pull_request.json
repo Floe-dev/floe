@@ -1,6 +1,8 @@
 {
   "repository": {
-    "owner": "Floe-dev",
+    "owner": {
+      "login": "Floe-dev"
+    },
     "name": "floe"
   },
   "pull_request": {

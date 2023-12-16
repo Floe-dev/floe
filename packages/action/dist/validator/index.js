@@ -42963,13 +42963,13 @@ async function run() {
     try {
         const headSha = process.env.GITHUB_HEAD_REF;
         const baseSha = process.env.GITHUB_BASE_REF;
-        console.log(11111, github.context);
         if (!headSha || !baseSha) {
             throw new Error("Missing headSha or baseSha");
         }
         const owner = github.context.payload.repository?.owner.login;
         const repo = github.context.payload.repository?.name;
         const pullNumber = github.context.payload.pull_request?.number;
+        console.log(11111, owner, repo, pullNumber);
         if (!owner || !repo || !pullNumber) {
             throw new Error("Missing owner, repo, or prNumber");
         }
