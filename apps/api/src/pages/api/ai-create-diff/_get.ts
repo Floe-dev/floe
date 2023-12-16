@@ -1,6 +1,6 @@
 import { z } from "zod";
 import OpenAI from "openai";
-import type { AiCreateDiffResponse } from "@floe/types";
+import type { AiCreateDiffResponse } from "@floe/requests/ai-create-diff/_get";
 import type {
   NextApiRequestExtension,
   NextApiResponseExtension,

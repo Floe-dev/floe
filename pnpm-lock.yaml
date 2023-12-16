@@ -33,6 +33,9 @@ importers:
       '@floe/lib':
         specifier: workspace:*
         version: link:../../packages/lib
+      '@floe/requests':
+        specifier: workspace:*
+        version: link:../../packages/requests
       '@octokit/auth-app':
         specifier: ^6.0.1
         version: 6.0.1
@@ -88,9 +91,6 @@ importers:
         specifier: ^2.1.0
         version: 2.1.0(zod@3.22.4)
     devDependencies:
-      '@floe/types':
-        specifier: workspace:*
-        version: link:../../packages/types
       '@octokit/types':
         specifier: ^12.3.0
         version: 12.3.0
@@ -324,9 +324,9 @@ importers:
       '@floe/lib':
         specifier: workspace:*
         version: link:../lib
-      '@floe/types':
+      '@floe/requests':
         specifier: workspace:*
-        version: link:../types
+        version: link:../requests
       axios:
         specifier: ^1.6.0
         version: 1.6.0
@@ -395,9 +395,9 @@ importers:
         specifier: ^4.7.1
         version: 4.7.1
     devDependencies:
-      '@floe/types':
+      '@floe/requests':
         specifier: workspace:*
-        version: link:../types
+        version: link:../requests
       '@types/node':
         specifier: ^20.8.10
         version: 20.8.10
@@ -495,6 +495,25 @@ importers:
         specifier: workspace:*
         version: link:../tsconfig
 
+  packages/requests:
+    dependencies:
+      '@floe/lib':
+        specifier: workspace:*
+        version: link:../lib
+      zod:
+        specifier: ^3.22.4
+        version: 3.22.4
+    devDependencies:
+      '@octokit/types':
+        specifier: ^12.3.0
+        version: 12.3.0
+      openai:
+        specifier: ^4.19.0
+        version: 4.19.0
+      typescript:
+        specifier: ^4.5.3
+        version: 4.9.5
+
   packages/tailwind:
     devDependencies:
       '@tailwindcss/forms':
@@ -508,18 +527,6 @@ importers:
         version: 3.3.3
 
   packages/tsconfig: {}
-
-  packages/types:
-    devDependencies:
-      '@octokit/types':
-        specifier: ^12.3.0
-        version: 12.3.0
-      openai:
-        specifier: ^4.19.0
-        version: 4.19.0
-      typescript:
-        specifier: ^4.5.3
-        version: 4.9.5
 
   packages/ui:
     dependencies:

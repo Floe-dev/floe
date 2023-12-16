@@ -13,14 +13,10 @@
     "eslint-config-custom": "0.0.0",
     "@floe/tailwind": "0.0.0",
     "tsconfig": "0.0.0",
-    "@floe/types": "0.0.0",
+    "@floe/requests": "0.0.0",
     "@floe/ui": "0.0.0",
     "@floe/lib": "0.0.0",
     "@floe/action": "0.1.0-alpha.0"
   },
-  "changesets": [
-    "fast-coins-unite",
-    "popular-rules-beam",
-    "slimy-bikes-divide"
-  ]
+  "changesets": ["fast-coins-unite", "popular-rules-beam", "slimy-bikes-divide"]
 }

@@ -1,8 +1,11 @@
 {
-  "name": "@floe/types",
+  "name": "@floe/requests",
   "version": "0.1.0-alpha.0",
   "private": true,
-  "main": "index.ts",
+  "dependencies": {
+    "@floe/lib": "workspace:*",
+    "zod": "^3.22.4"
+  },
   "devDependencies": {
     "@octokit/types": "^12.3.0",
     "openai": "^4.19.0",

@@ -1,11 +1,6 @@
 name: "Floe Validator"
 description: "Floe Validator"
 
-inputs:
-  token:
-    description: "GITHUB_TOKEN"
-    default: ${{ github.token }}
-
 runs:
   using: "node20"
   main: "../dist/validator/index.js"

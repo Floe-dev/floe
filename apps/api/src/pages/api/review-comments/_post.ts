@@ -1,23 +1,10 @@
-import { z } from "zod";
 import { HttpError } from "@floe/lib/http-error";
-import type { PostReviewCommentsResponse } from "@floe/types";
+import { querySchema } from "@floe/requests/review-comments/_post";
+import type { PostReviewCommentsResponse } from "@floe/requests/review-comments/_post";
 import type { NextApiRequestExtension } from "~/types/private-middleware";
 import { getOctokit } from "~/lib/github/octokit";
 import { defaultResponder } from "~/lib/helpers/default-responder";
 import { zParse } from "~/utils/z-parse";
-
-const querySchema = z.object({
-  path: z.string(),
-  repo: z.string(),
-  body: z.string(),
-  owner: z.string(),
-  commitId: z.string(),
-  pullNumber: z.coerce.number(),
-  line: z.coerce.number().optional(),
-  startLine: z.coerce.number().optional(),
-  side: z.enum(["LEFT", "RIGHT"]).optional(),
-  startSide: z.enum(["LEFT", "RIGHT"]).optional(),
-});
 
 async function handler({
   queryObj,
@@ -54,7 +41,9 @@ async function handler({
       path: parsed.path,
       commit_id: parsed.commitId,
     })
-    .catch(() => {
+    .catch((e) => {
+      console.error(e.message);
+
       throw new HttpError({
         message: "Could not create comment on GitHub.",
         statusCode: 500,

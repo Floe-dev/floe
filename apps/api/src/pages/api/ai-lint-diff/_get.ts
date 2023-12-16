@@ -2,7 +2,7 @@ import { z } from "zod";
 import OpenAI from "openai";
 import { kv } from "@vercel/kv";
 import { minimatch } from "minimatch";
-import type { AiLintDiffResponse } from "@floe/types";
+import type { AiLintDiffResponse } from "@floe/requests/at-lint-diff/_get";
 import { createChecksum } from "~/utils/checksum";
 import type {
   NextApiRequestExtension,

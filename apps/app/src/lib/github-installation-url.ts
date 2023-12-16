@@ -18,8 +18,10 @@ export function useGitHubInstallationURL(
 
   const valuesToInclude = [workspaceId, workspaceSlug, pathname, ...arr];
   const encodedState = encodeURIComponent(valuesToInclude.join(","));
+  const app =
+    process.env.NODE_ENV === "production" ? "floe-app" : "floe-app-tester";
 
-  return `https://github.com/apps/floe-app/installations/new?state=${encodedState}`;
+  return `https://github.com/apps/${app}/installations/new?state=${encodedState}`;
 }
 
 export function parseGitHubInstallationCallback(state: string) {
