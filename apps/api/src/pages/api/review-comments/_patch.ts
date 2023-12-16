@@ -10,7 +10,7 @@ const querySchema = z.object({
   body: z.string(),
   repo: z.string(),
   owner: z.string(),
-  commentId: z.number(),
+  commentId: z.coerce.number(),
 });
 
 async function handler({
