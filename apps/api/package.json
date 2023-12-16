@@ -13,6 +13,7 @@
   "dependencies": {
     "@floe/db": "workspace:*",
     "@floe/lib": "workspace:*",
+    "@floe/requests": "workspace:*",
     "@octokit/auth-app": "^6.0.1",
     "@octokit/core": "^5.0.1",
     "@pinecone-database/pinecone": "^1.1.2",
@@ -33,7 +34,7 @@
     "zod-validation-error": "^2.1.0"
   },
   "devDependencies": {
-    "@floe/types": "workspace:*",
+    "@floe/requests": "workspace:*",
     "@octokit/types": "^12.3.0",
     "@prisma/nextjs-monorepo-workaround-plugin": "^5.3.1",
     "@types/bcrypt": "^5.0.0",

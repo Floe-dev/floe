@@ -1,8 +1,6 @@
 import { api } from "@floe/lib/axios";
-import type {
-  GetReviewCommentsResponse,
-  PostReviewCommentsResponse,
-} from "@floe/types";
+import type { GetReviewCommentsResponse } from "@floe/requests/review-comments/_get";
+import type { PostReviewCommentsResponse } from "@floe/requests/review-comments/_post";
 
 export async function fetchComments({
   owner,

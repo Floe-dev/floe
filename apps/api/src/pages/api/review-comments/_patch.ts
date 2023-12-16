@@ -1,17 +1,10 @@
-import { z } from "zod";
 import { HttpError } from "@floe/lib/http-error";
-import type { PatchReviewCommentsResponse } from "@floe/types";
+import { querySchema } from "@floe/requests/review-comments/_patch";
+import type { PatchReviewCommentsResponse } from "@floe/requests/review-comments/_patch";
 import type { NextApiRequestExtension } from "~/types/private-middleware";
 import { getOctokit } from "~/lib/github/octokit";
 import { defaultResponder } from "~/lib/helpers/default-responder";
 import { zParse } from "~/utils/z-parse";
-
-const querySchema = z.object({
-  body: z.string(),
-  repo: z.string(),
-  owner: z.string(),
-  commentId: z.coerce.number(),
-});
 
 async function handler({
   queryObj,

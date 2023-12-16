@@ -1,7 +1,7 @@
 /* eslint-disable no-console -- Need for user output*/
 import type { Command } from "commander";
 import { api } from "@floe/lib/axios";
-import type { AiLintDiffResponse } from "@floe/types";
+import type { AiLintDiffResponse } from "@floe/requests/at-lint-diff/_get";
 import { getRules } from "@floe/lib/rules";
 import { truncate } from "../../utils/truncate";
 import { logError } from "../../utils/logging";

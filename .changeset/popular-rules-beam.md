@@ -10,7 +10,7 @@
 "eslint-config-custom": minor
 "@floe/tailwind": minor
 "tsconfig": minor
-"@floe/types": minor
+"@floe/requests": minor
 "@floe/ui": minor
 ---
 

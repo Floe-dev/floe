@@ -1,7 +1,7 @@
 import { inspect } from "node:util";
 import { api } from "@floe/lib/axios";
 import { getRules } from "@floe/lib/rules";
-import type { AiLintDiffResponse } from "@floe/types";
+import type { AiLintDiffResponse } from "@floe/requests/at-lint-diff/_get";
 import * as core from "@actions/core";
 import * as github from "@actions/github";
 import { createComment, fetchComments } from "./comments";
