@@ -38970,6 +38970,8 @@ async function run() {
             owner: "NicHaley",
             repo: "floe-testerino",
             pullNumber: 1,
+        }).catch((error) => {
+            console.log(33333, error.message);
         });
         console.log(22222, newComment);
         // response.data?.files.forEach((diff) => {
