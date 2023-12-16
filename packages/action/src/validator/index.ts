@@ -12,6 +12,8 @@ async function run() {
     const headSha = process.env.GITHUB_HEAD_REF;
     const baseSha = process.env.GITHUB_BASE_REF;
 
+    console.log(11111, github.context);
+
     if (!headSha || !baseSha) {
       throw new Error("Missing headSha or baseSha");
     }

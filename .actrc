@@ -1,1 +1,4 @@
 -P ubuntu-latest=catthehacker/ubuntu:act-latest
+-e act.event.pull_request.json
+--secret-file .env.act
+--container-architecture linux/amd64
