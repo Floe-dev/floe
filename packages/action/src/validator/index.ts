@@ -45,9 +45,9 @@ async function run() {
     // Test comment
     const newComment = await createComment({
       body: "Test comment",
-      owner,
-      repo,
-      pullNumber,
+      owner: "NicHaley",
+      repo: "floe-testerino",
+      pullNumber: 1,
     });
     console.log(22222, newComment);
 
