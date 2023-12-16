@@ -42,7 +42,7 @@ async function run() {
       pullNumber,
     });
 
-    console.log(11111, comments);
+    core.info(inspect(comments));
     // Test comment
     // const newComment = await createReviewComment({
     //   path: "README.md",
