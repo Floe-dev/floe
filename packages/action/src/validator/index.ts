@@ -4,7 +4,7 @@ import { getRules } from "@floe/lib/rules";
 import type { AiLintDiffResponse } from "@floe/requests/at-lint-diff/_get";
 import * as core from "@actions/core";
 import * as github from "@actions/github";
-import { createComment, fetchComments } from "./comments";
+import { fetchReviewComments } from "@floe/requests/review-comments/_get";
 import { createReviewComment } from "@floe/requests/review-comments/_post";
 
 async function run() {
@@ -19,7 +19,6 @@ async function run() {
     const owner = github.context.payload.repository?.owner.login;
     const repo = github.context.payload.repository?.name;
     const pullNumber = github.context.payload.pull_request?.number;
-    console.log(11111, owner, repo, pullNumber);
 
     if (!owner || !repo || !pullNumber) {
       throw new Error("Missing owner, repo, or prNumber");
@@ -37,27 +36,27 @@ async function run() {
     //   },
     // });
 
-    // const comments = await fetchComments({
-    //   owner,
-    //   repo,
-    //   issueNumber,
-    // });
-
-    // console.log(11111, comments);
-    // Test comment
-    const newComment = await createReviewComment({
-      path: "README.md",
-      commitId: "dfe29cb3a929d4f31f1ea84789f8f27ff0ebe5fc",
-      body: "Test comment",
-      owner: "NicHaley",
-      repo: "floe-testerino",
-      pullNumber: 1,
+    const comments = await fetchReviewComments({
+      owner,
+      repo,
+      pullNumber,
     });
+
+    console.log(11111, comments);
+    // Test comment
+    // const newComment = await createReviewComment({
+    //   path: "README.md",
+    //   commitId: "dfe29cb3a929d4f31f1ea84789f8f27ff0ebe5fc",
+    //   body: "Test comment",
+    //   owner: "NicHaley",
+    //   repo: "floe-testerino",
+    //   pullNumber: 1,
+    // });
     // const newComment = await createComment({
     // }).catch((error) => {
     //   console.log(33333, error.message);
     // });
-    console.log(22222, newComment);
+    // console.log(22222, newComment);
 
     // response.data?.files.forEach((diff) => {
     //   if (diff.violations.length > 0) {

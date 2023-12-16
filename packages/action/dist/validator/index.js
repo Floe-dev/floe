@@ -42923,33 +42923,20 @@ const api = lib_axios.create({
     },
 });
 
-;// CONCATENATED MODULE: ../requests/review-comments/_post.ts
+;// CONCATENATED MODULE: ../requests/review-comments/_get.ts
 
 
 const querySchema = z.object({
-    path: z.string(),
-    repo: z.string(),
-    body: z.string(),
     owner: z.string(),
-    commitId: z.string(),
+    repo: z.string(),
     pullNumber: z.coerce.number(),
-    line: z.coerce.number().optional(),
-    startLine: z.coerce.number().optional(),
-    side: z["enum"](["LEFT", "RIGHT"]).optional(),
-    startSide: z["enum"](["LEFT", "RIGHT"]).optional(),
 });
-async function createReviewComment({ path, repo, owner, commitId, pullNumber, line, startLine, side, startSide, }) {
+async function fetchReviewComments({ owner, repo, pullNumber, }) {
     return api.get("/api/v1/review-comments", {
         params: {
-            path,
-            repo,
             owner,
-            commitId,
+            repo,
             pullNumber,
-            line,
-            startLine,
-            side,
-            startSide,
         },
     });
 }
@@ -42969,7 +42956,6 @@ async function run() {
         const owner = github.context.payload.repository?.owner.login;
         const repo = github.context.payload.repository?.name;
         const pullNumber = github.context.payload.pull_request?.number;
-        console.log(11111, owner, repo, pullNumber);
         if (!owner || !repo || !pullNumber) {
             throw new Error("Missing owner, repo, or prNumber");
         }
@@ -42983,26 +42969,26 @@ async function run() {
         //     rulesets: rulesetsWithRules,
         //   },
         // });
-        // const comments = await fetchComments({
-        //   owner,
-        //   repo,
-        //   issueNumber,
-        // });
-        // console.log(11111, comments);
-        // Test comment
-        const newComment = await createReviewComment({
-            path: "README.md",
-            commitId: "dfe29cb3a929d4f31f1ea84789f8f27ff0ebe5fc",
-            body: "Test comment",
-            owner: "NicHaley",
-            repo: "floe-testerino",
-            pullNumber: 1,
+        const comments = await fetchReviewComments({
+            owner,
+            repo,
+            pullNumber,
         });
+        console.log(11111, comments);
+        // Test comment
+        // const newComment = await createReviewComment({
+        //   path: "README.md",
+        //   commitId: "dfe29cb3a929d4f31f1ea84789f8f27ff0ebe5fc",
+        //   body: "Test comment",
+        //   owner: "NicHaley",
+        //   repo: "floe-testerino",
+        //   pullNumber: 1,
+        // });
         // const newComment = await createComment({
         // }).catch((error) => {
         //   console.log(33333, error.message);
         // });
-        console.log(22222, newComment);
+        // console.log(22222, newComment);
         // response.data?.files.forEach((diff) => {
         //   if (diff.violations.length > 0) {
         //     diff.violations.forEach((violation) => {
