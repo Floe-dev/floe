@@ -5,6 +5,7 @@ import type { AiLintDiffResponse } from "@floe/requests/at-lint-diff/_get";
 import * as core from "@actions/core";
 import * as github from "@actions/github";
 import { createComment, fetchComments } from "./comments";
+import { createReviewComment } from "@floe/requests/review-comments/_post";
 
 async function run() {
   try {
@@ -43,14 +44,18 @@ async function run() {
 
     // console.log(11111, comments);
     // Test comment
-    const newComment = await createComment({
+    const newComment = await createReviewComment({
+      path: "README.md",
+      commitId: "dfe29cb3a929d4f31f1ea84789f8f27ff0ebe5fc",
       body: "Test comment",
       owner: "NicHaley",
       repo: "floe-testerino",
       pullNumber: 1,
-    }).catch((error) => {
-      console.log(33333, error.message);
     });
+    // const newComment = await createComment({
+    // }).catch((error) => {
+    //   console.log(33333, error.message);
+    // });
     console.log(22222, newComment);
 
     // response.data?.files.forEach((diff) => {
