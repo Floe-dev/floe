@@ -38906,21 +38906,21 @@ const axios_api = lib_axios.create({
 
 ;// CONCATENATED MODULE: ./src/validator/comments.ts
 
-async function fetchComments({ owner, repo, issueNumber, }) {
-    return api.get("/api/v1/issue-comments", {
+async function fetchComments({ owner, repo, pullNumber, }) {
+    return api.get("/api/v1/review-comments", {
         params: {
             owner,
             repo,
-            issueNumber,
+            pullNumber,
         },
     });
 }
-async function createComment({ body, owner, repo, issueNumber, line, startLine, side, startSide, }) {
-    return axios_api.post("/api/v1/issue-comments", {
+async function createComment({ body, owner, repo, pullNumber, line, startLine, side, startSide, }) {
+    return axios_api.post("/api/v1/review-comments", {
         params: {
             owner,
             repo,
-            issueNumber,
+            pullNumber,
             body,
             line,
             startLine,
@@ -38944,8 +38944,8 @@ async function run() {
         }
         const owner = github.context.payload.repository?.owner.login;
         const repo = github.context.payload.repository?.name;
-        const issueNumber = github.context.payload.pull_request?.number;
-        if (!owner || !repo || !issueNumber) {
+        const pullNumber = github.context.payload.pull_request?.number;
+        if (!owner || !repo || !pullNumber) {
             throw new Error("Missing owner, repo, or prNumber");
         }
         // const { rulesetsWithRules } = getRules();
@@ -38966,10 +38966,10 @@ async function run() {
         // console.log(11111, comments);
         // Test comment
         const newComment = await createComment({
+            body: "Test comment",
             owner,
             repo,
-            issueNumber,
-            body: "Hello, world!",
+            pullNumber,
         });
         console.log(22222, newComment);
         // response.data?.files.forEach((diff) => {

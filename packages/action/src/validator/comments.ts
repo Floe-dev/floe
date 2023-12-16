@@ -1,23 +1,23 @@
 import { api } from "@floe/lib/axios";
 import type {
-  GetIssueCommentsResponse,
-  PostIssueCommentsResponse,
+  GetReviewCommentsResponse,
+  PostReviewCommentsResponse,
 } from "@floe/types";
 
 export async function fetchComments({
   owner,
   repo,
-  issueNumber,
+  pullNumber,
 }: {
   owner: string;
   repo: string;
-  issueNumber: number;
+  pullNumber: number;
 }) {
-  return api.get<GetIssueCommentsResponse>("/api/v1/issue-comments", {
+  return api.get<GetReviewCommentsResponse>("/api/v1/review-comments", {
     params: {
       owner,
       repo,
-      issueNumber,
+      pullNumber,
     },
   });
 }
@@ -26,7 +26,7 @@ export async function createComment({
   body,
   owner,
   repo,
-  issueNumber,
+  pullNumber,
   line,
   startLine,
   side,
@@ -35,17 +35,17 @@ export async function createComment({
   body: string;
   owner: string;
   repo: string;
-  issueNumber: number;
+  pullNumber: number;
   line?: number;
   startLine?: number;
   side?: "LEFT" | "RIGHT";
   startSide?: "LEFT" | "RIGHT";
 }) {
-  return api.post<PostIssueCommentsResponse>("/api/v1/issue-comments", {
+  return api.post<PostReviewCommentsResponse>("/api/v1/review-comments", {
     params: {
       owner,
       repo,
-      issueNumber,
+      pullNumber,
       body,
       line,
       startLine,

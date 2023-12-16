@@ -5,7 +5,6 @@ import type { AiLintDiffResponse } from "@floe/types";
 import * as core from "@actions/core";
 import * as github from "@actions/github";
 import { createComment, fetchComments } from "./comments";
-import type { Inputs } from "./types";
 
 async function run() {
   try {
@@ -18,9 +17,9 @@ async function run() {
 
     const owner = github.context.payload.repository?.owner.login;
     const repo = github.context.payload.repository?.name;
-    const issueNumber = github.context.payload.pull_request?.number;
+    const pullNumber = github.context.payload.pull_request?.number;
 
-    if (!owner || !repo || !issueNumber) {
+    if (!owner || !repo || !pullNumber) {
       throw new Error("Missing owner, repo, or prNumber");
     }
 
@@ -45,10 +44,10 @@ async function run() {
     // console.log(11111, comments);
     // Test comment
     const newComment = await createComment({
+      body: "Test comment",
       owner,
       repo,
-      issueNumber,
-      body: "Hello, world!",
+      pullNumber,
     });
     console.log(22222, newComment);
 
