@@ -2,6 +2,7 @@ import { execSync } from "node:child_process";
 import type { Command } from "commander";
 import { getRules } from "@floe/lib/rules";
 import { parseDiffToFileHunks } from "@floe/lib/diff-parser";
+import { createReview } from "@floe/requests/review/_post";
 import { truncate } from "../../utils/truncate";
 import { logError } from "../../utils/logging";
 import { checkIfValidRoot } from "../../utils/check-if-valid-root";
@@ -44,6 +45,23 @@ export function diff(program: Command) {
       const output = execSync(`git --no-pager diff ${basehead}`).toString();
       const parsedDiff = parseDiffToFileHunks(output);
 
-      console.log(22222, parsedDiff[0].hunks);
+      const rules = getRules();
+
+      rules.rulesetsWithRules.forEach((ruleset) => {
+        ruleset.rules.forEach((rule) => {
+          parsedDiff.forEach((file) => {
+            file.hunks.forEach(async (hunk) => {
+              const review = await createReview({
+                path: file.path,
+                content: hunk.content,
+                startLine: hunk.lineStart,
+                rule,
+              });
+
+              console.log(111111, review);
+            });
+          });
+        });
+      });
     });
 }

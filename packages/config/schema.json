@@ -31,8 +31,7 @@
                   "type": "string",
                   "enum": [
                     "error",
-                    "warn",
-                    "off"
+                    "warn"
                   ]
                 }
               }
