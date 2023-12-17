@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/default-param-last -- Need to order args according to CommanderJS */
 import { execSync } from "node:child_process";
 import type { Command } from "commander";
 import { api } from "@floe/lib/axios";
@@ -21,11 +20,11 @@ export function diff(program: Command) {
   program
     .command("diff")
     .description("Validate content from diff")
-    .argument("[diff]", "Diff")
     .option("--repo <repo>", "Repository owner and name eg. owner/name")
+    .argument("[diff]", "Diff")
     // .option("--base <baseSha>", "Base SHA")
     // .option("--head <headSha>", "Head SHA")
-    .action(async (diffArg?: string, options: { repo?: string }) => {
+    .action(async (options: { repo?: string }, diffArg?: string) => {
       /**
        * Exit if not a valid Floe root
        */
@@ -40,12 +39,13 @@ export function diff(program: Command) {
       const baseSha = getDefaultBranch();
       const headSha = getCurrentBranch();
 
-      const basehead = diffArg ?? `${baseSha}...${headSha}`;
+      const basehead =
+        diffArg ?? options.repo ? `${baseSha}...${headSha}` : "HEAD";
 
       // Exec git diff and parse output
       const output = execSync(`git --no-pager diff ${basehead}`).toString();
       const parsedDiff = parseDiff(output);
 
-      console.log(11111, parsedDiff);
+      console.log(11111, parsedDiff[1].hunks[0].changes);
     });
 }
