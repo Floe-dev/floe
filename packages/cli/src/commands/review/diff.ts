@@ -3,6 +3,7 @@ import type { Command } from "commander";
 import { getRules } from "@floe/lib/rules";
 import { parseDiffToFileHunks } from "@floe/lib/diff-parser";
 import { createReview } from "@floe/requests/review/_post";
+import simpleGit from "simple-git";
 import { truncate } from "../../utils/truncate";
 import { logError } from "../../utils/logging";
 import { checkIfValidRoot } from "../../utils/check-if-valid-root";
@@ -23,7 +24,7 @@ export function diff(program: Command) {
     .argument("[diff]", "Diff")
     // .option("--base <baseSha>", "Base SHA")
     // .option("--head <headSha>", "Head SHA")
-    .action(async (options: { repo?: string }, diffArg?: string) => {
+    .action(async (diffArg?: string, options: { repo?: string } = {}) => {
       /**
        * Exit if not a valid Floe root
        */
@@ -39,11 +40,17 @@ export function diff(program: Command) {
       const headSha = getCurrentBranch();
 
       const basehead =
-        diffArg ?? options.repo ? `${baseSha}...${headSha}` : "HEAD";
+        diffArg ?? options.repo ? `${baseSha}...${headSha}` : "HEAD~1";
 
       // Exec git diff and parse output
-      const output = execSync(`git --no-pager diff ${basehead}`).toString();
-      const parsedDiff = parseDiffToFileHunks(output);
+      let diffOutput: string;
+
+      try {
+        diffOutput = await simpleGit().diff([basehead]);
+      } catch (error) {
+        process.exit(1);
+      }
+      const parsedDiff = parseDiffToFileHunks(diffOutput);
 
       const rules = getRules();
 
@@ -56,9 +63,12 @@ export function diff(program: Command) {
                 content: hunk.content,
                 startLine: hunk.lineStart,
                 rule,
+              }).catch((e) => {
+                console.log(444444, e.message);
+                process.exit(1);
               });
 
-              console.log(111111, review);
+              console.log(3333333, review.data?.violations);
             });
           });
         });

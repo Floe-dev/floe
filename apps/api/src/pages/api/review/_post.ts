@@ -23,10 +23,12 @@ type Violation = Pick<
 >;
 
 async function handler({
-  queryObj,
-  workspace,
+  body,
 }: NextApiRequestExtension): Promise<PostReviewResponse> {
-  const { content, startLine, rule, path } = zParse(querySchema, queryObj);
+  const { content, startLine, rule, path } = zParse(
+    querySchema,
+    body.params as Record<string, unknown>
+  );
 
   const openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY,
