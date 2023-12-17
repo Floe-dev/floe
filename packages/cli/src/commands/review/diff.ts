@@ -3,7 +3,7 @@ import type { Command } from "commander";
 import { api } from "@floe/lib/axios";
 import type { AiLintDiffResponse } from "@floe/requests/at-lint-diff/_get";
 import { getRules } from "@floe/lib/rules";
-import { parseDiff } from "@floe/lib/diff-parser";
+import { parseDiffToFileHunks } from "@floe/lib/diff-parser";
 import { truncate } from "../../utils/truncate";
 import { logError } from "../../utils/logging";
 import { checkIfValidRoot } from "../../utils/check-if-valid-root";
@@ -44,8 +44,8 @@ export function diff(program: Command) {
 
       // Exec git diff and parse output
       const output = execSync(`git --no-pager diff ${basehead}`).toString();
-      const parsedDiff = parseDiff(output);
+      const parsedDiff = parseDiffToFileHunks(output);
 
-      console.log(11111, parsedDiff[1].hunks[0].changes);
+      console.log(22222, parsedDiff[0].hunks);
     });
 }
