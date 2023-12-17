@@ -1,6 +1,6 @@
 import { z } from "zod";
 import type { Endpoints } from "@octokit/types";
-import { api } from "../api";
+import { api } from "../../api";
 
 export const querySchema = z.object({
   owner: z.string(),
@@ -8,17 +8,17 @@ export const querySchema = z.object({
   pullNumber: z.coerce.number(),
 });
 
-export type GetReviewCommentsResponse =
+export type GetGitReviewCommentsResponse =
   Endpoints["GET /repos/{owner}/{repo}/pulls/{pull_number}/comments"]["response"]["data"];
 
 export type GetReviewCommentsInput = z.infer<typeof querySchema>;
 
-export async function fetchReviewComments({
+export async function fetchGitReviewComments({
   owner,
   repo,
   pullNumber,
 }: GetReviewCommentsInput) {
-  return api.get<GetReviewCommentsResponse>("/api/v1/review-comments", {
+  return api.get<GetGitReviewCommentsResponse>("/api/v1/git/review-comments", {
     params: {
       owner,
       repo,

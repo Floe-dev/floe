@@ -4,8 +4,8 @@ import { getRules } from "@floe/lib/rules";
 import type { AiLintDiffResponse } from "@floe/requests/at-lint-diff/_get";
 import * as core from "@actions/core";
 import * as github from "@actions/github";
-import { fetchReviewComments } from "@floe/requests/review-comments/_get";
-import { createReviewComment } from "@floe/requests/review-comments/_post";
+import { fetchGitReviewComments } from "@floe/requests/review-comments/_get";
+import { createGitReviewComment } from "@floe/requests/review-comments/_post";
 
 async function run() {
   try {
@@ -36,7 +36,7 @@ async function run() {
     //   },
     // });
 
-    const comments = await fetchReviewComments({
+    const comments = await fetchGitReviewComments({
       owner,
       repo,
       pullNumber,
@@ -44,7 +44,7 @@ async function run() {
 
     core.info(inspect(comments));
     // Test comment
-    // const newComment = await createReviewComment({
+    // const newComment = await createGitReviewComment({
     //   path: "README.md",
     //   commitId: "dfe29cb3a929d4f31f1ea84789f8f27ff0ebe5fc",
     //   body: "Test comment",

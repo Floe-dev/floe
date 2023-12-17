@@ -1,6 +1,7 @@
 import { z } from "zod";
 import type { Endpoints } from "@octokit/types";
-export declare const querySchema: z.ZodObject<{
+export declare const querySchema: z.ZodObject<
+  {
     path: z.ZodString;
     repo: z.ZodString;
     body: z.ZodString;
@@ -11,7 +12,10 @@ export declare const querySchema: z.ZodObject<{
     startLine: z.ZodOptional<z.ZodNumber>;
     side: z.ZodOptional<z.ZodEnum<["LEFT", "RIGHT"]>>;
     startSide: z.ZodOptional<z.ZodEnum<["LEFT", "RIGHT"]>>;
-}, "strip", z.ZodTypeAny, {
+  },
+  "strip",
+  z.ZodTypeAny,
+  {
     owner: string;
     repo: string;
     pullNumber: number;
@@ -22,7 +26,8 @@ export declare const querySchema: z.ZodObject<{
     startLine?: number | undefined;
     side?: "LEFT" | "RIGHT" | undefined;
     startSide?: "LEFT" | "RIGHT" | undefined;
-}, {
+  },
+  {
     owner: string;
     repo: string;
     pullNumber: number;
@@ -33,6 +38,8 @@ export declare const querySchema: z.ZodObject<{
     startLine?: number | undefined;
     side?: "LEFT" | "RIGHT" | undefined;
     startSide?: "LEFT" | "RIGHT" | undefined;
-}>;
-export type PostReviewCommentsResponse = Endpoints["POST /repos/{owner}/{repo}/pulls/{pull_number}/comments"]["response"]["data"];
+  }
+>;
+export type PostGitReviewCommentsResponse =
+  Endpoints["POST /repos/{owner}/{repo}/pulls/{pull_number}/comments"]["response"]["data"];
 //# sourceMappingURL=_post.d.ts.map

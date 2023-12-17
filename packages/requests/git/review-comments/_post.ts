@@ -1,6 +1,6 @@
 import { z } from "zod";
 import type { Endpoints } from "@octokit/types";
-import { api } from "../api";
+import { api } from "../../api";
 
 export const querySchema = z.object({
   path: z.string(),
@@ -15,12 +15,12 @@ export const querySchema = z.object({
   startSide: z.enum(["LEFT", "RIGHT"]).optional(),
 });
 
-export type PostReviewCommentsResponse =
+export type PostGitReviewCommentsResponse =
   Endpoints["POST /repos/{owner}/{repo}/pulls/{pull_number}/comments"]["response"]["data"];
 
 export type PatchReviewCommentsInput = z.infer<typeof querySchema>;
 
-export async function createReviewComment({
+export async function createGitReviewComment({
   path,
   repo,
   owner,
@@ -31,7 +31,7 @@ export async function createReviewComment({
   side,
   startSide,
 }: PatchReviewCommentsInput) {
-  return api.get<PostReviewCommentsResponse>("/api/v1/review-comments", {
+  return api.get<PostGitReviewCommentsResponse>("/api/v1/git/review-comments", {
     params: {
       path,
       repo,

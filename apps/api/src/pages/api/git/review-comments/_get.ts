@@ -1,6 +1,6 @@
 import { HttpError } from "@floe/lib/http-error";
-import { querySchema } from "@floe/requests/review-comments/_patch";
-import type { PatchReviewCommentsResponse } from "@floe/requests/review-comments/_patch";
+import { querySchema } from "@floe/requests/review-comments/_get";
+import type { GetGitReviewCommentsResponse } from "@floe/requests/review-comments/_get";
 import type { NextApiRequestExtension } from "~/types/private-middleware";
 import { getOctokit } from "~/lib/github/octokit";
 import { defaultResponder } from "~/lib/helpers/default-responder";
@@ -9,7 +9,7 @@ import { zParse } from "~/utils/z-parse";
 async function handler({
   queryObj,
   workspace,
-}: NextApiRequestExtension): Promise<PatchReviewCommentsResponse> {
+}: NextApiRequestExtension): Promise<GetGitReviewCommentsResponse> {
   const parsed = zParse(querySchema, queryObj);
 
   if (workspace.gitlabIntegration) {
@@ -28,21 +28,20 @@ async function handler({
 
   const octokit = await getOctokit(workspace.githubIntegration.installationId);
 
-  const comments = await octokit.rest.pulls
-    .updateReviewComment({
-      body: parsed.body,
-      repo: parsed.repo,
+  const comments = await octokit
+    .paginate(octokit.rest.pulls.listReviewComments, {
       owner: parsed.owner,
-      comment_id: parsed.commentId,
+      repo: parsed.repo,
+      pull_number: parsed.pullNumber,
     })
     .catch(() => {
       throw new HttpError({
-        message: "Could not update comment on GitHub.",
+        message: "Could not fetch comments from GitHub.",
         statusCode: 500,
       });
     });
 
-  return comments.data;
+  return comments;
 }
 
 export default defaultResponder(handler);
