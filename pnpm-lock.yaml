@@ -503,6 +503,9 @@ importers:
       '@floe/lib':
         specifier: workspace:*
         version: link:../lib
+      axios:
+        specifier: ^1.6.0
+        version: 1.6.0
       zod:
         specifier: ^3.22.4
         version: 3.22.4

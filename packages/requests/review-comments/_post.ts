@@ -1,6 +1,6 @@
 import { z } from "zod";
-import { api } from "@floe/lib/axios";
 import type { Endpoints } from "@octokit/types";
+import { api } from "../api";
 
 export const querySchema = z.object({
   path: z.string(),
