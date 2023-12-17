@@ -1,7 +1,5 @@
 import { execSync } from "node:child_process";
 import type { Command } from "commander";
-import { api } from "@floe/lib/axios";
-import type { AiLintDiffResponse } from "@floe/requests/at-lint-diff/_get";
 import { getRules } from "@floe/lib/rules";
 import { parseDiffToFileHunks } from "@floe/lib/diff-parser";
 import { truncate } from "../../utils/truncate";

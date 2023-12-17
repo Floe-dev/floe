@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { api } from "../api";
 
-const querySchema = z.object({
+export const querySchema = z.object({
   path: z.string(),
   content: z.string(),
   startLine: z.coerce.number().optional().default(1),
@@ -14,19 +14,17 @@ const querySchema = z.object({
 
 export type PostReviewResponse =
   | {
-      files: {
-        violations: {
-          level: "error" | "warn" | undefined;
-          description: string | undefined;
-          code: string;
-          errorDescription: string;
-          fix: string | undefined;
-          startLine: number;
-          endLine: number;
-          lineContent: string;
-        }[];
-        filename: string;
+      violations: {
+        level: "error" | "warn" | undefined;
+        description: string | undefined;
+        code: string;
+        errorDescription: string;
+        fix: string | undefined;
+        startLine: number;
+        endLine: number;
+        lineContent: string;
       }[];
+      path: string;
       cached: boolean;
     }
   | undefined;

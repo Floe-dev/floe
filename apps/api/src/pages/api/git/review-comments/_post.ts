@@ -1,6 +1,6 @@
 import { HttpError } from "@floe/lib/http-error";
-import { querySchema } from "@floe/requests/review-comments/_post";
-import type { PostGitReviewCommentsResponse } from "@floe/requests/review-comments/_post";
+import { querySchema } from "@floe/requests/git/review-comments/_post";
+import type { PostGitReviewCommentsResponse } from "@floe/requests/git/review-comments/_post";
 import type { NextApiRequestExtension } from "~/types/private-middleware";
 import { getOctokit } from "~/lib/github/octokit";
 import { defaultResponder } from "~/lib/helpers/default-responder";
@@ -29,7 +29,7 @@ async function handler({
   const octokit = await getOctokit(workspace.githubIntegration.installationId);
 
   const comments = await octokit.rest.pulls
-    .createGitReviewComment({
+    .createReviewComment({
       body: parsed.body,
       repo: parsed.repo,
       owner: parsed.owner,

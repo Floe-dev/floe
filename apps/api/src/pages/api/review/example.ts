@@ -5,7 +5,7 @@ export const exampleContent = {
   "4": "c. Titanic",
 };
 
-export const exampleRules = {
+export const exampleRule = {
   code: "no-lettered-lists",
   level: "warn",
   description: "Do not use lettered lists. Use numbered lists instead.",

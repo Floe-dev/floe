@@ -1,6 +1,6 @@
 import { HttpError } from "@floe/lib/http-error";
-import { querySchema } from "@floe/requests/review-comments/_get";
-import type { GetGitReviewCommentsResponse } from "@floe/requests/review-comments/_get";
+import { querySchema } from "@floe/requests/git/review-comments/_get";
+import type { GetGitReviewCommentsResponse } from "@floe/requests/git/review-comments/_get";
 import type { NextApiRequestExtension } from "~/types/private-middleware";
 import { getOctokit } from "~/lib/github/octokit";
 import { defaultResponder } from "~/lib/helpers/default-responder";
