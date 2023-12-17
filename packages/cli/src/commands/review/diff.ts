@@ -54,6 +54,8 @@ export function diff(program: Command) {
 
       const rules = getRules();
 
+      // TODO: Filter out rulesets that don't apply to the diff
+
       rules.rulesetsWithRules.forEach((ruleset) => {
         ruleset.rules.forEach((rule) => {
           parsedDiff.forEach((file) => {
