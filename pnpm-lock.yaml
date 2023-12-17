@@ -478,6 +478,9 @@ importers:
       axios:
         specifier: ^1.6.0
         version: 1.6.0
+      gitdiff-parser:
+        specifier: ^0.3.1
+        version: 0.3.1
       slugify:
         specifier: ^1.6.6
         version: 1.6.6
@@ -6578,6 +6581,10 @@ packages:
     resolution: {integrity: sha512-PCFJyeSSdtnbfhSNRw9Wk96dDCNx+sogTe4YNXeXSJxt7xz5hvXekuRn9JX7m+Mf4OscCu8h+mtAl3+h5Fo8lQ==}
     dependencies:
       git-up: 7.0.0
+    dev: false
+
+  /gitdiff-parser@0.3.1:
+    resolution: {integrity: sha512-YQJnY8aew65id8okGxKCksH3efDCJ9HzV7M9rsvd65habf39Pkh4cgYJ27AaoDMqo1X98pgNJhNMrm/kpV7UVQ==}
     dev: false
 
   /github-slugger@2.0.0:
