@@ -86,12 +86,12 @@ async function handler({
   }
   console.log("Cache miss");
 
-  const response = await openai.chat.completions.create(
+  const completion = await openai.chat.completions.create(
     openAICompletionOptions
   );
 
   const responseJson = JSON.parse(
-    response.choices[0].message.content ?? "{}"
+    completion.choices[0].message.content ?? "{}"
   ) as {
     violations: Violation[];
   };
@@ -111,16 +111,18 @@ async function handler({
     };
   });
 
+  const response = {
+    path,
+    violations,
+    cached: false,
+  };
+
   // Cache for 1 week
   await kv.set(cacheKey, response, {
     ex: 60 * 24 * 7,
   });
 
-  return {
-    path,
-    violations,
-    cached: false,
-  };
+  return response;
 }
 
 export default defaultResponder(handler);

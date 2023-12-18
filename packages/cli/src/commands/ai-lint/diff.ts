@@ -4,7 +4,7 @@ import { api } from "@floe/requests/api";
 import type { AiLintDiffResponse } from "@floe/requests/at-lint-diff/_get";
 import { getRules } from "@floe/lib/rules";
 import { truncate } from "../../utils/truncate";
-import { logError } from "../../utils/logging";
+import { logAxiosError } from "../../utils/logging";
 import { checkIfValidRoot } from "../../utils/check-if-valid-root";
 import {
   getDefaultBranch,
@@ -64,7 +64,7 @@ export function fromDiff(program: Command) {
             })
             .catch(async (error) => {
               spinner.stop();
-              await logError(error);
+              await logAxiosError(error);
               process.exit(1);
             });
 
