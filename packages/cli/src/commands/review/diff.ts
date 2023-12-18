@@ -4,6 +4,7 @@ import { parseDiffToFileHunks } from "@floe/lib/diff-parser";
 import { createReview } from "@floe/requests/review/_post";
 import simpleGit from "simple-git";
 import { minimatch } from "minimatch";
+import { truncate } from "../../utils/truncate";
 import { checkIfValidRoot } from "../../utils/check-if-valid-root";
 import { getDefaultBranch, getCurrentBranch } from "../../utils/git";
 import { logAxiosError } from "../../utils/logging";
@@ -56,8 +57,6 @@ export function diff(program: Command) {
        */
       const rules = getRules();
 
-      const spinner = ora("Validating content...").start();
-
       /**
        * We only want to evaluate diffs that are included in a ruleset
        */
@@ -91,25 +90,89 @@ export function diff(program: Command) {
 
       const allReviews = await Promise.all(
         hunksToEvaluate.map(async ({ file, rule, hunk }) => {
+          const spinner = ora("Validating content...").start();
+
           const response = await createReview({
             path: file.path,
             content: hunk.content,
             startLine: hunk.lineStart,
             rule,
+          }).catch((e) => {
+            console.log(chalk.dim("Error validating content", e.message));
+
+            spinner.stop();
           });
 
-          if (response.data?.cached) {
+          spinner.stop();
+
+          if (!response?.data) {
+            return;
+          }
+
+          const { cached, violations, path } = response.data;
+
+          if (cached) {
             console.log(chalk.dim("Validated from cache"));
           }
 
-          console.log(3333333, response.data);
+          if (violations.length === 0) {
+            console.log(
+              chalk.dim("No violations found for current selection\n")
+            );
+          } else {
+            const rootErrorLevel = violations.some((v) => v.level === "error")
+              ? "error"
+              : "warn";
+
+            if (rootErrorLevel === "error") {
+              console.log(chalk.white.bgRed(" ERROR "), `📂 ${path}\n`);
+            } else {
+              console.log(chalk.white.bgYellow(" WARN "), `📂 ${path}\n`);
+            }
+
+            violations.forEach((violation) => {
+              const icon = violation.level === "error" ? "❌" : "⚠️";
+
+              /**
+               * Log violation code and description
+               */
+              console.log(
+                chalk.bold(
+                  `${icon} ${violation.code} @@${violation.startLine},${violation.endLine}:`
+                ),
+                violation.errorDescription
+              );
+
+              /**
+               * Log lines with violations
+               */
+              console.log(
+                chalk.dim.strikethrough(truncate(violation.lineContent, 100))
+              );
+
+              /**
+               * Log suggestion
+               */
+              console.log(
+                chalk.italic(
+                  `💡 ${
+                    violation.suggestedFix
+                      ? violation.suggestedFix
+                      : "No fix available"
+                  }`
+                ),
+                "\n"
+              );
+            });
+
+            return;
+          }
+
+          console.log(chalk.white.bgGreen(" PASS "), `📂 ${path}`);
         })
       ).catch(async (e) => {
-        spinner.stop();
         await logAxiosError(e);
         process.exit(1);
       });
-
-      spinner.stop();
     });
 }
