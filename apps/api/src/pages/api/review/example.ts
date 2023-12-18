@@ -16,7 +16,7 @@ export const exampleOutput = {
     {
       code: "no-lettered-lists",
       errorDescription: "A lettered list is used. Use a numbered list instead.",
-      fix: "1. The Matrix\n2. Babe: Pig in the City\n3. Titanic",
+      suggestedFix: "1. The Matrix\n2. Babe: Pig in the City\n3. Titanic",
       startLine: 2,
       endLine: 4,
     },

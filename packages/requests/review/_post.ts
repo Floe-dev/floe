@@ -19,7 +19,7 @@ export type PostReviewResponse =
         description: string | undefined;
         code: string;
         errorDescription: string;
-        fix: string | undefined;
+        suggestedFix: string | undefined;
         startLine: number;
         endLine: number;
         lineContent: string;

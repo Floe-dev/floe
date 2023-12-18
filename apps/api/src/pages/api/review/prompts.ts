@@ -5,7 +5,7 @@ export const systemInstructions = [
   "1. Determine places where the rule is violated. You must only report on supplied rules. DO NOT add rules that have not been provided by the user.",
   "2. Report the `code` of the rule.",
   "3. Describe why the violation was triggered in `errorDescription`.",
-  "4. Suggest a `fix` for the violated lines. If the violation spans multiple lines, insert a newline character '\\n' between each line. If no fix is available, you can return 'undefined'.",
+  "4. Suggest a fix, `suggestedFix`, for the violated lines. If the violation spans multiple lines, insert a newline character '\\n' between each line. If no fix is available, you can return 'undefined'.",
   "5. Report the `startLine` and `endLine` numbers in which the violation occured.",
   "Return a JSON response object with the following shape:",
   `{
@@ -13,7 +13,7 @@ export const systemInstructions = [
       {
         "code": "...",
         "errorDescription": "...",
-        "fix": "...",
+        "suggestedFix": "...",
         "startLine": "...",
         "endLine": "...",
       },

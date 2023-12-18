@@ -16,7 +16,7 @@ type OpenAIOptions =
 
 type Violation = Pick<
   NonNullable<PostReviewResponse>["violations"][number],
-  "code" | "fix" | "errorDescription" | "startLine" | "endLine"
+  "code" | "suggestedFix" | "errorDescription" | "startLine" | "endLine"
 >;
 
 async function handler({

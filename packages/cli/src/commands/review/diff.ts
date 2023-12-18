@@ -4,14 +4,8 @@ import { parseDiffToFileHunks } from "@floe/lib/diff-parser";
 import { createReview } from "@floe/requests/review/_post";
 import simpleGit from "simple-git";
 import { minimatch } from "minimatch";
-import { truncate } from "../../utils/truncate";
-import { logError } from "../../utils/logging";
 import { checkIfValidRoot } from "../../utils/check-if-valid-root";
-import {
-  getDefaultBranch,
-  gitGithubOrGitlabOrgAndRepo,
-  getCurrentBranch,
-} from "../../utils/git";
+import { getDefaultBranch, getCurrentBranch } from "../../utils/git";
 
 const oraImport = import("ora").then((m) => m.default);
 const chalkImport = import("chalk").then((m) => m.default);
@@ -89,7 +83,6 @@ export function diff(program: Command) {
                 startLine: hunk.lineStart,
                 rule,
               }).catch((e) => {
-                console.log(444444, e.message);
                 process.exit(1);
               });
 
