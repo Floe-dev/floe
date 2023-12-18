@@ -1,9 +1,9 @@
-import { execSync } from "node:child_process";
 import type { Command } from "commander";
 import { getRules } from "@floe/lib/rules";
 import { parseDiffToFileHunks } from "@floe/lib/diff-parser";
 import { createReview } from "@floe/requests/review/_post";
 import simpleGit from "simple-git";
+import { minimatch } from "minimatch";
 import { truncate } from "../../utils/truncate";
 import { logError } from "../../utils/logging";
 import { checkIfValidRoot } from "../../utils/check-if-valid-root";
@@ -50,15 +50,38 @@ export function diff(program: Command) {
       } catch (error) {
         process.exit(1);
       }
-      const parsedDiff = parseDiffToFileHunks(diffOutput);
 
+      /**
+       * Parse git diff to more useable format
+       */
+      const files = parseDiffToFileHunks(diffOutput);
+
+      /**
+       * Get rules from Floe config
+       */
       const rules = getRules();
 
-      // TODO: Filter out rulesets that don't apply to the diff
+      /**
+       * We only want to evaluate diffs that are included in a ruleset
+       */
+      const filesToEvaluate = files
+        .map((file) => {
+          const matchingRulesets = rules.rulesetsWithRules.filter((ruleset) => {
+            return ruleset.include.some((pattern) => {
+              return minimatch(file.path, pattern);
+            });
+          });
 
-      rules.rulesetsWithRules.forEach((ruleset) => {
-        ruleset.rules.forEach((rule) => {
-          parsedDiff.forEach((file) => {
+          return {
+            ...file,
+            matchingRulesets,
+          };
+        })
+        .filter(({ matchingRulesets }) => matchingRulesets.length > 0);
+
+      filesToEvaluate.forEach((file) => {
+        file.matchingRulesets.forEach((ruleset) => {
+          ruleset.rules.forEach((rule) => {
             file.hunks.forEach(async (hunk) => {
               const review = await createReview({
                 path: file.path,
