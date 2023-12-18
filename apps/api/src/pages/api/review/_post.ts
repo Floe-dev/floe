@@ -111,10 +111,11 @@ async function handler({
     };
   });
 
-  const response = {
+  const response: PostReviewResponse = {
     path,
     violations,
     cached: false,
+    usage: completion.usage,
   };
 
   // Cache for 1 week

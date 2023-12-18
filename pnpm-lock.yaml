@@ -516,12 +516,15 @@ importers:
       '@octokit/types':
         specifier: ^12.3.0
         version: 12.3.0
+      eslint-config-custom:
+        specifier: workspace:*
+        version: link:../eslint-config-custom
       openai:
         specifier: ^4.19.0
         version: 4.19.0
-      typescript:
-        specifier: ^4.5.3
-        version: 4.9.5
+      tsconfig:
+        specifier: workspace:*
+        version: link:../tsconfig
 
   packages/tailwind:
     devDependencies:

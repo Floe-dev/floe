@@ -1,4 +1,5 @@
 import { z } from "zod";
+import type OpenAI from "openai";
 import { api } from "../api";
 
 export const querySchema = z.object({
@@ -26,6 +27,7 @@ export type PostReviewResponse =
       }[];
       path: string;
       cached: boolean;
+      usage: OpenAI.Completions.CompletionUsage | undefined;
     }
   | undefined;
 export type PostReviewInput = z.infer<typeof querySchema>;
