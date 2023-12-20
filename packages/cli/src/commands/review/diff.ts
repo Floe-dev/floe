@@ -98,6 +98,10 @@ export function diff(program: Command) {
 
       const spinner = ora("Validating content...").start();
 
+      /**
+       * Generate a review for each hunk and rule.
+       * Output is an array of reviews grouped by file.
+       */
       const reviewsByFile = await Promise.all(
         ruleHunksByFile.map(async ({ path, evaluations }) => {
           const evaluationsResponse = await Promise.all(
@@ -131,6 +135,9 @@ export function diff(program: Command) {
 
       spinner.stop();
 
+      /**
+       * Generate a count of total errors and warnings for each file
+       */
       const errorsByFile = reviewsByFile.map(
         ({ path, evaluationsResponse }) => {
           const warningsAndErrors = evaluationsResponse.reduce(
@@ -240,6 +247,9 @@ export function diff(program: Command) {
         }
       );
 
+      /**
+       * Log total errors and warnings across all files
+       */
       const combinedErrorsAndWarnings = errorsByFile.reduce(
         (acc, { errors, warnings }) => ({
           errors: acc.errors + errors,
@@ -268,6 +278,9 @@ export function diff(program: Command) {
         )
       );
 
+      /**
+       * Exit with error code if there are any errors
+       */
       if (combinedErrorsAndWarnings.errors > 0) {
         process.exit(1);
       }
