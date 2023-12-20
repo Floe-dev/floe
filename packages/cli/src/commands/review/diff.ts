@@ -76,6 +76,12 @@ export function diff(program: Command) {
         })
         .filter(({ matchingRulesets }) => matchingRulesets.length > 0);
 
+      if (filesMatchingRulesets.length === 0) {
+        console.log(chalk.dim("No files to review\n"));
+
+        process.exit(0);
+      }
+
       /**
        * We want to evaluate each hunk against each rule. This can create a lot
        * of requests! But we can do this in parallel, and each request is
