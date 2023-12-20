@@ -10,7 +10,6 @@ import { checkIfValidRoot } from "../../utils/check-if-valid-root";
 import { getDefaultBranch, getCurrentBranch } from "../../utils/git";
 import { logAxiosError } from "../../utils/logging";
 
-const oraImport = import("ora").then((m) => m.default);
 const chalkImport = import("chalk").then((m) => m.default);
 
 export function diff(program: Command) {
@@ -30,7 +29,6 @@ export function diff(program: Command) {
       /**
        * Import ESM modules
        */
-      const ora = await oraImport;
       const chalk = await chalkImport;
 
       const baseSha = getDefaultBranch();
@@ -98,8 +96,6 @@ export function diff(program: Command) {
 
       const allReviews = await Promise.all(
         ruleHunksByFile.map(async ({ path, evaluations }) => {
-          const spinner = ora(`📂 ${path}\n`).start();
-
           const evaluationsResponse = await Promise.all(
             evaluations.map(async ({ rule, hunk }) => {
               const review = await createReview({
@@ -162,13 +158,7 @@ export function diff(program: Command) {
             };
           }
 
-          /**
-           * Show file status
-           */
-          spinner.stopAndPersist({
-            symbol: errorLevel.symbol,
-            text: `📂 ${path}`,
-          });
+          console.log(`${errorLevel.symbol} 📂 ${path}\n`);
 
           if (
             warningsAndErrors.errors === 0 &&
