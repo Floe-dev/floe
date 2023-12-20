@@ -77,7 +77,7 @@ export function diff(program: Command) {
         .filter(({ matchingRulesets }) => matchingRulesets.length > 0);
 
       if (filesMatchingRulesets.length === 0) {
-        console.log(chalk.dim("No files to review\n"));
+        console.log(chalk.dim("No matching files in diff to review\n"));
 
         process.exit(0);
       }
