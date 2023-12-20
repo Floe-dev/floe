@@ -10,6 +10,7 @@ import { checkIfValidRoot } from "../../utils/check-if-valid-root";
 import { getDefaultBranch, getCurrentBranch } from "../../utils/git";
 import { logAxiosError } from "../../utils/logging";
 
+const oraImport = import("ora").then((m) => m.default);
 const chalkImport = import("chalk").then((m) => m.default);
 
 export function diff(program: Command) {
@@ -29,6 +30,7 @@ export function diff(program: Command) {
       /**
        * Import ESM modules
        */
+      const ora = await oraImport;
       const chalk = await chalkImport;
 
       const baseSha = getDefaultBranch();
@@ -94,7 +96,9 @@ export function diff(program: Command) {
         ),
       }));
 
-      const allReviews = await Promise.all(
+      const spinner = ora("Validating content...").start();
+
+      const reviewsByFile = await Promise.all(
         ruleHunksByFile.map(async ({ path, evaluations }) => {
           const evaluationsResponse = await Promise.all(
             evaluations.map(async ({ rule, hunk }) => {
@@ -118,6 +122,17 @@ export function diff(program: Command) {
             })
           );
 
+          return {
+            path,
+            evaluationsResponse,
+          };
+        })
+      );
+
+      spinner.stop();
+
+      const errorsByFile = reviewsByFile.map(
+        ({ path, evaluationsResponse }) => {
           const warningsAndErrors = evaluationsResponse.reduce(
             (acc, { review }) => {
               if (!review) {
@@ -139,19 +154,32 @@ export function diff(program: Command) {
             }
           );
 
+          return {
+            path,
+            evaluationsResponse,
+            ...warningsAndErrors,
+          };
+        }
+      );
+
+      /**
+       * Log errors and warnings
+       */
+      errorsByFile.forEach(
+        ({ path, errors, warnings, evaluationsResponse }) => {
           let errorLevel = {
             symbol: chalk.white.bgGreen("  PASS  "),
             level: "pass",
           };
 
-          if (warningsAndErrors.warnings > 0) {
+          if (warnings > 0) {
             errorLevel = {
               symbol: chalk.white.bgYellow("  WARN  "),
               level: "warn",
             };
           }
 
-          if (warningsAndErrors.errors > 0) {
+          if (errors > 0) {
             errorLevel = {
               symbol: chalk.white.bgRed("  FAIL  "),
               level: "fail",
@@ -160,10 +188,7 @@ export function diff(program: Command) {
 
           console.log(`${errorLevel.symbol} 📂 ${path}\n`);
 
-          if (
-            warningsAndErrors.errors === 0 &&
-            warningsAndErrors.warnings === 0
-          ) {
+          if (errors === 0 && warnings === 0) {
             console.log(
               chalk.dim("No violations found for current selection\n")
             );
@@ -212,12 +237,10 @@ export function diff(program: Command) {
                 "\n"
               );
             });
-
-          return warningsAndErrors;
-        })
+        }
       );
 
-      const combinedErrorsAndWarnings = allReviews.reduce(
+      const combinedErrorsAndWarnings = errorsByFile.reduce(
         (acc, { errors, warnings }) => ({
           errors: acc.errors + errors,
           warnings: acc.warnings + warnings,
