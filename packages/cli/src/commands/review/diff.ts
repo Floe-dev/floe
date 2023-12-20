@@ -1,5 +1,6 @@
 import type { Command } from "commander";
 import { getRules } from "@floe/lib/rules";
+import { pluralize } from "@floe/lib/pluralize";
 import { parseDiffToFileHunks } from "@floe/lib/diff-parser";
 import { createReview } from "@floe/requests/review/_post";
 import simpleGit from "simple-git";
@@ -80,58 +81,106 @@ export function diff(program: Command) {
        * of requests! But we can do this in parallel, and each request is
        * cached.
        */
-      const hunksToEvaluate = filesMatchingRulesets.flatMap((file) =>
-        file.matchingRulesets.flatMap((ruleset) =>
+      const ruleHunksByFile = filesMatchingRulesets.map((file) => ({
+        path: file.path,
+        evaluations: file.matchingRulesets.flatMap((ruleset) =>
           ruleset.rules.flatMap((rule) =>
-            file.hunks.map((hunk) => ({ file, rule, hunk }))
+            file.hunks.map((hunk) => ({ rule, hunk }))
           )
-        )
-      );
+        ),
+      }));
 
       const allReviews = await Promise.all(
-        hunksToEvaluate.map(async ({ file, rule, hunk }) => {
-          const spinner = ora("Validating content...").start();
+        ruleHunksByFile.map(async ({ path, evaluations }) => {
+          const spinner = ora(`📂 ${path}\n`).start();
 
-          const response = await createReview({
-            path: file.path,
-            content: hunk.content,
-            startLine: hunk.lineStart,
-            rule,
-          }).catch((e) => {
-            console.log(chalk.dim("Error validating content", e.message));
+          const evaluationsResponse = await Promise.all(
+            evaluations.map(async ({ rule, hunk }) => {
+              const review = await createReview({
+                path,
+                content: hunk.content,
+                startLine: hunk.lineStart,
+                rule,
+              }).catch((e) => {
+                console.log(chalk.dim("Error validating content", e.message));
+              });
 
-            spinner.stop();
+              return {
+                hunk,
+                rule,
+                review: review?.data,
+              };
+            })
+          );
+
+          const warningsAndErrors = evaluationsResponse.reduce(
+            (acc, { review }) => {
+              if (!review) {
+                return acc;
+              }
+
+              return {
+                errors:
+                  acc.errors +
+                  review.violations.filter((v) => v.level === "error").length,
+                warnings:
+                  acc.warnings +
+                  review.violations.filter((v) => v.level === "warn").length,
+              };
+            },
+            {
+              errors: 0,
+              warnings: 0,
+            }
+          );
+
+          let errorLevel = {
+            symbol: chalk.white.bgGreen("  PASS  "),
+            level: "pass",
+          };
+
+          if (warningsAndErrors.errors > 0) {
+            errorLevel = {
+              symbol: chalk.white.bgRed("  FAIL  "),
+              level: "fail",
+            };
+          }
+
+          if (warningsAndErrors.warnings > 0) {
+            errorLevel = {
+              symbol: chalk.white.bgYellow("  WARN  "),
+              level: "warn",
+            };
+          }
+
+          /**
+           * Show file status
+           */
+          spinner.stopAndPersist({
+            symbol: errorLevel.symbol,
+            text: `📂 ${path}`,
           });
 
-          spinner.stop();
-
-          if (!response?.data) {
-            return;
-          }
-
-          const { cached, violations, path } = response.data;
-
-          if (cached) {
-            console.log(chalk.dim("Validated from cache"));
-          }
-
-          if (violations.length === 0) {
+          if (
+            warningsAndErrors.errors === 0 &&
+            warningsAndErrors.warnings === 0
+          ) {
             console.log(
               chalk.dim("No violations found for current selection\n")
             );
-          } else {
-            const rootErrorLevel = violations.some((v) => v.level === "error")
-              ? "error"
-              : "warn";
+          }
 
-            if (rootErrorLevel === "error") {
-              console.log(chalk.white.bgRed(" ERROR "), `📂 ${path}\n`);
-            } else {
-              console.log(chalk.white.bgYellow(" WARN "), `📂 ${path}\n`);
-            }
+          /**
+           * Log violations
+           */
+          evaluationsResponse
+            .flatMap((e) => e.review?.violations)
+            .forEach((violation) => {
+              if (!violation) {
+                return;
+              }
 
-            violations.forEach((violation) => {
-              const icon = violation.level === "error" ? "❌" : "⚠️";
+              const icon = violation.level === "error" ? "❌" : "⚠️ ";
 
               /**
                * Log violation code and description
@@ -165,14 +214,40 @@ export function diff(program: Command) {
               );
             });
 
-            return;
-          }
-
-          console.log(chalk.white.bgGreen(" PASS "), `📂 ${path}`);
+          return warningsAndErrors;
         })
-      ).catch(async (e) => {
-        await logAxiosError(e);
+      );
+
+      const combinedErrorsAndWarnings = allReviews.reduce(
+        (acc, { errors, warnings }) => ({
+          errors: acc.errors + errors,
+          warnings: acc.warnings + warnings,
+        }),
+        {
+          errors: 0,
+          warnings: 0,
+        }
+      );
+
+      console.log(
+        chalk.red(
+          `${combinedErrorsAndWarnings.errors} ${pluralize(
+            combinedErrorsAndWarnings.errors,
+            "error",
+            "errors"
+          )}`
+        ),
+        chalk.yellow(
+          `${combinedErrorsAndWarnings.warnings} ${pluralize(
+            combinedErrorsAndWarnings.warnings,
+            "warning",
+            "warnings"
+          )}`
+        )
+      );
+
+      if (combinedErrorsAndWarnings.errors > 0) {
         process.exit(1);
-      });
+      }
     });
 }
