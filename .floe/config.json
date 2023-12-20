@@ -8,7 +8,8 @@
     "docs": {
       "include": ["**/*.mdx"],
       "rules": {
-        "no-spelling-mistakes": "warn"
+        "no-spelling-mistakes": "warn",
+        "overly-enthusiastic": "error"
       }
     }
   }

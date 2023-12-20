@@ -101,14 +101,17 @@ export function diff(program: Command) {
                 content: hunk.content,
                 startLine: hunk.lineStart,
                 rule,
-              }).catch((e) => {
-                console.log(chalk.dim("Error validating content", e.message));
+              }).catch(async (e) => {
+                await logAxiosError(e);
+
+                process.exit(1);
               });
 
               return {
                 hunk,
                 rule,
-                review: review?.data,
+                review: review.data,
+                cached: review.data?.cached,
               };
             })
           );
@@ -139,17 +142,17 @@ export function diff(program: Command) {
             level: "pass",
           };
 
-          if (warningsAndErrors.errors > 0) {
-            errorLevel = {
-              symbol: chalk.white.bgRed("  FAIL  "),
-              level: "fail",
-            };
-          }
-
           if (warningsAndErrors.warnings > 0) {
             errorLevel = {
               symbol: chalk.white.bgYellow("  WARN  "),
               level: "warn",
+            };
+          }
+
+          if (warningsAndErrors.errors > 0) {
+            errorLevel = {
+              symbol: chalk.white.bgRed("  FAIL  "),
+              level: "fail",
             };
           }
 
