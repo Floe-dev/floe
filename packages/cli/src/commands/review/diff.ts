@@ -17,8 +17,8 @@ export function diff(program: Command) {
   program
     .command("diff")
     .description("Validate content from diff")
-    .option("--repo <repo>", "Repository owner and name eg. owner/name")
     .argument("[diff]", "Diff")
+    .option("--repo <repo>", "Repository owner and name eg. owner/name")
     // .option("--base <baseSha>", "Base SHA")
     // .option("--head <headSha>", "Head SHA")
     .action(async (diffArg?: string, options: { repo?: string } = {}) => {
@@ -37,7 +37,7 @@ export function diff(program: Command) {
       const headSha = getCurrentBranch();
 
       const basehead =
-        diffArg ?? options.repo ? `${baseSha}...${headSha}` : "HEAD~1";
+        diffArg ?? (options.repo ? `${baseSha}...${headSha}` : "HEAD");
 
       // Exec git diff and parse output
       let diffOutput: string;
