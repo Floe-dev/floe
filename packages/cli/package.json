@@ -33,6 +33,7 @@
     "cli-spinners": "^2.9.1",
     "commander": "^11.1.0",
     "dotenv": "^16.3.1",
+    "minimatch": "^9.0.3",
     "ora": "^7.0.1",
     "simple-git": "^3.20.0",
     "unique-names-generator": "^4.7.1"

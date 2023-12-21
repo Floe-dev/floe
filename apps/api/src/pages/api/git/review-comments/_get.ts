@@ -1,6 +1,6 @@
 import { HttpError } from "@floe/lib/http-error";
-import { querySchema } from "@floe/requests/review-comments/_post";
-import type { PostReviewCommentsResponse } from "@floe/requests/review-comments/_post";
+import { querySchema } from "@floe/requests/git/review-comments/_get";
+import type { GetGitReviewCommentsResponse } from "@floe/requests/git/review-comments/_get";
 import type { NextApiRequestExtension } from "~/types/private-middleware";
 import { getOctokit } from "~/lib/github/octokit";
 import { defaultResponder } from "~/lib/helpers/default-responder";
@@ -9,7 +9,7 @@ import { zParse } from "~/utils/z-parse";
 async function handler({
   queryObj,
   workspace,
-}: NextApiRequestExtension): Promise<PostReviewCommentsResponse> {
+}: NextApiRequestExtension): Promise<GetGitReviewCommentsResponse> {
   const parsed = zParse(querySchema, queryObj);
 
   if (workspace.gitlabIntegration) {
@@ -28,29 +28,20 @@ async function handler({
 
   const octokit = await getOctokit(workspace.githubIntegration.installationId);
 
-  const comments = await octokit.rest.pulls
-    .createReviewComment({
-      body: parsed.body,
-      repo: parsed.repo,
+  const comments = await octokit
+    .paginate(octokit.rest.pulls.listReviewComments, {
       owner: parsed.owner,
+      repo: parsed.repo,
       pull_number: parsed.pullNumber,
-      line: parsed.line,
-      start_line: parsed.startLine,
-      side: parsed.side,
-      start_side: parsed.startSide,
-      path: parsed.path,
-      commit_id: parsed.commitId,
     })
-    .catch((e) => {
-      console.error(e.message);
-
+    .catch(() => {
       throw new HttpError({
-        message: "Could not create comment on GitHub.",
+        message: "Could not fetch comments from GitHub.",
         statusCode: 500,
       });
     });
 
-  return comments.data;
+  return comments;
 }
 
 export default defaultResponder(handler);

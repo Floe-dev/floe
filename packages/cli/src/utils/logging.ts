@@ -1,7 +1,7 @@
 const chalkImport = import("chalk").then((m) => m.default);
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any -- This is the type returned by Axios
-export async function logError(error: any) {
+export async function logAxiosError(error: any) {
   const chalk = await chalkImport;
 
   if (error.response) {

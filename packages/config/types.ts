@@ -5,7 +5,7 @@ export interface Config {
     string,
     {
       include: string[];
-      rules: Record<string, "error" | "warn" | "off">;
+      rules: Record<string, "error" | "warn">;
     }
   >;
 }

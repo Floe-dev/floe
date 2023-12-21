@@ -1,6 +1,6 @@
 import { HttpError } from "@floe/lib/http-error";
-import { querySchema } from "@floe/requests/review-comments/_patch";
-import type { PatchReviewCommentsResponse } from "@floe/requests/review-comments/_patch";
+import { querySchema } from "@floe/requests/git/review-comments/_patch";
+import type { PatchGitReviewCommentsResponse } from "@floe/requests/git/review-comments/_patch";
 import type { NextApiRequestExtension } from "~/types/private-middleware";
 import { getOctokit } from "~/lib/github/octokit";
 import { defaultResponder } from "~/lib/helpers/default-responder";
@@ -9,7 +9,7 @@ import { zParse } from "~/utils/z-parse";
 async function handler({
   queryObj,
   workspace,
-}: NextApiRequestExtension): Promise<PatchReviewCommentsResponse> {
+}: NextApiRequestExtension): Promise<PatchGitReviewCommentsResponse> {
   const parsed = zParse(querySchema, queryObj);
 
   if (workspace.gitlabIntegration) {
