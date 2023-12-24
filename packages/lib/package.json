@@ -1,6 +1,5 @@
 {
   "name": "@floe/lib",
-  "private": true,
   "sideEffects": false,
   "version": "0.1.0-alpha.0",
   "dependencies": {
@@ -13,5 +12,8 @@
     "@types/node": "^20.8.10",
     "eslint-config-custom": "workspace:*",
     "tsconfig": "workspace:*"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
