@@ -15,15 +15,19 @@ export const getRulesets = () => {
       name: key,
       ...value,
       rules: Object.entries(value.rules).map(([ruleKey, ruleValue]) => {
-        const rule = fs.readFileSync(
-          path.join(process.cwd(), `.floe/rules/${ruleKey}.md`),
-          "utf-8"
-        );
+        let rule;
 
-        if (!rule) {
-          throw new Error(
+        try {
+          rule = fs.readFileSync(
+            path.join(process.cwd(), `.floe/rules/${ruleKey}.md`),
+            "utf-8"
+          );
+        } catch (e) {
+          console.log(
             `Invalid config. Rule "${ruleKey}" does not exist in "rules" directory.`
           );
+
+          process.exit(1);
         }
 
         return {
