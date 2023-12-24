@@ -15,7 +15,7 @@ export function parseDiffToFileHunks(diffText: string) {
         path: f.newPath,
         hunks: f.hunks.map((h) => {
           return {
-            lineStart: h.newStart,
+            startLine: h.newStart,
             content: h.changes.reduce((acc, c) => {
               if (c.type === "insert") {
                 return `${acc}${c.content}\n`;

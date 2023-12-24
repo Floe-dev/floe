@@ -96,6 +96,9 @@ export function diff(program: Command) {
         ),
       }));
 
+      /**
+       * Show loading spinner
+       */
       const spinner = ora("Validating content...").start();
 
       /**
@@ -109,18 +112,24 @@ export function diff(program: Command) {
               const review = await createReview({
                 path,
                 content: hunk.content,
-                startLine: hunk.lineStart,
+                startLine: hunk.startLine,
                 rule,
               }).catch(async (e) => {
+                spinner.stop();
                 await logAxiosError(e);
 
                 process.exit(1);
               });
 
               return {
-                hunk,
-                rule,
-                review: review.data,
+                review: {
+                  ...review.data,
+                  // Map rule to each violation. This is useful later on for logging
+                  violations: review.data?.violations.map((v) => ({
+                    ...v,
+                    ...rule,
+                  })),
+                },
                 cached: review.data?.cached,
               };
             })
@@ -133,6 +142,9 @@ export function diff(program: Command) {
         })
       );
 
+      /**
+       * Rules fetched. We can stop the spinner.
+       */
       spinner.stop();
 
       /**
@@ -142,7 +154,7 @@ export function diff(program: Command) {
         ({ path, evaluationsResponse }) => {
           const warningsAndErrors = evaluationsResponse.reduce(
             (acc, { review }) => {
-              if (!review) {
+              if (!review.violations) {
                 return acc;
               }
 
@@ -205,7 +217,7 @@ export function diff(program: Command) {
            * Log violations
            */
           evaluationsResponse
-            .flatMap((e) => e.review?.violations)
+            .flatMap((e) => e.review.violations)
             .forEach((violation) => {
               if (!violation) {
                 return;
@@ -227,7 +239,7 @@ export function diff(program: Command) {
                * Log lines with violations
                */
               console.log(
-                chalk.dim.strikethrough(truncate(violation.lineContent, 100))
+                chalk.dim.strikethrough(truncate(violation.content, 100))
               );
 
               /**
