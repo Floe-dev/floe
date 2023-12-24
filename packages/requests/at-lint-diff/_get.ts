@@ -5,7 +5,7 @@ export type AiLintDiffResponse =
           level: "error" | "warn" | undefined;
           description: string | undefined;
           code: string;
-          errorDescription: string;
+          description: string;
           fix: string | undefined;
           startLine: number;
           endLine: number;

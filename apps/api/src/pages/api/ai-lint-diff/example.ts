@@ -22,14 +22,14 @@ export const exampleOutput = {
   violations: [
     {
       code: "no-spelling-mistakes",
-      errorDescription: "The word 'moveies' is misspelled",
+      description: "The word 'moveies' is misspelled",
       fix: "These are my top 5 favourite movies of all time:",
       startLine: 1,
       endLine: 1,
     },
     {
       code: "no-lettered-lists",
-      errorDescription: "A lettered list is used. Use a numbered list instead.",
+      description: "A lettered list is used. Use a numbered list instead.",
       fix: "1. The Matrix\n2. Babe: Pig in the City\n3. Titanic",
       startLine: 2,
       endLine: 4,

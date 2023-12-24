@@ -19,7 +19,7 @@ import { exampleContent, exampleOutput, exampleRules } from "./example";
 
 type Violation = Pick<
   NonNullable<AiLintDiffResponse>["files"][number]["violations"][number],
-  "code" | "fix" | "errorDescription" | "startLine" | "endLine"
+  "code" | "fix" | "description" | "startLine" | "endLine"
 >;
 
 const querySchema = z.object({
@@ -84,7 +84,7 @@ async function handler(
     "Your job is to function as a prose linter. You will be given CONTENT (an object where keys represent lineNumbers, and values represent content) and RULES (a dictionary). For every rule:",
     "1. Determine places where the rule is violated. You must only report on supplied rules. DO NOT add rules that have not been provided by the user.",
     "2. Report the `code` of the rule.",
-    "3. Describe why the violation was triggered in `errorDescription`.",
+    "3. Describe why the violation was triggered in `description`.",
     "4. Suggest a `fix` for the violated lines. If the violation spans multiple lines, insert a newline character '\\n' between each line. If no fix is available, you can return 'undefined'.",
     "5. Report the `startLine` and `endLine` numbers in which the violation occured.",
     "Return a JSON response object with the following shape:",
@@ -92,7 +92,7 @@ async function handler(
       "violations": [
         {
           "code": "...",
-          "errorDescription": "...",
+          "description": "...",
           "fix": "...",
           "startLine": "...",
           "endLine": "...",

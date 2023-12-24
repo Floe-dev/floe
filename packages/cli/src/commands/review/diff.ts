@@ -220,7 +220,7 @@ export function diff(program: Command) {
                 chalk.bold(
                   `${icon} ${violation.code} @@${violation.startLine},${violation.endLine}:`
                 ),
-                violation.errorDescription
+                violation.description
               );
 
               /**
