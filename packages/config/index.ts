@@ -1,18 +1,9 @@
+import type { Config } from "./types";
 import { version } from "./package.json";
 
-export const defaultConfig = {
+export const defaultConfig: Config = {
   $schema: `https://unpkg.com/@floe/config@${version}/schema.json`,
-  rules: {
-    "overly-enthusiastic": "Make every sentence end with an exclamation mark!",
-  },
-  rulesets: {
-    docs: {
-      include: ["**/*.md"],
-      rules: {
-        "overly-enthusiastic": "error",
-      },
-    },
-  },
+  rulesets: {},
 } as const;
 
 export { validate } from "./validate";

@@ -1,15 +1,10 @@
 {
-  "$schema": "https://unpkg.com/@floe/config@0.0.0/schema.json",
-  "rules": {
-    "overly-enthusiastic": "Make every sentence end with an exclamation mark!",
-    "no-spelling-mistakes": "Make sure you don't have any spelling mistakes!"
-  },
+  "$schema": "https://unpkg.com/@floe/config@0.1.0-alpha.2/schema.json",
   "rulesets": {
     "docs": {
-      "include": ["**/*.mdx"],
+      "include": ["apps/docs/**/*.mdx"],
       "rules": {
-        "no-spelling-mistakes": "warn",
-        "overly-enthusiastic": "error"
+        "spelling-and-grammar": "warn"
       }
     }
   }

@@ -1,10 +1,9 @@
 export interface Config {
   $schema: string;
-  rules: Record<string, string>;
   rulesets: Record<
     string,
     {
-      include: string[];
+      include: readonly string[];
       rules: Record<string, "error" | "warn">;
     }
   >;

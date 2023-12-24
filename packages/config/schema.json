@@ -8,12 +8,6 @@
         "$schema": {
           "type": "string"
         },
-        "rules": {
-          "type": "object",
-          "additionalProperties": {
-            "type": "string"
-          }
-        },
         "rulesets": {
           "type": "object",
           "additionalProperties": {
@@ -46,7 +40,6 @@
       },
       "required": [
         "$schema",
-        "rules",
         "rulesets"
       ],
       "additionalProperties": false

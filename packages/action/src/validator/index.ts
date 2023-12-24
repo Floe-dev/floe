@@ -1,6 +1,6 @@
 import { inspect } from "node:util";
 // import { api } from "@floe/lib/axios";
-// import { getRules } from "@floe/lib/rules";
+// import { getRulesets } from "@floe/lib/rules";
 // import type { AiLintDiffResponse } from "@floe/requests/at-lint-diff/_get";
 import * as core from "@actions/core";
 import * as github from "@actions/github";
@@ -24,7 +24,7 @@ async function run() {
       throw new Error("Missing owner, repo, or prNumber");
     }
 
-    // const { rulesetsWithRules } = getRules();
+    // const { rulesetsWithRules } = getRulesets();
 
     // const response = await api.get<AiLintDiffResponse>("/api/v1/ai-lint-diff", {
     //   params: {

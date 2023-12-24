@@ -1,5 +1,5 @@
 import type { Command } from "commander";
-import { getRules } from "@floe/lib/rules";
+import { getRulesets } from "@floe/lib/rules";
 import { pluralize } from "@floe/lib/pluralize";
 import { parseDiffToFileHunks } from "@floe/lib/diff-parser";
 import { createReview } from "@floe/requests/review/_post";
@@ -56,14 +56,14 @@ export function diff(program: Command) {
       /**
        * Get rules from Floe config
        */
-      const rules = getRules();
+      const rulesets = getRulesets();
 
       /**
        * We only want to evaluate diffs that are included in a ruleset
        */
       const filesMatchingRulesets = files
         .map((file) => {
-          const matchingRulesets = rules.rulesetsWithRules.filter((ruleset) => {
+          const matchingRulesets = rulesets.filter((ruleset) => {
             return ruleset.include.some((pattern) => {
               return minimatch(file.path, pattern);
             });
