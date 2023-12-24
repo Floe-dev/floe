@@ -2,35 +2,38 @@ import fs from "node:fs";
 import path from "node:path";
 import type { Config } from "@floe/config";
 
-export const getRules = () => {
+export const getRulesets = () => {
   const config = fs.readFileSync(
     path.join(process.cwd(), ".floe/config.json"),
     "utf-8"
   );
 
-  const { rules, rulesets } = JSON.parse(config) as Config;
+  const { rulesets } = JSON.parse(config) as Config;
 
   const rulesetsWithRules = Object.entries(rulesets).map(([key, value]) => {
     return {
       name: key,
       ...value,
       rules: Object.entries(value.rules).map(([ruleKey, ruleValue]) => {
-        const description = rules[ruleKey];
+        const rule = fs.readFileSync(
+          path.join(process.cwd(), `.floe/rules/${ruleKey}.md`),
+          "utf-8"
+        );
 
-        if (!description) {
+        if (!rule) {
           throw new Error(
-            `Invalid config. Rule "${ruleKey}" does not exist in "rules".`
+            `Invalid config. Rule "${ruleKey}" does not exist in "rules" directory.`
           );
         }
 
         return {
           code: ruleKey,
           level: ruleValue,
-          description,
+          description: rule,
         };
       }),
     };
   });
 
-  return { rules, rulesets, rulesetsWithRules };
+  return rulesetsWithRules;
 };

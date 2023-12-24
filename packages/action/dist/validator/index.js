@@ -47136,7 +47136,7 @@ ${pendingInterceptorsFormatter.format(pending)}
         if (!owner || !repo || !pullNumber) {
           throw new Error("Missing owner, repo, or prNumber");
         }
-        // const { rulesetsWithRules } = getRules();
+        // const { rulesetsWithRules } = getRulesets();
         // const response = await api.get<AiLintDiffResponse>("/api/v1/ai-lint-diff", {
         //   params: {
         //     owner,
