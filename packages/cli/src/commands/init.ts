@@ -2,6 +2,7 @@ import fs from "node:fs";
 import { resolve } from "node:path";
 import type { Command } from "commander";
 import { confirm } from "@inquirer/prompts";
+import type { Config } from "@floe/config";
 import { defaultConfig } from "@floe/config";
 import { checkIfValidRoot } from "../utils/check-if-valid-root";
 
@@ -29,18 +30,28 @@ export function init(program: Command) {
       /**
        * TODO: Let user choose which templates to copy
        */
-      fs.cpSync(`${__dirname}/default-files/`, ".floe/templates", {
+      // fs.cpSync(`${__dirname}/default-files/templates`, ".floe/templates", {
+      //   recursive: true,
+      // });
+
+      fs.cpSync(`${__dirname}/default-files/rules`, ".floe/rules", {
         recursive: true,
       });
 
       /**
        * Can augment default config with rules, rulesets, etc. based on user input
        */
-      const config = {
+      const config: Config = {
         ...defaultConfig,
+        rulesets: {
+          docs: {
+            include: ["apps/docs/**/*.mdx"],
+            rules: {
+              "spelling-and-grammar": "warn",
+            },
+          },
+        },
       };
-
-      console.log(11111, config);
 
       fs.writeFileSync(
         resolve(".floe/config.json"),
