@@ -18,5 +18,10 @@
     "@floe/lib": "0.0.0",
     "@floe/action": "0.1.0-alpha.0"
   },
-  "changesets": ["fast-coins-unite", "popular-rules-beam", "slimy-bikes-divide"]
+  "changesets": [
+    "fast-coins-unite",
+    "popular-rules-beam",
+    "slimy-bikes-divide",
+    "tiny-kings-sparkle"
+  ]
 }

@@ -1,5 +1,11 @@
 # @floe/cli
 
+## 0.1.0-alpha.3
+
+### Minor Changes
+
+- Implement new review endpoint in CLI
+
 ## 0.1.0-alpha.2
 
 ### Minor Changes
