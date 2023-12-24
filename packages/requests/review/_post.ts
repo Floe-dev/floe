@@ -16,15 +16,15 @@ export const querySchema = z.object({
 export type PostReviewResponse =
   | {
       violations: {
-        level: "error" | "warn" | undefined;
         description: string | undefined;
-        code: string;
-        errorDescription: string;
         suggestedFix: string | undefined;
         startLine: number;
         endLine: number;
-        lineContent: string;
+        content: string;
       }[];
+      level: "error" | "warn" | undefined;
+      code: string;
+      description: string;
       path: string;
       cached: boolean;
       usage: OpenAI.Completions.CompletionUsage | undefined;

@@ -1,11 +1,11 @@
 import { inspect } from "node:util";
-import { api } from "@floe/lib/axios";
-import { getRules } from "@floe/lib/rules";
-import type { AiLintDiffResponse } from "@floe/requests/at-lint-diff/_get";
+// import { api } from "@floe/lib/axios";
+// import { getRules } from "@floe/lib/rules";
+// import type { AiLintDiffResponse } from "@floe/requests/at-lint-diff/_get";
 import * as core from "@actions/core";
 import * as github from "@actions/github";
-import { fetchGitReviewComments } from "@floe/requests/review-comments/_get";
-import { createGitReviewComment } from "@floe/requests/review-comments/_post";
+import { fetchGitReviewComments } from "@floe/requests/git/review-comments/_get";
+// import { createGitReviewComment } from "@floe/requests/review-comments/_post";
 
 async function run() {
   try {

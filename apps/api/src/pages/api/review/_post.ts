@@ -16,7 +16,7 @@ type OpenAIOptions =
 
 type Violation = Pick<
   NonNullable<PostReviewResponse>["violations"][number],
-  "suggestedFix" | "errorDescription" | "startLine" | "endLine"
+  "suggestedFix" | "description" | "startLine" | "endLine"
 >;
 
 async function handler({
@@ -97,18 +97,15 @@ async function handler({
   };
 
   const violations = responseJson.violations.map((violation) => {
-    let lineContent = "";
+    let c = "";
 
     for (let i = violation.startLine; i <= violation.endLine; i++) {
-      lineContent += `${lines[i]}${i !== violation.endLine ? "\n" : ""}`;
+      c += `${lines[i]}${i !== violation.endLine ? "\n" : ""}`;
     }
 
     return {
       ...violation,
-      lineContent,
-      code: rule.code,
-      level: rule.level,
-      description: rule.description,
+      content: c,
     };
   });
 
@@ -117,6 +114,9 @@ async function handler({
     violations,
     cached: false,
     usage: completion.usage,
+    code: rule.code,
+    level: rule.level,
+    description: rule.description,
   };
 
   // Cache for 1 week
