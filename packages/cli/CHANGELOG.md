@@ -1,5 +1,13 @@
 # @floe/cli
 
+## 0.1.0-alpha.4
+
+### Patch Changes
+
+- Updated dependencies
+  - @floe/config@0.1.0-alpha.4
+  - @floe/lib@0.1.0-alpha.0
+
 ## 0.1.0-alpha.3
 
 ### Minor Changes
