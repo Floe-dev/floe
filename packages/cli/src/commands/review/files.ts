@@ -1,11 +1,10 @@
+import fs from "node:fs";
 import type { Command } from "commander";
 import { getRulesets } from "@floe/lib/rules";
-import { parseDiffToFileHunks } from "@floe/lib/diff-parser";
-import simpleGit from "simple-git";
+import { glob } from "glob";
 import { minimatch } from "minimatch";
 import { getFloeConfig } from "@floe/lib/get-floe-config";
 import { checkIfValidRoot } from "@floe/lib/check-if-valid-root";
-import { getDefaultBranch, getCurrentBranch } from "../../utils/git";
 import { logAxiosError } from "../../utils/logging";
 import {
   checkIfUnderEvaluationLimit,
@@ -18,17 +17,14 @@ import {
 const oraImport = import("ora").then((m) => m.default);
 const chalkImport = import("chalk").then((m) => m.default);
 
-export function diff(program: Command) {
+export function files(program: Command) {
   program
-    .command("diff")
-    .description("Validate content from diff")
-    .argument("[diff]", "Diff")
-    // .option("--repo <repo>", "Repository owner and name eg. owner/name")
+    .command("files")
+    .description("Validate content from files")
+    .argument("[files...]", "Files")
+    .option("--ignore <ignore...>", "Ignore pattern")
     .action(
-      async (
-        diffArg?: string
-        // options: { repo?: string } = {}
-      ) => {
+      async (filesArg?: string[], options: { ignore?: string[] } = {}) => {
         /**
          * Exit if not a valid Floe root
          */
@@ -42,26 +38,10 @@ export function diff(program: Command) {
 
         const config = getFloeConfig();
 
-        const baseSha = getDefaultBranch();
-        const headSha = getCurrentBranch();
+        const filesPattern = filesArg?.length ? filesArg : ["**/*"];
+        const ignore = options.ignore?.length ? options.ignore : [];
 
-        const basehead =
-          // diffArg ?? (options.repo ? `${baseSha}...${headSha}` : "HEAD");
-          diffArg ?? `${baseSha}...${headSha}`;
-
-        // Exec git diff and parse output
-        let diffOutput: string;
-
-        try {
-          diffOutput = await simpleGit().diff([basehead]);
-        } catch (error) {
-          process.exit(1);
-        }
-
-        /**
-         * Parse git diff to more useable format
-         */
-        const files = parseDiffToFileHunks(diffOutput);
+        const f = await glob(filesPattern, { ignore, nodir: true });
 
         /**
          * Get rules from Floe config
@@ -71,38 +51,52 @@ export function diff(program: Command) {
         /**
          * We only want to evaluate diffs that are included in a ruleset
          */
-        const filesMatchingRulesets = files
+        const filesMatchingRulesets = f
           .map((file) => {
             const matchingRulesets = rulesets.filter((ruleset) => {
               return ruleset.include.some((pattern) => {
-                return minimatch(file.path, pattern);
+                return minimatch(file, pattern);
               });
             });
 
             return {
-              ...file,
+              path: file,
               matchingRulesets,
             };
           })
           .filter(({ matchingRulesets }) => matchingRulesets.length > 0);
 
         if (filesMatchingRulesets.length === 0) {
-          console.log(chalk.dim("No matching files in diff to review\n"));
+          console.log(chalk.dim("No matching files to review\n"));
 
           process.exit(0);
         }
+
+        const filesWithContent = filesMatchingRulesets.map((file) => {
+          const content = fs.readFileSync(file.path, "utf8");
+
+          return {
+            ...file,
+            content,
+          };
+        });
 
         /**
          * We want to evaluate each hunk against each rule. This can create a lot
          * of requests! But we can do this in parallel, and each request is
          * cached.
          */
-        const evalutationsByFile = filesMatchingRulesets.map((file) => ({
+        const evalutationsByFile = filesWithContent.map((file) => ({
           path: file.path,
           evaluations: file.matchingRulesets.flatMap((ruleset) =>
-            ruleset.rules.flatMap((rule) =>
-              file.hunks.map((hunk) => ({ rule, hunk }))
-            )
+            ruleset.rules.flatMap((rule) => ({
+              rule,
+              // A hunk is an entire file when using 'review files'. This means that startLine is always 1.
+              hunk: {
+                startLine: 1,
+                content: file.content,
+              },
+            }))
           ),
         }));
 

@@ -1,14 +1,9 @@
 import fs from "node:fs";
 import path from "node:path";
-import type { Config } from "@floe/config";
+import { getFloeConfig } from "./get-floe-config";
 
 export const getRulesets = () => {
-  const config = fs.readFileSync(
-    path.join(process.cwd(), ".floe/config.json"),
-    "utf-8"
-  );
-
-  const { rulesets } = JSON.parse(config) as Config;
+  const { rulesets } = getFloeConfig();
 
   const rulesetsWithRules = Object.entries(rulesets).map(([key, value]) => {
     return {

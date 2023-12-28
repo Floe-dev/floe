@@ -8,6 +8,18 @@
         "$schema": {
           "type": "string"
         },
+        "reviews": {
+          "type": "object",
+          "properties": {
+            "maxFileEvaluations": {
+              "type": "number"
+            },
+            "maxDiffEvaluations": {
+              "type": "number"
+            }
+          },
+          "additionalProperties": false
+        },
         "rulesets": {
           "type": "object",
           "additionalProperties": {
