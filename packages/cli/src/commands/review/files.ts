@@ -1,3 +1,4 @@
+import fs from "node:fs";
 import type { Command } from "commander";
 import { getRulesets } from "@floe/lib/rules";
 import { pluralize } from "@floe/lib/pluralize";
@@ -17,268 +18,281 @@ export function files(program: Command) {
     .description("Validate content from files")
     .argument("[files...]", "Files")
     .option("--ignore <ignore...>", "Ignore pattern")
-    .action(async (filesArg?: string, options: { ignore?: string } = {}) => {
-      /**
-       * Exit if not a valid Floe root
-       */
-      checkIfValidRoot();
+    .action(
+      async (filesArg?: string[], options: { ignore?: string[] } = {}) => {
+        /**
+         * Exit if not a valid Floe root
+         */
+        checkIfValidRoot();
 
-      /**
-       * Import ESM modules
-       */
-      const ora = await oraImport;
-      const chalk = await chalkImport;
+        /**
+         * Import ESM modules
+         */
+        const ora = await oraImport;
+        const chalk = await chalkImport;
 
-      const filesPattern = filesArg ?? ["**/*"];
-      const ignore = options.ignore ? options.ignore : [];
+        const filesPattern = filesArg?.length ? filesArg : ["**/*"];
+        const ignore = options.ignore?.length ? options.ignore : [];
 
-      // const files = parseDiffToFileHunks(diffOutput);
-      const f = await glob(filesPattern, { ignore, nodir: true });
+        const f = await glob(filesPattern, { ignore, nodir: true });
 
-      return;
+        /**
+         * Get rules from Floe config
+         */
+        const rulesets = getRulesets();
 
-      /**
-       * Get rules from Floe config
-       */
-      const rulesets = getRulesets();
-
-      /**
-       * We only want to evaluate diffs that are included in a ruleset
-       */
-      const filesMatchingRulesets = files
-        .map((file) => {
-          const matchingRulesets = rulesets.filter((ruleset) => {
-            return ruleset.include.some((pattern) => {
-              return minimatch(file.path, pattern);
+        /**
+         * We only want to evaluate diffs that are included in a ruleset
+         */
+        const filesMatchingRulesets = f
+          .map((file) => {
+            const matchingRulesets = rulesets.filter((ruleset) => {
+              return ruleset.include.some((pattern) => {
+                return minimatch(file, pattern);
+              });
             });
-          });
+
+            return {
+              path: file,
+              matchingRulesets,
+            };
+          })
+          .filter(({ matchingRulesets }) => matchingRulesets.length > 0);
+
+        if (filesMatchingRulesets.length === 0) {
+          console.log(chalk.dim("No matching files to review\n"));
+
+          process.exit(0);
+        }
+
+        const filesWithContent = filesMatchingRulesets.map((file) => {
+          const content = fs.readFileSync(file.path, "utf8");
 
           return {
             ...file,
-            matchingRulesets,
+            content,
           };
-        })
-        .filter(({ matchingRulesets }) => matchingRulesets.length > 0);
+        });
 
-      if (filesMatchingRulesets.length === 0) {
-        console.log(chalk.dim("No matching files in diff to review\n"));
+        /**
+         * We want to evaluate each hunk against each rule. This can create a lot
+         * of requests! But we can do this in parallel, and each request is
+         * cached.
+         */
+        const ruleHunksByFile = filesWithContent.map((file) => ({
+          path: file.path,
+          evaluations: file.matchingRulesets.flatMap((ruleset) =>
+            ruleset.rules.flatMap((rule) => ({
+              rule,
+              // A hunk is an entire file when using 'review files'. This means that startLine is always 1.
+              hunk: {
+                startLine: 1,
+                content: file.content,
+              },
+            }))
+          ),
+        }));
 
-        process.exit(0);
-      }
+        /**
+         * Show loading spinner
+         */
+        const spinner = ora("Validating content...").start();
 
-      /**
-       * We want to evaluate each hunk against each rule. This can create a lot
-       * of requests! But we can do this in parallel, and each request is
-       * cached.
-       */
-      const ruleHunksByFile = filesMatchingRulesets.map((file) => ({
-        path: file.path,
-        evaluations: file.matchingRulesets.flatMap((ruleset) =>
-          ruleset.rules.flatMap((rule) =>
-            file.hunks.map((hunk) => ({ rule, hunk }))
-          )
-        ),
-      }));
+        /**
+         * Generate a review for each hunk and rule.
+         * Output is an array of reviews grouped by file.
+         */
+        const reviewsByFile = await Promise.all(
+          ruleHunksByFile.map(async ({ path, evaluations }) => {
+            const evaluationsResponse = await Promise.all(
+              evaluations.map(async ({ rule, hunk }) => {
+                const review = await createReview({
+                  path,
+                  content: hunk.content,
+                  startLine: hunk.startLine,
+                  rule,
+                }).catch(async (e) => {
+                  spinner.stop();
+                  await logAxiosError(e);
 
-      /**
-       * Show loading spinner
-       */
-      const spinner = ora("Validating content...").start();
+                  process.exit(1);
+                });
 
-      /**
-       * Generate a review for each hunk and rule.
-       * Output is an array of reviews grouped by file.
-       */
-      const reviewsByFile = await Promise.all(
-        ruleHunksByFile.map(async ({ path, evaluations }) => {
-          const evaluationsResponse = await Promise.all(
-            evaluations.map(async ({ rule, hunk }) => {
-              const review = await createReview({
-                path,
-                content: hunk.content,
-                startLine: hunk.startLine,
-                rule,
-              }).catch(async (e) => {
-                spinner.stop();
-                await logAxiosError(e);
-
-                process.exit(1);
-              });
-
-              return {
-                review: {
-                  ...review.data,
-                  // Map rule to each violation. This is useful later on for logging
-                  violations: review.data?.violations.map((v) => ({
-                    ...v,
-                    ...rule,
-                  })),
-                },
-                cached: review.data?.cached,
-              };
-            })
-          );
-
-          return {
-            path,
-            evaluationsResponse,
-          };
-        })
-      );
-
-      /**
-       * Rules fetched. We can stop the spinner.
-       */
-      spinner.stop();
-
-      /**
-       * Generate a count of total errors and warnings for each file
-       */
-      const errorsByFile = reviewsByFile.map(
-        ({ path, evaluationsResponse }) => {
-          const warningsAndErrors = evaluationsResponse.reduce(
-            (acc, { review }) => {
-              if (!review.violations) {
-                return acc;
-              }
-
-              return {
-                errors:
-                  acc.errors +
-                  review.violations.filter((v) => v.level === "error").length,
-                warnings:
-                  acc.warnings +
-                  review.violations.filter((v) => v.level === "warn").length,
-              };
-            },
-            {
-              errors: 0,
-              warnings: 0,
-            }
-          );
-
-          return {
-            path,
-            evaluationsResponse,
-            ...warningsAndErrors,
-          };
-        }
-      );
-
-      /**
-       * Log errors and warnings
-       */
-      errorsByFile.forEach(
-        ({ path, errors, warnings, evaluationsResponse }) => {
-          let errorLevel = {
-            symbol: chalk.white.bgGreen("  PASS  "),
-            level: "pass",
-          };
-
-          if (warnings > 0) {
-            errorLevel = {
-              symbol: chalk.white.bgYellow("  WARN  "),
-              level: "warn",
-            };
-          }
-
-          if (errors > 0) {
-            errorLevel = {
-              symbol: chalk.white.bgRed("  FAIL  "),
-              level: "fail",
-            };
-          }
-
-          console.log(`${errorLevel.symbol} 📂 ${path}\n`);
-
-          if (errors === 0 && warnings === 0) {
-            console.log(
-              chalk.dim("No violations found for current selection\n")
+                return {
+                  review: {
+                    ...review.data,
+                    // Map rule to each violation. This is useful later on for logging
+                    violations: review.data?.violations.map((v) => ({
+                      ...v,
+                      ...rule,
+                    })),
+                  },
+                  cached: review.data?.cached,
+                };
+              })
             );
-          }
 
-          /**
-           * Log violations
-           */
-          evaluationsResponse
-            .flatMap((e) => e.review.violations)
-            .forEach((violation) => {
-              if (!violation) {
-                return;
+            return {
+              path,
+              evaluationsResponse,
+            };
+          })
+        );
+
+        /**
+         * Rules fetched. We can stop the spinner.
+         */
+        spinner.stop();
+
+        /**
+         * Generate a count of total errors and warnings for each file
+         */
+        const errorsByFile = reviewsByFile.map(
+          ({ path, evaluationsResponse }) => {
+            const warningsAndErrors = evaluationsResponse.reduce(
+              (acc, { review }) => {
+                if (!review.violations) {
+                  return acc;
+                }
+
+                return {
+                  errors:
+                    acc.errors +
+                    review.violations.filter((v) => v.level === "error").length,
+                  warnings:
+                    acc.warnings +
+                    review.violations.filter((v) => v.level === "warn").length,
+                };
+              },
+              {
+                errors: 0,
+                warnings: 0,
               }
+            );
 
-              const icon = violation.level === "error" ? "❌" : "⚠️ ";
+            return {
+              path,
+              evaluationsResponse,
+              ...warningsAndErrors,
+            };
+          }
+        );
 
-              /**
-               * Log violation code and description
-               */
+        /**
+         * Log errors and warnings
+         */
+        errorsByFile.forEach(
+          ({ path, errors, warnings, evaluationsResponse }) => {
+            let errorLevel = {
+              symbol: chalk.white.bgGreen("  PASS  "),
+              level: "pass",
+            };
+
+            if (warnings > 0) {
+              errorLevel = {
+                symbol: chalk.white.bgYellow("  WARN  "),
+                level: "warn",
+              };
+            }
+
+            if (errors > 0) {
+              errorLevel = {
+                symbol: chalk.white.bgRed("  FAIL  "),
+                level: "fail",
+              };
+            }
+
+            console.log(`${errorLevel.symbol} 📂 ${path}\n`);
+
+            if (errors === 0 && warnings === 0) {
               console.log(
-                chalk.bold(
-                  `${icon} ${violation.code} @@${violation.startLine},${violation.endLine}:`
-                ),
-                violation.description
+                chalk.dim("No violations found for current selection\n")
               );
+            }
 
-              /**
-               * Log lines with violations
-               */
-              console.log(
-                chalk.dim.strikethrough(truncate(violation.content, 100))
-              );
+            /**
+             * Log violations
+             */
+            evaluationsResponse
+              .flatMap((e) => e.review.violations)
+              .forEach((violation) => {
+                if (!violation) {
+                  return;
+                }
 
-              /**
-               * Log suggestion
-               */
-              console.log(
-                chalk.italic(
-                  `💡 ${
-                    violation.suggestedFix
-                      ? violation.suggestedFix
-                      : "No fix available"
-                  }`
-                ),
-                "\n"
-              );
-            });
+                const icon = violation.level === "error" ? "❌" : "⚠️ ";
+
+                /**
+                 * Log violation code and description
+                 */
+                console.log(
+                  chalk.bold(
+                    `${icon} ${violation.code} @@${violation.startLine},${violation.endLine}:`
+                  ),
+                  violation.description
+                );
+
+                /**
+                 * Log lines with violations
+                 */
+                console.log(
+                  chalk.dim.strikethrough(truncate(violation.content, 100))
+                );
+
+                /**
+                 * Log suggestion
+                 */
+                console.log(
+                  chalk.italic(
+                    `💡 ${
+                      violation.suggestedFix
+                        ? violation.suggestedFix
+                        : "No fix available"
+                    }`
+                  ),
+                  "\n"
+                );
+              });
+          }
+        );
+
+        /**
+         * Log total errors and warnings across all files
+         */
+        const combinedErrorsAndWarnings = errorsByFile.reduce(
+          (acc, { errors, warnings }) => ({
+            errors: acc.errors + errors,
+            warnings: acc.warnings + warnings,
+          }),
+          {
+            errors: 0,
+            warnings: 0,
+          }
+        );
+
+        console.log(
+          chalk.red(
+            `${combinedErrorsAndWarnings.errors} ${pluralize(
+              combinedErrorsAndWarnings.errors,
+              "error",
+              "errors"
+            )}`
+          ),
+          chalk.yellow(
+            `${combinedErrorsAndWarnings.warnings} ${pluralize(
+              combinedErrorsAndWarnings.warnings,
+              "warning",
+              "warnings"
+            )}`
+          )
+        );
+
+        /**
+         * Exit with error code if there are any errors
+         */
+        if (combinedErrorsAndWarnings.errors > 0) {
+          process.exit(1);
         }
-      );
-
-      /**
-       * Log total errors and warnings across all files
-       */
-      const combinedErrorsAndWarnings = errorsByFile.reduce(
-        (acc, { errors, warnings }) => ({
-          errors: acc.errors + errors,
-          warnings: acc.warnings + warnings,
-        }),
-        {
-          errors: 0,
-          warnings: 0,
-        }
-      );
-
-      console.log(
-        chalk.red(
-          `${combinedErrorsAndWarnings.errors} ${pluralize(
-            combinedErrorsAndWarnings.errors,
-            "error",
-            "errors"
-          )}`
-        ),
-        chalk.yellow(
-          `${combinedErrorsAndWarnings.warnings} ${pluralize(
-            combinedErrorsAndWarnings.warnings,
-            "warning",
-            "warnings"
-          )}`
-        )
-      );
-
-      /**
-       * Exit with error code if there are any errors
-       */
-      if (combinedErrorsAndWarnings.errors > 0) {
-        process.exit(1);
       }
-    });
+    );
 }

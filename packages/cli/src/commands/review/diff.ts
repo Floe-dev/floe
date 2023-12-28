@@ -19,8 +19,6 @@ export function diff(program: Command) {
     .description("Validate content from diff")
     .argument("[diff]", "Diff")
     // .option("--repo <repo>", "Repository owner and name eg. owner/name")
-    // .option("--base <baseSha>", "Base SHA")
-    // .option("--head <headSha>", "Head SHA")
     .action(
       async (
         diffArg?: string
