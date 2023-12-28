@@ -4,6 +4,10 @@ import { truncate } from "../../utils/truncate";
 
 const chalkImport = import("chalk").then((m) => m.default);
 
+/**
+ * Generate a review for each hunk and rule.
+ * Output is an array of reviews grouped by file.
+ */
 export async function getReviewsByFile(
   evalutationsByFile: {
     path: string;
@@ -53,6 +57,9 @@ export async function getReviewsByFile(
   );
 }
 
+/**
+ * Generate a count of total errors and warnings for each file
+ */
 export function getErrorsByFile(
   reviewsByFile: Awaited<ReturnType<typeof getReviewsByFile>>
 ) {
@@ -86,6 +93,9 @@ export function getErrorsByFile(
   });
 }
 
+/**
+ * Log errors and warnings
+ */
 export async function logViolations(
   errorsByFile: ReturnType<typeof getErrorsByFile>
 ) {
@@ -161,6 +171,9 @@ export async function logViolations(
   });
 }
 
+/**
+ * Log total errors and warnings across all files
+ */
 export async function reportSummary(
   errorsByFile: ReturnType<typeof getErrorsByFile>
 ) {

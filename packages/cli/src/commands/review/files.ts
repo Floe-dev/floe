@@ -101,10 +101,6 @@ export function files(program: Command) {
          */
         const spinner = ora("Validating content...").start();
 
-        /**
-         * Generate a review for each hunk and rule.
-         * Output is an array of reviews grouped by file.
-         */
         const reviewsByFile = await getReviewsByFile(evalutationsByFile).catch(
           async (e) => {
             spinner.stop();
@@ -118,19 +114,9 @@ export function files(program: Command) {
          */
         spinner.stop();
 
-        /**
-         * Generate a count of total errors and warnings for each file
-         */
         const errorsByFile = getErrorsByFile(reviewsByFile);
 
-        /**
-         * Log errors and warnings
-         */
         await logViolations(errorsByFile);
-
-        /**
-         * Log total errors and warnings across all files
-         */
         await reportSummary(errorsByFile);
       }
     );
