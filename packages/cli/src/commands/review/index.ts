@@ -1,5 +1,6 @@
 import type { Command } from "commander";
 import { diff } from "./diff";
+import { files } from "./files";
 
 export function review(program: Command) {
   const validateProgram = program
@@ -7,4 +8,5 @@ export function review(program: Command) {
     .description("Review content");
 
   diff(validateProgram);
+  files(validateProgram);
 }
