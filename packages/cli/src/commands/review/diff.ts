@@ -2,13 +2,13 @@ import type { Command } from "commander";
 import { getRulesets } from "@floe/lib/rules";
 import { pluralize } from "@floe/lib/pluralize";
 import { parseDiffToFileHunks } from "@floe/lib/diff-parser";
-import { createReview } from "@floe/requests/review/_post";
 import simpleGit from "simple-git";
 import { minimatch } from "minimatch";
 import { truncate } from "../../utils/truncate";
 import { checkIfValidRoot } from "../../utils/check-if-valid-root";
 import { getDefaultBranch, getCurrentBranch } from "../../utils/git";
 import { logAxiosError } from "../../utils/logging";
+import { getReviewsByFile } from "./lib";
 
 const oraImport = import("ora").then((m) => m.default);
 const chalkImport = import("chalk").then((m) => m.default);
@@ -90,7 +90,7 @@ export function diff(program: Command) {
          * of requests! But we can do this in parallel, and each request is
          * cached.
          */
-        const ruleHunksByFile = filesMatchingRulesets.map((file) => ({
+        const evalutationsByFile = filesMatchingRulesets.map((file) => ({
           path: file.path,
           evaluations: file.matchingRulesets.flatMap((ruleset) =>
             ruleset.rules.flatMap((rule) =>
@@ -108,41 +108,12 @@ export function diff(program: Command) {
          * Generate a review for each hunk and rule.
          * Output is an array of reviews grouped by file.
          */
-        const reviewsByFile = await Promise.all(
-          ruleHunksByFile.map(async ({ path, evaluations }) => {
-            const evaluationsResponse = await Promise.all(
-              evaluations.map(async ({ rule, hunk }) => {
-                const review = await createReview({
-                  path,
-                  content: hunk.content,
-                  startLine: hunk.startLine,
-                  rule,
-                }).catch(async (e) => {
-                  spinner.stop();
-                  await logAxiosError(e);
-
-                  process.exit(1);
-                });
-
-                return {
-                  review: {
-                    ...review.data,
-                    // Map rule to each violation. This is useful later on for logging
-                    violations: review.data?.violations.map((v) => ({
-                      ...v,
-                      ...rule,
-                    })),
-                  },
-                  cached: review.data?.cached,
-                };
-              })
-            );
-
-            return {
-              path,
-              evaluationsResponse,
-            };
-          })
+        const reviewsByFile = await getReviewsByFile(evalutationsByFile).catch(
+          async (e) => {
+            spinner.stop();
+            await logAxiosError(e);
+            process.exit(1);
+          }
         );
 
         /**
