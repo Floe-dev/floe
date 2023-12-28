@@ -3,7 +3,8 @@ import { getRulesets } from "@floe/lib/rules";
 import { parseDiffToFileHunks } from "@floe/lib/diff-parser";
 import simpleGit from "simple-git";
 import { minimatch } from "minimatch";
-import { checkIfValidRoot } from "../../utils/check-if-valid-root";
+import { getFloeConfig } from "@floe/lib/get-floe-config";
+import { checkIfValidRoot } from "@floe/lib/check-if-valid-root";
 import { getDefaultBranch, getCurrentBranch } from "../../utils/git";
 import { logAxiosError } from "../../utils/logging";
 import {
@@ -38,6 +39,8 @@ export function diff(program: Command) {
          */
         const ora = await oraImport;
         const chalk = await chalkImport;
+
+        const config = getFloeConfig();
 
         const baseSha = getDefaultBranch();
         const headSha = getCurrentBranch();
@@ -103,7 +106,10 @@ export function diff(program: Command) {
           ),
         }));
 
-        await checkIfUnderEvaluationLimit(evalutationsByFile, 20);
+        await checkIfUnderEvaluationLimit(
+          evalutationsByFile,
+          Number(config.reviews?.maxFileEvaluations ?? 5)
+        );
 
         /**
          * Show loading spinner

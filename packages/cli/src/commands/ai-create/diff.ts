@@ -9,7 +9,7 @@ import {
   animals,
 } from "unique-names-generator";
 import { api } from "@floe/requests/api";
-import { checkIfValidRoot } from "../../utils/check-if-valid-root";
+import { checkIfValidRoot } from "@floe/lib/check-if-valid-root";
 import {
   getDefaultBranch,
   gitGithubOrGitlabOrgAndRepo,

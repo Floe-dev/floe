@@ -3,7 +3,8 @@ import type { Command } from "commander";
 import { getRulesets } from "@floe/lib/rules";
 import { glob } from "glob";
 import { minimatch } from "minimatch";
-import { checkIfValidRoot } from "../../utils/check-if-valid-root";
+import { getFloeConfig } from "@floe/lib/get-floe-config";
+import { checkIfValidRoot } from "@floe/lib/check-if-valid-root";
 import { logAxiosError } from "../../utils/logging";
 import {
   checkIfUnderEvaluationLimit,
@@ -34,6 +35,8 @@ export function files(program: Command) {
          */
         const ora = await oraImport;
         const chalk = await chalkImport;
+
+        const config = getFloeConfig();
 
         const filesPattern = filesArg?.length ? filesArg : ["**/*"];
         const ignore = options.ignore?.length ? options.ignore : [];
@@ -97,7 +100,10 @@ export function files(program: Command) {
           ),
         }));
 
-        await checkIfUnderEvaluationLimit(evalutationsByFile, 10);
+        await checkIfUnderEvaluationLimit(
+          evalutationsByFile,
+          Number(config.reviews?.maxFileEvaluations ?? 5)
+        );
 
         /**
          * Show loading spinner

@@ -4,7 +4,7 @@ import type { Command } from "commander";
 import { confirm } from "@inquirer/prompts";
 import type { Config } from "@floe/config";
 import { defaultConfig } from "@floe/config";
-import { checkIfValidRoot } from "../utils/check-if-valid-root";
+import { checkIfValidRoot } from "@floe/lib/check-if-valid-root";
 
 export function init(program: Command) {
   program

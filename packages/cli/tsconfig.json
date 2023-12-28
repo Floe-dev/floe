@@ -8,6 +8,6 @@
     "outDir": "./dist",
     "resolveJsonModule": true,
   },
-  "include": ["src"],
+  "include": ["src", "../lib/check-if-valid-root.ts", "../lib/get-floe-config.ts"],
   "exclude": ["dist", "build", "node_modules"]
 }

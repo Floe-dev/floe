@@ -33,11 +33,11 @@ export async function checkIfUnderEvaluationLimit(
   if (totalEvaluations > limit) {
     console.log(
       chalk.red(
-        `You are trying to make ${totalEvaluations} ${pluralize(
+        `This command would create ${totalEvaluations} ${pluralize(
           totalEvaluations,
-          "review",
-          "reviews"
-        )}. The limit is ${limit}.`
+          "evaluation",
+          "evaluations"
+        )}. The limit is ${limit}. Re-run this command with a smaller selection, or increase the evaluation threshold.`
       )
     );
     process.exit(1);
