@@ -4,26 +4,51 @@ import { truncate } from "../../utils/truncate";
 
 const chalkImport = import("chalk").then((m) => m.default);
 
+type EvalutationsByFile = {
+  path: string;
+  evaluations: {
+    rule: {
+      code: string;
+      level: "error" | "warn";
+      description: string;
+    };
+    hunk: {
+      startLine: number;
+      content: string;
+    };
+  }[];
+}[];
+
+export async function checkIfUnderEvaluationLimit(
+  evalutationsByFile: EvalutationsByFile,
+  limit: number
+) {
+  const chalk = await chalkImport;
+
+  const totalEvaluations = evalutationsByFile.reduce(
+    (acc, { evaluations }) => acc + evaluations.length,
+    0
+  );
+
+  if (totalEvaluations > limit) {
+    console.log(
+      chalk.red(
+        `You are trying to make ${totalEvaluations} ${pluralize(
+          totalEvaluations,
+          "review",
+          "reviews"
+        )}. The limit is ${limit}.`
+      )
+    );
+    process.exit(1);
+  }
+}
+
 /**
  * Generate a review for each hunk and rule.
  * Output is an array of reviews grouped by file.
  */
-export async function getReviewsByFile(
-  evalutationsByFile: {
-    path: string;
-    evaluations: {
-      rule: {
-        code: string;
-        level: "error" | "warn";
-        description: string;
-      };
-      hunk: {
-        startLine: number;
-        content: string;
-      };
-    }[];
-  }[]
-) {
+export async function getReviewsByFile(evalutationsByFile: EvalutationsByFile) {
   return Promise.all(
     evalutationsByFile.map(async ({ path, evaluations }) => {
       const evaluationsResponse = await Promise.all(

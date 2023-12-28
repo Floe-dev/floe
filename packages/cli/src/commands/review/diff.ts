@@ -7,6 +7,7 @@ import { checkIfValidRoot } from "../../utils/check-if-valid-root";
 import { getDefaultBranch, getCurrentBranch } from "../../utils/git";
 import { logAxiosError } from "../../utils/logging";
 import {
+  checkIfUnderEvaluationLimit,
   getErrorsByFile,
   getReviewsByFile,
   logViolations,
@@ -101,6 +102,8 @@ export function diff(program: Command) {
             )
           ),
         }));
+
+        await checkIfUnderEvaluationLimit(evalutationsByFile, 20);
 
         /**
          * Show loading spinner

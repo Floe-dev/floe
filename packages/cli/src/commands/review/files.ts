@@ -6,6 +6,7 @@ import { minimatch } from "minimatch";
 import { checkIfValidRoot } from "../../utils/check-if-valid-root";
 import { logAxiosError } from "../../utils/logging";
 import {
+  checkIfUnderEvaluationLimit,
   getErrorsByFile,
   getReviewsByFile,
   logViolations,
@@ -95,6 +96,8 @@ export function files(program: Command) {
             }))
           ),
         }));
+
+        await checkIfUnderEvaluationLimit(evalutationsByFile, 10);
 
         /**
          * Show loading spinner
