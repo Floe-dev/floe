@@ -1,14 +1,17 @@
 import type { Command } from "commander";
 import { getRulesets } from "@floe/lib/rules";
-import { pluralize } from "@floe/lib/pluralize";
 import { parseDiffToFileHunks } from "@floe/lib/diff-parser";
 import simpleGit from "simple-git";
 import { minimatch } from "minimatch";
-import { truncate } from "../../utils/truncate";
 import { checkIfValidRoot } from "../../utils/check-if-valid-root";
 import { getDefaultBranch, getCurrentBranch } from "../../utils/git";
 import { logAxiosError } from "../../utils/logging";
-import { getReviewsByFile } from "./lib";
+import {
+  getErrorsByFile,
+  getReviewsByFile,
+  logViolations,
+  reportSummary,
+} from "./lib";
 
 const oraImport = import("ora").then((m) => m.default);
 const chalkImport = import("chalk").then((m) => m.default);
@@ -124,152 +127,17 @@ export function diff(program: Command) {
         /**
          * Generate a count of total errors and warnings for each file
          */
-        const errorsByFile = reviewsByFile.map(
-          ({ path, evaluationsResponse }) => {
-            const warningsAndErrors = evaluationsResponse.reduce(
-              (acc, { review }) => {
-                if (!review.violations) {
-                  return acc;
-                }
-
-                return {
-                  errors:
-                    acc.errors +
-                    review.violations.filter((v) => v.level === "error").length,
-                  warnings:
-                    acc.warnings +
-                    review.violations.filter((v) => v.level === "warn").length,
-                };
-              },
-              {
-                errors: 0,
-                warnings: 0,
-              }
-            );
-
-            return {
-              path,
-              evaluationsResponse,
-              ...warningsAndErrors,
-            };
-          }
-        );
+        const errorsByFile = getErrorsByFile(reviewsByFile);
 
         /**
          * Log errors and warnings
          */
-        errorsByFile.forEach(
-          ({ path, errors, warnings, evaluationsResponse }) => {
-            let errorLevel = {
-              symbol: chalk.white.bgGreen("  PASS  "),
-              level: "pass",
-            };
-
-            if (warnings > 0) {
-              errorLevel = {
-                symbol: chalk.white.bgYellow("  WARN  "),
-                level: "warn",
-              };
-            }
-
-            if (errors > 0) {
-              errorLevel = {
-                symbol: chalk.white.bgRed("  FAIL  "),
-                level: "fail",
-              };
-            }
-
-            console.log(`${errorLevel.symbol} 📂 ${path}\n`);
-
-            if (errors === 0 && warnings === 0) {
-              console.log(
-                chalk.dim("No violations found for current selection\n")
-              );
-            }
-
-            /**
-             * Log violations
-             */
-            evaluationsResponse
-              .flatMap((e) => e.review.violations)
-              .forEach((violation) => {
-                if (!violation) {
-                  return;
-                }
-
-                const icon = violation.level === "error" ? "❌" : "⚠️ ";
-
-                /**
-                 * Log violation code and description
-                 */
-                console.log(
-                  chalk.bold(
-                    `${icon} ${violation.code} @@${violation.startLine},${violation.endLine}:`
-                  ),
-                  violation.description
-                );
-
-                /**
-                 * Log lines with violations
-                 */
-                console.log(
-                  chalk.dim.strikethrough(truncate(violation.content, 100))
-                );
-
-                /**
-                 * Log suggestion
-                 */
-                console.log(
-                  chalk.italic(
-                    `💡 ${
-                      violation.suggestedFix
-                        ? violation.suggestedFix
-                        : "No fix available"
-                    }`
-                  ),
-                  "\n"
-                );
-              });
-          }
-        );
+        await logViolations(errorsByFile);
 
         /**
          * Log total errors and warnings across all files
          */
-        const combinedErrorsAndWarnings = errorsByFile.reduce(
-          (acc, { errors, warnings }) => ({
-            errors: acc.errors + errors,
-            warnings: acc.warnings + warnings,
-          }),
-          {
-            errors: 0,
-            warnings: 0,
-          }
-        );
-
-        console.log(
-          chalk.red(
-            `${combinedErrorsAndWarnings.errors} ${pluralize(
-              combinedErrorsAndWarnings.errors,
-              "error",
-              "errors"
-            )}`
-          ),
-          chalk.yellow(
-            `${combinedErrorsAndWarnings.warnings} ${pluralize(
-              combinedErrorsAndWarnings.warnings,
-              "warning",
-              "warnings"
-            )}`
-          )
-        );
-
-        /**
-         * Exit with error code if there are any errors
-         */
-        if (combinedErrorsAndWarnings.errors > 0) {
-          process.exit(1);
-        }
+        await reportSummary(errorsByFile);
       }
     );
 }
