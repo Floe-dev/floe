@@ -26,7 +26,9 @@
         "MAILCHIMP_SERVER",
         "MAILCHIMP_AUDIENCE_ID",
         "PINECONE_API_KEY",
-        "PINCECONE_INDEX"
+        "PINCECONE_INDEX",
+        "STRIPE_SECRET_KEY",
+        "STRIPE_PRO_PRICE_ID"
       ]
     },
     "lint": {},

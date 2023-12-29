@@ -27,6 +27,12 @@ export const env = createEnv({
     SENDGRID_API: z.string(),
     FLOE_SECRET_KEY: z.string(),
     FLOE_SECRET_IV: z.string(),
+    STRIPE_SECRET_KEY: z.string(),
+    STRIPE_PRO_PRICE_ID: z.string(),
+    VERCEL_URL:
+      process.env.NODE_ENV === "production"
+        ? z.string()
+        : z.string().optional(),
   },
 
   /**
@@ -51,6 +57,9 @@ export const env = createEnv({
     SENDGRID_API: process.env.SENDGRID_API,
     FLOE_SECRET_KEY: process.env.FLOE_SECRET_KEY,
     FLOE_SECRET_IV: process.env.FLOE_SECRET_IV,
+    STRIPE_SECRET_KEY: process.env.STRIPE_SECRET_KEY,
+    STRIPE_PRO_PRICE_ID: process.env.STRIPE_PRO_PRICE_ID,
+    VERCEL_URL: process.env.VERCEL_URL,
   },
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially
