@@ -139,6 +139,9 @@ importers:
       '@react-email/components':
         specifier: ^0.0.10
         version: 0.0.10(@types/react@18.2.20)(react@18.2.0)
+      '@stripe/stripe-js':
+        specifier: ^2.2.2
+        version: 2.2.2
       '@t3-oss/env-nextjs':
         specifier: ^0.7.0
         version: 0.7.0(typescript@5.1.6)(zod@3.22.4)
@@ -169,6 +172,9 @@ importers:
       react-email:
         specifier: ^1.9.5
         version: 1.9.5
+      stripe:
+        specifier: ^14.10.0
+        version: 14.10.0
       superjson:
         specifier: ^1.13.1
         version: 1.13.1
@@ -3135,6 +3141,10 @@ packages:
 
   /@sinclair/typebox@0.29.6:
     resolution: {integrity: sha512-aX5IFYWlMa7tQ8xZr3b2gtVReCvg7f3LEhjir/JAjX2bJCMVJA5tIPv30wTD4KDfcwMd7DDYY3hFDeGmOgtrZQ==}
+    dev: false
+
+  /@stripe/stripe-js@2.2.2:
+    resolution: {integrity: sha512-LvFZRZEBoMe6vXC6RoOAIbXWo/0JDdndq43ekL9M6affcM7PtF5KALmwt91BazW7q49sbSl0l7TunWhhSwEW4w==}
     dev: false
 
   /@swc/helpers@0.5.2:
@@ -10728,6 +10738,14 @@ packages:
     resolution: {integrity: sha512-6fPc+R4ihwqP6N/aIv2f1gMH8lOVtWQHoqC4yK6oSDVVocumAsfCqjkXnqiYMhmMwS/mEHLp7Vehlt3ql6lEig==}
     engines: {node: '>=8'}
     dev: true
+
+  /stripe@14.10.0:
+    resolution: {integrity: sha512-zI6yxYVFJtjibgb06Xn08KsJy1Zq+KE3jLkhZ8bJOTrxNVi2CtCreQdUn+NjXN5lTEdiNhxIqL0NmuSza+rOGw==}
+    engines: {node: '>=12.*'}
+    dependencies:
+      '@types/node': 20.9.0
+      qs: 6.11.2
+    dev: false
 
   /style-to-object@0.4.4:
     resolution: {integrity: sha512-HYNoHZa2GorYNyqiCaBgsxvcJIn7OHq6inEga+E6Ke3m5JkoqpQbnFssk4jwe+K7AhGa2fcha4wSOf1Kn01dMg==}

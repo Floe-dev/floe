@@ -1,16 +1,19 @@
 "use client";
+
 import logo from "public/logo.png";
 import type { Prisma } from "@floe/db";
 import { Menu, Dialog, Transition } from "@headlessui/react";
 import { classNames } from "@floe/lib/class-names";
 import Image from "next/image";
-import { Bars3Icon, HomeIcon, XMarkIcon } from "@heroicons/react/20/solid";
+import {
+  Bars3Icon,
+  HomeIcon,
+  XMarkIcon,
+  Cog6ToothIcon,
+} from "@heroicons/react/20/solid";
 import { Fragment, useState } from "react";
 import { signOut } from "next-auth/react";
-
-const navigation = [
-  { name: "Dashboard", href: "#", icon: HomeIcon, current: true },
-];
+import { usePathname } from "next/navigation";
 
 export function Nav({
   user,
@@ -27,10 +30,26 @@ export function Nav({
   }> | null;
   workspace: string;
 }) {
+  const pathname = usePathname();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const workspaces = user?.workspaceMemberships.map(
     (membership) => membership.workspace
   );
+
+  const navigation = [
+    {
+      name: "Dashboard",
+      href: `/${workspace}`,
+      icon: HomeIcon,
+      current: pathname === `/${workspace}`,
+    },
+    {
+      name: "Settings",
+      href: `/${workspace}/settings`,
+      icon: Cog6ToothIcon,
+      current: pathname === `/${workspace}/settings`,
+    },
+  ];
 
   return (
     <div>
