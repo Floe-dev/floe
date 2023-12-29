@@ -1,5 +1,11 @@
 # @floe/config
 
+## 0.1.0-alpha.5
+
+### Minor Changes
+
+- Adds CLI 'floe review files' command.
+
 ## 0.1.0-alpha.4
 
 ### Minor Changes

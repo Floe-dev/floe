@@ -1,5 +1,11 @@
 # @floe/web
 
+## 0.1.0-alpha.1
+
+### Patch Changes
+
+- @floe/ui@0.1.0-alpha.1
+
 ## 1.1.0-alpha.0
 
 ### Minor Changes

@@ -1,5 +1,13 @@
 # @floe/api
 
+## 0.1.0-alpha.2
+
+### Patch Changes
+
+- Updated dependencies
+  - @floe/lib@0.1.0-alpha.1
+  - @floe/requests@0.1.0-alpha.1
+
 ## 0.1.0-alpha.1
 
 ### Minor Changes

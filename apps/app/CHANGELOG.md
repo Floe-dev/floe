@@ -1,5 +1,13 @@
 # @floe/app
 
+## 0.1.0-alpha.2
+
+### Patch Changes
+
+- Updated dependencies
+  - @floe/lib@0.1.0-alpha.1
+  - @floe/ui@0.1.0-alpha.1
+
 ## 0.1.0-alpha.1
 
 ### Minor Changes
