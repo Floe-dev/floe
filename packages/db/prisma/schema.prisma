@@ -17,6 +17,11 @@ enum MembershipRole {
     OWNER
 }
 
+enum Plan {
+    FREE
+    PRO
+}
+
 // Necessary for Next auth
 model Account {
     id                       String  @id @default(cuid())
@@ -74,17 +79,20 @@ model EncryptedKey {
 }
 
 model Workspace {
-    id                String                @id @default(cuid())
-    name              String
-    slug              String                @unique
-    docsOwner         String?
-    docsRepository    String?
-    docsBranch        String?
-    docsPath          String?
-    members           WorkspaceMembership[]
-    encrytpedKeys     EncryptedKey[]
-    githubIntegration GithubIntegration?
-    gitlabIntegration GitlabIntegration?
+    id                 String                @id @default(cuid())
+    name               String
+    slug               String                @unique
+    docsOwner          String?
+    docsRepository     String?
+    docsBranch         String?
+    docsPath           String?
+    stripeId           String?
+    stripeSubscription String?
+    plan               Plan                  @default(FREE)
+    members            WorkspaceMembership[]
+    encrytpedKeys      EncryptedKey[]
+    githubIntegration  GithubIntegration?
+    gitlabIntegration  GitlabIntegration?
 }
 
 model GithubIntegration {

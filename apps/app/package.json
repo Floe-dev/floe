@@ -7,6 +7,8 @@
     "dev": "next dev -p 3001",
     "lint": "next lint",
     "start": "next start",
+    "stripe:listen": "stripe listen -—forward-to localhost:3000/api/stripe",
+    "stripe:trigger": "stripe trigger payment_intent.succeeded",
     "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf .next"
   },
   "dependencies": {
