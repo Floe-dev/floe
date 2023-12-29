@@ -11,7 +11,8 @@
     "link-cli": "npm uninstall -g && npm i -g",
     "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist",
     "build": "node build",
-    "dev": "node build --watch"
+    "dev": "node build --watch",
+    "prepublish": "pnpm build"
   },
   "files": [
     "dist"
