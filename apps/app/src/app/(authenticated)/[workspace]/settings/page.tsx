@@ -1,5 +1,6 @@
-import { stripe } from "~/lib/stripe";
+import { redirect } from "next/navigation";
 import { env } from "~/env.mjs";
+import { stripe } from "~/lib/stripe";
 
 const url =
   env.NODE_ENV === "production" ? env.VERCEL_URL : "http://localhost:3001";
@@ -12,9 +13,7 @@ export default function Settings({
   async function createStripeCheckoutSession() {
     "use server";
 
-    console.log(1111);
-
-    const r = await stripe.checkout.sessions.create({
+    const result = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
       line_items: [
         {
@@ -27,7 +26,11 @@ export default function Settings({
       cancel_url: `${url}/${params.workspace}/settings?canceled=true`,
     });
 
-    console.log(2222, r);
+    if (!result.url) {
+      throw new Error("No URL returned from Stripe");
+    }
+
+    redirect(result.url);
   }
 
   return (
