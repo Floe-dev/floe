@@ -234,7 +234,7 @@ export function Nav({
                             : "text-zinc-700 hover:text-amber-600 hover:bg-zinc-50",
                           "group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold"
                         )}
-                        href={ws.slug}
+                        href={`/${ws.slug}`}
                       >
                         <span
                           className={classNames(
