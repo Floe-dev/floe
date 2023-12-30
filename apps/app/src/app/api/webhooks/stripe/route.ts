@@ -2,6 +2,7 @@ import type { NextRequest } from "next/server";
 import type Stripe from "stripe";
 import {
   manageSubscriptionStatusChange,
+  deleteSubscription,
   stripe,
   upsertPriceRecord,
   upsertProductRecord,
@@ -55,8 +56,13 @@ const handler = async (req: NextRequest) => {
           break;
         case "customer.subscription.created":
         case "customer.subscription.updated":
-        case "customer.subscription.deleted":
           await manageSubscriptionStatusChange(
+            event.data.object.id,
+            event.data.object.customer as string
+          );
+          break;
+        case "customer.subscription.deleted":
+          await deleteSubscription(
             event.data.object.id,
             event.data.object.customer as string
           );

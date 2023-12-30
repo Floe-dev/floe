@@ -142,3 +142,17 @@ export const manageSubscriptionStatusChange = async (
     update: subscriptionData,
   });
 };
+
+export const deleteSubscription = async (
+  subscriptionId: string,
+  stripeCustomerId: string
+) => {
+  return db.subscription.delete({
+    where: {
+      stripeSubscriptionId: subscriptionId,
+      workspace: {
+        stripeCustomerId,
+      },
+    },
+  });
+};

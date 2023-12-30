@@ -52,6 +52,10 @@ export default async function Settings({
     params.workspace
   );
 
+  const hasSubscription = workspaceWithSubscription?.subscription;
+  const willBeCanceled =
+    workspaceWithSubscription?.subscription?.cancelAtPeriodEnd;
+
   return (
     <div>
       <div className="prose prose-zinc">
@@ -61,11 +65,7 @@ export default async function Settings({
       <div className="mt-10">
         <p>
           You are currently on the{" "}
-          <Pill
-            color="black"
-            text={workspaceWithSubscription?.subscription ? "Pro" : "Free"}
-          />{" "}
-          tier.
+          <Pill color="black" text={hasSubscription ? "Pro" : "Free"} /> tier.
         </p>
       </div>
       <div className="flow-root mt-6">
@@ -83,7 +83,19 @@ export default async function Settings({
                 /month
               </span>
             </p>
-            {workspaceWithSubscription?.subscription ? (
+            {willBeCanceled ? (
+              <Button className="w-full px-3 py-2 mt-6" color="gray" disabled>
+                Starting on{" "}
+                {workspaceWithSubscription.subscription?.cancelAt?.toLocaleDateString(
+                  undefined,
+                  {
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
+                  }
+                )}
+              </Button>
+            ) : hasSubscription ? (
               <form action={createPortalLinkWithSlug} method="POST">
                 <Button
                   className="w-full px-3 py-2 mt-6"
@@ -94,7 +106,7 @@ export default async function Settings({
                 </Button>
               </form>
             ) : (
-              <Button className="w-full px-3 py-2 mt-6" disabled>
+              <Button className="w-full px-3 py-2 mt-6" color="gray" disabled>
                 Current plan
               </Button>
             )}
@@ -131,7 +143,13 @@ export default async function Settings({
             {/* <p className="mt-3 text-sm leading-6 text-zinc-500">
               {tier.price.annually} per month if paid annually
             </p> */}
-            {workspaceWithSubscription?.subscription ? (
+            {willBeCanceled ? (
+              <form action={createPortalLinkWithSlug} method="POST">
+                <Button className="w-full px-3 py-2 mt-6" type="submit">
+                  Renew
+                </Button>
+              </form>
+            ) : hasSubscription ? (
               <Button className="w-full px-3 py-2 mt-6" disabled>
                 Current plan
               </Button>

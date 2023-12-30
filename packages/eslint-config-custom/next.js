@@ -37,6 +37,7 @@ module.exports = {
   ignorePatterns: ["node_modules/", "dist/"],
   // add rules configurations here
   rules: {
+    "no-nested-ternary": "off",
     "import/no-default-export": "off",
     "@typescript-eslint/no-misused-promises": "off",
     // Doesn't work with absolute imports
