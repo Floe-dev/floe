@@ -17,8 +17,8 @@ enum MembershipRole {
     OWNER
 }
 
+// If there is no subscription, the workspace is on a free plan
 enum Plan {
-    FREE
     PRO
 }
 
@@ -79,20 +79,27 @@ model EncryptedKey {
 }
 
 model Workspace {
-    id                 String                @id @default(cuid())
-    name               String
-    slug               String                @unique
-    docsOwner          String?
-    docsRepository     String?
-    docsBranch         String?
-    docsPath           String?
-    stripeId           String?
-    stripeSubscription String?
-    plan               Plan                  @default(FREE)
-    members            WorkspaceMembership[]
-    encrytpedKeys      EncryptedKey[]
-    githubIntegration  GithubIntegration?
-    gitlabIntegration  GitlabIntegration?
+    id                String                @id @default(cuid())
+    name              String
+    slug              String                @unique
+    docsOwner         String?
+    docsRepository    String?
+    docsBranch        String?
+    docsPath          String?
+    stripeCustomerId  String?
+    members           WorkspaceMembership[]
+    encrytpedKeys     EncryptedKey[]
+    githubIntegration GithubIntegration?
+    gitlabIntegration GitlabIntegration?
+    subscription      Subscription?
+}
+
+model Subscription {
+    stripeSubscriptionId String    @unique
+    plan                 Plan      @default(PRO) // To simplify things, we do not maintain a 'single source of truth' for products. Eventually, a more robust solution may be needed (see https://github.com/vercel/nextjs-subscription-payments/tree/main).
+    currentPeriodEnd     DateTime
+    workspace            Workspace @relation(fields: [workspaceId], references: [id])
+    workspaceId          String    @unique
 }
 
 model GithubIntegration {
