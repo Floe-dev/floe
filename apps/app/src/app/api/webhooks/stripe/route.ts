@@ -1,6 +1,11 @@
 import type { NextRequest } from "next/server";
 import type Stripe from "stripe";
-import { stripe } from "~/lib/stripe";
+import {
+  manageSubscriptionStatusChange,
+  stripe,
+  upsertPriceRecord,
+  upsertProductRecord,
+} from "~/lib/stripe";
 import { env } from "~/env.mjs";
 
 const relevantEvents = new Set([
@@ -42,30 +47,26 @@ const handler = async (req: NextRequest) => {
       switch (event.type) {
         case "product.created":
         case "product.updated":
-          await upsertProductRecord(event.data.object as Stripe.Product);
+          await upsertProductRecord(event.data.object);
           break;
         case "price.created":
         case "price.updated":
-          await upsertPriceRecord(event.data.object as Stripe.Price);
+          await upsertPriceRecord(event.data.object);
           break;
         case "customer.subscription.created":
         case "customer.subscription.updated":
         case "customer.subscription.deleted":
-          const subscription = event.data.object as Stripe.Subscription;
           await manageSubscriptionStatusChange(
-            subscription.id,
-            subscription.customer as string,
-            event.type === "customer.subscription.created"
+            event.data.object.id,
+            event.data.object.customer as string
           );
           break;
         case "checkout.session.completed":
-          const checkoutSession = event.data.object as Stripe.Checkout.Session;
-          if (checkoutSession.mode === "subscription") {
-            const subscriptionId = checkoutSession.subscription;
+          if (event.data.object.mode === "subscription") {
+            const subscriptionId = event.data.object.subscription;
             await manageSubscriptionStatusChange(
               subscriptionId as string,
-              checkoutSession.customer as string,
-              true
+              event.data.object.customer as string
             );
           }
           break;
