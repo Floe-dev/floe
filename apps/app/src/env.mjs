@@ -30,10 +30,7 @@ export const env = createEnv({
     STRIPE_SECRET_KEY: z.string(),
     STRIPE_WEBHOOK_SECRET: z.string(),
     STRIPE_PRO_PRICE_ID: z.string(),
-    VERCEL_URL:
-      process.env.NODE_ENV === "production"
-        ? z.string()
-        : z.string().optional(),
+    VERCEL_URL: z.string().optional(),
   },
 
   /**
@@ -43,10 +40,6 @@ export const env = createEnv({
    */
   client: {
     // NEXT_PUBLIC_CLIENTVAR: z.string(),
-    NEXT_PUBLIC_VERCEL_URL:
-      process.env.NODE_ENV === "production"
-        ? z.string()
-        : z.string().optional(),
   },
 
   /**
