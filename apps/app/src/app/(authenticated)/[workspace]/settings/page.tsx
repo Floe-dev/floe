@@ -1,9 +1,7 @@
 import { redirect } from "next/navigation";
 import { env } from "~/env.mjs";
+import { url } from "~/utils/url";
 import { createOrRetrieveCustomer, stripe } from "~/lib/stripe";
-
-const url =
-  env.NODE_ENV === "production" ? env.VERCEL_URL : "http://localhost:3001";
 
 export default function Settings({
   params,

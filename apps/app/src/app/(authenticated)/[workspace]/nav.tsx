@@ -9,7 +9,7 @@ import {
   Bars3Icon,
   HomeIcon,
   XMarkIcon,
-  Cog6ToothIcon,
+  CreditCardIcon,
 } from "@heroicons/react/20/solid";
 import { Fragment, useState } from "react";
 import { signOut } from "next-auth/react";
@@ -44,9 +44,9 @@ export function Nav({
       current: pathname === `/${workspace}`,
     },
     {
-      name: "Settings",
+      name: "Billing",
       href: `/${workspace}/settings`,
-      icon: Cog6ToothIcon,
+      icon: CreditCardIcon,
       current: pathname === `/${workspace}/settings`,
     },
   ];
@@ -156,7 +156,7 @@ export function Nav({
                                     : "text-zinc-700 hover:text-amber-600 hover:bg-zinc-50",
                                   "group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold"
                                 )}
-                                href={ws.slug}
+                                href={`/${ws.slug}`}
                               >
                                 <span
                                   className={classNames(
