@@ -47,7 +47,7 @@ export default async function Workspace({
 
   return (
     <div>
-      <div className="prose prose-zinc">
+      <div className="mb-10 prose prose-zinc">
         <h2 className="mb-2">Welcome back</h2>
         <p>Manage your keys and integrations.</p>
       </div>

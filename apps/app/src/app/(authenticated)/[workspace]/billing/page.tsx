@@ -3,22 +3,6 @@ import { Button, Pill } from "@floe/ui";
 import { CheckCircleIcon } from "@heroicons/react/20/solid";
 import { createStripeCheckoutSession, createPortalLink } from "./actions";
 
-const freeTierFeature = [
-  "25 products",
-  "Up to 10,000 subscribers",
-  "Advanced analytics",
-  "24-hour support response time",
-  "Marketing automations",
-];
-
-const proTierFeature = [
-  "25 products",
-  "Up to 10,000 subscribers",
-  "Advanced analytics",
-  "24-hour support response time",
-  "Marketing automations",
-];
-
 async function getWorkspaceWithSubscription(slug: string) {
   const workspace = await db.workspace.findUnique({
     where: {
@@ -45,6 +29,17 @@ export default async function Settings({
 }: {
   params: { workspace: string };
 }) {
+  const freeTierFeature = [
+    "25k GPT-4 Turbo tokens / month",
+    "Unlimited GPT-3.5 Turbo tokens",
+  ];
+
+  const proTierFeature = [
+    "1M GPT-4 Turbo tokens / month",
+    "Unlimited GPT-3.5 Turbo tokens",
+    "Priority support",
+  ];
+
   const workspaceWithSubscription = await getWorkspaceWithSubscription(
     params.workspace
   );
@@ -73,15 +68,15 @@ export default async function Settings({
           tier.
         </p>
       </div>
-      <div className="flow-root mt-20">
-        <div className="grid grid-cols-1 divide-y divide-zinc-200 isolate gap-y-16 sm:mx-auto lg:max-w-none lg:grid-cols-2 lg:divide-x lg:divide-y-0">
+      <div className="flow-root mt-6">
+        <div className="grid grid-cols-1 py-8 bg-white divide-y shadow rounded-xl divide-zinc-200 isolate gap-y-16 sm:mx-auto lg:max-w-none lg:grid-cols-2 lg:divide-x lg:divide-y-0">
           {/* Free tier */}
           <div className="pt-16 lg:px-8 lg:pt-0 xl:px-14">
             <h3 className="text-base font-semibold leading-7 text-zinc-900">
               Free
             </h3>
             <p className="flex items-baseline mt-6 gap-x-1">
-              <span className="text-5xl font-bold tracking-tight text-zinc-900">
+              <span className="text-4xl font-bold tracking-tight text-zinc-900">
                 $0
               </span>
               <span className="text-sm font-semibold leading-6 text-zinc-600">
@@ -126,7 +121,7 @@ export default async function Settings({
               Pro
             </h3>
             <p className="flex items-baseline mt-6 gap-x-1">
-              <span className="text-5xl font-bold tracking-tight text-zinc-900">
+              <span className="text-4xl font-bold tracking-tight text-zinc-900">
                 $490
               </span>
               <span className="text-sm font-semibold leading-6 text-zinc-600">
@@ -148,8 +143,7 @@ export default async function Settings({
               </form>
             )}
             <p className="mt-10 text-sm font-semibold leading-6 text-zinc-900">
-              Everything in Basic, plus essential tools for growing your
-              business.
+              Features for professionals and teams.
             </p>
             <ul className="mt-6 space-y-3 text-sm leading-6 text-zinc-600">
               {proTierFeature.map((feature) => (
