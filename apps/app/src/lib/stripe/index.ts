@@ -12,6 +12,52 @@ const toDateTime = (secs: number) => {
   return t;
 };
 
+export const createOrRetrieveCustomer = async ({
+  workspaceSlug,
+}: {
+  workspaceSlug: string;
+}) => {
+  const workspace = await db.workspace.findUnique({
+    where: { slug: workspaceSlug },
+    include: {
+      members: {
+        where: { role: "OWNER" },
+        include: {
+          user: true,
+        },
+      },
+    },
+  });
+
+  if (!workspace) {
+    throw new Error("Could not find Workspace by Slug");
+  }
+
+  // No customer record found, let's create one.
+  if (!workspace.stripeCustomerId) {
+    const customerData = {
+      metadata: {
+        floeWorkspaceSlug: workspaceSlug,
+        floeWorkspaceContactName: workspace.members[0].user.name,
+        floeWorkspaceContactEmail: workspace.members[0].user.email,
+      },
+    };
+
+    // Create a new customer object in Stripe.
+    const customer = await stripe.customers.create(customerData);
+
+    // Now insert the customer ID into our Supabase mapping table.
+    await db.workspace.update({
+      where: { slug: workspaceSlug },
+      data: { stripeCustomerId: customer.id },
+    });
+    console.log(`New customer created and inserted for ${workspaceSlug}.`);
+    return customer.id;
+  }
+
+  return workspace.stripeCustomerId;
+};
+
 export const upsertProductRecord = async (product: Stripe.Product) => {
   const productData = {
     stripeProductId: product.id,

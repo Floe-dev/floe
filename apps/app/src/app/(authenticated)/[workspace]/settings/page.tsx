@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 import { env } from "~/env.mjs";
-import { stripe } from "~/lib/stripe";
+import { createOrRetrieveCustomer, stripe } from "~/lib/stripe";
 
 const url =
   env.NODE_ENV === "production" ? env.VERCEL_URL : "http://localhost:3001";
@@ -13,8 +13,17 @@ export default function Settings({
   async function createStripeCheckoutSession() {
     "use server";
 
+    // Retrieve or create the customer in Stripe
+    const customer = await createOrRetrieveCustomer({
+      workspaceSlug: params.workspace,
+    });
+
     const result = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
+      customer,
+      customer_update: {
+        address: "auto",
+      },
       line_items: [
         {
           price: env.STRIPE_PRO_PRICE_ID,
@@ -22,6 +31,7 @@ export default function Settings({
         },
       ],
       mode: "subscription",
+      allow_promotion_codes: true,
       success_url: `${url}/${params.workspace}/settings?success=true`,
       cancel_url: `${url}/${params.workspace}/settings?canceled=true`,
     });
