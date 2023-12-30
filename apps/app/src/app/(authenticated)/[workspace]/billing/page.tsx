@@ -134,7 +134,7 @@ export default async function Settings({
             </h3>
             <p className="flex items-baseline mt-6 gap-x-1">
               <span className="text-4xl font-bold tracking-tight text-zinc-900">
-                $490
+                $390
               </span>
               <span className="text-sm font-semibold leading-6 text-zinc-600">
                 /month
