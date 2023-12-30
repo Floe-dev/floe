@@ -45,9 +45,9 @@ export function Nav({
     },
     {
       name: "Billing",
-      href: `/${workspace}/settings`,
+      href: `/${workspace}/billing`,
       icon: CreditCardIcon,
-      current: pathname === `/${workspace}/settings`,
+      current: pathname === `/${workspace}/billing`,
     },
   ];
 

@@ -1,10 +1,7 @@
-import { redirect } from "next/navigation";
-import { CheckIcon } from "@heroicons/react/20/solid";
 import { db } from "@floe/db";
-import { env } from "~/env.mjs";
-import { url } from "~/utils/url";
-import { createOrRetrieveCustomer, stripe } from "~/lib/stripe";
 import { Pill } from "@floe/ui";
+import { CheckIcon } from "@heroicons/react/20/solid";
+import { createStripeCheckoutSession, createPortalLink } from "./actions";
 
 const includedFeatures = [
   "Private forum access",
@@ -39,40 +36,15 @@ export default async function Settings({
 }: {
   params: { workspace: string };
 }) {
-  async function createStripeCheckoutSession() {
-    "use server";
-
-    // Retrieve or create the customer in Stripe
-    const customer = await createOrRetrieveCustomer({
-      workspaceSlug: params.workspace,
-    });
-
-    const result = await stripe.checkout.sessions.create({
-      payment_method_types: ["card"],
-      customer,
-      customer_update: {
-        address: "auto",
-      },
-      line_items: [
-        {
-          price: env.STRIPE_PRO_PRICE_ID,
-          quantity: 1,
-        },
-      ],
-      mode: "subscription",
-      allow_promotion_codes: true,
-      success_url: `${url}/${params.workspace}/settings?success=true`,
-      cancel_url: `${url}/${params.workspace}/settings?canceled=true`,
-    });
-
-    if (!result.url) {
-      throw new Error("No URL returned from Stripe");
-    }
-
-    redirect(result.url);
-  }
-
   const workspaceWithSubscription = await getWorkspaceWithSubscription(
+    params.workspace
+  );
+  const createPortalLinkWithSlug = createPortalLink.bind(
+    null,
+    params.workspace
+  );
+  const createStripeCheckoutSessionWithSlug = createStripeCheckoutSession.bind(
+    null,
     params.workspace
   );
 
@@ -92,7 +64,11 @@ export default async function Settings({
           tier.
         </p>
       </div>
-      {!workspaceWithSubscription?.subscription && (
+      {workspaceWithSubscription?.subscription ? (
+        <form action={createPortalLinkWithSlug} method="POST">
+          <button type="submit">Manage your subscription.</button>
+        </form>
+      ) : (
         <div className="max-w-2xl mx-auto mt-8 bg-white rounded-3xl ring-1 ring-zinc-200 lg:mx-0 lg:flex lg:max-w-none">
           <div className="p-8 sm:p-10 lg:flex-auto">
             <h3 className="text-2xl font-bold tracking-tight text-zinc-900">
@@ -149,7 +125,7 @@ export default async function Settings({
           </div>
         </div>
       )}
-      <form action={createStripeCheckoutSession} method="POST">
+      <form action={createStripeCheckoutSessionWithSlug} method="POST">
         <button type="submit">Checkout</button>
       </form>
     </div>
