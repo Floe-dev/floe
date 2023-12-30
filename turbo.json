@@ -28,6 +28,7 @@
         "PINECONE_API_KEY",
         "PINCECONE_INDEX",
         "STRIPE_SECRET_KEY",
+        "STRIPE_WEBHOOK_SECRET",
         "STRIPE_PRO_PRICE_ID"
       ]
     },
