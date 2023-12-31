@@ -27,8 +27,8 @@ export async function createStripeCheckoutSession(slug: string) {
     ],
     mode: "subscription",
     allow_promotion_codes: true,
-    success_url: `${url}/${slug}/billing?success=true`,
-    cancel_url: `${url}/${slug}/billing?canceled=true`,
+    success_url: `${url}${slug}/billing?success=true`,
+    cancel_url: `${url}${slug}/billing?canceled=true`,
   });
 
   if (!result.url) {
@@ -45,7 +45,7 @@ export async function createPortalLink(slug: string) {
 
   const result = await stripe.billingPortal.sessions.create({
     customer,
-    return_url: `${url}/${slug}/billing`,
+    return_url: `${url}${slug}/billing`,
   });
 
   redirect(result.url);
