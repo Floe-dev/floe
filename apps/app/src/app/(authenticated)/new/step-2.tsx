@@ -60,6 +60,16 @@ export function Step2() {
       >
         Continue
       </Button>
+      <Button
+        className="w-full mt-2"
+        color="gray"
+        onClick={() => {
+          router.replace(`/${workspace.slug}`);
+        }}
+        variant="text"
+      >
+        I&apos;ll do this later
+      </Button>
     </>
   );
 }

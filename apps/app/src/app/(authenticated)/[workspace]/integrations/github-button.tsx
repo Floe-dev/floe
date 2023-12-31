@@ -1,7 +1,7 @@
 "use client";
 
-import { Prisma } from "@floe/db";
 import { Button } from "@floe/ui";
+import type { Prisma } from "@floe/db";
 import { useGitHubInstallationURL } from "~/lib/features/github-installation";
 
 interface GitHubButtonProps {

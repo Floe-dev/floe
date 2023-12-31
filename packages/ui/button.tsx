@@ -36,7 +36,7 @@ const classes = {
     gray: {
       contained:
         "text-zinc-700 bg-zinc-200 hover:bg-zinc-300 focus:ring-2 focus:ring-zinc-300 focus:ring-opacity-50",
-      text: "hover:bg-zinc-950/10 text-zinc-200 !shadow-none",
+      text: "hover:bg-zinc-950/10 text-zinc-500 !shadow-none",
     },
   },
 } as const;

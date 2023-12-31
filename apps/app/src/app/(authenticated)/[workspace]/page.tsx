@@ -1,7 +1,7 @@
 import { getServerSession } from "next-auth";
 import { db } from "@floe/db";
 import { authOptions } from "~/server/auth";
-import Keys from "./keys";
+import { Header } from "~/app/_components/header";
 
 async function getWorkspace(workspaceSlug: string) {
   const session = await getServerSession(authOptions);
@@ -45,11 +45,11 @@ export default async function Workspace({
   }
 
   return (
-    <div>
-      <div className="mb-10 prose prose-zinc">
-        <h2 className="mb-2">Dashboard</h2>
-        <p>Manage your keys and integrations.</p>
-      </div>
+    <div className="max-w-screen-lg">
+      <Header
+        description={`Manage your settings for ${workspace.name}.`}
+        title="Home"
+      />
       {/* Next steps */}
       <div className="px-6 py-5 mb-4 prose bg-white rounded-lg shadow prose-zinc">
         <h3 className="text-base font-semibold leading-6 text-zinc-900">
@@ -79,8 +79,6 @@ export default async function Workspace({
           </li>
         </ul>
       </div>
-
-      <Keys workspace={workspace} />
     </div>
   );
 }

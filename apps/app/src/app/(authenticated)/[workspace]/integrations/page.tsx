@@ -1,4 +1,5 @@
 import { Button } from "@floe/ui";
+import { Header } from "~/app/_components/header";
 import { getWorkspace } from "~/lib/features/workspace";
 import { GitHubButton } from "./github-button";
 
@@ -14,12 +15,12 @@ export default async function Integrations({
   }
 
   return (
-    <div>
-      <div className="prose prose-zinc">
-        <h2 className="mb-2">Integrations</h2>
-        <p>Extend Floe&apos;s capabilties with 3rd party integrations.</p>
-      </div>
-      <div className="mt-10">
+    <div className="max-w-screen-lg">
+      <Header
+        description="Extend Floe's capabilties with 3rd party integrations."
+        title="Integrations"
+      />
+      <div>
         <div className="px-6 bg-white shadow rounded-xl ">
           <div className="flex flex-col divide-y">
             <div className="flex items-start justify-between py-6">
