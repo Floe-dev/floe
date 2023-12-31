@@ -248,6 +248,13 @@ importers:
       react-dom:
         specifier: ^18.2.0
         version: 18.2.0(react@18.2.0)
+    devDependencies:
+      tsconfig:
+        specifier: workspace:*
+        version: link:../../packages/tsconfig
+      typescript:
+        specifier: ^4.5.3
+        version: 4.9.5
 
   apps/web:
     dependencies:
