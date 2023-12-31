@@ -17,7 +17,7 @@ export const env = createEnv({
     NEXTAUTH_URL: z.preprocess(
       // This makes Vercel deployments not fail if you don't set NEXTAUTH_URL
       // Since NextAuth.js automatically uses the VERCEL_URL if present.
-      (str) => process.env.VERCEL_URL ?? str,
+      (str) => process.env.NEXT_PUBLIC_VERCEL_URL ?? str,
       // VERCEL_URL doesn't include `https` so it cant be validated as a URL
       process.env.VERCEL ? z.string() : z.string().url()
     ),
@@ -27,6 +27,9 @@ export const env = createEnv({
     SENDGRID_API: z.string(),
     FLOE_SECRET_KEY: z.string(),
     FLOE_SECRET_IV: z.string(),
+    STRIPE_SECRET_KEY: z.string(),
+    STRIPE_WEBHOOK_SECRET: z.string(),
+    STRIPE_PRO_PRICE_ID: z.string(),
   },
 
   /**
@@ -35,7 +38,11 @@ export const env = createEnv({
    * `NEXT_PUBLIC_`.
    */
   client: {
-    // NEXT_PUBLIC_CLIENTVAR: z.string(),
+    NEXT_PUBLIC_SITE_URL: z.string().optional(),
+    NEXT_PUBLIC_VERCEL_URL:
+      process.env.NODE_ENV === "production"
+        ? z.string()
+        : z.string().optional(),
   },
 
   /**
@@ -51,6 +58,11 @@ export const env = createEnv({
     SENDGRID_API: process.env.SENDGRID_API,
     FLOE_SECRET_KEY: process.env.FLOE_SECRET_KEY,
     FLOE_SECRET_IV: process.env.FLOE_SECRET_IV,
+    STRIPE_SECRET_KEY: process.env.STRIPE_SECRET_KEY,
+    STRIPE_WEBHOOK_SECRET: process.env.STRIPE_WEBHOOK_SECRET,
+    STRIPE_PRO_PRICE_ID: process.env.STRIPE_PRO_PRICE_ID,
+    NEXT_PUBLIC_SITE_URL: process.env.NEXT_PUBLIC_SITE_URL,
+    NEXT_PUBLIC_VERCEL_URL: process.env.NEXT_PUBLIC_VERCEL_URL,
   },
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially

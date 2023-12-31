@@ -6,7 +6,7 @@ const colors = {
   green: "bg-green-100 text-green-700",
   amber: "bg-amber-100 text-amber-700",
   yellow: "bg-yellow-100 text-yellow-700",
-  black: "bg-zinc-100 text-zinc-700",
+  black: "bg-zinc-900 text-white",
 };
 
 interface PillProps {
