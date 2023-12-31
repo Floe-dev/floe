@@ -24,7 +24,7 @@ async function getWorkspaceWithSubscription(slug: string) {
   return workspace;
 }
 
-export default async function Settings({
+export default async function Billing({
   params,
 }: {
   params: { workspace: string };

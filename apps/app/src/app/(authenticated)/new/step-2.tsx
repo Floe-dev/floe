@@ -2,7 +2,7 @@
 
 import { Button } from "@floe/ui";
 import { useRouter } from "next/navigation";
-import { useGitHubInstallationURL } from "~/lib/github-installation-url";
+import { useGitHubInstallationURL } from "~/lib/features/github-installation";
 import { useStepsContext } from "./context";
 
 export function Step2() {

@@ -2,7 +2,6 @@ import { getServerSession } from "next-auth";
 import { db } from "@floe/db";
 import { authOptions } from "~/server/auth";
 import Keys from "./keys";
-import { AuthConnect } from "./auth-connect";
 
 async function getWorkspace(workspaceSlug: string) {
   const session = await getServerSession(authOptions);
@@ -53,7 +52,7 @@ export default async function Workspace({
       </div>
       {/* Next steps */}
       <div className="px-6 py-5 mb-4 prose bg-white rounded-lg shadow prose-zinc">
-        <h3 className="text-base font-semibold leading-6 text-gray-900">
+        <h3 className="text-base font-semibold leading-6 text-zinc-900">
           Next steps
         </h3>
         <p className="mt-2 text-sm text-gray-500">Complete your Floe setup.</p>
@@ -81,7 +80,6 @@ export default async function Workspace({
         </ul>
       </div>
 
-      <AuthConnect workspace={workspace} />
       <Keys workspace={workspace} />
     </div>
   );

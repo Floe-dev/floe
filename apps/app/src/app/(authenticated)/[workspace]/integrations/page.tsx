@@ -1,0 +1,58 @@
+import { Button } from "@floe/ui";
+import { getWorkspace } from "~/lib/features/workspace";
+import { GitHubButton } from "./github-button";
+
+export default async function Integrations({
+  params,
+}: {
+  params: { workspace: string };
+}) {
+  const workspace = await getWorkspace(params.workspace);
+
+  if (!workspace) {
+    return null;
+  }
+
+  return (
+    <div>
+      <div className="prose prose-zinc">
+        <h2 className="mb-2">Integrations</h2>
+        <p>Extend Floe&apos;s capabilties with 3rd party integrations.</p>
+      </div>
+      <div className="mt-10">
+        <div className="px-6 bg-white shadow rounded-xl ">
+          <div className="flex flex-col divide-y">
+            <div className="flex items-start justify-between py-6">
+              <div className="prose prose-zinc">
+                <h4 className="my-0 text-base font-semibold leading-6 text-zinc-900">
+                  GitHub
+                </h4>
+                <p className="mt-2 text-sm text-gray-500">
+                  Install the Floe GitHub app to enable code reviews and more.
+                </p>
+              </div>
+              <div className="text-right">
+                <GitHubButton workspace={workspace} />
+              </div>
+            </div>
+            <div className="flex items-start justify-between py-6">
+              <div className="prose prose-zinc">
+                <h4 className="my-0 text-base font-semibold leading-6 text-zinc-900">
+                  GitLab
+                </h4>
+                <p className="mt-2 text-sm text-gray-500">
+                  This integration is not yet available.
+                </p>
+              </div>
+              <div className="text-right">
+                <Button color="gray" disabled>
+                  Link account
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
