@@ -62,6 +62,7 @@ async function handler({
         content: getUserPrompt(lines, rule),
       },
     ],
+    user: workspace.id,
   };
 
   /**

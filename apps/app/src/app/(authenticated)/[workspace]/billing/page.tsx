@@ -29,15 +29,12 @@ export default async function Settings({
 }: {
   params: { workspace: string };
 }) {
-  const freeTierFeature = [
-    "25k GPT-4 Turbo tokens / month",
-    "Unlimited GPT-3.5 Turbo tokens",
-  ];
+  const freeTierFeature = ["Unlimited GPT-3.5 Turbo tokens", "Rate limited"];
 
   const proTierFeature = [
-    "1M GPT-4 Turbo tokens / month",
-    "Unlimited GPT-3.5 Turbo tokens",
+    "Unlimited GPT-4 Turbo tokens",
     "Priority support",
+    "Teams (Coming soon)",
   ];
 
   const workspaceWithSubscription = await getWorkspaceWithSubscription(
