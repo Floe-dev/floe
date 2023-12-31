@@ -2,8 +2,10 @@
 
 import { redirect } from "next/navigation";
 import { createOrRetrieveCustomer, stripe } from "~/lib/stripe";
-import { url } from "~/utils/url";
+import { getURL } from "~/utils/url";
 import { env } from "~/env.mjs";
+
+const url = getURL();
 
 export async function createStripeCheckoutSession(slug: string) {
   // Retrieve or create the customer in Stripe

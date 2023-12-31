@@ -8,7 +8,8 @@
       "env": [
         "PORT",
         "NODE_ENV",
-        "VERCEL_URL",
+        "NEXT_PUBLIC_SITE_URL",
+        "NEXT_PUBLIC_VERCEL_URL",
         "VERCEL",
         "DATABASE_URL",
         "NEXTAUTH_SECRET",
