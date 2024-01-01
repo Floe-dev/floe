@@ -10,6 +10,8 @@ import {
   HomeIcon,
   XMarkIcon,
   CreditCardIcon,
+  PuzzlePieceIcon,
+  CodeBracketSquareIcon,
 } from "@heroicons/react/20/solid";
 import { Fragment, useState } from "react";
 import { signOut } from "next-auth/react";
@@ -38,10 +40,22 @@ export function Nav({
 
   const navigation = [
     {
-      name: "Dashboard",
+      name: "Home",
       href: `/${workspace}`,
       icon: HomeIcon,
       current: pathname === `/${workspace}`,
+    },
+    {
+      name: "Integrations",
+      href: `/${workspace}/integrations`,
+      icon: PuzzlePieceIcon,
+      current: pathname === `/${workspace}/integrations`,
+    },
+    {
+      name: "Developers",
+      href: `/${workspace}/developers`,
+      icon: CodeBracketSquareIcon,
+      current: pathname === `/${workspace}/developers`,
     },
     {
       name: "Billing",

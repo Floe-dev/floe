@@ -1,0 +1,52 @@
+# CLI
+The Floe command line interface (CLI) is the fastest way to get started with Floe.
+
+## Commands
+### `init`
+Initializes a new Floe project in the current directory. This will create a `.floe/config.json` file in the current directory.
+
+```bash copy
+floe init
+```
+
+### `review diff`
+Reviews content and provides feedback based on changes between commits (git diff).
+
+```bash copy
+floe review diff [arguments]
+```
+
+#### Arguments
+| Argument    | Description | Default     |
+| ----------- | ----------- | ----------- |
+| `[diff]`    | The diff to compare. | `HEAD` |
+
+
+#### Example
+```bash copy
+# Review the diff between the current commit and the previous commit
+floe review diff HEAD~1
+```
+
+### `review files`
+Reviews content and provides feedback for entire files.
+
+```bash copy
+floe review files [arguments] [options]
+```
+
+#### Arguments
+| Argument    | Description | Default     |
+| ----------- | ----------- | ----------- |
+| `[files...]`    | A space separated list of glob patterns to evaluate. | `include` glob pattern specified in each `ruleset` |
+
+#### Options
+| Option    | Description | Default     |
+| ----------- | ----------- | ----------- |
+| `--ignore <ignore...>`    | A space separated list of glob patterns to ignore. |  |
+
+#### Example
+```bash copy
+# Review the diff between the current commit and the previous commit
+floe review files 'apps/docs/**' --ignore 'apps/docs/README.md'
+```

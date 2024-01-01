@@ -2,7 +2,7 @@
 
 import { Button } from "@floe/ui";
 import { useRouter } from "next/navigation";
-import { useGitHubInstallationURL } from "~/lib/github-installation-url";
+import { useGitHubInstallationURL } from "~/lib/features/github-installation";
 import { useStepsContext } from "./context";
 
 export function Step2() {
@@ -59,6 +59,16 @@ export function Step2() {
         }}
       >
         Continue
+      </Button>
+      <Button
+        className="w-full mt-2"
+        color="gray"
+        onClick={() => {
+          router.replace(`/${workspace.slug}`);
+        }}
+        variant="text"
+      >
+        I&apos;ll do this later
       </Button>
     </>
   );

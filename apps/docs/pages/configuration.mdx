@@ -1,0 +1,80 @@
+import { Callout } from 'nextra/components'
+import { FileTree } from 'nextra/components'
+
+
+# Configuration (`.floe` directory)
+
+All the configuration for your project is stored in the `.floe` directory. This
+directory is created when you run the `floe init` command. The `.floe` directory
+contains the following files and directories:
+
+<FileTree>
+  <FileTree.Folder name=".floe" defaultOpen>
+    <FileTree.File name="config.json" />
+    <FileTree.Folder name="rules">
+      <FileTree.File name="example-rule1.md" />
+      <FileTree.File name="example-rule2.md" />
+    </FileTree.Folder>
+    <FileTree.Folder name="templates">
+      <FileTree.File name="example-template1.md" />
+      <FileTree.File name="example-template2.md" />
+    </FileTree.Folder>
+  </FileTree.Folder>
+</FileTree>
+
+- `config.json` - The main configuration file for your project.
+- `rules` - Directory containing `.md` files that define the rules for your
+  project.
+- `templates` - Directory containing `.md` files that define the templates for
+  your project (coming soon).
+
+
+## Rules
+
+A rule is a `.md` file that defines a rule for your project. The name of the
+file is the name of the rule. For example, if you have a rule called
+`spelling-and-grammar`, you would create a file called `spelling-and-grammar.md`
+in the `rules` directory. The contents of the file are the description of the
+rule. For example:
+
+```md copy filename=".floe/rules/spelling-and-grammar.md"
+Make sure there are no spelling mistakes or grammatical errors.
+```
+
+## Rulesets
+
+A `ruleset` is a collection of rules. Rulesets are defined in the `config.json`.
+Using the previous example, you might define a ruleset called `docs` like so:
+
+```json copy filename=".floe/config.json"
+{
+  // rest of config...
+  "rulesets": {
+    "docs": {
+      "include": ["**/*.md"],
+      "rules": {
+        "spelling-and-grammar": "warn"
+      }
+    }
+  }
+}
+```
+
+<Callout type="warning" emoji="⚠️">
+You can define as many rulesets and rules as you want, but it is important to
+keep in mind that 'less is more'. Ideally you should have no more than ~3 rules
+per ruleset. Having more than this may lead to rate limiting, particularly when
+evaluating large text inputs.
+</Callout>
+
+### Filtering files
+You can filter which files are evaluated by using the `include` field. You may
+pass `include` an array of [glob patterns](https://www.npmjs.com/package/glob).
+
+### Rule severity
+You can define the severity of a rule by passing a string to the rule. The
+following severity levels are available:
+
+- `warn` - The rule will warn you if it finds a violation.
+- `error` - The rule will error if it finds a violation. This will cause the
+  `floe` command to exit with a non-zero exit code.

@@ -6,7 +6,7 @@ import { redirect } from "next/navigation";
 import { Octokit } from "octokit";
 import { env } from "~/env.mjs";
 import { authOptions } from "~/server/auth";
-import { parseGitHubInstallationCallback } from "~/lib/github-installation-url";
+import { parseGitHubInstallationCallback } from "~/lib/features/github-installation";
 
 const schema = z
   .object({

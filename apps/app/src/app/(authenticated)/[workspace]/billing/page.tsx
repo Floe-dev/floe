@@ -2,6 +2,7 @@ import { db } from "@floe/db";
 import { Button, Pill } from "@floe/ui";
 import { CheckCircleIcon } from "@heroicons/react/20/solid";
 import { createStripeCheckoutSession, createPortalLink } from "./actions";
+import { Header } from "~/app/_components/header";
 
 async function getWorkspaceWithSubscription(slug: string) {
   const workspace = await db.workspace.findUnique({
@@ -24,7 +25,7 @@ async function getWorkspaceWithSubscription(slug: string) {
   return workspace;
 }
 
-export default async function Settings({
+export default async function Billing({
   params,
 }: {
   params: { workspace: string };
@@ -54,12 +55,9 @@ export default async function Settings({
     workspaceWithSubscription?.subscription?.cancelAtPeriodEnd;
 
   return (
-    <div>
-      <div className="prose prose-zinc">
-        <h2 className="mb-2">Billing</h2>
-        <p>Manage your subscription.</p>
-      </div>
-      <div className="mt-10">
+    <div className="max-w-screen-lg">
+      <Header description="Manage your subscription." title="Billing" />
+      <div>
         <p>
           You are currently on the{" "}
           <Pill color="black" text={hasSubscription ? "Pro" : "Free"} /> tier.

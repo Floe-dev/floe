@@ -34,7 +34,7 @@ function Keys({ workspace }: KeyProps) {
           },
         ]}
         subtitle="API keys allow you to authenticate with the API."
-        title="API key"
+        title="API keys"
       >
         <Table workspace={workspace} />
         <KeyModal open={open} setOpen={setOpen} workspace={workspace} />
