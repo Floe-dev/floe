@@ -1,6 +1,7 @@
 import { useConfig } from "nextra-theme-docs";
 
 const config = {
+  docsRepositoryBase: "https://github.com/Floe-dev/floe/tree/main/apps/docs",
   logo: <span>Floe Documentation</span>,
   project: {
     link: "https://github.com/Floe-dev/floe",
