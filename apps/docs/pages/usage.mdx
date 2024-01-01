@@ -1,6 +1,55 @@
+import { Callout } from 'nextra/components'
+import { Steps } from 'nextra/components'
+
 # Basic usage
+Let's use an example. Say we want to enforce specific terminology in our
+documentation.
 
-### Review a diff
+{/* <Callout emoji="💡">These commands assume you have configured `.floe/config.json`.</Callout> */}
+<Steps>
+### Add a rule
+```markdown copy filename=".floe/rules/terminology.md"
+Make sure to always use the following terminology instead of these alternatives:
 
+- `main` instead of `master`
+- "Floe" instead of "Floe.dev"
+# ...
+```
 
-### Review an existing file
+### Add the rule to a ruleset
+```json copy filename=".floe/config.json"
+{
+  "$schema": "https://unpkg.com/@floe/config@0.1.0-alpha.5/schema.json",
+  "reviews": {
+    "maxFileEvaluations": 5,
+    "maxDiffEvaluations": 20
+  },
+  "rulesets": {
+    "docs": {
+      "include": ["**/*.mdx"],
+      "rules": {
+        "terminology": "error"
+      }
+    }
+  }
+}
+```
+### Profit!
+We can now start using the CLI to review our changes.
+
+#### Review unstaged changes
+```bash copy
+# This is the same as running `floe review diff HEAD`
+floe review diff
+```
+
+#### Review the last commit
+```bash copy
+floe review diff HEAD~1
+```
+
+#### Review an existing file
+```bash copy
+floe review files some/path/to/file.md
+```
+</Steps>
