@@ -1,4 +1,6 @@
 import { Callout } from 'nextra/components'
+import { FileTree } from 'nextra/components'
+
 
 # Configuration (`.floe` directory)
 
@@ -6,11 +8,26 @@ All the configuration for your project is stored in the `.floe` directory. This
 directory is created when you run the `floe init` command. The `.floe` directory
 contains the following files and directories:
 
+<FileTree>
+  <FileTree.Folder name=".floe" defaultOpen>
+    <FileTree.File name="config.json" />
+    <FileTree.Folder name="rules">
+      <FileTree.File name="example-rule1.md" />
+      <FileTree.File name="example-rule2.md" />
+    </FileTree.Folder>
+    <FileTree.Folder name="templates">
+      <FileTree.File name="example-template1.md" />
+      <FileTree.File name="example-template2.md" />
+    </FileTree.Folder>
+  </FileTree.Folder>
+</FileTree>
+
 - `config.json` - The main configuration file for your project.
 - `rules` - Directory containing `.md` files that define the rules for your
   project.
 - `templates` - Directory containing `.md` files that define the templates for
   your project (coming soon).
+
 
 ## Rules
 

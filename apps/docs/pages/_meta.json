@@ -1,5 +1,6 @@
 {
   "index": "Quick start",
+  "usage": "Basic usage",
   "configuration": "Configuration",
   "cli": "CLI",
   "ci": "CI/CD (coming soon)"

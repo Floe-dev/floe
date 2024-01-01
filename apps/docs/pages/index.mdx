@@ -1,5 +1,8 @@
 import { Tabs } from 'nextra/components'
+import { Steps } from 'nextra/components'
 import { Callout } from 'nextra/components'
+import { Cards, Card } from 'nextra/components'
+import { WrenchScrewdriverIcon, DocumentPlusIcon, RocketLaunchIcon } from '@heroicons/react/24/solid'
 
 # Quick start
 Welcome to the **Floe** documentation guide. This guide will help you get
@@ -11,7 +14,8 @@ dashboard](https://app.floe.dev). You should also have generated an API key and 
 
 ## Getting started
 
-### 1. Install the CLI
+<Steps>
+### Install the CLI
 The easiest way to get started with Floe is with the **Floe CLI**. The CLI works
 with [npm](https://www.npmjs.com/),
 [yarn](https://classic.yarnpkg.com/lang/en/), [pnpm](https://pnpm.io/), and
@@ -45,31 +49,36 @@ The following command will install the CLI globally.
 <Callout emoji="💡"> Should you wish to pin the CLI version, you may remove the
   `-g` flag and install the CLI locally to your project.</Callout>
 
-  ### 2. Initialize Floe
-  Use the setup wizard to install the `.floe` directory. You should run this in the root of your documentation repository.
+### Initialize Floe
+Use the setup wizard to install the `.floe` directory. You should run this in the root of your documentation repository.
 
-  ```bash copy
-  floe init
-  ```
-  <Callout emoji="💡"> If you are installing into a monorepo, run in the same directory as your `.git` file.</Callout>
+```bash copy
+floe init
+```
+<Callout emoji="💡"> If you are installing into a monorepo, run in the same directory as your `.git` file.</Callout>
 
-  ### 3. Copy environment variables
-  Copy into the root `.env` file of your project. Be sure to not commit this file!
+### Copy environment variables
+Copy into the root `.env` file of your project. Be sure to not commit this file!
 
-  ```bash copy filename=".env"
-  FLOE_API_WORKSPACE="<WORKSPACE_SLUG>"
-  FLOE_API_SECRET="secret_..."
-  ```
+```bash copy filename=".env"
+FLOE_API_WORKSPACE="<WORKSPACE_SLUG>"
+FLOE_API_SECRET="secret_..."
+```
 
-  ### 4. Try it out!
-  ```bash copy
-  echo "I done gone and wrote some docs." > test-file.md && floe review files test-file.md && rm test-file.md
-  ```
+### Try it out!
+```bash copy
+echo "I done gone and wrote some docs." > test-file.md && floe review files test-file.md && rm test-file.md
+```
 
-  This command will create a sample file `test-file.md` with some grammatical
-  issues. We then run Floe against it with `floe review files test-file.md`, and
-  finally remove the file.
+This command will create a sample file `test-file.md` with some grammatical
+issues. We then run Floe against it with `floe review files test-file.md`, and
+finally remove the file.
+</Steps>
 
-  ## Next steps
-
+## Next steps
+<Cards>
+  <Card icon={<WrenchScrewdriverIcon />} arrow title="Update your config" href="/configuration#filtering-files" />
+  <Card icon={<DocumentPlusIcon />} arrow title="Add some rules" href="/configuration#rules" />
+  <Card icon={<RocketLaunchIcon />} arrow title="Learn the basics" href="/usage" />
+</Cards>
 
