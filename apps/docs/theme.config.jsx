@@ -5,6 +5,16 @@ const config = {
   project: {
     link: "https://github.com/Floe-dev/floe",
   },
+  footer: {
+    text: (
+      <span>
+        {new Date().getFullYear()} ©{" "}
+        <a href="https://nextra.site" target="_blank">
+          Floe
+        </a>
+      </span>
+    ),
+  },
   head: function useHead() {
     const { title } = useConfig();
 
