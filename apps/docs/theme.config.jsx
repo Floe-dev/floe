@@ -52,6 +52,8 @@ const config = {
       />
     </svg>
   ),
+  primaryHue: 38,
+  primarySaturation: 92,
 };
 
 export default config;
