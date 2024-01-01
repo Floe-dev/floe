@@ -52,3 +52,20 @@ The following command will install the CLI globally.
   floe init
   ```
   <Callout emoji="💡"> If you are installing into a monorepo, run in the same directory as your `.git` file.</Callout>
+
+  ### 3. Copy environment variables
+  Copy into the root `.env` file of your project.
+
+  ```bash copy filename=".env"
+  FLOE_API_WORKSPACE="<WORKSPACE_SLUG>"
+  FLOE_API_SECRET="secret_..."
+  ```
+
+  ### 4. Try it out!
+  ```bash copy
+  echo "I done gone and wrote some docs." > test-file.md && floe review files test-file.md && rm test-file.md
+  ```
+
+  This command will create a sample file `test-file.md` with some grammatical
+  issues. We then run Floe against it with `floe review files test-file.md`, and
+  finally remove the file.
