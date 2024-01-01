@@ -1,6 +1,6 @@
 import { Callout } from 'nextra/components'
 
-# Configuration (.floe directory)
+# Configuration (`.floe` directory)
 
 All the configuration for your project is stored in the `.floe` directory. This
 directory is created when you run the `floe init` command. The `.floe` directory
@@ -20,7 +20,7 @@ file is the name of the rule. For example, if you have a rule called
 in the `rules` directory. The contents of the file are the description of the
 rule. For example:
 
-```md copy filename="./floe/rules/spelling-and-grammar.md"
+```md copy filename=".floe/rules/spelling-and-grammar.md"
 Make sure there are no spelling mistakes or grammatical errors.
 ```
 
@@ -29,7 +29,7 @@ Make sure there are no spelling mistakes or grammatical errors.
 A `ruleset` is a collection of rules. Rulesets are defined in the `config.json`.
 Using the previous example, you might define a ruleset called `docs` like so:
 
-```json copy filename="./floe/config.json"
+```json copy filename=".floe/config.json"
 {
   // rest of config...
   "rulesets": {
