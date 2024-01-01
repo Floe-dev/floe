@@ -1,6 +1,54 @@
-# Quick start
+import { Tabs } from 'nextra/components'
+import { Callout } from 'nextra/components'
 
-Welcome to the **Floe** documentation guide. This guide will help you get started with the Floe in under 5 minutes.
+# Quick start
+Welcome to the **Floe** documentation guide. This guide will help you get
+started with the Floe in under 5 minutes.
 
 ## Before you start
-These docs assume you have completed onboarding using through the [Floe dashboard](https://app.floe.dev).
+These docs assume you have completed onboarding through the [Floe
+dashboard](https://app.floe.dev). You should also have generated an API key and have it ready.
+
+## Getting started
+
+### 1. Install the CLI
+The easiest way to get started with Floe is with the **Floe CLI**. The CLI works
+with [npm](https://www.npmjs.com/),
+[yarn](https://classic.yarnpkg.com/lang/en/), [pnpm](https://pnpm.io/), and
+[bun](https://bun.sh/).
+
+The following command will install the CLI globally.
+
+<Tabs items={['npm', 'yarn', 'pnpm', 'bun']}>
+  <Tabs.Tab>
+    ```bash copy
+    npm i -g @floe/cli
+    ```
+  </Tabs.Tab>
+  <Tabs.Tab>
+    ```bash copy
+    yarn global add @floe/cli
+    ```
+  </Tabs.Tab>
+  <Tabs.Tab>
+    ```bash copy
+    pnpm add -g @floe/cli
+    ```
+  </Tabs.Tab>
+  <Tabs.Tab>
+    ```bash copy
+    bun add -g @floe/cli
+    ```
+  </Tabs.Tab>
+</Tabs>
+
+<Callout emoji="💡"> Should you wish to pin the CLI version, you may remove the
+  `-g` flag and install the CLI locally to your project.</Callout>
+
+  ### 2. Initialize Floe
+  Use the setup wizard to install the `.floe` directory. You should run this in the root of your documentation repository.
+
+  ```bash copy
+  floe init
+  ```
+  <Callout emoji="💡"> If you are installing into a monorepo, run in the same directory as your `.git` file.</Callout>
