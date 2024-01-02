@@ -105,10 +105,10 @@ export default async function Workspace({
                   </div>
                   <div className="prose prose-zinc">
                     <h4 className="my-0 mt-1 text-base font-semibold leading-6 text-zinc-900">
-                      Connect to GitHub
+                      Connect
                     </h4>
                     <p className="mt-2 text-sm text-zinc-500">
-                      Generate an API key and store it somewhere safe.
+                      Get the most out of Floe by connecting to a git provider.
                     </p>
                   </div>
                 </div>
@@ -124,6 +124,7 @@ export default async function Workspace({
               <div className="flex items-start justify-between py-6">
                 <div className="flex gap-4">
                   <div className="flex items-center justify-center w-8 h-8 m-0 rounded-full bg-amber-100 text-amber-800">
+                    {/* TODO: Should add a check mark icon here once first customer request to API is detected. */}
                     3
                   </div>
                   <div className="prose prose-zinc">
@@ -158,11 +159,11 @@ export default async function Workspace({
               href="https://docs.floe.dev"
               target="_blank"
             >
-              <div className="flex duration-200 rounded shadow-sm group-hover:opacity-80">
-                <div className="flex items-center justify-center w-16 h-16 bg-green-200 rounded-l-md">
+              <div className="flex overflow-hidden duration-200 rounded-lg shadow group-hover:opacity-80 group-hover:shadow-lg">
+                <div className="flex items-center justify-center w-16 h-16 bg-green-200">
                   <BookOpenIcon className="w-6 h-6 text-green-700 duration-200 group-hover:scale-110" />
                 </div>
-                <div className="flex items-center justify-between flex-1 pl-4 pr-3 truncate bg-white border-t border-b border-r border-zinc-200 rounded-r-md">
+                <div className="flex items-center justify-between flex-1 pl-4 pr-3 truncate bg-white">
                   <div className="">
                     <h6 className="text-base font-semibold text-zinc-900">
                       Docs
@@ -182,11 +183,11 @@ export default async function Workspace({
               href="https://join.slack.com/t/floedev/shared_invite/zt-1okoncyuu-_v9KaY7AjEQfKNj6O6qvVg"
               target="_blank"
             >
-              <div className="flex duration-200 rounded shadow-sm group-hover:opacity-80">
-                <div className="flex items-center justify-center w-16 h-16 bg-yellow-200 rounded-l-md">
+              <div className="flex overflow-hidden duration-200 rounded-lg shadow group-hover:opacity-80 group-hover:shadow-lg">
+                <div className="flex items-center justify-center w-16 h-16 bg-yellow-200">
                   <ChatBubbleLeftRightIcon className="w-6 h-6 text-yellow-700 duration-200 group-hover:scale-110" />
                 </div>
-                <div className="flex items-center justify-between flex-1 pl-4 pr-3 truncate bg-white border-t border-b border-r border-zinc-200 rounded-r-md">
+                <div className="flex items-center justify-between flex-1 pl-4 pr-3 truncate bg-white">
                   <div className="">
                     <h6 className="text-base font-semibold text-zinc-900">
                       Community
@@ -206,11 +207,11 @@ export default async function Workspace({
               href="https://floe.canny.io/"
               target="_blank"
             >
-              <div className="flex duration-200 rounded shadow-sm group-hover:opacity-80">
-                <div className="flex items-center justify-center w-16 h-16 bg-indigo-200 rounded-l-md">
+              <div className="flex overflow-hidden duration-200 rounded-lg shadow group-hover:opacity-80 group-hover:shadow-lg">
+                <div className="flex items-center justify-center w-16 h-16 bg-indigo-200">
                   <MapIcon className="w-6 h-6 text-indigo-700 duration-200 group-hover:scale-110" />
                 </div>
-                <div className="flex items-center justify-between flex-1 pl-4 pr-3 truncate bg-white border-t border-b border-r border-zinc-200 rounded-r-md">
+                <div className="flex items-center justify-between flex-1 pl-4 pr-3 truncate bg-white">
                   <div className="">
                     <h6 className="text-base font-semibold text-zinc-900">
                       Roadmap
@@ -230,11 +231,11 @@ export default async function Workspace({
               href="https://floe.canny.io/feature-requests"
               target="_blank"
             >
-              <div className="flex duration-200 rounded shadow-sm group-hover:opacity-80">
-                <div className="flex items-center justify-center w-16 h-16 bg-pink-200 rounded-l-md">
+              <div className="flex overflow-hidden duration-200 rounded-lg shadow group-hover:opacity-80 group-hover:shadow-lg">
+                <div className="flex items-center justify-center w-16 h-16 bg-pink-200">
                   <MegaphoneIcon className="w-6 h-6 text-pink-700 duration-200 group-hover:scale-110" />
                 </div>
-                <div className="flex items-center justify-between flex-1 pl-4 pr-3 truncate bg-white border-t border-b border-r border-zinc-200 rounded-r-md">
+                <div className="flex items-center justify-between flex-1 pl-4 pr-3 truncate bg-white">
                   <div className="">
                     <h6 className="text-base font-semibold text-zinc-900">
                       Feature requests
