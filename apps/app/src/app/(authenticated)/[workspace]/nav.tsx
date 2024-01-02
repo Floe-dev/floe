@@ -12,6 +12,7 @@ import {
   CreditCardIcon,
   PuzzlePieceIcon,
   CodeBracketSquareIcon,
+  ArrowRightOnRectangleIcon,
 } from "@heroicons/react/20/solid";
 import { Fragment, useState } from "react";
 import { signOut } from "next-auth/react";
@@ -294,11 +295,11 @@ export function Nav({
                     <Menu.Items className="absolute bottom-full left-6 z-10 mb-2.5 min-w-[150px] origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-zinc-900/5 focus:outline-none">
                       <Menu.Item>
                         <button
-                          className="block w-full px-3 py-1 text-sm leading-6 text-left text-zinc-900 hover:bg-zinc-50"
+                          className="flex items-center w-full gap-2 px-3 py-1 text-sm leading-6 text-left text-zinc-900 hover:bg-zinc-50"
                           onClick={() => signOut()}
                           type="button"
                         >
-                          Sign out
+                          <ArrowRightOnRectangleIcon className="h-5" /> Sign out
                         </button>
                       </Menu.Item>
                     </Menu.Items>
@@ -347,11 +348,11 @@ export function Nav({
                 </p>
                 <Menu.Item>
                   <button
-                    className="block w-full px-3 py-1 text-sm leading-6 text-left text-zinc-900 hover:bg-zinc-50"
+                    className="flex items-center w-full gap-2 px-3 py-1 text-sm leading-6 text-left text-zinc-900 hover:bg-zinc-50"
                     onClick={() => signOut()}
                     type="button"
                   >
-                    Sign out
+                    <ArrowRightOnRectangleIcon className="h-5" /> Sign out
                   </button>
                 </Menu.Item>
               </Menu.Items>

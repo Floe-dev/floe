@@ -24,14 +24,14 @@ export default async function Integrations({
         <h3 className="mb-2 text-sm font-medium text-zinc-500">
           Git providers
         </h3>
-        <div className="px-6 bg-white shadow rounded-xl ">
+        <div className="px-6 bg-white shadow rounded-xl">
           <div className="flex flex-col divide-y">
             <div className="flex items-start justify-between py-6">
               <div className="prose prose-zinc">
                 <h4 className="my-0 text-base font-semibold leading-6 text-zinc-900">
                   GitHub
                 </h4>
-                <p className="mt-2 text-sm text-gray-500">
+                <p className="mt-2 text-sm text-zinc-500">
                   Install the Floe GitHub app to enable code reviews and more.
                 </p>
               </div>
@@ -44,7 +44,7 @@ export default async function Integrations({
                 <h4 className="my-0 text-base font-semibold leading-6 text-zinc-900">
                   GitLab
                 </h4>
-                <p className="mt-2 text-sm text-gray-500">
+                <p className="mt-2 text-sm text-zinc-500">
                   This integration is not yet available.
                 </p>
               </div>
