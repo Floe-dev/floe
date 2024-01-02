@@ -9,7 +9,7 @@ import {
   ChevronRightIcon,
   ChatBubbleLeftRightIcon,
 } from "@heroicons/react/24/solid";
-import { ArrowUpRightIcon } from "@heroicons/react/20/solid";
+import { ArrowUpRightIcon, CheckIcon } from "@heroicons/react/20/solid";
 import { authOptions } from "~/server/auth";
 import { Header } from "~/app/_components/header";
 
@@ -69,7 +69,11 @@ export default async function Workspace({
               <div className="flex items-start justify-between py-6">
                 <div className="flex gap-4">
                   <div className="flex items-center justify-center w-8 h-8 m-0 rounded-full bg-amber-100 text-amber-800">
-                    1
+                    {workspace.encrytpedKeys.length ? (
+                      <CheckIcon className="h-5" />
+                    ) : (
+                      1
+                    )}
                   </div>
                   <div className="prose prose-zinc">
                     <h4 className="my-0 mt-1 text-base font-semibold leading-6 text-zinc-900">
@@ -82,8 +86,8 @@ export default async function Workspace({
                 </div>
                 <div className="text-right">
                   <Link
-                    className="flex items-center gap-1 font-medium text-blue-600 hover:text-blue-800 visited:text-purple-600 hover:underline"
-                    href="https://docs.floe.dev"
+                    className="flex items-center gap-1 mt-1 font-medium text-blue-600 hover:text-blue-800 visited:text-purple-600 hover:underline"
+                    href={`/${workspace.slug}/developers`}
                   >
                     Developers <ArrowUpRightIcon className="h-5" />
                   </Link>
@@ -92,7 +96,12 @@ export default async function Workspace({
               <div className="flex items-start justify-between py-6">
                 <div className="flex gap-4">
                   <div className="flex items-center justify-center w-8 h-8 m-0 rounded-full bg-amber-100 text-amber-800">
-                    2
+                    {workspace.githubIntegration ||
+                    workspace.gitlabIntegration ? (
+                      <CheckIcon className="h-5" />
+                    ) : (
+                      2
+                    )}
                   </div>
                   <div className="prose prose-zinc">
                     <h4 className="my-0 mt-1 text-base font-semibold leading-6 text-zinc-900">
@@ -105,8 +114,8 @@ export default async function Workspace({
                 </div>
                 <div className="text-right">
                   <Link
-                    className="flex items-center gap-1 font-medium text-blue-600 hover:text-blue-800 visited:text-purple-600 hover:underline"
-                    href="https://docs.floe.dev"
+                    className="flex items-center gap-1 mt-1 font-medium text-blue-600 hover:text-blue-800 visited:text-purple-600 hover:underline"
+                    href={`/${workspace.slug}/integrations`}
                   >
                     Integrations <ArrowUpRightIcon className="h-5" />
                   </Link>
@@ -128,7 +137,7 @@ export default async function Workspace({
                 </div>
                 <div className="text-right">
                   <Link
-                    className="flex items-center gap-1 font-medium text-blue-600 hover:text-blue-800 visited:text-purple-600 hover:underline"
+                    className="flex items-center gap-1 mt-1 font-medium text-blue-600 hover:text-blue-800 visited:text-purple-600 hover:underline"
                     href="https://docs.floe.dev"
                   >
                     Docs <ArrowUpRightIcon className="h-5" />
