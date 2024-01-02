@@ -16,7 +16,7 @@ export default async function Developers({
   return (
     <div className="max-w-screen-lg">
       <Header
-        description="Extend Floe's capabilties with 3rd party integrations."
+        description="Settings used to manage developer tooling."
         title="Developers"
       />
       <div>
