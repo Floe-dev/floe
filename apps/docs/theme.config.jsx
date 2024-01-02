@@ -65,6 +65,11 @@ const config = {
   ),
   primaryHue: 38,
   primarySaturation: 92,
+  useNextSeoProps() {
+    return {
+      titleTemplate: "%s – Floe",
+    };
+  },
 };
 
 export default config;
