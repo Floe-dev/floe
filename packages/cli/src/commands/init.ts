@@ -45,7 +45,7 @@ export function init(program: Command) {
         ...defaultConfig,
         rulesets: {
           docs: {
-            include: ["apps/docs/**/*.mdx"],
+            include: ["**/*.md", "**/*.mdx"],
             rules: {
               "spelling-and-grammar": "warn",
             },
