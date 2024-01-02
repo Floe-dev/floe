@@ -21,6 +21,9 @@ export default async function Integrations({
         title="Integrations"
       />
       <div>
+        <h3 className="mb-2 text-sm font-medium text-zinc-500">
+          Git providers
+        </h3>
         <div className="px-6 bg-white shadow rounded-xl ">
           <div className="flex flex-col divide-y">
             <div className="flex items-start justify-between py-6">
