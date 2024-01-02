@@ -1,5 +1,11 @@
 # @floe/cli
 
+## 0.1.0-alpha.6
+
+### Minor Changes
+
+- 40caf50: Default config should check for all .md and .mdx files.
+
 ## 0.1.0-alpha.5
 
 ### Minor Changes
