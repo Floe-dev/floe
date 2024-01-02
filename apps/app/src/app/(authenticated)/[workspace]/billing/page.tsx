@@ -66,7 +66,7 @@ export default async function Billing({
       <div className="flow-root mt-6">
         <div className="grid grid-cols-1 py-8 bg-white divide-y shadow rounded-xl divide-zinc-200 isolate gap-y-16 sm:mx-auto lg:max-w-none lg:grid-cols-2 lg:divide-x lg:divide-y-0">
           {/* Free tier */}
-          <div className="pt-16 lg:px-8 lg:pt-0 xl:px-14">
+          <div className="px-8 xl:px-14">
             <h3 className="text-base font-semibold leading-7 text-zinc-900">
               Free
             </h3>
@@ -123,7 +123,7 @@ export default async function Billing({
           </div>
 
           {/* Pro tier */}
-          <div className="pt-16 lg:px-8 lg:pt-0 xl:px-14">
+          <div className="px-8 pt-16 lg:pt-0 xl:px-14">
             <h3 className="text-base font-semibold leading-7 text-zinc-900">
               Pro
             </h3>
