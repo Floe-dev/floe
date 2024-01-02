@@ -11,7 +11,9 @@ import {
 import { Button, Ping } from "@floe/ui";
 import { authOptions } from "~/server/auth";
 import { Header } from "~/app/_components/header";
+import { KeyModal } from "~/app/_components/key-modal";
 import { GitHubButton } from "./integrations/github-button";
+import { CreateKeyButton } from "./create-key-button";
 
 async function getWorkspace(workspaceSlug: string) {
   const session = await getServerSession(authOptions);
@@ -81,7 +83,7 @@ export default async function Workspace({
                   </div>
                 </div>
                 <div className="text-right">
-                  <GitHubButton workspace={workspace} />
+                  <CreateKeyButton workspace={workspace} />
                 </div>
               </div>
               <div className="flex items-start justify-between py-6">
@@ -116,9 +118,7 @@ export default async function Workspace({
                     </p>
                   </div>
                 </div>
-                <div className="text-right">
-                  <GitHubButton workspace={workspace} />
-                </div>
+                <div className="text-right"></div>
               </div>
             </div>
           </div>

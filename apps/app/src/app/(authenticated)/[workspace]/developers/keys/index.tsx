@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { Card } from "@floe/ui";
 import type { Prisma } from "@floe/db";
-import { KeyModal } from "./key-modal";
+import { KeyModal } from "~/app/_components/key-modal";
 import { Table } from "./table";
 
 interface KeyProps {
