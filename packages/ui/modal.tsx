@@ -74,17 +74,17 @@ function Body({ title, subTitle, children }: BodyProps) {
   return (
     <div className="px-4 pt-5 pb-4 bg-white rounded-t-lg sm:p-6 sm:pb-4">
       <div className="flex items-start w-full">
-        <div className="flex-1 text-left">
+        <div className="flex-1 prose text-left prose-zinc">
           {title ? (
             <Dialog.Title
               as="h3"
-              className="text-lg font-semibold leading-6 text-zinc-900"
+              className="mb-0 text-lg font-semibold leading-6 text-zinc-900"
             >
               {title}
             </Dialog.Title>
           ) : null}
           {subTitle ? (
-            <Dialog.Title as="h3" className="mt-2 text-zinc-500">
+            <Dialog.Title as="p" className="mt-2">
               {subTitle}
             </Dialog.Title>
           ) : null}
