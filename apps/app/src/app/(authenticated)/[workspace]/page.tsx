@@ -1,6 +1,7 @@
 import { getServerSession } from "next-auth";
 import Link from "next/link";
 import { db } from "@floe/db";
+import { Ping } from "@floe/ui";
 import {
   MapIcon,
   BookOpenIcon,
@@ -8,12 +9,9 @@ import {
   ChevronRightIcon,
   ChatBubbleLeftRightIcon,
 } from "@heroicons/react/24/solid";
-import { Button, Ping } from "@floe/ui";
+import { ArrowUpRightIcon } from "@heroicons/react/20/solid";
 import { authOptions } from "~/server/auth";
 import { Header } from "~/app/_components/header";
-import { KeyModal } from "~/app/_components/key-modal";
-import { GitHubButton } from "./integrations/github-button";
-import { CreateKeyButton } from "./create-key-button";
 
 async function getWorkspace(workspaceSlug: string) {
   const session = await getServerSession(authOptions);
@@ -83,7 +81,12 @@ export default async function Workspace({
                   </div>
                 </div>
                 <div className="text-right">
-                  <CreateKeyButton workspace={workspace} />
+                  <Link
+                    className="flex items-center gap-1 font-medium text-blue-600 hover:text-blue-800 visited:text-purple-600 hover:underline"
+                    href="https://docs.floe.dev"
+                  >
+                    Developers <ArrowUpRightIcon className="h-5" />
+                  </Link>
                 </div>
               </div>
               <div className="flex items-start justify-between py-6">
@@ -101,7 +104,12 @@ export default async function Workspace({
                   </div>
                 </div>
                 <div className="text-right">
-                  <GitHubButton workspace={workspace} />
+                  <Link
+                    className="flex items-center gap-1 font-medium text-blue-600 hover:text-blue-800 visited:text-purple-600 hover:underline"
+                    href="https://docs.floe.dev"
+                  >
+                    Integrations <ArrowUpRightIcon className="h-5" />
+                  </Link>
                 </div>
               </div>
               <div className="flex items-start justify-between py-6">
@@ -118,7 +126,14 @@ export default async function Workspace({
                     </p>
                   </div>
                 </div>
-                <div className="text-right"></div>
+                <div className="text-right">
+                  <Link
+                    className="flex items-center gap-1 font-medium text-blue-600 hover:text-blue-800 visited:text-purple-600 hover:underline"
+                    href="https://docs.floe.dev"
+                  >
+                    Docs <ArrowUpRightIcon className="h-5" />
+                  </Link>
+                </div>
               </div>
             </div>
           </div>
