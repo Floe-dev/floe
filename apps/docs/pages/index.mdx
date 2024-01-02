@@ -66,9 +66,19 @@ FLOE_API_SECRET="secret_..."
 ```
 
 ### Try it out!
-```bash copy
-echo "I done gone and wrote some docs." > test-file.md && floe review files test-file.md && rm test-file.md
-```
+
+<Tabs items={['Mac', 'Windows']}>
+  <Tabs.Tab>
+    ```bash copy
+    echo "I done gone and wrote some docs." > test-file.md && floe review files test-file.md && rm test-file.md
+    ```
+  </Tabs.Tab>
+  <Tabs.Tab>
+    ```bash copy
+    echo "I done gone and wrote some docs." > test-file.md; floe review files test-file.md; rm test-file.md
+    ```
+  </Tabs.Tab>
+</Tabs>
 
 This command will create a sample file `test-file.md` with some grammatical
 issues. We then run Floe against it with `floe review files test-file.md`, and

@@ -27,7 +27,7 @@ export function Table({
   }
 
   return (
-    <table className="min-w-full divide-y divide-gray-300">
+    <table className="min-w-full divide-y divide-gray-300 table-fixed">
       <thead>
         <tr>
           <th
@@ -35,6 +35,12 @@ export function Table({
             scope="col"
           >
             Name
+          </th>
+          <th
+            className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0"
+            scope="col"
+          >
+            Slug
           </th>
           <th
             className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
@@ -55,6 +61,9 @@ export function Table({
           <tr key={key.slug}>
             <td className="py-4 pl-4 pr-3 text-sm font-medium text-gray-900 whitespace-nowrap sm:pl-0">
               {key.name}
+            </td>
+            <td className="py-4 pl-4 pr-3 text-sm font-medium text-gray-900 whitespace-nowrap sm:pl-0">
+              <Pill color="gray" fontStlye="mono" text={workspace.slug} />
             </td>
             <td className="px-3 py-4 text-sm text-gray-500 whitespace-nowrap">
               <Pill

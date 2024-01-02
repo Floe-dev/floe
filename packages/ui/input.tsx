@@ -25,7 +25,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
       <div className="w-full">
         {label ? (
           <label
-            className="inline-block mb-2 text-sm font-medium leading-6 text-gray-900 dark:text-white"
+            className="inline-block mb-2 text-sm font-medium leading-6 text-gray-900"
             htmlFor={inputId}
           >
             {label}
@@ -40,7 +40,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           <InputEl
             {...args}
             className={cn(
-              `block w-full bg-white/50 dark:bg-white/5 rounded-md border-0 py-2 pl-10 text-gray-900 dark:text-white ring-1 ring-inset ring-gray-300 dark:ring-white/10 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-amber-600 text-sm`,
+              `block w-full bg-white/50 rounded-md border-0 py-2 pl-10 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-amber-600 text-sm`,
               {
                 "pl-3": !Icon,
                 "text-zinc-500": args.disabled,

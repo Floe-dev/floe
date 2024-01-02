@@ -322,10 +322,7 @@ export function Nav({
           <span className="sr-only">Open sidebar</span>
           <Bars3Icon aria-hidden="true" className="w-6 h-6" />
         </button>
-        <div className="flex-1 text-sm font-semibold leading-6 text-zinc-900">
-          Dashboard
-        </div>
-        <div>
+        <div className="ml-auto">
           <Menu as="div" className="relative">
             <Menu.Button>
               <span className="sr-only">Open user menu</span>
