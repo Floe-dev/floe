@@ -57,10 +57,16 @@ export default async function Billing({
   return (
     <div className="max-w-screen-lg">
       <Header description="Manage your subscription." title="Billing" />
-      <div>
-        <p>
+      <div className="prose prose-zinc">
+        {/* <p>
           You are currently on the{" "}
           <Pill color="black" text={hasSubscription ? "Pro" : "Free"} /> tier.
+        </p> */}
+        <p>
+          You are on the <Pill color="black" text="Beta" /> tier.
+        </p>
+        <p>
+          Following the Floe Beta this plan will be downgraded to the Free tier.
         </p>
       </div>
       <div className="flow-root mt-6">
