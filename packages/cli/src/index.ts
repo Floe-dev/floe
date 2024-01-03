@@ -2,8 +2,8 @@
 
 import "dotenv/config";
 import { Command } from "commander";
+import { version } from "../package.json";
 import { init } from "./commands/init";
-// import { aiCreate } from "./commands/ai-create";
 import { review } from "./commands/review";
 
 const program = new Command();
@@ -12,8 +12,10 @@ const program = new Command();
  * COMMANDS
  */
 init(program);
-// aiCreate(program);
 review(program);
+
+// Get version from npm package
+program.version(version);
 
 /**
  * PARSE
