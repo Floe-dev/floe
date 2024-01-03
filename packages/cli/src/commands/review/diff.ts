@@ -5,7 +5,7 @@ import simpleGit from "simple-git";
 import { minimatch } from "minimatch";
 import { getFloeConfig } from "@floe/lib/get-floe-config";
 import { checkIfValidRoot } from "@floe/lib/check-if-valid-root";
-import { getDefaultBranch, getCurrentBranch } from "../../utils/git";
+// import { getDefaultBranch, getCurrentBranch } from "../../utils/git";
 import { logAxiosError } from "../../utils/logging";
 import {
   checkIfUnderEvaluationLimit,
@@ -42,12 +42,12 @@ export function diff(program: Command) {
 
         const config = getFloeConfig();
 
-        const baseSha = getDefaultBranch();
-        const headSha = getCurrentBranch();
+        // const baseSha = getDefaultBranch();
+        // const headSha = getCurrentBranch();
 
         const basehead =
           // diffArg ?? (options.repo ? `${baseSha}...${headSha}` : "HEAD");
-          diffArg ?? `${baseSha}...${headSha}`;
+          diffArg ?? "HEAD";
 
         // Exec git diff and parse output
         let diffOutput: string;
