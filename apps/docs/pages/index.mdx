@@ -1,94 +1,10 @@
-import { Tabs } from 'nextra/components'
-import { Steps } from 'nextra/components'
-import { Callout } from 'nextra/components'
-import { Cards, Card } from 'nextra/components'
-import { WrenchScrewdriverIcon, DocumentPlusIcon, RocketLaunchIcon } from '@heroicons/react/24/solid'
+# Overview
+**Floe** is an AI technical writing assistant. Floe can make it easier to write and maintain documentation at scale by:
+- **Validating** documentation against rules
+- **Suggesting** improvements to documentation 
+- **Writing** documentation from code *(coming soon)*
+- **Updating** documentation when code changes *(coming soon)*
+- **Translating** documentation into other languages *(coming soon)*
 
-# Quick start
-Welcome to the **Floe** documentation guide. This guide will help you get
-started with the Floe in under 5 minutes.
-
-## Before you start
-These docs assume you have completed onboarding through the [Floe
-dashboard](https://app.floe.dev). You should also have generated an API key and have it ready.
-
-## Getting started
-
-<Steps>
-### Install the CLI
-The easiest way to get started with Floe is with the **Floe CLI**. The CLI works
-with [npm](https://www.npmjs.com/),
-[yarn](https://classic.yarnpkg.com/lang/en/), [pnpm](https://pnpm.io/), and
-[bun](https://bun.sh/).
-
-The following command will install the CLI globally.
-
-<Tabs items={['npm', 'yarn', 'pnpm', 'bun']}>
-  <Tabs.Tab>
-    ```bash copy
-    npm i -g @floe/cli
-    ```
-  </Tabs.Tab>
-  <Tabs.Tab>
-    ```bash copy
-    yarn global add @floe/cli
-    ```
-  </Tabs.Tab>
-  <Tabs.Tab>
-    ```bash copy
-    pnpm add -g @floe/cli
-    ```
-  </Tabs.Tab>
-  <Tabs.Tab>
-    ```bash copy
-    bun add -g @floe/cli
-    ```
-  </Tabs.Tab>
-</Tabs>
-
-<Callout emoji="💡"> Should you wish to pin the CLI version, you may remove the
-  `-g` flag and install the CLI locally to your project.</Callout>
-
-### Initialize Floe
-Use the setup wizard to install the `.floe` directory. You should run this in the root of your documentation repository.
-
-```bash copy
-floe init
-```
-<Callout emoji="💡"> If you are installing into a monorepo, run in the same directory as your `.git` file.</Callout>
-
-### Copy environment variables
-Copy into the root `.env` file of your project. Be sure to not commit this file!
-
-```bash copy filename=".env"
-FLOE_API_WORKSPACE="<WORKSPACE_SLUG>"
-FLOE_API_SECRET="secret_..."
-```
-
-### Try it out!
-
-<Tabs items={['Mac', 'Windows']}>
-  <Tabs.Tab>
-    ```bash copy
-    echo "I done gone and wrote some docs." > test-file.md && floe review files test-file.md && rm test-file.md
-    ```
-  </Tabs.Tab>
-  <Tabs.Tab>
-    ```bash copy
-    echo "I done gone and wrote some docs." > test-file.md; floe review files test-file.md; rm test-file.md
-    ```
-  </Tabs.Tab>
-</Tabs>
-
-This command will create a sample file `test-file.md` with some grammatical
-issues. We then run Floe against it with `floe review files test-file.md`, and
-finally remove the file.
-</Steps>
-
-## Next steps
-<Cards>
-  <Card icon={<WrenchScrewdriverIcon />} arrow title="Update your config" href="/configuration#filtering-files" />
-  <Card icon={<DocumentPlusIcon />} arrow title="Add some rules" href="/configuration#rules" />
-  <Card icon={<RocketLaunchIcon />} arrow title="Learn the basics" href="/usage" />
-</Cards>
-
+### Early access
+Floe is currently in beta. You may encounter bugs 🐛! If you have any feedback or suggestions, please let me know by emailing [nic@floe.dev](mailto:nic@floe.dev).

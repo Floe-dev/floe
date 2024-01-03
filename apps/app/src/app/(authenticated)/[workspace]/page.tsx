@@ -156,7 +156,7 @@ export default async function Workspace({
             {/* DOCS */}
             <Link
               className="group"
-              href="https://docs.floe.dev"
+              href="https://docs.floe.dev/quick-start"
               target="_blank"
             >
               <div className="flex overflow-hidden duration-200 rounded-lg shadow group-hover:opacity-80 group-hover:shadow-lg">

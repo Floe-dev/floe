@@ -64,6 +64,14 @@ export const authOptions: NextAuthOptions = {
                 type: "text/plain",
                 value: `Please click here to authenticate - ${url}`,
               },
+              {
+                type: "text/html",
+                value: `<div>
+                  <h2>Log in to Floe</h2>
+                  <p>Please <a href="${url}">click here to authenticate</a>.</p>
+                  <p style="margin-top: 24px; color: #a1a1aa">Having issues? Reach out to <a href="mailto:contact@floe.dev?subject=Issues logging in">contact@floe.dev</a>.</p>
+                </div>`,
+              },
             ],
           }),
           headers: {
