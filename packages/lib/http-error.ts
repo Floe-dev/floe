@@ -1,4 +1,15 @@
-type StatusCode = 400 | 401 | 403 | 404 | 405 | 500 | 501 | 502 | 503 | 504;
+type StatusCode =
+  | 400
+  | 401
+  | 403
+  | 404
+  | 405
+  | 429
+  | 500
+  | 501
+  | 502
+  | 503
+  | 504;
 
 export class HttpError extends Error {
   public readonly statusCode: StatusCode;

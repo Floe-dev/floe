@@ -8,6 +8,7 @@ export type Workspace = Prisma.WorkspaceGetPayload<{
     encrytpedKeys: true;
     githubIntegration: true;
     gitlabIntegration: true;
+    subscription: true;
   };
 }>;
 
