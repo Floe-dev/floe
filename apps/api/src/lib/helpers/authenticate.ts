@@ -32,6 +32,7 @@ export const authenticate: CustomMiddleware = async (req, res, next) => {
       },
       githubIntegration: true,
       gitlabIntegration: true,
+      subscription: true,
     },
   });
 
