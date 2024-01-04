@@ -63,6 +63,9 @@ importers:
       js-tiktoken:
         specifier: ^1.0.7
         version: 1.0.7
+      langfuse:
+        specifier: ^2.2.0
+        version: 2.2.0
       minimatch:
         specifier: ^9.0.3
         version: 9.0.3
@@ -7759,6 +7762,20 @@ packages:
     engines: {node: '>=6'}
     dev: false
 
+  /langfuse-core@2.2.0:
+    resolution: {integrity: sha512-DPI7FvND35NND2b77plHi96EUwgci6KakePBA0xkgZMUZRtX7YaH19NWwAI8RxbAt10FEErjMCmmXk94/kwfwA==}
+    engines: {node: '>=18'}
+    dependencies:
+      mustache: 4.2.0
+    dev: false
+
+  /langfuse@2.2.0:
+    resolution: {integrity: sha512-KfXO+OY2Hs0ZsiF4cabkm4bmhhmNmdFZMRpCvNCklr9rcD7f3fY5q4ZgIX61NNWVlbGaW/9hAqtJhm30Okkd8A==}
+    engines: {node: '>=18'}
+    dependencies:
+      langfuse-core: 2.2.0
+    dev: false
+
   /language-subtag-registry@0.3.22:
     resolution: {integrity: sha512-tN0MCzyWnoz/4nHS6uxdlFWoUZT7ABptwKPQ52Ea7URk6vll88bWBVhodtnlfEuCcKWNGoc+uGbw1cwa9IKh/w==}
     dev: true
@@ -8763,6 +8780,11 @@ packages:
 
   /ms@2.1.3:
     resolution: {integrity: sha512-6FlzubTLZG3J2a/NVCAleEhjzq5oxgHyaCU9yYXvcLsvoVaHJq/s5xXI6/XXP6tz7R9xAOtHnSO/tXtF3WRTlA==}
+
+  /mustache@4.2.0:
+    resolution: {integrity: sha512-71ippSywq5Yb7/tVYyGbkBggbU8H3u5Rz56fH60jGFgr8uHwxs+aSKeqmluIVzM0m0kB7xQjKS6qPfd0b2ZoqQ==}
+    hasBin: true
+    dev: false
 
   /mute-stream@0.0.8:
     resolution: {integrity: sha512-nnbWWOkoWyUsTjKrhgD0dcz22mdkSnpYqbEjIm2nhwhuxlSkpywJmBo8h0ZqJdkp73mb90SssHkN4rsRaBAfAA==}

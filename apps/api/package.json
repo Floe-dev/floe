@@ -23,6 +23,7 @@
     "bcrypt": "^5.1.0",
     "handlebars": "^4.7.8",
     "js-tiktoken": "^1.0.7",
+    "langfuse": "^2.2.0",
     "minimatch": "^9.0.3",
     "next": "^14.0.1",
     "next-api-middleware": "^2.0.1",
