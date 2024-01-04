@@ -87,6 +87,9 @@ importers:
       qs:
         specifier: ^6.11.2
         version: 6.11.2
+      request-ip:
+        specifier: ^3.3.0
+        version: 3.3.0
       typescript:
         specifier: 5.2.2
         version: 5.2.2
@@ -112,6 +115,9 @@ importers:
       '@types/qs':
         specifier: ^6.9.10
         version: 6.9.10
+      '@types/request-ip':
+        specifier: ^0.0.41
+        version: 0.0.41
       eslint-config-custom:
         specifier: workspace:*
         version: link:../../packages/eslint-config-custom
@@ -3518,6 +3524,12 @@ packages:
       '@types/prop-types': 15.7.5
       '@types/scheduler': 0.16.3
       csstype: 3.1.2
+    dev: true
+
+  /@types/request-ip@0.0.41:
+    resolution: {integrity: sha512-Qzz0PM2nSZej4lsLzzNfADIORZhhxO7PED0fXpg4FjXiHuJ/lMyUg+YFF5q8x9HPZH3Gl6N+NOM8QZjItNgGKg==}
+    dependencies:
+      '@types/node': 20.9.0
     dev: true
 
   /@types/scheduler@0.16.3:
@@ -10191,6 +10203,10 @@ packages:
 
   /remove-accents@0.4.2:
     resolution: {integrity: sha512-7pXIJqJOq5tFgG1A2Zxti3Ht8jJF337m4sowbuHsW30ZnkQFnDzy9qBNhgzX8ZLW4+UBcXiiR7SwR6pokHsxiA==}
+    dev: false
+
+  /request-ip@3.3.0:
+    resolution: {integrity: sha512-cA6Xh6e0fDBBBwH77SLJaJPBmD3nWVAcF9/XAcsrIHdjhFzFiB5aNQFytdjCGPezU3ROwrR11IddKAM08vohxA==}
     dev: false
 
   /require-directory@2.1.1:
