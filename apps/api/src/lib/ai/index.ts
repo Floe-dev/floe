@@ -37,7 +37,10 @@ export async function createCompletion({
   const trace = langfuse.trace({
     name,
     userId,
-    metadata,
+    metadata: {
+      env: process.env.NODE_ENV,
+      ...metadata,
+    },
   });
 
   // Example generation creation
