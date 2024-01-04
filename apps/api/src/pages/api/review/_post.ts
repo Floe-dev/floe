@@ -89,8 +89,7 @@ async function handler({
     providerOptions: openAICompletionOptions,
     userId: workspace.id,
     metadata: {
-      path,
-      checksum,
+      slug: workspace.slug,
     },
   });
 
