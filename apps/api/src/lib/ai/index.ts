@@ -13,12 +13,13 @@ export async function createCompletion({
   userId,
   metadata,
   provider,
+  providerOptions,
 }: {
   name: string;
   userId: string;
   metadata: Record<string, string>;
-  provider: "openai";
-  providerOptions;
+  provider: keyof ProviderOptions;
+  providerOptions: ProviderOptions[typeof provider];
 }) {
   if (!process.env.LANGFUSE_SECRET_KEY || !process.env.LANGFUSE_PUBLIC_KEY) {
     throw new Error("Missing LANGFUSE_SECRET_KEY or LANGFUSE_PUBLIC_KEY");
@@ -42,21 +43,19 @@ export async function createCompletion({
   // Example generation creation
   const generation = trace.generation({
     name: "chat-completion",
-    model: "gpt-3.5-turbo",
+    model: providerOptions.model,
     modelParameters: {
-      temperature: 0.9,
-      maxTokens: 2000,
+      temperature: providerOptions.temperature,
+      maxTokens: providerOptions.max_tokens,
     },
-    input: messages,
+    input: providerOptions.messages,
   });
 
   /**
    * Call the LLM
    * Eventually we may want to make calls to other providers here
    */
-  const chatCompletion = await openai.chat.completions.create(
-    openAICompletionOptions
-  );
+  const chatCompletion = await openai.chat.completions.create(providerOptions);
 
   // End generation - sets endTime
   generation.end({
@@ -64,4 +63,6 @@ export async function createCompletion({
   });
 
   await langfuse.shutdownAsync();
+
+  return chatCompletion;
 }

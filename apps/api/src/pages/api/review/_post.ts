@@ -1,5 +1,5 @@
-import OpenAI from "openai";
 import { kv } from "@vercel/kv";
+import type OpenAI from "openai";
 import type { PostReviewResponse } from "@floe/requests/review/_post";
 import { querySchema } from "@floe/requests/review/_post";
 import { createChecksum } from "~/utils/checksum";
@@ -8,6 +8,7 @@ import { defaultResponder } from "~/lib/helpers/default-responder";
 import { getCacheKey } from "~/utils/get-cache-key";
 import { stringToLines } from "~/utils/string-to-lines";
 import { zParse } from "~/utils/z-parse";
+import { createCompletion } from "~/lib/ai";
 import { exampleContent, exampleOutput, exampleRule } from "./example";
 import { getUserPrompt, systemInstructions } from "./prompts";
 
@@ -28,10 +29,6 @@ async function handler({
     body.params as Record<string, unknown>
   );
 
-  const openai = new OpenAI({
-    apiKey: process.env.OPENAI_API_KEY,
-  });
-
   /**
    * Convert to lines object that is more LLM friendly
    */
@@ -39,7 +36,6 @@ async function handler({
 
   const openAICompletionOptions: OpenAIOptions = {
     model: "gpt-4-1106-preview",
-    // model: "gpt-3.5-turbo-1106",
     temperature: 0,
     response_format: { type: "json_object" },
     // Last updated date
@@ -87,9 +83,16 @@ async function handler({
   }
   console.log("Cache miss");
 
-  const completion = await openai.chat.completions.create(
-    openAICompletionOptions
-  );
+  const completion = await createCompletion({
+    name: "review",
+    provider: "openai",
+    providerOptions: openAICompletionOptions,
+    userId: workspace.id,
+    metadata: {
+      path,
+      checksum,
+    },
+  });
 
   const responseJson = JSON.parse(
     completion.choices[0].message.content ?? "{}"
