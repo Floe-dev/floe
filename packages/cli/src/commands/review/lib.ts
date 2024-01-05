@@ -123,7 +123,8 @@ export function getErrorsByFile(
  * Log errors and warnings
  */
 export async function logViolations(
-  errorsByFile: ReturnType<typeof getErrorsByFile>
+  errorsByFile: ReturnType<typeof getErrorsByFile>,
+  fixViolations = false
 ) {
   const chalk = await chalkImport;
 
@@ -194,6 +195,7 @@ export async function logViolations(
           if (!violation.suggestedFix) {
             console.log("➖", chalk.dim(violation.content));
             console.log("➕", "No fix available");
+            console.log();
 
             return [...accumulator2];
           }
@@ -222,10 +224,15 @@ export async function logViolations(
 
           console.log("➖", consoleStrRemoved);
           console.log("➕", consoleStrAdded);
+          console.log();
 
-          const answer = await confirm({ message: "Continue?" });
+          if (fixViolations) {
+            const answer = await confirm({ message: "Accept change?" });
 
-          return [...accumulator2, answer];
+            return [...accumulator2, answer];
+          }
+
+          return [...accumulator2];
         },
         Promise.resolve([])
       );
