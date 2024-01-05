@@ -1,5 +1,6 @@
 import { createReview } from "@floe/requests/review/_post";
 import { pluralize } from "@floe/lib/pluralize";
+import { diffWords } from "diff";
 
 const chalkImport = import("chalk").then((m) => m.default);
 
@@ -172,24 +173,37 @@ export async function logViolations(
           )
         );
 
-        /**
-         * Log lines with violations
-         */
-        console.log(chalk.dim.strikethrough(violation.content));
+        if (!violation.suggestedFix) {
+          console.log("➖", chalk.dim(violation.content));
+          console.log("➕", "No fix available");
 
-        /**
-         * Log suggestion
-         */
-        console.log(
-          chalk.italic(
-            `💡 ${
-              violation.suggestedFix
-                ? violation.suggestedFix
-                : "No fix available"
-            }`
-          ),
-          "\n"
-        );
+          return;
+        }
+
+        const diff = diffWords(violation.content, violation.suggestedFix);
+
+        let consoleStrAdded = "";
+        let consoleStrRemoved = "";
+
+        diff.forEach((part) => {
+          // green for additions, red for deletions
+          // grey for common parts
+          if (part.added) {
+            consoleStrAdded += chalk.green(part.value);
+            return;
+          }
+
+          if (part.removed) {
+            consoleStrRemoved += chalk.red(part.value);
+            return;
+          }
+
+          consoleStrAdded += chalk(part.value);
+          consoleStrRemoved += chalk.dim(part.value);
+        });
+
+        console.log("➖", consoleStrRemoved);
+        console.log("➕", consoleStrAdded);
       });
   });
 }
@@ -214,6 +228,7 @@ export async function reportSummary(
   );
 
   console.log(
+    "\n",
     chalk.red(
       `${combinedErrorsAndWarnings.errors} ${pluralize(
         combinedErrorsAndWarnings.errors,
