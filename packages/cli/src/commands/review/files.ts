@@ -23,11 +23,12 @@ export function files(program: Command) {
     .description("Validate content from files")
     .argument("[files...]", "Files")
     .option("--ignore <ignore...>", "Ignore pattern")
+    .option("--ruleset <ruleset>", "Ruleset to evaluate against")
     .option("--fix", "Fix issues")
     .action(
       async (
         filesArg?: string[],
-        options: { ignore?: string[]; fix?: boolean } = {}
+        options: { ignore?: string[]; fix?: boolean; ruleset?: string } = {}
       ) => {
         /**
          * Exit if not a valid Floe root
@@ -50,18 +51,21 @@ export function files(program: Command) {
         /**
          * Get rules from Floe config
          */
-        const rulesets = getRulesets();
+        const rulesets = getRulesets(options.ruleset);
 
         /**
-         * We only want to evaluate diffs that are included in a ruleset
+         * We only want to evaluate diffs that are included in a ruleset EXCEPT
+         * when filesArg is specified (filesArg function as an override for includes)
          */
         const filesMatchingRulesets = f
           .map((file) => {
-            const matchingRulesets = rulesets.filter((ruleset) => {
-              return ruleset.include.some((pattern) => {
-                return minimatch(file, pattern);
-              });
-            });
+            const matchingRulesets = filesArg?.length
+              ? rulesets
+              : rulesets.filter((ruleset) => {
+                  return ruleset.include.some((pattern) => {
+                    return minimatch(file, pattern);
+                  });
+                });
 
             return {
               path: file,
