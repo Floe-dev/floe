@@ -27,6 +27,7 @@ export type PostReviewResponse =
       description: string;
       path: string;
       cached: boolean;
+      model: string;
       usage: OpenAI.Completions.CompletionUsage | undefined;
     }
   | undefined;

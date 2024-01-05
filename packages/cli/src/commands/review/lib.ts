@@ -72,6 +72,7 @@ export async function getReviewsByFile(evalutationsByFile: EvalutationsByFile) {
                 cached: review.data?.cached,
               })),
             },
+            cached: review.data?.cached,
           };
         })
       );
@@ -273,8 +274,40 @@ export async function reportSummary(
     }
   );
 
+  const tokenCount = errorsByFile.reduce(
+    (acc, { evaluationsResponse }) => {
+      const x = evaluationsResponse.reduce(
+        (acc2, { review, cached }) => {
+          const tokens = review.usage?.total_tokens ?? 0;
+
+          return {
+            tokens: acc2.tokens + (cached ? 0 : tokens),
+            cached: acc2.cached + (cached ? tokens : 0),
+          };
+        },
+        { tokens: 0, cached: 0 }
+      );
+
+      return {
+        tokens: acc.tokens + x.tokens,
+        cached: acc.cached + x.cached,
+      };
+    },
+    { tokens: 0, cached: 0 }
+  );
+
+  console.log(chalk.bold("Summary"));
   console.log(
-    "\n",
+    chalk.italic(
+      `Model: ${errorsByFile[0].evaluationsResponse[0].review.model}`
+    )
+  );
+  console.log(
+    chalk.italic(
+      `Tokens: ${tokenCount.tokens} (${tokenCount.cached} from cache)`
+    )
+  );
+  console.log(
     chalk.red(
       `${combinedErrorsAndWarnings.errors} ${pluralize(
         combinedErrorsAndWarnings.errors,

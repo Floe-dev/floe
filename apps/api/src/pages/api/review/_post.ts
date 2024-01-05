@@ -66,7 +66,7 @@ async function handler({
    */
   const checksumKey = JSON.stringify(openAICompletionOptions);
   const checksum = createChecksum(checksumKey);
-  const cacheKey = getCacheKey(1, workspace.slug, "review_post", checksum);
+  const cacheKey = getCacheKey(2, workspace.slug, "review_post", checksum);
   const cachedVal = await kv.get<PostReviewResponse>(cacheKey);
 
   if (cachedVal) {
@@ -120,6 +120,7 @@ async function handler({
     path,
     violations,
     cached: false,
+    model: completion.model,
     usage: completion.usage,
     code: rule.code,
     level: rule.level,
