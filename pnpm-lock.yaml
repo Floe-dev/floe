@@ -410,6 +410,9 @@ importers:
       commander:
         specifier: ^11.1.0
         version: 11.1.0
+      diff:
+        specifier: ^5.1.0
+        version: 5.1.0
       dotenv:
         specifier: ^16.3.1
         version: 16.3.1
@@ -432,6 +435,9 @@ importers:
       '@floe/requests':
         specifier: workspace:*
         version: link:../requests
+      '@types/diff':
+        specifier: ^5.0.9
+        version: 5.0.9
       '@types/node':
         specifier: ^20.8.10
         version: 20.8.10
@@ -3348,6 +3354,10 @@ packages:
     dependencies:
       '@types/ms': 0.7.34
     dev: false
+
+  /@types/diff@5.0.9:
+    resolution: {integrity: sha512-RWVEhh/zGXpAVF/ZChwNnv7r4rvqzJ7lYNSmZSVTxjV0PBLf6Qu7RNg+SUtkpzxmiNkjCx0Xn2tPp7FIkshJwQ==}
+    dev: true
 
   /@types/eslint@8.44.2:
     resolution: {integrity: sha512-sdPRb9K6iL5XZOmBubg8yiFp5yS/JdUDQsq5e6h95km91MCYMuvp7mh1fjPEYUhvHepKpZOjnEaMBR4PxjWDzg==}
