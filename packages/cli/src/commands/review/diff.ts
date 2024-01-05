@@ -23,7 +23,7 @@ export function diff(program: Command) {
     .command("diff")
     .description("Validate content from diff")
     .argument("[diff]", "Diff")
-    .option("--fix", "Fix violations")
+    .option("--fix", "Fix issues")
     // .option("--repo <repo>", "Repository owner and name eg. owner/name")
     .action(async (diffArg?: string, options: { fix?: boolean } = {}) => {
       /**

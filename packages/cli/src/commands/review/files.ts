@@ -23,8 +23,12 @@ export function files(program: Command) {
     .description("Validate content from files")
     .argument("[files...]", "Files")
     .option("--ignore <ignore...>", "Ignore pattern")
+    .option("--fix", "Fix issues")
     .action(
-      async (filesArg?: string[], options: { ignore?: string[] } = {}) => {
+      async (
+        filesArg?: string[],
+        options: { ignore?: string[]; fix?: boolean } = {}
+      ) => {
         /**
          * Exit if not a valid Floe root
          */
@@ -125,8 +129,11 @@ export function files(program: Command) {
 
         const errorsByFile = getErrorsByFile(reviewsByFile);
 
-        await logViolations(errorsByFile);
-        await reportSummary(errorsByFile);
+        await logViolations(errorsByFile, options.fix);
+
+        if (!options.fix) {
+          await reportSummary(errorsByFile);
+        }
       }
     );
 }
