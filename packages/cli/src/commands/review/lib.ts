@@ -69,9 +69,9 @@ export async function getReviewsByFile(evalutationsByFile: EvalutationsByFile) {
               violations: review.data?.violations.map((v) => ({
                 ...v,
                 ...rule,
+                cached: review.data?.cached,
               })),
             },
-            cached: review.data?.cached,
           };
         })
       );
@@ -137,9 +137,7 @@ export async function logViolations(
       { path, errors, warnings, evaluationsResponse }
     ) => {
       const accumulator = await accumulatorPromise;
-      // await Promise.all(
-      //   errorsByFile.map(
-      //     async ({ path, errors, warnings, evaluationsResponse }) => {
+
       let errorLevel = {
         symbol: chalk.white.bgGreen("  PASS  "),
         level: "pass",
@@ -189,7 +187,9 @@ export async function logViolations(
            */
           console.log(
             chalk.bold(
-              `${icon} ${violation.code} @@${violation.startLine},${violation.endLine}:`
+              `${icon} ${violation.code} @@${violation.startLine},${
+                violation.endLine
+              }${violation.cached ? " (cache)" : ""}:`
             )
           );
 
@@ -207,8 +207,6 @@ export async function logViolations(
           let consoleStrRemoved = "";
 
           diff.forEach((part) => {
-            // green for additions, red for deletions
-            // grey for common parts
             if (part.added) {
               consoleStrAdded += chalk.green(part.value);
               return;
