@@ -2,6 +2,7 @@ import { createReview } from "@floe/requests/review/_post";
 import { pluralize } from "@floe/lib/pluralize";
 import { diffWords } from "diff";
 import { confirm } from "@inquirer/prompts";
+import { updateLines } from "../../utils/lines-update";
 
 const chalkImport = import("chalk").then((m) => m.default);
 
@@ -228,6 +229,18 @@ export async function logViolations(
 
           if (fixViolations) {
             const answer = await confirm({ message: "Accept change?" });
+
+            /**
+             * Write to file
+             */
+            if (answer) {
+              updateLines(
+                path,
+                violation.startLine,
+                violation.endLine,
+                violation.suggestedFix
+              );
+            }
 
             return [...accumulator2, answer];
           }
