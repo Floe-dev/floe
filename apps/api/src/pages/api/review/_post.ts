@@ -108,6 +108,10 @@ async function handler({
 
     return {
       ...violation,
+      suggestedFix:
+        violation.suggestedFix === "undefined"
+          ? undefined
+          : violation.suggestedFix,
       content: c,
     };
   });
