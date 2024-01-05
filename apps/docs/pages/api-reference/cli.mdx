@@ -21,6 +21,11 @@ floe review diff [arguments]
 | ----------- | ----------- | ----------- |
 | `[diff]`    | The diff to compare. | `HEAD` |
 
+#### Options
+| Option    | Description | Default     |
+| ----------- | ----------- | ----------- |
+| `--fix <fix>`    | Enables 'fix mode'. Allows the user to step through issues and accept or deny suggested changes. | `false`  |
+
 
 #### Example
 ```bash copy
@@ -44,6 +49,8 @@ floe review files [arguments] [options]
 | Option    | Description | Default     |
 | ----------- | ----------- | ----------- |
 | `--ignore <ignore...>`    | A space separated list of glob patterns to ignore. |  |
+| `--fix <fix>`    | Enables 'fix mode'. Allows the user to step through issues and accept or deny suggested changes. | `false`  |
+| `--ruleset <ruleset>`    | Only evaluate against the specified ruleset. | All rulesets  |
 
 #### Example
 ```bash copy
