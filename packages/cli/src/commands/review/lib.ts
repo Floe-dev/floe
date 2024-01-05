@@ -1,6 +1,5 @@
 import { createReview } from "@floe/requests/review/_post";
 import { pluralize } from "@floe/lib/pluralize";
-import { truncate } from "../../utils/truncate";
 
 const chalkImport = import("chalk").then((m) => m.default);
 
@@ -170,14 +169,13 @@ export async function logViolations(
         console.log(
           chalk.bold(
             `${icon} ${violation.code} @@${violation.startLine},${violation.endLine}:`
-          ),
-          violation.description
+          )
         );
 
         /**
          * Log lines with violations
          */
-        console.log(chalk.dim.strikethrough(truncate(violation.content, 100)));
+        console.log(chalk.dim.strikethrough(violation.content));
 
         /**
          * Log suggestion
