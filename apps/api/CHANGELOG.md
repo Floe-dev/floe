@@ -1,5 +1,18 @@
 # @floe/api
 
+## 0.1.0-beta.3
+
+### Minor Changes
+
+- Bump to beta version.
+
+### Patch Changes
+
+- Updated dependencies
+  - @floe/db@0.1.0-beta.1
+  - @floe/lib@0.1.0-beta.2
+  - @floe/requests@0.1.0-beta.2
+
 ## 0.1.0-alpha.2
 
 ### Patch Changes

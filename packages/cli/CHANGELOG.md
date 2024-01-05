@@ -1,5 +1,17 @@
 # @floe/cli
 
+## 0.1.0-beta.7
+
+### Minor Changes
+
+- Bump to beta version.
+
+### Patch Changes
+
+- Updated dependencies
+  - @floe/config@0.1.0-beta.7
+  - @floe/lib@0.1.0-beta.2
+
 ## 0.1.0-alpha.6
 
 ### Minor Changes
