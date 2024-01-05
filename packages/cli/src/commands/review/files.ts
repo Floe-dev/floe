@@ -108,7 +108,7 @@ export function files(program: Command) {
         /**
          * Show loading spinner
          */
-        const spinner = ora("Validating content...").start();
+        const spinner = ora("Reviewing content...").start();
 
         const reviewsByFile = await getReviewsByFile(evalutationsByFile).catch(
           async (e) => {
