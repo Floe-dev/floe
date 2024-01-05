@@ -129,9 +129,6 @@ export function diff(program: Command) {
       const errorsByFile = getErrorsByFile(reviewsByFile);
 
       await logViolations(errorsByFile, options.fix);
-
-      if (!options.fix) {
-        await reportSummary(errorsByFile);
-      }
+      await reportSummary(errorsByFile);
     });
 }
