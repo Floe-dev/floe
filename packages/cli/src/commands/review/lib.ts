@@ -1,6 +1,7 @@
 import { createReview } from "@floe/requests/review/_post";
 import { pluralize } from "@floe/lib/pluralize";
 import { diffWords } from "diff";
+import { confirm } from "@inquirer/prompts";
 
 const chalkImport = import("chalk").then((m) => m.default);
 
@@ -126,86 +127,113 @@ export async function logViolations(
 ) {
   const chalk = await chalkImport;
 
-  errorsByFile.forEach(({ path, errors, warnings, evaluationsResponse }) => {
-    let errorLevel = {
-      symbol: chalk.white.bgGreen("  PASS  "),
-      level: "pass",
-    };
-
-    if (warnings > 0) {
-      errorLevel = {
-        symbol: chalk.white.bgYellow("  WARN  "),
-        level: "warn",
+  // eslint-disable-next-line @typescript-eslint/await-thenable -- Actually we do need to await this
+  await errorsByFile.reduce(
+    // @ts-expect-error -- Not an issue
+    async (
+      accumulatorPromise,
+      { path, errors, warnings, evaluationsResponse }
+    ) => {
+      const accumulator = await accumulatorPromise;
+      // await Promise.all(
+      //   errorsByFile.map(
+      //     async ({ path, errors, warnings, evaluationsResponse }) => {
+      let errorLevel = {
+        symbol: chalk.white.bgGreen("  PASS  "),
+        level: "pass",
       };
-    }
 
-    if (errors > 0) {
-      errorLevel = {
-        symbol: chalk.white.bgRed("  FAIL  "),
-        level: "fail",
-      };
-    }
+      if (warnings > 0) {
+        errorLevel = {
+          symbol: chalk.white.bgYellow("  WARN  "),
+          level: "warn",
+        };
+      }
 
-    console.log(`${errorLevel.symbol} 📂 ${path}\n`);
+      if (errors > 0) {
+        errorLevel = {
+          symbol: chalk.white.bgRed("  FAIL  "),
+          level: "fail",
+        };
+      }
 
-    if (errors === 0 && warnings === 0) {
-      console.log(chalk.dim("No violations found for current selection\n"));
-    }
+      console.log(`${errorLevel.symbol} 📂 ${path}\n`);
 
-    /**
-     * Log violations
-     */
-    evaluationsResponse
-      .flatMap((e) => e.review.violations)
-      .forEach((violation) => {
-        if (!violation) {
-          return;
-        }
+      if (errors === 0 && warnings === 0) {
+        console.log(chalk.dim("No violations found for current selection\n"));
+      }
 
-        const icon = violation.level === "error" ? "❌" : "⚠️ ";
+      /**
+       * Log violations
+       */
+      const violations = evaluationsResponse.flatMap(
+        (e) => e.review.violations
+      );
 
-        /**
-         * Log violation code and description
-         */
-        console.log(
-          chalk.bold(
-            `${icon} ${violation.code} @@${violation.startLine},${violation.endLine}:`
-          )
-        );
+      // eslint-disable-next-line @typescript-eslint/await-thenable -- Actually we do need to await this
+      const fileViolations = await violations.reduce(
+        // @ts-expect-error -- Not an issue
+        async (accumulatorPromise2, violation) => {
+          const accumulator2 = await accumulatorPromise2;
 
-        if (!violation.suggestedFix) {
-          console.log("➖", chalk.dim(violation.content));
-          console.log("➕", "No fix available");
-
-          return;
-        }
-
-        const diff = diffWords(violation.content, violation.suggestedFix);
-
-        let consoleStrAdded = "";
-        let consoleStrRemoved = "";
-
-        diff.forEach((part) => {
-          // green for additions, red for deletions
-          // grey for common parts
-          if (part.added) {
-            consoleStrAdded += chalk.green(part.value);
-            return;
+          if (!violation) {
+            return [...accumulator2];
           }
 
-          if (part.removed) {
-            consoleStrRemoved += chalk.red(part.value);
-            return;
+          const icon = violation.level === "error" ? "❌" : "⚠️ ";
+
+          /**
+           * Log violation code and description
+           */
+          console.log(
+            chalk.bold(
+              `${icon} ${violation.code} @@${violation.startLine},${violation.endLine}:`
+            )
+          );
+
+          if (!violation.suggestedFix) {
+            console.log("➖", chalk.dim(violation.content));
+            console.log("➕", "No fix available");
+
+            return [...accumulator2];
           }
 
-          consoleStrAdded += chalk(part.value);
-          consoleStrRemoved += chalk.dim(part.value);
-        });
+          const diff = diffWords(violation.content, violation.suggestedFix);
 
-        console.log("➖", consoleStrRemoved);
-        console.log("➕", consoleStrAdded);
-      });
-  });
+          let consoleStrAdded = "";
+          let consoleStrRemoved = "";
+
+          diff.forEach((part) => {
+            // green for additions, red for deletions
+            // grey for common parts
+            if (part.added) {
+              consoleStrAdded += chalk.green(part.value);
+              return;
+            }
+
+            if (part.removed) {
+              consoleStrRemoved += chalk.red(part.value);
+              return;
+            }
+
+            consoleStrAdded += chalk(part.value);
+            consoleStrRemoved += chalk.dim(part.value);
+          });
+
+          console.log("➖", consoleStrRemoved);
+          console.log("➕", consoleStrAdded);
+
+          const answer = await confirm({ message: "Continue?" });
+
+          return [...accumulator2, answer];
+        },
+        Promise.resolve([])
+      );
+
+      return [...accumulator, fileViolations];
+    },
+    Promise.resolve([])
+  );
 }
 
 /**
