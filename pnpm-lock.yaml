@@ -25,6 +25,52 @@ importers:
         specifier: latest
         version: 1.11.1
 
+  actions/review-action:
+    dependencies:
+      '@actions/core':
+        specifier: ^1.10.1
+        version: 1.10.1
+      '@actions/github':
+        specifier: ^6.0.0
+        version: 6.0.0
+      '@floe/lib':
+        specifier: workspace:*
+        version: link:../../packages/lib
+      '@floe/requests':
+        specifier: workspace:*
+        version: link:../../packages/requests
+      axios:
+        specifier: ^1.6.0
+        version: 1.6.0
+      glob:
+        specifier: ^10.3.10
+        version: 10.3.10
+      uuid:
+        specifier: ^9.0.1
+        version: 9.0.1
+    devDependencies:
+      '@types/get-installed-path':
+        specifier: ^4.0.3
+        version: 4.0.3
+      '@types/node':
+        specifier: ^20.8.10
+        version: 20.9.0
+      '@types/uuid':
+        specifier: ^9.0.7
+        version: 9.0.7
+      '@vercel/ncc':
+        specifier: ^0.38.1
+        version: 0.38.1
+      eslint-config-custom:
+        specifier: workspace:*
+        version: link:../../packages/eslint-config-custom
+      tsconfig:
+        specifier: workspace:*
+        version: link:../../packages/tsconfig
+      typescript:
+        specifier: ^5.3.2
+        version: 5.3.2
+
   apps/api:
     dependencies:
       '@floe/db':
@@ -3328,7 +3374,7 @@ packages:
   /@types/bcrypt@5.0.1:
     resolution: {integrity: sha512-dIIrEsLV1/v0AUNI8oHMaRRTSeVjoy5ID8oclJavtPj8CwPJoD1eFoNXEypuu6k091brEzBeOo3LlxeAH9zRZg==}
     dependencies:
-      '@types/node': 20.8.10
+      '@types/node': 20.9.0
     dev: true
 
   /@types/btoa-lite@1.0.1:
