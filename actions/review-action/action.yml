@@ -3,4 +3,4 @@ description: "Floe Validator"
 
 runs:
   using: "node20"
-  main: "../dist/validator/index.js"
+  main: "./dist/index.js"
