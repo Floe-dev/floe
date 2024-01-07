@@ -19,8 +19,8 @@ export declare const querySchema: z.ZodObject<{
     }>;
 }, "strip", z.ZodTypeAny, {
     path: string;
-    content: string;
     startLine: number;
+    content: string;
     rule: {
         code: string;
         level: "error" | "warn";
