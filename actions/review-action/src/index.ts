@@ -20,6 +20,8 @@ async function run() {
     const baseRef = process.env.GITHUB_BASE_REF;
     const githubSha = process.env.GITHUB_SHA;
 
+    console.log(111111, githubSha, github.context.payload.pull_request);
+
     if (!headRef || !baseRef || !githubSha) {
       throw new Error(
         "Missing GITHUB_HEAD_REF, GITHUB_BASE_REF, or GITHUB_SHA"
@@ -112,19 +114,19 @@ async function run() {
             `${violation.description}\n` +
             `\`\`\`suggestion\n${violation.suggestedFix}\n\`\`\``;
 
-          console.log(5555, body);
-
           const newComment = await createGitReviewComment({
             path: reviews.path,
-            commitId: headRef,
+            commitId: githubSha,
             body,
             owner,
             repo,
             pullNumber,
             line: violation.endLine,
-            startLine: violation.startLine,
             side: "RIGHT",
-            startSide: "RIGHT",
+            ...(violation.endLine !== violation.startLine && {
+              startSide: "RIGHT",
+              startLine: violation.startLine,
+            }),
           });
 
           console.log("Response: ", newComment.data);
