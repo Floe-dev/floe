@@ -49840,17 +49840,23 @@ async function createGitReviewComment({ path, repo, owner, body, commitId, pullN
 
 async function run() {
     try {
-        const headSha = github.context.payload.pull_request?.head.sha;
         const headRef = process.env.GITHUB_HEAD_REF;
         const baseRef = process.env.GITHUB_BASE_REF;
-        if (!headRef || !baseRef || !headSha) {
-            throw new Error("Missing head ref, base ref, or head sha");
-        }
-        const owner = github.context.payload.repository?.owner.login;
         const repo = github.context.payload.repository?.name;
+        const owner = github.context.payload.repository?.owner.login;
+        const headSha = github.context.payload.pull_request?.head.sha;
         const pullNumber = github.context.payload.pull_request?.number;
-        if (!owner || !repo || !pullNumber) {
-            throw new Error("Missing owner, repo, or prNumber");
+        if (!headRef || !baseRef || !headSha || !owner || !repo || !pullNumber) {
+            throw new Error(`The following values are missing: ${[
+                !headRef && "headRef",
+                !baseRef && "baseRef",
+                !headSha && "headSha",
+                !owner && "owner",
+                !repo && "repo",
+                !pullNumber && "pullNumber",
+            ]
+                .filter(notEmpty)
+                .join(", ")}`);
         }
         const config = getFloeConfig();
         const basehead = `${baseRef}...${headRef}`;
@@ -49928,8 +49934,9 @@ async function run() {
          * Create comments for new violations
          */
         newViolations?.forEach(async (violation) => {
-            const body = `${violation.description}\n` +
-                `\`\`\`suggestion\n${violation.suggestedFix}\n\`\`\``;
+            const body = `${violation.description}\n${violation.suggestedFix
+                ? `\`\`\`suggestion\n${violation.suggestedFix}\n\`\`\``
+                : ""}`;
             const newComment = await createGitReviewComment({
                 path: violation.path,
                 commitId: headSha,
@@ -49946,30 +49953,9 @@ async function run() {
             });
             console.log("Response: ", newComment.data);
         });
-        // core.info(inspect(comments));
-        // Test comment
-        // const newComment = await createGitReviewComment({
-        //   path: "README.md",
-        //   commitId: "dfe29cb3a929d4f31f1ea84789f8f27ff0ebe5fc",
-        //   body: "Test comment",
-        //   owner: "NicHaley",
-        //   repo: "floe-testerino",
-        //   pullNumber: 1,
-        // });
-        // const newComment = await createComment({
-        // }).catch((error) => {
-        //   console.log(33333, error.message);
-        // });
-        // console.log(22222, newComment);
-        // response.data?.files.forEach((diff) => {
-        //   if (diff.violations.length > 0) {
-        //     diff.violations.forEach((violation) => {
-        //       // Step 1: Check if the violation is already a comment on the PR
-        //       // Step 2: Create a comment on the PR, update a comment, or do nothing
-        //     });
-        //   }
-        // });
         // Add core.summary
+        // Fail if there are any errors
+        // Pass if only warnings or no violations
         // core.debug(inspect(response.data));
     }
     catch (error) {
