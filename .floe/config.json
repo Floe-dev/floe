@@ -6,7 +6,7 @@
   },
   "rulesets": {
     "docs": {
-      "include": ["**/*.mdx"],
+      "include": ["apps/docs/pages/usage.mdx"],
       "rules": {
         "spelling-and-grammar": "warn"
       }

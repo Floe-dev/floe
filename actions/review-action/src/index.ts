@@ -1,21 +1,29 @@
 import { inspect } from "node:util";
-// import { api } from "@floe/lib/axios";
 import { getRulesets } from "@floe/lib/rules";
-// import type { AiLintDiffResponse } from "@floe/requests/at-lint-diff/_get";
+import {
+  getErrorsByFile,
+  getReviewsByFile,
+  getFilesMatchingRulesets,
+  checkIfUnderEvaluationLimit,
+} from "@floe/lib/reviews";
+import { getFloeConfig } from "@floe/lib/get-floe-config";
 import simpleGit from "simple-git";
 import * as core from "@actions/core";
 import * as github from "@actions/github";
 import { parseDiffToFileHunks } from "@floe/lib/diff-parser";
 import { fetchGitReviewComments } from "@floe/requests/git/review-comments/_get";
-// import { createGitReviewComment } from "@floe/requests/review-comments/_post";
+import { createGitReviewComment } from "@floe/requests/git/review-comments/_post";
 
 async function run() {
   try {
-    const headSha = process.env.GITHUB_HEAD_REF;
-    const baseSha = process.env.GITHUB_BASE_REF;
+    const headRef = process.env.GITHUB_HEAD_REF;
+    const baseRef = process.env.GITHUB_BASE_REF;
+    const githubSha = process.env.GITHUB_SHA;
 
-    if (!headSha || !baseSha) {
-      throw new Error("Missing headSha or baseSha");
+    if (!headRef || !baseRef || !githubSha) {
+      throw new Error(
+        "Missing GITHUB_HEAD_REF, GITHUB_BASE_REF, or GITHUB_SHA"
+      );
     }
 
     const owner = github.context.payload.repository?.owner.login;
@@ -26,7 +34,9 @@ async function run() {
       throw new Error("Missing owner, repo, or prNumber");
     }
 
-    const basehead = `${baseSha}...${headSha}`;
+    const config = getFloeConfig();
+
+    const basehead = `${baseRef}...${headRef}`;
     const diffOutput = await simpleGit().diff([basehead]);
 
     /**
@@ -42,23 +52,10 @@ async function run() {
     /**
      * We only want to evaluate diffs that are included in a ruleset
      */
-    const filesMatchingRulesets = files
-      .map((file) => {
-        const matchingRulesets = rulesets.filter((ruleset) => {
-          return ruleset.include.some((pattern) => {
-            return minimatch(file.path, pattern);
-          });
-        });
-
-        return {
-          ...file,
-          matchingRulesets,
-        };
-      })
-      .filter(({ matchingRulesets }) => matchingRulesets.length > 0);
+    const filesMatchingRulesets = getFilesMatchingRulesets(files, rulesets);
 
     if (filesMatchingRulesets.length === 0) {
-      console.log(chalk.dim("No matching files in diff to review\n"));
+      core.info("No matching files in diff to review");
 
       process.exit(0);
     }
@@ -77,24 +74,63 @@ async function run() {
       ),
     }));
 
-    console.log(111111, rulesets);
-    console.log(22222, files);
+    try {
+      checkIfUnderEvaluationLimit(
+        evalutationsByFile,
+        Number(config.reviews?.maxDiffEvaluations ?? 5)
+      );
+    } catch (error) {
+      if (error instanceof Error) {
+        core.setFailed(error.message);
 
-    // const response = await api.get<AiLintDiffResponse>("/api/v1/ai-lint-diff", {
-    //   params: {
-    //     owner,
-    //     repo,
-    //     baseSha,
-    //     headSha,
-    //     rulesets: rulesetsWithRules,
-    //   },
-    // });
+        return;
+      }
+    }
+
+    const reviewsByFile = await getReviewsByFile(evalutationsByFile).catch(
+      (error) => {
+        if (error instanceof Error) {
+          core.setFailed(error.message);
+        }
+      }
+    );
+
+    console.log(111111, reviewsByFile);
 
     // const comments = await fetchGitReviewComments({
     //   owner,
     //   repo,
     //   pullNumber,
     // });
+
+    // console.log(22222, comments.data);
+
+    reviewsByFile?.forEach((reviews) => {
+      reviews.evaluationsResponse.forEach((evaluationResponse) => {
+        evaluationResponse.review.violations?.forEach(async (violation) => {
+          const body =
+            `${violation.description}\n` +
+            `\`\`\`suggestion\n${violation.suggestedFix}\n\`\`\``;
+
+          console.log(5555, body);
+
+          const newComment = await createGitReviewComment({
+            path: reviews.path,
+            commitId: headRef,
+            body,
+            owner,
+            repo,
+            pullNumber,
+            line: violation.endLine,
+            startLine: violation.startLine,
+            side: "RIGHT",
+            startSide: "RIGHT",
+          });
+
+          console.log("Response: ", newComment.data);
+        });
+      });
+    });
 
     // core.info(inspect(comments));
     // Test comment

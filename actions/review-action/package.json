@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "build": "ncc build src/index.ts --out dist --source-map --license licenses.txt",
+    "dev": "pnpm build --watch",
     "lint": "eslint ."
   },
   "dependencies": {

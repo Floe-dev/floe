@@ -8,4 +8,5 @@ export declare function parseDiffToFileHunks(diffText: string): {
         content: string;
     }[];
 }[];
+export type File = ReturnType<typeof parseDiffToFileHunks>[number];
 //# sourceMappingURL=diff-parser.d.ts.map

@@ -1,21 +1,42 @@
 import { z } from "zod";
 import type { Endpoints } from "@octokit/types";
 export declare const querySchema: z.ZodObject<{
-    owner: z.ZodString;
+    path: z.ZodString;
     repo: z.ZodString;
+    body: z.ZodString;
+    owner: z.ZodString;
+    commitId: z.ZodString;
     pullNumber: z.ZodNumber;
+    line: z.ZodOptional<z.ZodNumber>;
+    startLine: z.ZodOptional<z.ZodNumber>;
+    side: z.ZodOptional<z.ZodEnum<["LEFT", "RIGHT"]>>;
+    startSide: z.ZodOptional<z.ZodEnum<["LEFT", "RIGHT"]>>;
 }, "strip", z.ZodTypeAny, {
+    path: string;
     repo: string;
+    body: string;
     owner: string;
+    commitId: string;
     pullNumber: number;
+    line?: number | undefined;
+    startLine?: number | undefined;
+    side?: "LEFT" | "RIGHT" | undefined;
+    startSide?: "LEFT" | "RIGHT" | undefined;
 }, {
+    path: string;
     repo: string;
+    body: string;
     owner: string;
+    commitId: string;
     pullNumber: number;
+    line?: number | undefined;
+    startLine?: number | undefined;
+    side?: "LEFT" | "RIGHT" | undefined;
+    startSide?: "LEFT" | "RIGHT" | undefined;
 }>;
-export type GetGitReviewCommentsResponse = Endpoints["GET /repos/{owner}/{repo}/pulls/{pull_number}/comments"]["response"]["data"];
-export type GetReviewCommentsInput = z.infer<typeof querySchema>;
-export declare function fetchGitReviewComments({ owner, repo, pullNumber, }: GetReviewCommentsInput): Promise<import("axios").AxiosResponse<{
+export type PostGitReviewCommentsResponse = Endpoints["POST /repos/{owner}/{repo}/pulls/{pull_number}/comments"]["response"]["data"];
+export type PostReviewCommentsInput = z.infer<typeof querySchema>;
+export declare function createGitReviewComment({ path, repo, owner, body, commitId, pullNumber, line, startLine, side, startSide, }: PostReviewCommentsInput): Promise<import("axios").AxiosResponse<{
     url: string;
     pull_request_review_id: number | null;
     id: number;
@@ -88,5 +109,5 @@ export declare function fetchGitReviewComments({ owner, repo, pullNumber, }: Get
     } | undefined;
     body_html?: string | undefined;
     body_text?: string | undefined;
-}[], any>>;
-//# sourceMappingURL=_get.d.ts.map
+}, any>>;
+//# sourceMappingURL=_post.d.ts.map

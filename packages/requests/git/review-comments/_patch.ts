@@ -20,7 +20,7 @@ export async function updateGitReviewComment({
   owner,
   commentId,
 }: PatchReviewCommentsInput) {
-  return api.get<PatchGitReviewCommentsResponse>(
+  return api.patch<PatchGitReviewCommentsResponse>(
     "/api/v1/git/review-comments",
     {
       params: {
