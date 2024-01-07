@@ -49863,7 +49863,9 @@ async function run() {
         /**
          * Fetch all branches. This is needed to get the correct diff.
          */
-        await esm_default().fetch();
+        if (!process.env.FLOE_TEST_MODE) {
+            await esm_default().fetch();
+        }
         const diffOutput = await esm_default().diff([basehead]);
         /**
          * Parse git diff to more useable format
@@ -49924,7 +49926,9 @@ async function run() {
                             comment.position === violation.endLine &&
                             comment.body.includes(violation.description) &&
                             comment.user.login ===
-                                (process.env.FLOE_BOT_NAME ?? "floe-app[bot]"));
+                                (process.env.FLOE_TEST_MODE
+                                    ? "floe-app-tester[bot]"
+                                    : "floe-app[bot]"));
                     });
                     if (!existingComment) {
                         return {
@@ -49968,7 +49972,7 @@ async function run() {
             errors: 0,
             warnings: 0,
         });
-        // Add core.summary
+        // TODO: Add core.summary
         if (combinedErrorsAndWarnings.errors > 0) {
             core.setFailed(`Floe review failed with ${combinedErrorsAndWarnings.errors} errors.`);
         }

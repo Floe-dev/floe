@@ -45,7 +45,9 @@ async function run() {
     /**
      * Fetch all branches. This is needed to get the correct diff.
      */
-    await simpleGit().fetch();
+    if (!process.env.FLOE_TEST_MODE) {
+      await simpleGit().fetch();
+    }
     const diffOutput = await simpleGit().diff([basehead]);
 
     /**
@@ -127,7 +129,9 @@ async function run() {
                 comment.position === violation.endLine &&
                 comment.body.includes(violation.description) &&
                 comment.user.login ===
-                  (process.env.FLOE_BOT_NAME ?? "floe-app[bot]")
+                  (process.env.FLOE_TEST_MODE
+                    ? "floe-app-tester[bot]"
+                    : "floe-app[bot]")
               );
             });
 
@@ -185,7 +189,7 @@ async function run() {
       }
     );
 
-    // Add core.summary
+    // TODO: Add core.summary
 
     if (combinedErrorsAndWarnings.errors > 0) {
       core.setFailed(
