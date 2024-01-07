@@ -41,7 +41,7 @@ async function run() {
 
     const config = getFloeConfig();
 
-    const basehead = `${baseRef}..${headRef}`;
+    const basehead = `origin/${baseRef}..origin/${headRef}`;
     await simpleGit().fetch();
     const diffOutput = await simpleGit().diff([basehead]);
 

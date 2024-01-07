@@ -49859,7 +49859,7 @@ async function run() {
                 .join(", ")}`);
         }
         const config = getFloeConfig();
-        const basehead = `${baseRef}..${headRef}`;
+        const basehead = `origin/${baseRef}..origin/${headRef}`;
         await esm_default().fetch();
         const diffOutput = await esm_default().diff([basehead]);
         /**
