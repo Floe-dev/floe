@@ -49815,12 +49815,11 @@ async function createGitReviewComment({ path, repo, owner, body, commitId, pullN
 
 async function run() {
     try {
+        const headSha = github.context.payload.pull_request?.head.sha;
         const headRef = process.env.GITHUB_HEAD_REF;
         const baseRef = process.env.GITHUB_BASE_REF;
-        const githubSha = process.env.GITHUB_SHA;
-        console.log(111111, githubSha, github.context.payload.pull_request);
-        if (!headRef || !baseRef || !githubSha) {
-            throw new Error("Missing GITHUB_HEAD_REF, GITHUB_BASE_REF, or GITHUB_SHA");
+        if (!headRef || !baseRef || !headSha) {
+            throw new Error("Missing head ref, base ref, or head sha");
         }
         const owner = github.context.payload.repository?.owner.login;
         const repo = github.context.payload.repository?.name;
@@ -49870,7 +49869,6 @@ async function run() {
                 core.setFailed(error.message);
             }
         });
-        console.log(111111, reviewsByFile);
         // const comments = await fetchGitReviewComments({
         //   owner,
         //   repo,
@@ -49884,7 +49882,7 @@ async function run() {
                         `\`\`\`suggestion\n${violation.suggestedFix}\n\`\`\``;
                     const newComment = await createGitReviewComment({
                         path: reviews.path,
-                        commitId: githubSha,
+                        commitId: headSha,
                         body,
                         owner,
                         repo,
