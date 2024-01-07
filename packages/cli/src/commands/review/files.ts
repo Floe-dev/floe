@@ -9,7 +9,7 @@ import {
   getErrorsByFile,
   getReviewsByFile,
   checkIfUnderEvaluationLimit,
-} from "@floe/lib/reviews";
+} from "@floe/features/reviews";
 import { logAxiosError } from "../../utils/logging";
 import { logViolations, reportSummary } from "./lib";
 

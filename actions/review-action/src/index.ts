@@ -5,7 +5,7 @@ import {
   getReviewsByFile,
   getFilesMatchingRulesets,
   checkIfUnderEvaluationLimit,
-} from "@floe/lib/reviews";
+} from "@floe/features/reviews";
 import { notEmpty } from "@floe/lib/not-empty";
 import { getFloeConfig } from "@floe/lib/get-floe-config";
 import simpleGit from "simple-git";
@@ -41,7 +41,7 @@ async function run() {
 
     const config = getFloeConfig();
 
-    const basehead = `${baseRef}...${headRef}`;
+    const basehead = `${baseRef}..${headRef}`;
     const diffOutput = await simpleGit().diff([basehead]);
 
     /**

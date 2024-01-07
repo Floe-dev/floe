@@ -9,7 +9,7 @@ import {
   getReviewsByFile,
   getFilesMatchingRulesets,
   checkIfUnderEvaluationLimit,
-} from "@floe/lib/reviews";
+} from "@floe/features/reviews";
 // import { getDefaultBranch, getCurrentBranch } from "../../utils/git";
 import { logAxiosError } from "../../utils/logging";
 import { logViolations, reportSummary } from "./lib";

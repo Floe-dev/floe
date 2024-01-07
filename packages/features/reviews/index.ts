@@ -1,8 +1,8 @@
 import { minimatch } from "minimatch";
 import { createReview } from "@floe/requests/review/_post";
-import type { Ruleset } from "./rules";
-import type { File } from "./diff-parser";
-import { pluralize } from "./pluralize";
+import type { Ruleset } from "@floe/lib/rules";
+import type { File } from "@floe/lib/diff-parser";
+import { pluralize } from "@floe/lib/pluralize";
 
 export type EvalutationsByFile = {
   path: string;

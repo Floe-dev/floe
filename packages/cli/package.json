@@ -27,6 +27,7 @@
   },
   "dependencies": {
     "@floe/config": "workspace:*",
+    "@floe/features": "workspace:*",
     "@floe/lib": "workspace:*",
     "@floe/requests": "workspace:*",
     "@inquirer/prompts": "^3.3.0",

@@ -33,6 +33,9 @@ importers:
       '@actions/github':
         specifier: ^6.0.0
         version: 6.0.0
+      '@floe/features':
+        specifier: workspace:*
+        version: link:../../packages/features
       '@floe/lib':
         specifier: workspace:*
         version: link:../../packages/lib
@@ -441,6 +444,9 @@ importers:
       '@floe/config':
         specifier: workspace:*
         version: link:../config
+      '@floe/features':
+        specifier: workspace:*
+        version: link:../features
       '@floe/lib':
         specifier: workspace:*
         version: link:../lib
@@ -562,11 +568,30 @@ importers:
         specifier: ^4.5.3
         version: 4.9.5
 
-  packages/lib:
+  packages/features:
     dependencies:
+      '@floe/lib':
+        specifier: workspace:*
+        version: link:../lib
       '@floe/requests':
         specifier: workspace:*
         version: link:../requests
+      minimatch:
+        specifier: ^9.0.3
+        version: 9.0.3
+    devDependencies:
+      '@types/node':
+        specifier: ^20.8.10
+        version: 20.9.0
+      eslint-config-custom:
+        specifier: workspace:*
+        version: link:../eslint-config-custom
+      tsconfig:
+        specifier: workspace:*
+        version: link:../tsconfig
+
+  packages/lib:
+    dependencies:
       axios:
         specifier: ^1.6.0
         version: 1.6.0
