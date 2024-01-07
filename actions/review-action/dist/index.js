@@ -45590,6 +45590,11 @@ function getErrorsByFile(reviewsByFile) {
     });
 }
 
+;// CONCATENATED MODULE: ../../packages/lib/not-empty.ts
+function notEmpty(value) {
+    return value !== null && value !== undefined;
+}
+
 // EXTERNAL MODULE: ../../node_modules/.pnpm/@kwsites+file-exists@1.1.1/node_modules/@kwsites/file-exists/dist/index.js
 var dist = __nccwpck_require__(8903);
 // EXTERNAL MODULE: ../../node_modules/.pnpm/debug@4.3.4/node_modules/debug/src/index.js
@@ -49771,6 +49776,24 @@ function parseDiffToFileHunks(diffText) {
     });
 }
 
+;// CONCATENATED MODULE: ../../packages/requests/git/review-comments/_get.ts
+
+
+const _get_querySchema = z.object({
+    owner: z.string(),
+    repo: z.string(),
+    pullNumber: z.coerce.number(),
+});
+async function fetchGitReviewComments({ owner, repo, pullNumber, }) {
+    return api.get("/api/v1/git/review-comments", {
+        params: {
+            owner,
+            repo,
+            pullNumber,
+        },
+    });
+}
+
 ;// CONCATENATED MODULE: ../../packages/requests/git/review-comments/_post.ts
 
 
@@ -49804,6 +49827,8 @@ async function createGitReviewComment({ path, repo, owner, body, commitId, pullN
 }
 
 ;// CONCATENATED MODULE: ./src/index.ts
+
+
 
 
 
@@ -49869,34 +49894,57 @@ async function run() {
                 core.setFailed(error.message);
             }
         });
-        // const comments = await fetchGitReviewComments({
-        //   owner,
-        //   repo,
-        //   pullNumber,
-        // });
-        // console.log(22222, comments.data);
-        reviewsByFile?.forEach((reviews) => {
-            reviews.evaluationsResponse.forEach((evaluationResponse) => {
-                evaluationResponse.review.violations?.forEach(async (violation) => {
-                    const body = `${violation.description}\n` +
-                        `\`\`\`suggestion\n${violation.suggestedFix}\n\`\`\``;
-                    const newComment = await createGitReviewComment({
-                        path: reviews.path,
-                        commitId: headSha,
-                        body,
-                        owner,
-                        repo,
-                        pullNumber,
-                        line: violation.endLine,
-                        side: "RIGHT",
-                        ...(violation.endLine !== violation.startLine && {
-                            startSide: "RIGHT",
-                            startLine: violation.startLine,
-                        }),
+        const comments = await fetchGitReviewComments({
+            owner,
+            repo,
+            pullNumber,
+        });
+        /**
+         * Check if comments already exist for a violation
+         */
+        const newViolations = reviewsByFile
+            ?.flatMap((reviews) => {
+            return reviews.evaluationsResponse.flatMap((evaluationResponse) => {
+                return evaluationResponse.review.violations?.flatMap((violation) => {
+                    const existingComment = comments.data.find((comment) => {
+                        return (comment.path === reviews.path &&
+                            comment.position === violation.endLine &&
+                            comment.body.includes(violation.description) &&
+                            comment.user.login ===
+                                (process.env.FLOE_BOT_NAME ?? "floe-app[bot]"));
                     });
-                    console.log("Response: ", newComment.data);
+                    if (!existingComment) {
+                        return {
+                            ...violation,
+                            path: reviews.path,
+                        };
+                    }
+                    return null;
                 });
             });
+        })
+            .filter(notEmpty);
+        /**
+         * Create comments for new violations
+         */
+        newViolations?.forEach(async (violation) => {
+            const body = `${violation.description}\n` +
+                `\`\`\`suggestion\n${violation.suggestedFix}\n\`\`\``;
+            const newComment = await createGitReviewComment({
+                path: violation.path,
+                commitId: headSha,
+                body,
+                owner,
+                repo,
+                pullNumber,
+                line: violation.endLine,
+                side: "RIGHT",
+                ...(violation.endLine !== violation.startLine && {
+                    startSide: "RIGHT",
+                    startLine: violation.startLine,
+                }),
+            });
+            console.log("Response: ", newComment.data);
         });
         // core.info(inspect(comments));
         // Test comment

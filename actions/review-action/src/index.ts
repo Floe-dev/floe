@@ -6,6 +6,7 @@ import {
   getFilesMatchingRulesets,
   checkIfUnderEvaluationLimit,
 } from "@floe/lib/reviews";
+import { notEmpty } from "@floe/lib/not-empty";
 import { getFloeConfig } from "@floe/lib/get-floe-config";
 import simpleGit from "simple-git";
 import * as core from "@actions/core";
@@ -93,39 +94,66 @@ async function run() {
       }
     );
 
-    // const comments = await fetchGitReviewComments({
-    //   owner,
-    //   repo,
-    //   pullNumber,
-    // });
+    const comments = await fetchGitReviewComments({
+      owner,
+      repo,
+      pullNumber,
+    });
 
-    // console.log(22222, comments.data);
+    /**
+     * Check if comments already exist for a violation
+     */
+    const newViolations = reviewsByFile
+      ?.flatMap((reviews) => {
+        return reviews.evaluationsResponse.flatMap((evaluationResponse) => {
+          return evaluationResponse.review.violations?.flatMap((violation) => {
+            const existingComment = comments.data.find((comment) => {
+              return (
+                comment.path === reviews.path &&
+                comment.position === violation.endLine &&
+                comment.body.includes(violation.description) &&
+                comment.user.login ===
+                  (process.env.FLOE_BOT_NAME ?? "floe-app[bot]")
+              );
+            });
 
-    reviewsByFile?.forEach((reviews) => {
-      reviews.evaluationsResponse.forEach((evaluationResponse) => {
-        evaluationResponse.review.violations?.forEach(async (violation) => {
-          const body =
-            `${violation.description}\n` +
-            `\`\`\`suggestion\n${violation.suggestedFix}\n\`\`\``;
+            if (!existingComment) {
+              return {
+                ...violation,
+                path: reviews.path,
+              };
+            }
 
-          const newComment = await createGitReviewComment({
-            path: reviews.path,
-            commitId: headSha,
-            body,
-            owner,
-            repo,
-            pullNumber,
-            line: violation.endLine,
-            side: "RIGHT",
-            ...(violation.endLine !== violation.startLine && {
-              startSide: "RIGHT",
-              startLine: violation.startLine,
-            }),
+            return null;
           });
-
-          console.log("Response: ", newComment.data);
         });
+      })
+      .filter(notEmpty);
+
+    /**
+     * Create comments for new violations
+     */
+    newViolations?.forEach(async (violation) => {
+      const body =
+        `${violation.description}\n` +
+        `\`\`\`suggestion\n${violation.suggestedFix}\n\`\`\``;
+
+      const newComment = await createGitReviewComment({
+        path: violation.path,
+        commitId: headSha,
+        body,
+        owner,
+        repo,
+        pullNumber,
+        line: violation.endLine,
+        side: "RIGHT",
+        ...(violation.endLine !== violation.startLine && {
+          startSide: "RIGHT",
+          startLine: violation.startLine,
+        }),
       });
+
+      console.log("Response: ", newComment.data);
     });
 
     // core.info(inspect(comments));
