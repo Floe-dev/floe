@@ -2,18 +2,17 @@ import type { Command } from "commander";
 import { getRulesets } from "@floe/lib/rules";
 import { parseDiffToFileHunks } from "@floe/lib/diff-parser";
 import simpleGit from "simple-git";
-import { minimatch } from "minimatch";
 import { getFloeConfig } from "@floe/lib/get-floe-config";
 import { checkIfValidRoot } from "@floe/lib/check-if-valid-root";
-// import { getDefaultBranch, getCurrentBranch } from "../../utils/git";
-import { logAxiosError } from "../../utils/logging";
 import {
-  checkIfUnderEvaluationLimit,
   getErrorsByFile,
   getReviewsByFile,
-  logViolations,
-  reportSummary,
-} from "./lib";
+  getFilesMatchingRulesets,
+  checkIfUnderEvaluationLimit,
+} from "@floe/lib/reviews";
+// import { getDefaultBranch, getCurrentBranch } from "../../utils/git";
+import { logAxiosError } from "../../utils/logging";
+import { logViolations, reportSummary } from "./lib";
 
 const oraImport = import("ora").then((m) => m.default);
 const chalkImport = import("chalk").then((m) => m.default);
@@ -39,12 +38,7 @@ export function diff(program: Command) {
 
       const config = getFloeConfig();
 
-      // const baseSha = getDefaultBranch();
-      // const headSha = getCurrentBranch();
-
-      const basehead =
-        // diffArg ?? (options.repo ? `${baseSha}...${headSha}` : "HEAD");
-        diffArg ?? "HEAD";
+      const basehead = diffArg ?? "HEAD";
 
       // Exec git diff and parse output
       let diffOutput: string;
@@ -68,20 +62,7 @@ export function diff(program: Command) {
       /**
        * We only want to evaluate diffs that are included in a ruleset
        */
-      const filesMatchingRulesets = files
-        .map((file) => {
-          const matchingRulesets = rulesets.filter((ruleset) => {
-            return ruleset.include.some((pattern) => {
-              return minimatch(file.path, pattern);
-            });
-          });
-
-          return {
-            ...file,
-            matchingRulesets,
-          };
-        })
-        .filter(({ matchingRulesets }) => matchingRulesets.length > 0);
+      const filesMatchingRulesets = getFilesMatchingRulesets(files, rulesets);
 
       if (filesMatchingRulesets.length === 0) {
         console.log(chalk.dim("No matching files in diff to review\n"));
@@ -103,10 +84,16 @@ export function diff(program: Command) {
         ),
       }));
 
-      await checkIfUnderEvaluationLimit(
-        evalutationsByFile,
-        Number(config.reviews?.maxFileEvaluations ?? 5)
-      );
+      try {
+        checkIfUnderEvaluationLimit(
+          evalutationsByFile,
+          Number(config.reviews?.maxDiffEvaluations ?? 5)
+        );
+      } catch (error) {
+        if (error instanceof Error) {
+          console.log(chalk.red(error.message));
+        }
+      }
 
       /**
        * Show loading spinner

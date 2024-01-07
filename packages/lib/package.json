@@ -3,8 +3,10 @@
   "sideEffects": false,
   "version": "0.1.0-beta.3",
   "dependencies": {
+    "@floe/requests": "workspace:*",
     "axios": "^1.6.0",
     "gitdiff-parser": "^0.3.1",
+    "minimatch": "^9.0.3",
     "slugify": "^1.6.6"
   },
   "devDependencies": {

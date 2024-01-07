@@ -45,6 +45,9 @@ importers:
       glob:
         specifier: ^10.3.10
         version: 10.3.10
+      simple-git:
+        specifier: ^3.20.0
+        version: 3.20.0
       uuid:
         specifier: ^9.0.1
         version: 9.0.1
@@ -441,6 +444,9 @@ importers:
       '@floe/lib':
         specifier: workspace:*
         version: link:../lib
+      '@floe/requests':
+        specifier: workspace:*
+        version: link:../requests
       '@inquirer/prompts':
         specifier: ^3.3.0
         version: 3.3.0
@@ -478,9 +484,6 @@ importers:
         specifier: ^4.7.1
         version: 4.7.1
     devDependencies:
-      '@floe/requests':
-        specifier: workspace:*
-        version: link:../requests
       '@types/diff':
         specifier: ^5.0.9
         version: 5.0.9
@@ -561,12 +564,18 @@ importers:
 
   packages/lib:
     dependencies:
+      '@floe/requests':
+        specifier: workspace:*
+        version: link:../requests
       axios:
         specifier: ^1.6.0
         version: 1.6.0
       gitdiff-parser:
         specifier: ^0.3.1
         version: 0.3.1
+      minimatch:
+        specifier: ^9.0.3
+        version: 9.0.3
       slugify:
         specifier: ^1.6.6
         version: 1.6.6

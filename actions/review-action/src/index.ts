@@ -1,9 +1,11 @@
 import { inspect } from "node:util";
 // import { api } from "@floe/lib/axios";
-// import { getRulesets } from "@floe/lib/rules";
+import { getRulesets } from "@floe/lib/rules";
 // import type { AiLintDiffResponse } from "@floe/requests/at-lint-diff/_get";
+import simpleGit from "simple-git";
 import * as core from "@actions/core";
 import * as github from "@actions/github";
+import { parseDiffToFileHunks } from "@floe/lib/diff-parser";
 import { fetchGitReviewComments } from "@floe/requests/git/review-comments/_get";
 // import { createGitReviewComment } from "@floe/requests/review-comments/_post";
 
@@ -24,7 +26,59 @@ async function run() {
       throw new Error("Missing owner, repo, or prNumber");
     }
 
-    // const { rulesetsWithRules } = getRulesets();
+    const basehead = `${baseSha}...${headSha}`;
+    const diffOutput = await simpleGit().diff([basehead]);
+
+    /**
+     * Parse git diff to more useable format
+     */
+    const files = parseDiffToFileHunks(diffOutput);
+
+    /**
+     * Get rules from Floe config
+     */
+    const rulesets = getRulesets();
+
+    /**
+     * We only want to evaluate diffs that are included in a ruleset
+     */
+    const filesMatchingRulesets = files
+      .map((file) => {
+        const matchingRulesets = rulesets.filter((ruleset) => {
+          return ruleset.include.some((pattern) => {
+            return minimatch(file.path, pattern);
+          });
+        });
+
+        return {
+          ...file,
+          matchingRulesets,
+        };
+      })
+      .filter(({ matchingRulesets }) => matchingRulesets.length > 0);
+
+    if (filesMatchingRulesets.length === 0) {
+      console.log(chalk.dim("No matching files in diff to review\n"));
+
+      process.exit(0);
+    }
+
+    /**
+     * We want to evaluate each hunk against each rule. This can create a lot
+     * of requests! But we can do this in parallel, and each request is
+     * cached.
+     */
+    const evalutationsByFile = filesMatchingRulesets.map((file) => ({
+      path: file.path,
+      evaluations: file.matchingRulesets.flatMap((ruleset) =>
+        ruleset.rules.flatMap((rule) =>
+          file.hunks.map((hunk) => ({ rule, hunk }))
+        )
+      ),
+    }));
+
+    console.log(111111, rulesets);
+    console.log(22222, files);
 
     // const response = await api.get<AiLintDiffResponse>("/api/v1/ai-lint-diff", {
     //   params: {
@@ -36,13 +90,13 @@ async function run() {
     //   },
     // });
 
-    const comments = await fetchGitReviewComments({
-      owner,
-      repo,
-      pullNumber,
-    });
+    // const comments = await fetchGitReviewComments({
+    //   owner,
+    //   repo,
+    //   pullNumber,
+    // });
 
-    core.info(inspect(comments));
+    // core.info(inspect(comments));
     // Test comment
     // const newComment = await createGitReviewComment({
     //   path: "README.md",

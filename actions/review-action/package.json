@@ -13,6 +13,7 @@
     "@floe/requests": "workspace:*",
     "axios": "^1.6.0",
     "glob": "^10.3.10",
+    "simple-git": "^3.20.0",
     "uuid": "^9.0.1"
   },
   "devDependencies": {

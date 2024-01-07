@@ -5,14 +5,13 @@ import { glob } from "glob";
 import { minimatch } from "minimatch";
 import { getFloeConfig } from "@floe/lib/get-floe-config";
 import { checkIfValidRoot } from "@floe/lib/check-if-valid-root";
-import { logAxiosError } from "../../utils/logging";
 import {
-  checkIfUnderEvaluationLimit,
   getErrorsByFile,
   getReviewsByFile,
-  logViolations,
-  reportSummary,
-} from "./lib";
+  checkIfUnderEvaluationLimit,
+} from "@floe/lib/reviews";
+import { logAxiosError } from "../../utils/logging";
+import { logViolations, reportSummary } from "./lib";
 
 const oraImport = import("ora").then((m) => m.default);
 const chalkImport = import("chalk").then((m) => m.default);
@@ -108,10 +107,16 @@ export function files(program: Command) {
           ),
         }));
 
-        await checkIfUnderEvaluationLimit(
-          evalutationsByFile,
-          Number(config.reviews?.maxFileEvaluations ?? 5)
-        );
+        try {
+          checkIfUnderEvaluationLimit(
+            evalutationsByFile,
+            Number(config.reviews?.maxFileEvaluations ?? 5)
+          );
+        } catch (error) {
+          if (error instanceof Error) {
+            console.log(chalk.red(error.message));
+          }
+        }
 
         /**
          * Show loading spinner
