@@ -1,7 +1,7 @@
 import { pluralize } from "@floe/lib/pluralize";
 import { diffWords } from "diff";
 import { confirm } from "@inquirer/prompts";
-import type { ErrorsByFile } from "@floe/lib//reviews";
+import type { ErrorsByFile } from "@floe/features/reviews";
 import { updateLines } from "../../utils/lines-update";
 
 const chalkImport = import("chalk").then((m) => m.default);

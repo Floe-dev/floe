@@ -49904,6 +49904,9 @@ async function run() {
                 core.setFailed(error.message);
             }
         });
+        if (!reviewsByFile) {
+            process.exit(0);
+        }
         const comments = await fetchGitReviewComments({
             owner,
             repo,
@@ -49913,7 +49916,7 @@ async function run() {
          * Check if comments already exist for a violation
          */
         const newViolations = reviewsByFile
-            ?.flatMap((reviews) => {
+            .flatMap((reviews) => {
             return reviews.evaluationsResponse.flatMap((evaluationResponse) => {
                 return evaluationResponse.review.violations?.flatMap((violation) => {
                     const existingComment = comments.data.find((comment) => {
@@ -49937,7 +49940,7 @@ async function run() {
         /**
          * Create comments for new violations
          */
-        newViolations?.forEach(async (violation) => {
+        newViolations.forEach(async (violation) => {
             const body = `${violation.description}\n${violation.suggestedFix
                 ? `\`\`\`suggestion\n${violation.suggestedFix}\n\`\`\``
                 : ""}`;
@@ -49957,10 +49960,18 @@ async function run() {
             });
             console.log("Response: ", newComment.data);
         });
+        const errorsByFile = getErrorsByFile(reviewsByFile);
+        const combinedErrorsAndWarnings = errorsByFile.reduce((acc, { errors, warnings }) => ({
+            errors: acc.errors + errors,
+            warnings: acc.warnings + warnings,
+        }), {
+            errors: 0,
+            warnings: 0,
+        });
         // Add core.summary
-        // Fail if there are any errors
-        // Pass if only warnings or no violations
-        // core.debug(inspect(response.data));
+        if (combinedErrorsAndWarnings.errors > 0) {
+            core.setFailed(`Floe review failed with ${combinedErrorsAndWarnings.errors} errors.`);
+        }
     }
     catch (error) {
         core.error((0,external_node_util_.inspect)(error));
