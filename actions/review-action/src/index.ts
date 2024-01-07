@@ -14,7 +14,6 @@ import * as github from "@actions/github";
 import { parseDiffToFileHunks } from "@floe/lib/diff-parser";
 import { fetchGitReviewComments } from "@floe/requests/git/review-comments/_get";
 import { createGitReviewComment } from "@floe/requests/git/review-comments/_post";
-import { execSync } from "node:child_process";
 
 async function run() {
   try {
@@ -43,10 +42,8 @@ async function run() {
     const config = getFloeConfig();
 
     const basehead = `${baseRef}..${headRef}`;
-    // const diffOutput = await simpleGit().diff([basehead]);
-    const diffOutput = execSync(`git diff ${baseRef}..${headRef}`, {
-      encoding: "utf-8",
-    });
+    await simpleGit().fetch();
+    const diffOutput = await simpleGit().diff([basehead]);
 
     /**
      * Parse git diff to more useable format
