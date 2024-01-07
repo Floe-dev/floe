@@ -3,7 +3,7 @@ on:
   pull_request:
 
 jobs:
-  lint:
+  Review:
     env:
       FLOE_API_WORKSPACE: ${{ secrets.FLOE_API_WORKSPACE }}
       FLOE_API_SECRET: ${{ secrets.FLOE_API_SECRET }}
