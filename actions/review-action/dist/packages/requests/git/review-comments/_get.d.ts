@@ -5,12 +5,12 @@ export declare const querySchema: z.ZodObject<{
     repo: z.ZodString;
     pullNumber: z.ZodNumber;
 }, "strip", z.ZodTypeAny, {
-    repo: string;
     owner: string;
+    repo: string;
     pullNumber: number;
 }, {
-    repo: string;
     owner: string;
+    repo: string;
     pullNumber: number;
 }>;
 export type GetGitReviewCommentsResponse = Endpoints["GET /repos/{owner}/{repo}/pulls/{pull_number}/comments"]["response"]["data"];

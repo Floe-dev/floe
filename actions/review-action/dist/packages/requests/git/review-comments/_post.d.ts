@@ -12,23 +12,23 @@ export declare const querySchema: z.ZodObject<{
     side: z.ZodOptional<z.ZodEnum<["LEFT", "RIGHT"]>>;
     startSide: z.ZodOptional<z.ZodEnum<["LEFT", "RIGHT"]>>;
 }, "strip", z.ZodTypeAny, {
-    path: string;
-    repo: string;
-    body: string;
     owner: string;
-    commitId: string;
+    repo: string;
     pullNumber: number;
+    path: string;
+    body: string;
+    commitId: string;
     line?: number | undefined;
     startLine?: number | undefined;
     side?: "LEFT" | "RIGHT" | undefined;
     startSide?: "LEFT" | "RIGHT" | undefined;
 }, {
-    path: string;
-    repo: string;
-    body: string;
     owner: string;
-    commitId: string;
+    repo: string;
     pullNumber: number;
+    path: string;
+    body: string;
+    commitId: string;
     line?: number | undefined;
     startLine?: number | undefined;
     side?: "LEFT" | "RIGHT" | undefined;

@@ -1,4 +1,4 @@
-name: "lint"
+name: "Floe Review"
 on:
   pull_request:
 
