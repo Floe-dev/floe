@@ -49860,7 +49860,6 @@ async function run() {
         }
         const config = getFloeConfig();
         const basehead = `origin/${baseRef}..origin/${headRef}`;
-        await esm_default().fetch();
         const diffOutput = await esm_default().diff([basehead]);
         /**
          * Parse git diff to more useable format
