@@ -9,9 +9,9 @@ jobs:
       FLOE_API_SECRET: ${{ secrets.FLOE_API_SECRET }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v2
         with:
-          fetch-depth: 2
+          fetch-depth: 3
 
       - name: Review
         uses: ./actions/review-action
