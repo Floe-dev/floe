@@ -4,6 +4,7 @@ import { Inter } from "next/font/google";
 import "~/styles/globals.css";
 import { Analytics } from "@vercel/analytics/react";
 import { Nav } from "./nav";
+import "../globals.css";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 const itcGaramondStd = localFont({
@@ -25,9 +26,7 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <Nav />
-        <main
-          className={`relative overflow-x-hidden isolate bg-noise after:bg-gradient-to-t after:from-zinc-900 after:opacity-20 after:-z-30 after:absolute after:inset-0 ${inter.variable} ${itcGaramondStd.variable}`}
-        >
+        <main className={`${inter.variable} ${itcGaramondStd.variable}`}>
           {children}
         </main>
         <Analytics />
