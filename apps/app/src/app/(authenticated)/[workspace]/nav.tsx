@@ -58,12 +58,12 @@ export function Nav({
       icon: CodeBracketSquareIcon,
       current: pathname === `/${workspace}/developers`,
     },
-    {
-      name: "Billing",
-      href: `/${workspace}/billing`,
-      icon: CreditCardIcon,
-      current: pathname === `/${workspace}/billing`,
-    },
+    // {
+    //   name: "Billing",
+    //   href: `/${workspace}/billing`,
+    //   icon: CreditCardIcon,
+    //   current: pathname === `/${workspace}/billing`,
+    // },
   ];
 
   return (
