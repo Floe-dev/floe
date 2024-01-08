@@ -1,8 +1,8 @@
 import { useConfig } from "nextra-theme-docs";
 
 const config = {
-  darkMode: false,
   docsRepositoryBase: "https://github.com/Floe-dev/floe/tree/main/apps/docs",
+  logo: <span>Floe Documentation</span>,
   project: {
     link: "https://github.com/Floe-dev/floe",
   },
@@ -10,7 +10,7 @@ const config = {
     text: (
       <span>
         {new Date().getFullYear()} ©{" "}
-        <a href="https://nextra.site" rel="noopener" target="_blank">
+        <a href="https://nextra.site" target="_blank">
           Floe
         </a>
       </span>
@@ -21,24 +21,24 @@ const config = {
 
     return (
       <>
-        <meta content="#fff" name="msapplication-TileColor" />
-        <meta content="#fff" name="theme-color" />
-        <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-        <meta content="en" httpEquiv="Content-Language" />
-        <meta content="Floe documentation." name="description" />
-        <meta content="Floe documentation." name="og:description" />
+        <meta name="msapplication-TileColor" content="#fff" />
+        <meta name="theme-color" content="#fff" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta httpEquiv="Content-Language" content="en" />
+        <meta name="description" content="Floe documentation." />
+        <meta name="og:description" content="Floe documentation." />
 
-        <meta content={title ? `${title} – Floe` : "Floe"} name="og:title" />
-        <meta content="Floe" name="apple-mobile-web-app-title" />
-        <link href="/favicon.ico" rel="icon" type="image/x-icon" />
+        <meta name="og:title" content={title ? title + " – Floe" : "Floe"} />
+        <meta name="apple-mobile-web-app-title" content="Floe" />
+        <link rel="icon" href="/favicon.ico" type="image/x-icon" />
       </>
     );
   },
   logo: (
     <svg
-      fill="none"
       height="24"
       viewBox="0 0 233 80"
+      fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
       <path d="M0 40H20V80H0V40Z" fill="currentColor" />
