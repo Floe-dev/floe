@@ -1,10 +1,11 @@
+import { Link } from "nextra-theme-docs";
+import Image from "next/image";
+import logo from "public/logo.svg";
+
 const navigation = {
   main: [
     { name: "Book a demo", href: "https://cal.com/nic-haley/book-a-demo" },
     { name: "Contact us", href: "mailto:nic@floe.dev" },
-    // { name: "Roadmap", href: "" },
-    // { name: "Terms of use", href: "#" },
-    // { name: "Privacy policy", href: "#" },
   ],
   social: [
     {
@@ -37,53 +38,55 @@ const navigation = {
         </svg>
       ),
     },
-    // {
-    //   name: "X",
-    //   href: "#",
-    //   icon: (props) => (
-    //     <svg fill="currentColor" viewBox="0 0 24 24" {...props}>
-    //       <title>X</title>
-    //       <path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z" />
-    //     </svg>
-    //   ),
-    // },
   ],
 };
 
 export function Footer() {
   return (
-    <footer>
-      <div className="px-6 py-20 mx-auto overflow-hidden max-w-7xl sm:py-24 lg:px-8">
-        <nav
-          aria-label="Footer"
-          className="-mb-6 columns-2 sm:flex sm:justify-center sm:space-x-12"
-        >
-          {navigation.main.map((item) => (
-            <div className="pb-6" key={item.name}>
-              <a
-                className="text-sm leading-6 text-zinc-700 hover:text-zinc-900"
-                href={item.href}
-              >
-                {item.name}
-              </a>
-            </div>
-          ))}
-        </nav>
-        <div className="flex justify-center mt-10 space-x-10">
-          {navigation.social.map((item) => (
-            <a
-              className="text-zinc-700 hover:text-zinc-900"
-              href={item.href}
-              key={item.name}
-            >
-              <span className="sr-only">{item.name}</span>
-              <item.icon aria-hidden="true" className="w-6 h-6" />
-            </a>
-          ))}
+    <footer aria-labelledby="footer-heading" className="pt-8 bg-zinc-100">
+      <h2 className="sr-only" id="footer-heading">
+        Footer
+      </h2>
+      <div className="p-8 px-6 mx-auto max-w-[90rem] ">
+        <div className="flex justify-between gap-8">
+          <Link href="/">
+            <Image
+              alt="Floe logo"
+              className="opacity-60"
+              height={20}
+              src={logo}
+            />
+          </Link>
+          <ul className="flex gap-8">
+            {navigation.main.map((item) => (
+              <li key={item.name}>
+                <a
+                  className="text-sm leading-6 text-gray-600 hover:text-gray-900"
+                  href={item.href}
+                >
+                  {item.name}
+                </a>
+              </li>
+            ))}
+          </ul>
         </div>
-        <p className="mt-10 text-xs leading-5 text-center text-zinc-700">
-          &copy; 2023 Floe.dev. All rights reserved.
-        </p>
+        <div className="pt-8 mt-8 border-t border-gray-900/10 md:flex md:items-center md:justify-between">
+          <div className="flex space-x-6 md:order-2">
+            {navigation.social.map((item) => (
+              <a
+                className="text-gray-500 hover:text-gray-600"
+                href={item.href}
+                key={item.name}
+              >
+                <span className="sr-only">{item.name}</span>
+                <item.icon aria-hidden="true" className="w-6 h-6" />
+              </a>
+            ))}
+          </div>
+          <p className="mt-8 text-xs leading-5 text-gray-500 md:order-1 md:mt-0">
+            &copy; 2024 Floe.dev. All rights reserved.
+          </p>
+        </div>
       </div>
     </footer>
   );

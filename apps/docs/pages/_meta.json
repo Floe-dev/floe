@@ -3,6 +3,7 @@
     "title": "Home",
     "type": "page",
     "navbar": false,
+    "display": "hidden",
     "theme": {
       "layout": "raw"
     }

@@ -1,3 +1,5 @@
+import Link from "next/link";
+import { Button } from "@floe/ui";
 import { useConfig } from "nextra-theme-docs";
 import { Footer } from "./components/footer";
 
@@ -57,11 +59,22 @@ const config = {
       />
     </svg>
   ),
-  search: {
-    placeholder: "Search...",
+  navbar: {
+    extraContent: (
+      <Link
+        className="flex items-center gap-x-1"
+        href="https://cal.com/nic-haley/book-a-demo"
+        target="_blank"
+      >
+        <Button size="md">Book a demo</Button>
+      </Link>
+    ),
   },
   primaryHue: 38,
   primarySaturation: 92,
+  search: {
+    placeholder: "Search...",
+  },
   useNextSeoProps() {
     return {
       titleTemplate: "%s – Floe",

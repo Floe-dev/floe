@@ -77,7 +77,7 @@ export default function Home(): JSX.Element {
               title="Write, update, automate"
             />
             <Card
-              description="Floe's AI-powered linter allows you to specify rules for anything, from tone to company vernacular."
+              description="Floe's AI-powered linter allows you to specify rules for anything, from spelling to tone."
               icon={DocumentCheckIcon}
               title="Prose linting, supercharged"
             />
