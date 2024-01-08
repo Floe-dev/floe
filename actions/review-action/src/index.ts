@@ -190,6 +190,9 @@ async function run() {
     );
 
     // TODO: Add core.summary
+    core.summary.addHeading("Floe Review Summary").addRaw(`
+      Test
+    `);
 
     if (combinedErrorsAndWarnings.errors > 0) {
       core.setFailed(

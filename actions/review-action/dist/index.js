@@ -49973,6 +49973,9 @@ async function run() {
             warnings: 0,
         });
         // TODO: Add core.summary
+        core.summary.addHeading("Floe Review Summary").addRaw(`
+      Test
+    `);
         if (combinedErrorsAndWarnings.errors > 0) {
             core.setFailed(`Floe review failed with ${combinedErrorsAndWarnings.errors} errors.`);
         }
