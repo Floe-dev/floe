@@ -6,5 +6,9 @@
     "theme": {
       "layout": "raw"
     }
+  },
+  "docs": {
+    "title": "Docs",
+    "type": "page"
   }
 }
