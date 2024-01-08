@@ -49881,6 +49881,9 @@ async function run() {
         const filesMatchingRulesets = getFilesMatchingRulesets(files, rulesets);
         if (filesMatchingRulesets.length === 0) {
             core.info("No matching files in diff to review");
+            core.summary.addHeading("Floe Review Summary").addRaw(`
+      Test
+    `);
             process.exit(0);
         }
         /**
@@ -49907,6 +49910,9 @@ async function run() {
             }
         });
         if (!reviewsByFile) {
+            core.summary.addHeading("Floe Review Summary").addRaw(`
+      Test
+    `);
             process.exit(0);
         }
         const comments = await fetchGitReviewComments({
