@@ -9,7 +9,7 @@ import {
   Bars3Icon,
   HomeIcon,
   XMarkIcon,
-  CreditCardIcon,
+  // CreditCardIcon,
   PuzzlePieceIcon,
   CodeBracketSquareIcon,
   ArrowRightOnRectangleIcon,
