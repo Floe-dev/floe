@@ -68,10 +68,6 @@ async function run() {
     if (filesMatchingRulesets.length === 0) {
       core.info("No matching files in diff to review");
 
-      core.summary.addHeading("Floe Review Summary").addRaw(`
-      Test
-    `);
-
       process.exit(0);
     }
 
@@ -111,10 +107,6 @@ async function run() {
     );
 
     if (!reviewsByFile) {
-      core.summary.addHeading("Floe Review Summary").addRaw(`
-      Test
-    `);
-
       process.exit(0);
     }
 
@@ -137,9 +129,7 @@ async function run() {
                 comment.position === violation.endLine &&
                 comment.body.includes(violation.description) &&
                 comment.user.login ===
-                  (process.env.FLOE_TEST_MODE
-                    ? "floe-app-tester[bot]"
-                    : "floe-app[bot]")
+                  (process.env.FLOE_BOT_NAME ?? "floe-app[bot]")
               );
             });
 
@@ -197,10 +187,7 @@ async function run() {
       }
     );
 
-    // TODO: Add core.summary
-    core.summary.addHeading("Floe Review Summary").addRaw(`
-      Test
-    `);
+    // TODO: Add comment summary
 
     if (combinedErrorsAndWarnings.errors > 0) {
       core.setFailed(
