@@ -44,3 +44,5 @@ export const getRulesets = (ruleset?: string) => {
 
   return rulesetsWithRules;
 };
+
+export type Ruleset = ReturnType<typeof getRulesets>[number];

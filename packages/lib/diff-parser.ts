@@ -32,3 +32,5 @@ export function parseDiffToFileHunks(diffText: string) {
       };
     });
 }
+
+export type File = ReturnType<typeof parseDiffToFileHunks>[number];

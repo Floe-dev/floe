@@ -25,6 +25,58 @@ importers:
         specifier: latest
         version: 1.11.1
 
+  actions/review-action:
+    dependencies:
+      '@actions/core':
+        specifier: ^1.10.1
+        version: 1.10.1
+      '@actions/github':
+        specifier: ^6.0.0
+        version: 6.0.0
+      '@floe/features':
+        specifier: workspace:*
+        version: link:../../packages/features
+      '@floe/lib':
+        specifier: workspace:*
+        version: link:../../packages/lib
+      '@floe/requests':
+        specifier: workspace:*
+        version: link:../../packages/requests
+      axios:
+        specifier: ^1.6.0
+        version: 1.6.0
+      glob:
+        specifier: ^10.3.10
+        version: 10.3.10
+      simple-git:
+        specifier: ^3.20.0
+        version: 3.20.0
+      uuid:
+        specifier: ^9.0.1
+        version: 9.0.1
+    devDependencies:
+      '@types/get-installed-path':
+        specifier: ^4.0.3
+        version: 4.0.3
+      '@types/node':
+        specifier: ^20.8.10
+        version: 20.9.0
+      '@types/uuid':
+        specifier: ^9.0.7
+        version: 9.0.7
+      '@vercel/ncc':
+        specifier: ^0.38.1
+        version: 0.38.1
+      eslint-config-custom:
+        specifier: workspace:*
+        version: link:../../packages/eslint-config-custom
+      tsconfig:
+        specifier: workspace:*
+        version: link:../../packages/tsconfig
+      typescript:
+        specifier: ^5.3.2
+        version: 5.3.2
+
   apps/api:
     dependencies:
       '@floe/db':
@@ -392,9 +444,15 @@ importers:
       '@floe/config':
         specifier: workspace:*
         version: link:../config
+      '@floe/features':
+        specifier: workspace:*
+        version: link:../features
       '@floe/lib':
         specifier: workspace:*
         version: link:../lib
+      '@floe/requests':
+        specifier: workspace:*
+        version: link:../requests
       '@inquirer/prompts':
         specifier: ^3.3.0
         version: 3.3.0
@@ -432,9 +490,6 @@ importers:
         specifier: ^4.7.1
         version: 4.7.1
     devDependencies:
-      '@floe/requests':
-        specifier: workspace:*
-        version: link:../requests
       '@types/diff':
         specifier: ^5.0.9
         version: 5.0.9
@@ -513,6 +568,28 @@ importers:
         specifier: ^4.5.3
         version: 4.9.5
 
+  packages/features:
+    dependencies:
+      '@floe/lib':
+        specifier: workspace:*
+        version: link:../lib
+      '@floe/requests':
+        specifier: workspace:*
+        version: link:../requests
+      minimatch:
+        specifier: ^9.0.3
+        version: 9.0.3
+    devDependencies:
+      '@types/node':
+        specifier: ^20.8.10
+        version: 20.9.0
+      eslint-config-custom:
+        specifier: workspace:*
+        version: link:../eslint-config-custom
+      tsconfig:
+        specifier: workspace:*
+        version: link:../tsconfig
+
   packages/lib:
     dependencies:
       axios:
@@ -521,6 +598,9 @@ importers:
       gitdiff-parser:
         specifier: ^0.3.1
         version: 0.3.1
+      minimatch:
+        specifier: ^9.0.3
+        version: 9.0.3
       slugify:
         specifier: ^1.6.6
         version: 1.6.6
@@ -3328,7 +3408,7 @@ packages:
   /@types/bcrypt@5.0.1:
     resolution: {integrity: sha512-dIIrEsLV1/v0AUNI8oHMaRRTSeVjoy5ID8oclJavtPj8CwPJoD1eFoNXEypuu6k091brEzBeOo3LlxeAH9zRZg==}
     dependencies:
-      '@types/node': 20.8.10
+      '@types/node': 20.9.0
     dev: true
 
   /@types/btoa-lite@1.0.1:

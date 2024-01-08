@@ -7,10 +7,10 @@ import { defaultResponder } from "~/lib/helpers/default-responder";
 import { zParse } from "~/utils/z-parse";
 
 async function handler({
-  queryObj,
+  body,
   workspace,
 }: NextApiRequestExtension): Promise<PostGitReviewCommentsResponse> {
-  const parsed = zParse(querySchema, queryObj);
+  const parsed = zParse(querySchema, body.params as Record<string, unknown>);
 
   if (workspace.gitlabIntegration) {
     throw new HttpError({

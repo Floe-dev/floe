@@ -18,30 +18,35 @@ export const querySchema = z.object({
 export type PostGitReviewCommentsResponse =
   Endpoints["POST /repos/{owner}/{repo}/pulls/{pull_number}/comments"]["response"]["data"];
 
-export type PatchReviewCommentsInput = z.infer<typeof querySchema>;
+export type PostReviewCommentsInput = z.infer<typeof querySchema>;
 
 export async function createGitReviewComment({
   path,
   repo,
   owner,
+  body,
   commitId,
   pullNumber,
   line,
   startLine,
   side,
   startSide,
-}: PatchReviewCommentsInput) {
-  return api.get<PostGitReviewCommentsResponse>("/api/v1/git/review-comments", {
-    params: {
-      path,
-      repo,
-      owner,
-      commitId,
-      pullNumber,
-      line,
-      startLine,
-      side,
-      startSide,
-    },
-  });
+}: PostReviewCommentsInput) {
+  return api.post<PostGitReviewCommentsResponse>(
+    "/api/v1/git/review-comments",
+    {
+      params: {
+        path,
+        repo,
+        owner,
+        body,
+        commitId,
+        pullNumber,
+        line,
+        startLine,
+        side,
+        startSide,
+      },
+    }
+  );
 }

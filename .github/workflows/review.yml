@@ -1,17 +1,16 @@
-name: "lint"
+name: "Floe Review"
 on:
   pull_request:
 
 jobs:
-  lint:
+  Review:
     env:
       FLOE_API_WORKSPACE: ${{ secrets.FLOE_API_WORKSPACE }}
       FLOE_API_SECRET: ${{ secrets.FLOE_API_SECRET }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      - name: Validate
-        uses: ./packages/action
-        with:
-          validatePullRequest: "true"
+      - name: Review
+        uses: ./actions/review-action
