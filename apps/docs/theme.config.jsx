@@ -1,4 +1,5 @@
 import { useConfig } from "nextra-theme-docs";
+import { Footer } from "./components/footer";
 
 const config = {
   darkMode: false,
@@ -7,14 +8,7 @@ const config = {
     link: "https://github.com/Floe-dev/floe",
   },
   footer: {
-    text: (
-      <span>
-        {new Date().getFullYear()} ©{" "}
-        <a href="https://nextra.site" rel="noopener" target="_blank">
-          Floe
-        </a>
-      </span>
-    ),
+    component: Footer,
   },
   head: function useHead() {
     const { title } = useConfig();
@@ -63,6 +57,9 @@ const config = {
       />
     </svg>
   ),
+  search: {
+    placeholder: "Search...",
+  },
   primaryHue: 38,
   primarySaturation: 92,
   useNextSeoProps() {

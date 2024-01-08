@@ -12,13 +12,12 @@ import { Blob } from "./blob";
 import { Title } from "./title";
 import { Card } from "./card";
 import { BetaCard } from "./beta-card";
-import { Footer } from "./footer";
 import { Carousel } from "./carousel";
 
 export default function Home(): JSX.Element {
   return (
-    <div className="relative overflow-x-hidden isolate bg-noise after:bg-gradient-to-t after:from-zinc-900 after:opacity-20 after:-z-30 after:absolute after:inset-0 ">
-      <div className="px-6 pt-24 mx-auto max-w-7xl sm:pt-32 lg:px-8 lg:pt-40">
+    <div className="relative overflow-x-hidden bg-white isolate bg-noise after:bg-gradient-to-t after:from-zinc-900 after:opacity-20 after:-z-30 after:absolute after:inset-0">
+      <div className="px-6 pt-20 mx-auto max-w-7xl sm:pt-28 lg:px-8 lg:pt-32">
         <section className="lg:flex lg:items-center lg:gap-x-10">
           <div className="max-w-2xl mx-auto lg:mx-0 lg:flex-auto">
             <Pill text="Coming soon" />
@@ -92,7 +91,6 @@ export default function Home(): JSX.Element {
         <section className="my-20 sm:my-40">
           <BetaCard />
         </section>
-        <Footer />
       </div>
     </div>
   );
