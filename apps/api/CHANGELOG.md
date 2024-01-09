@@ -1,5 +1,16 @@
 # @floe/api
 
+## 0.1.0-beta.4
+
+### Minor Changes
+
+- Stability fixes to reviews.
+
+### Patch Changes
+
+- Updated dependencies
+  - @floe/requests@0.1.0-beta.3
+
 ## 0.1.0-beta.3
 
 ### Minor Changes

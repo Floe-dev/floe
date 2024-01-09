@@ -15,12 +15,15 @@
     "@floe/requests": "0.1.0-alpha.1",
     "@floe/tailwind": "0.1.0-alpha.0",
     "tsconfig": "0.1.0-alpha.0",
-    "@floe/ui": "0.1.0-alpha.1"
+    "@floe/ui": "0.1.0-alpha.1",
+    "@floe/review-action": "0.1.0-beta.1",
+    "@floe/features": "0.1.0-beta.1"
   },
   "changesets": [
     "bright-ducks-help",
     "dull-yaks-worry",
     "fast-coins-unite",
+    "hot-kangaroos-dream",
     "popular-rules-beam",
     "silver-pumas-dance",
     "slimy-bikes-divide",

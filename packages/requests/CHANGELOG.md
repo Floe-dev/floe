@@ -1,5 +1,11 @@
 # @floe/requests
 
+## 0.1.0-beta.3
+
+### Minor Changes
+
+- Stability fixes to reviews.
+
 ## 0.1.0-beta.2
 
 ### Minor Changes
