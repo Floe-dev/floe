@@ -1,44 +1,40 @@
+import Link from "next/link";
+import { Button } from "@floe/ui";
 import { useConfig } from "nextra-theme-docs";
+import { Footer } from "./components/footer";
 
 const config = {
+  darkMode: false,
   docsRepositoryBase: "https://github.com/Floe-dev/floe/tree/main/apps/docs",
-  logo: <span>Floe Documentation</span>,
   project: {
     link: "https://github.com/Floe-dev/floe",
   },
   footer: {
-    text: (
-      <span>
-        {new Date().getFullYear()} ©{" "}
-        <a href="https://nextra.site" target="_blank">
-          Floe
-        </a>
-      </span>
-    ),
+    component: Footer,
   },
   head: function useHead() {
     const { title } = useConfig();
 
     return (
       <>
-        <meta name="msapplication-TileColor" content="#fff" />
-        <meta name="theme-color" content="#fff" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <meta httpEquiv="Content-Language" content="en" />
-        <meta name="description" content="Floe documentation." />
-        <meta name="og:description" content="Floe documentation." />
+        <meta content="#fff" name="msapplication-TileColor" />
+        <meta content="#fff" name="theme-color" />
+        <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+        <meta content="en" httpEquiv="Content-Language" />
+        <meta content="Floe documentation." name="description" />
+        <meta content="Floe documentation." name="og:description" />
 
-        <meta name="og:title" content={title ? title + " – Floe" : "Floe"} />
-        <meta name="apple-mobile-web-app-title" content="Floe" />
-        <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+        <meta content={title ? `${title} – Floe` : "Floe"} name="og:title" />
+        <meta content="Floe" name="apple-mobile-web-app-title" />
+        <link href="/favicon.ico" rel="icon" type="image/x-icon" />
       </>
     );
   },
   logo: (
     <svg
+      fill="none"
       height="24"
       viewBox="0 0 233 80"
-      fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
       <path d="M0 40H20V80H0V40Z" fill="currentColor" />
@@ -63,8 +59,22 @@ const config = {
       />
     </svg>
   ),
+  navbar: {
+    extraContent: (
+      <Link
+        className="flex items-center gap-x-1"
+        href="https://cal.com/nic-haley/book-a-demo"
+        target="_blank"
+      >
+        <Button size="md">Book a demo</Button>
+      </Link>
+    ),
+  },
   primaryHue: 38,
   primarySaturation: 92,
+  search: {
+    placeholder: "Search...",
+  },
   useNextSeoProps() {
     return {
       titleTemplate: "%s – Floe",

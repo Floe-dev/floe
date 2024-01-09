@@ -56,7 +56,7 @@ export function Carousel() {
       <div className="flex justify-center gap-2">
         <button
           className={`w-3.5 h-3.5 border-2 rounded-full border-zinc-900 ${
-            selectedIndex === 0 ? "bg-zinc-900" : ""
+            selectedIndex === 0 ? "!bg-zinc-900" : ""
           }`}
           onClick={() => {
             scrollTo(0);
@@ -65,7 +65,7 @@ export function Carousel() {
         />
         <button
           className={`w-3.5 h-3.5 border-2 rounded-full border-zinc-900 ${
-            selectedIndex === 1 ? "bg-zinc-900" : ""
+            selectedIndex === 1 ? "!bg-zinc-900" : ""
           }`}
           onClick={() => {
             scrollTo(1);

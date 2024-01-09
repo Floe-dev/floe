@@ -1,13 +1,17 @@
 {
   "name": "@floe/web",
-  "version": "0.1.0-beta.2",
+  "version": "0.1.0-beta.1",
+  "description": "",
   "private": true,
+  "main": "index.js",
   "scripts": {
-    "dev": "next dev",
+    "dev": "next -p 3002",
     "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
+    "start": "next start"
   },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
   "dependencies": {
     "@floe/ui": "workspace:*",
     "@headlessui/react": "^1.7.16",
@@ -17,6 +21,8 @@
     "classnames": "^2.3.2",
     "embla-carousel-react": "8.0.0-rc14",
     "next": "^14.0.2",
+    "nextra": "^2.13.2",
+    "nextra-theme-docs": "^2.13.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "zod": "^3.22.4"
