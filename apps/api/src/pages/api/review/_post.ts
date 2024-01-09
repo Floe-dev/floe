@@ -122,9 +122,13 @@ async function handler({
         violation.replaceTextWithFix
       );
 
+      const numberOfLines = violation.textToReplace.split("\n").length;
+      console.log(777777, numberOfLines);
+
       // 4) Get the endLine number
-      const endLine =
-        violation.startLine + violation.textToReplace.split("\n").length - 1;
+      const endLine = Number(violation.startLine) + numberOfLines - 1;
+
+      console.log(888888, violation.startLine, endLine);
 
       return {
         ...violation,

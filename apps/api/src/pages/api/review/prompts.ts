@@ -6,7 +6,7 @@ export const systemInstructions = [
   "2. Describe why the violation was triggered in `description`.",
   "3. Report the `textToReplace` that should be replaced with the fix.",
   "4. Suggest a fix for the violation in `replaceTextWithFix`.",
-  "4. Report the line number where the violation was triggered in `startLine`.",
+  "4. Report the line number where the violation was triggered in `startLine`. This is the 'key' at the start of the line.",
   "Return a JSON response object with the following shape:",
   `{
     "violations": [
