@@ -9,7 +9,7 @@ import { getCacheKey } from "~/utils/get-cache-key";
 import { stringToLines } from "~/utils/string-to-lines";
 import { zParse } from "~/utils/z-parse";
 import { createCompletion } from "~/lib/ai";
-import { exampleContent, exampleOutput, exampleRule } from "./example";
+import { examples } from "./example";
 import { getUserPrompt, systemInstructions } from "./prompts";
 
 type OpenAIOptions =
@@ -40,19 +40,22 @@ async function handler({
     response_format: { type: "json_object" },
     // Last updated date
     seed: 231116,
+    max_tokens: 4096,
     messages: [
       {
         role: "system",
         content: systemInstructions,
       },
-      {
-        role: "user",
-        content: getUserPrompt(exampleContent, exampleRule),
-      },
-      {
-        role: "assistant",
-        content: JSON.stringify(exampleOutput),
-      },
+      ...(examples.flatMap((e) => [
+        {
+          role: "user",
+          content: getUserPrompt(e.content, e.rule),
+        },
+        {
+          role: "assistant",
+          content: JSON.stringify(e.output),
+        },
+      ]) as OpenAIOptions["messages"][number][]),
       {
         role: "user",
         content: getUserPrompt(lines, rule),
@@ -66,7 +69,7 @@ async function handler({
    */
   const checksumKey = JSON.stringify(openAICompletionOptions);
   const checksum = createChecksum(checksumKey);
-  const cacheKey = getCacheKey(2, workspace.slug, "review_post", checksum);
+  const cacheKey = getCacheKey(3, workspace.slug, "review_post", checksum);
   const cachedVal = await kv.get<PostReviewResponse>(cacheKey);
 
   if (cachedVal) {
@@ -103,7 +106,8 @@ async function handler({
     let c = "";
 
     for (let i = violation.startLine; i <= violation.endLine; i++) {
-      c += `${lines[i]}${i !== violation.endLine ? "\n" : ""}`;
+      // c += `${lines[i]}${i !== violation.endLine ? "\n" : ""}`;
+      c += content.split("\n")[i - 1];
     }
 
     return {
@@ -122,10 +126,10 @@ async function handler({
     cached: false,
     model: completion.model,
     usage: completion.usage,
-    code: rule.code,
-    level: rule.level,
-    description: rule.description,
+    rule,
   };
+
+  console.log(11111, response);
 
   // Cache for 1 week
   await kv.set(cacheKey, response, {
