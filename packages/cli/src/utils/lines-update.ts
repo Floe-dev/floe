@@ -1,5 +1,8 @@
 import fs from "node:fs";
 
+/**
+ * Update lines in a file
+ */
 export function updateLines(
   filePath: string,
   startLine: number,
