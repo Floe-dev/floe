@@ -65,7 +65,7 @@ async function handler({
   const cacheKey = getCacheKey(2, workspace.slug, "review_post", checksum);
   const cachedVal = await kv.get<PostReviewResponse>(cacheKey);
 
-  if (false) {
+  if (cachedVal) {
     console.log("Cache hit");
     // Update cache expiry for another week
     await kv.set(cacheKey, cachedVal, {
@@ -103,7 +103,7 @@ async function handler({
   const violations = responseJson.violations
     .map((violation) => {
       // 1) Get the lines of content we want to replace
-      const lineContent = content
+      const linesWithoutFix = content
         .split("\n")
         .slice(violation.startLine - startLine)
         .slice(0, violation.textToReplace.split("\n").length)
@@ -111,32 +111,29 @@ async function handler({
 
       // 2) Check if the content is indeed replaceable. If the LLM returns the
       //    wrong lineNumber, it may not be. In this case we should ignore this result.
-      if (!lineContent.includes(violation.textToReplace)) {
+      if (!linesWithoutFix.includes(violation.textToReplace)) {
         return;
       }
 
       // 3) Replace the first instance of the original content with the suggested fix
       //
-      const replacedContent = lineContent.replace(
+      const replacedContent = linesWithoutFix.replace(
         violation.textToReplace,
         violation.replaceTextWithFix
       );
 
-      const numberOfLines = violation.textToReplace.split("\n").length;
-      console.log(777777, numberOfLines);
-
       // 4) Get the endLine number
-      const endLine = Number(violation.startLine) + numberOfLines - 1;
-
-      console.log(888888, violation.startLine, endLine);
+      const endLine =
+        Number(violation.startLine) +
+        violation.textToReplace.split("\n").length -
+        1;
 
       return {
         ...violation,
         endLine,
-        suggestedFix:
+        linesWithFix:
           violation.textToReplace === "undefined" ? undefined : replacedContent,
-        //
-        content: lineContent,
+        linesWithoutFix,
       };
     })
     .filter(notEmpty);

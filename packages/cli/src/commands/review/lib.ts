@@ -80,15 +80,18 @@ export async function logViolations(
           );
           console.log(chalk.italic(violation.description));
 
-          if (!violation.suggestedFix) {
-            console.log("➖", chalk.dim(violation.content));
+          if (!violation.linesWithFix) {
+            console.log("➖", chalk.dim(violation.linesWithoutFix));
             console.log("➕", "No fix available");
             console.log();
 
             return [...accumulator2];
           }
 
-          const diff = diffWords(violation.content, violation.suggestedFix);
+          const diff = diffWords(
+            violation.linesWithoutFix,
+            violation.linesWithFix
+          );
 
           let consoleStrAdded = "";
           let consoleStrRemoved = "";
@@ -123,7 +126,7 @@ export async function logViolations(
                 path,
                 violation.startLine,
                 violation.endLine,
-                violation.suggestedFix
+                violation.linesWithFix
               );
             }
 
