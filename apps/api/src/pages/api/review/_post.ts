@@ -1,6 +1,7 @@
 import { kv } from "@vercel/kv";
 import type OpenAI from "openai";
 import { notEmpty } from "@floe/lib/not-empty";
+import { HttpError } from "@floe/lib/http-error";
 import type { PostReviewResponse } from "@floe/requests/review/_post";
 import { querySchema } from "@floe/requests/review/_post";
 import { createChecksum } from "~/utils/checksum";
@@ -87,6 +88,11 @@ async function handler({
     metadata: {
       slug: workspace.slug,
     },
+  }).catch(() => {
+    throw new HttpError({
+      statusCode: 500,
+      message: "Failed to get completion from LLM.",
+    });
   });
 
   const responseJson = JSON.parse(
