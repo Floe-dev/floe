@@ -14,14 +14,15 @@ export function updateLines(
     .slice(startLine - 1, startLine + textToReplace.split("\n").length - 1)
     .join("\n");
 
-  // 2) Check if the content is indeed replaceable. If the LLM returns the
-  //    wrong lineNumber, it may not be. In this case we should ignore this result.
+  // Check if the content is indeed replaceable.
   if (!linesWithoutFix.includes(textToReplace)) {
+    console.warn(
+      "Could not find text to replace. A previous fix may have already been applied to this line."
+    );
     return;
   }
 
-  // 3) Replace the first instance of the original content with the suggested fix
-  //
+  // Replace the first instance of the original content with the suggested fix
   const newContent = linesWithoutFix.replace(textToReplace, replaceTextWithFix);
 
   /**
