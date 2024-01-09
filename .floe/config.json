@@ -5,8 +5,8 @@
     "maxDiffEvaluations": 20
   },
   "rulesets": {
-    "docs": {
-      "include": ["apps/docs/pages/usage.mdx"],
+    "blog": {
+      "include": ["apps/web/pages/blog/**.*mdx"],
       "rules": {
         "spelling-and-grammar": "error"
       }

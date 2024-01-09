@@ -27,7 +27,7 @@ async function handler({
   /**
    * Convert to lines object that is more LLM friendly
    */
-  const lines = stringToLines(content, startLine);
+  const lines = stringToLines(content, startLine as number);
 
   const openAICompletionOptions: OpenAIOptions = {
     model: "gpt-4-1106-preview",
@@ -100,24 +100,28 @@ async function handler({
   };
 
   const violations = responseJson.violations.map((violation) => {
-    let c = "";
-
-    // 1) Split content before and after the violation
-    const contentBeforeViolation = content
+    const slicedOriginalContent = content
       .split("\n")
-      .slice(0, violation.startLine);
+      .slice(violation.startLine - startLine)
+      .slice(0, violation.textToReplace.split("\n").length)
+      .join("\n");
 
-    // for (let i = violation.startLine; i <= violation.endLine; i++) {
-    //   c += `${lines[i]}${i !== violation.endLine ? "\n" : ""}`;
-    // }
+    // 2) Replace the first instance of the original content with the suggested fix
+    const replacedContent = slicedOriginalContent.replace(
+      violation.textToReplace,
+      violation.replaceTextWithFix
+    );
+
+    // 3) Get the endLine number
+    const endLine =
+      violation.startLine + replacedContent.split("\n").length - 1;
 
     return {
       ...violation,
+      endLine,
       suggestedFix:
-        violation.suggestedFix === "undefined"
-          ? undefined
-          : violation.suggestedFix,
-      content: c,
+        violation.textToReplace === "undefined" ? undefined : replacedContent,
+      content: slicedOriginalContent,
     };
   });
 
