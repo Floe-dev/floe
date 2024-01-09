@@ -15,9 +15,9 @@ export const exampleOutput = {
   violations: [
     {
       description: "A lettered list is used. Use a numbered list instead.",
-      suggestedFix: "1. The Matrix\n2. Babe: Pig in the City\n3. Titanic",
       startLine: 2,
-      endLine: 4,
+      textToReplace: "a. The Matrix\nb. Babe: Pig in the City\nc. Titanic",
+      replaceTextWithFix: "1. The Matrix\n2. Babe: Pig in the City\n3. Titanic",
     },
   ],
 };

@@ -15,11 +15,6 @@ import { getUserPrompt, systemInstructions } from "./prompts";
 type OpenAIOptions =
   OpenAI.Chat.Completions.ChatCompletionCreateParamsNonStreaming;
 
-type Violation = Pick<
-  NonNullable<PostReviewResponse>["violations"][number],
-  "suggestedFix" | "description" | "startLine" | "endLine"
->;
-
 async function handler({
   body,
   workspace,
@@ -96,15 +91,25 @@ async function handler({
   const responseJson = JSON.parse(
     completion.choices[0].message.content ?? "{}"
   ) as {
-    violations: Violation[];
+    violations: {
+      description: string;
+      startLine: number;
+      textToReplace: string;
+      replaceTextWithFix: string;
+    }[];
   };
 
   const violations = responseJson.violations.map((violation) => {
     let c = "";
 
-    for (let i = violation.startLine; i <= violation.endLine; i++) {
-      c += `${lines[i]}${i !== violation.endLine ? "\n" : ""}`;
-    }
+    // 1) Split content before and after the violation
+    const contentBeforeViolation = content
+      .split("\n")
+      .slice(0, violation.startLine);
+
+    // for (let i = violation.startLine; i <= violation.endLine; i++) {
+    //   c += `${lines[i]}${i !== violation.endLine ? "\n" : ""}`;
+    // }
 
     return {
       ...violation,
