@@ -15,11 +15,6 @@ import { getUserPrompt, systemInstructions } from "./prompts";
 type OpenAIOptions =
   OpenAI.Chat.Completions.ChatCompletionCreateParamsNonStreaming;
 
-type Violation = Pick<
-  NonNullable<PostReviewResponse>["violations"][number],
-  "suggestedFix" | "description" | "startLine" | "endLine"
->;
-
 async function handler({
   body,
   workspace,
@@ -28,6 +23,8 @@ async function handler({
     querySchema,
     body.params as Record<string, unknown>
   );
+
+  console.log(1111111, path, content);
 
   /**
    * Convert to lines object that is more LLM friendly
@@ -99,24 +96,39 @@ async function handler({
   const responseJson = JSON.parse(
     completion.choices[0].message.content ?? "{}"
   ) as {
-    violations: Violation[];
+    violations: {
+      description: string;
+      originalLines: string;
+      startLine: number;
+      suggestedFix: string;
+    }[];
   };
 
   const violations = responseJson.violations.map((violation) => {
-    let c = "";
+    // 1) Remove all content before the start line
+    const slicedOriginalContent = content
+      .split("\n")
+      .slice(startLine - 1)
+      .slice(0, startLine - 1 + violation.originalLines.split("\n").length)
+      .join("\n");
 
-    for (let i = violation.startLine; i <= violation.endLine; i++) {
-      // c += `${lines[i]}${i !== violation.endLine ? "\n" : ""}`;
-      c += content.split("\n")[i - 1];
-    }
+    // 2) Replace the first instance of the original content with the suggested fix
+    const replacedContent = slicedOriginalContent.replace(
+      violation.originalLines,
+      violation.suggestedFix
+    );
+
+    // 3) Get the endLine number
+    const endLine = startLine + replacedContent.split("\n").length - 1;
 
     return {
       ...violation,
+      endLine,
       suggestedFix:
         violation.suggestedFix === "undefined"
           ? undefined
           : violation.suggestedFix,
-      content: c,
+      content: replacedContent,
     };
   });
 

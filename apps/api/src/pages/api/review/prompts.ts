@@ -20,27 +20,23 @@ import { handlebars } from "~/utils/handlebars";
 //   }`,
 // ].join("\n");
 
-export const systemInstructions = `You are a text editor. You will receive a DOCUMENT and RULES. The DOCUMENT includes the line number in square braces. For example:
-[lineNumber] ...some line content
-
-You must find RULE violations in the DOCUMENT. Return a JSON object with the following shape:
+export const systemInstructions = `You are a text editor. You will receive a DOCUMENT and RULES. You must find RULE violations in the DOCUMENT. Use the line numbers [x] in square brackets to get the startLine. Return a JSON object with the following shape:
 {
   "violations": [
     {
-      "startLine": "...",
-      "endLine": "...",
       "description": "...",
+      "originalLines": "...",
+      "startLine": "...",
       "suggestedFix": "...",
     },
     ...
   ]
 }
 
-- "startLine": The lineNumber where the violation starts.
-- "endLine": The lineNumber where the violation ends.
 - "description": Describe why the violation was triggered.
-- "suggestedFix": Replace the violated line(s) with this value. This MUST be a replacement for the ENTIRE line. If no fix is available, you can return 'undefined'.
-`;
+- "originalLines": The original text for the line that was violated. Keep all original punctuation and whitespace such as \\n.
+- "startLine": The lineNumber where the originalLines starts. Reference the value in square brackets [x].
+- "suggestedFix": A proposed fix to replace the originalLines. If you are not sure, you can return 'undefined'.`;
 
 export function getUserPrompt(
   content: string,
@@ -52,7 +48,7 @@ export function getUserPrompt(
 ) {
   const promptTemplate = handlebars.compile(
     `
-    Please lint the following content based on the following rule:
+    Please review the following DOCUMENT based on the following RULES:
 
     RULES:
     {{{rule}}}

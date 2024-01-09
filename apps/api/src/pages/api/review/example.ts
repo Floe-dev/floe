@@ -14,9 +14,9 @@ export const examples = [
       violations: [
         {
           description: "A lettered list is used. Use a numbered list instead.",
-          suggestedFix: "1. The Matrix\n2. Babe: Pig in the City\n3. Titanic",
+          originalLines: "a. The Matrix\nb. Babe: Pig in the City\nc. Titanic",
           startLine: 6,
-          endLine: 8,
+          suggestedFix: "1. The Matrix\n2. Babe: Pig in the City\n3. Titanic",
         },
       ],
     },
@@ -30,18 +30,17 @@ export const examples = [
       description: "Write in British-style english, not American-style.",
     },
     content: `[1] Once you publish something, the convention is that whatever you wrote was what
-    [2] you thought before you wrote it. Thse were your ideas, and now you've expressed
+    [2] you thought before you wrote it. These were your ideas, and now you've expressed
     [3] them. But you know this isn't true. You know that putting your ideas into words
-    [4] changed them. And not just the ideas you publishd. Presumably there were others
+    [4] changed them. And not just the idas you publishd. Presumably there were others
     [5] that turned out to be too broken to fix, and those you discarded instead.`,
     output: {
       violations: [
         {
           description: "The word 'published' is mispelled.",
-          suggestedFix:
-            "changed them. And not just the ideas you published. Presumably there were others",
-          startLine: 5,
-          endLine: 5,
+          originalLines: "And not just the idas you publishd.",
+          startLine: 4,
+          suggestedFix: "And not just the idas you published.",
         },
       ],
     },
