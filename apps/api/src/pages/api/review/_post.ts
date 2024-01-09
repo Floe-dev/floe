@@ -1,5 +1,6 @@
 import { kv } from "@vercel/kv";
 import type OpenAI from "openai";
+import { notEmpty } from "@floe/lib/not-empty";
 import type { PostReviewResponse } from "@floe/requests/review/_post";
 import { querySchema } from "@floe/requests/review/_post";
 import { createChecksum } from "~/utils/checksum";
@@ -64,9 +65,8 @@ async function handler({
   const cacheKey = getCacheKey(2, workspace.slug, "review_post", checksum);
   const cachedVal = await kv.get<PostReviewResponse>(cacheKey);
 
-  if (cachedVal) {
+  if (false) {
     console.log("Cache hit");
-    console.log(11111, cachedVal);
     // Update cache expiry for another week
     await kv.set(cacheKey, cachedVal, {
       ex: 60 * 24 * 7,
@@ -100,31 +100,42 @@ async function handler({
     }[];
   };
 
-  const violations = responseJson.violations.map((violation) => {
-    const slicedOriginalContent = content
-      .split("\n")
-      .slice(violation.startLine - startLine)
-      .slice(0, violation.textToReplace.split("\n").length)
-      .join("\n");
+  const violations = responseJson.violations
+    .map((violation) => {
+      // 1) Get the lines of content we want to replace
+      const lineContent = content
+        .split("\n")
+        .slice(violation.startLine - startLine)
+        .slice(0, violation.textToReplace.split("\n").length)
+        .join("\n");
 
-    // 2) Replace the first instance of the original content with the suggested fix
-    const replacedContent = slicedOriginalContent.replace(
-      violation.textToReplace,
-      violation.replaceTextWithFix
-    );
+      // 2) Check if the content is indeed replaceable. If the LLM returns the
+      //    wrong lineNumber, it may not be. In this case we should ignore this result.
+      if (!lineContent.includes(violation.textToReplace)) {
+        return;
+      }
 
-    // 3) Get the endLine number
-    const endLine =
-      violation.startLine + violation.textToReplace.split("\n").length - 1;
+      // 3) Replace the first instance of the original content with the suggested fix
+      //
+      const replacedContent = lineContent.replace(
+        violation.textToReplace,
+        violation.replaceTextWithFix
+      );
 
-    return {
-      ...violation,
-      endLine,
-      suggestedFix:
-        violation.textToReplace === "undefined" ? undefined : replacedContent,
-      content: slicedOriginalContent,
-    };
-  });
+      // 4) Get the endLine number
+      const endLine =
+        violation.startLine + violation.textToReplace.split("\n").length - 1;
+
+      return {
+        ...violation,
+        endLine,
+        suggestedFix:
+          violation.textToReplace === "undefined" ? undefined : replacedContent,
+        //
+        content: lineContent,
+      };
+    })
+    .filter(notEmpty);
 
   const response: PostReviewResponse = {
     path,
