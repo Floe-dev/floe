@@ -114,7 +114,7 @@ async function handler({
 
     // 3) Get the endLine number
     const endLine =
-      violation.startLine + replacedContent.split("\n").length - 1;
+      violation.startLine + violation.textToReplace.split("\n").length - 1;
 
     return {
       ...violation,
