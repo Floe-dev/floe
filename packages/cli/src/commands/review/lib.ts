@@ -126,7 +126,8 @@ export async function logViolations(
                 path,
                 violation.startLine,
                 violation.endLine,
-                violation.linesWithFix
+                violation.textToReplace,
+                violation.replaceTextWithFix
               );
             }
 
