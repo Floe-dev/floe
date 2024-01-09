@@ -66,6 +66,7 @@ async function handler({
 
   if (cachedVal) {
     console.log("Cache hit");
+    console.log(11111, cachedVal);
     // Update cache expiry for another week
     await kv.set(cacheKey, cachedVal, {
       ex: 60 * 24 * 7,
