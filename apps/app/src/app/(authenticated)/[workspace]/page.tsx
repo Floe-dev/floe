@@ -139,7 +139,7 @@ export default async function Workspace({
                 <div className="text-right">
                   <Link
                     className="flex items-center gap-1 mt-1 font-medium text-blue-600 hover:text-blue-800 visited:text-purple-600 hover:underline"
-                    href="https://docs.floe.dev"
+                    href="https://floe.dev/docs"
                   >
                     Docs <ArrowUpRightIcon className="h-5" />
                   </Link>
@@ -156,7 +156,7 @@ export default async function Workspace({
             {/* DOCS */}
             <Link
               className="group"
-              href="https://docs.floe.dev/quick-start"
+              href="https://floe.dev/docs/quick-start"
               target="_blank"
             >
               <div className="flex overflow-hidden duration-200 rounded-lg shadow group-hover:opacity-80 group-hover:shadow-lg">
