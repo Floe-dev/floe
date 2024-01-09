@@ -29,6 +29,7 @@ export function BlogPost({ children }: BlogPostProps) {
         <time
           className="mt-2 nx-text-sm nx-text-gray-500 dark:nx-text-gray-400"
           dateTime={date.toLocaleString()}
+          suppressHydrationWarning
         >
           {date.toLocaleDateString("en-US", {
             day: "numeric",

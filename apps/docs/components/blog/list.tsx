@@ -1,6 +1,6 @@
 import { getPagesUnderRoute } from "nextra/context";
 import Link from "next/link";
-import Image from "next/image";
+import { Fragment } from "react";
 import type { Page } from "nextra";
 import type { Frontmatter } from "~/types/frontmatter";
 
@@ -25,6 +25,7 @@ export function BlogList() {
             <time
               className="mt-2 text-md text-zinc-500"
               dateTime={date.toLocaleString()}
+              suppressHydrationWarning
             >
               {date.toLocaleDateString("en-US", {
                 day: "numeric",
@@ -35,7 +36,7 @@ export function BlogList() {
           );
 
           return (
-            <>
+            <Fragment key={page.route}>
               <div className="hidden py-8 md:py-8 md:block">{timeEl}</div>
               <Link
                 className="self-start block p-8 -mx-8 transition rounded-none md:mx-0 md:rounded-xl group hover:bg-zinc-100"
@@ -43,13 +44,13 @@ export function BlogList() {
                 key={page.route}
               >
                 <div className="visible pb-4 md:hidden md:py-8">{timeEl}</div>
-                <h3 className="mb-4 text-lg font-semibold text-zinc-900">
+                <h3 className="mb-4 text-lg font-semibold text-zinc-900 leading-[1.3]">
                   {page.meta?.title || page.frontMatter.title || page.name}
                 </h3>
                 <p>{page.frontMatter.subheading}</p>
                 <div className="mt-4 text-amber-600">Read more →</div>
               </Link>
-            </>
+            </Fragment>
             // <Link className="block mb-8 group" href={page.route} key={page.route}>
             //   {page.frontMatter?.ogImage ? (
             //     <div className="relative mt-4 overflow-hidden rounded-md aspect-video">
