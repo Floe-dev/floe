@@ -1,5 +1,7 @@
 import { kv } from "@vercel/kv";
 import type OpenAI from "openai";
+import { notEmpty } from "@floe/lib/not-empty";
+import { HttpError } from "@floe/lib/http-error";
 import type { PostReviewResponse } from "@floe/requests/review/_post";
 import { querySchema } from "@floe/requests/review/_post";
 import { createChecksum } from "~/utils/checksum";
@@ -14,11 +16,6 @@ import { getUserPrompt, systemInstructions } from "./prompts";
 
 type OpenAIOptions =
   OpenAI.Chat.Completions.ChatCompletionCreateParamsNonStreaming;
-
-type Violation = Pick<
-  NonNullable<PostReviewResponse>["violations"][number],
-  "suggestedFix" | "description" | "startLine" | "endLine"
->;
 
 async function handler({
   body,
@@ -91,30 +88,61 @@ async function handler({
     metadata: {
       slug: workspace.slug,
     },
+  }).catch(() => {
+    throw new HttpError({
+      statusCode: 500,
+      message: "Failed to get completion from LLM.",
+    });
   });
 
   const responseJson = JSON.parse(
     completion.choices[0].message.content ?? "{}"
   ) as {
-    violations: Violation[];
+    violations: {
+      description: string;
+      startLine: number;
+      textToReplace: string;
+      replaceTextWithFix: string;
+    }[];
   };
 
-  const violations = responseJson.violations.map((violation) => {
-    let c = "";
+  const violations = responseJson.violations
+    .map((violation) => {
+      // 1) Get the lines of content we want to replace
+      const linesWithoutFix = content
+        .split("\n")
+        .slice(violation.startLine - startLine)
+        .slice(0, violation.textToReplace.split("\n").length)
+        .join("\n");
 
-    for (let i = violation.startLine; i <= violation.endLine; i++) {
-      c += `${lines[i]}${i !== violation.endLine ? "\n" : ""}`;
-    }
+      // 2) Check if the content is indeed replaceable. If the LLM returns the
+      //    wrong lineNumber, it may not be. In this case we should ignore this result.
+      if (!linesWithoutFix.includes(violation.textToReplace)) {
+        return;
+      }
 
-    return {
-      ...violation,
-      suggestedFix:
-        violation.suggestedFix === "undefined"
-          ? undefined
-          : violation.suggestedFix,
-      content: c,
-    };
-  });
+      // 3) Replace the first instance of the original content with the suggested fix
+      //
+      const replacedContent = linesWithoutFix.replace(
+        violation.textToReplace,
+        violation.replaceTextWithFix
+      );
+
+      // 4) Get the endLine number
+      const endLine =
+        Number(violation.startLine) +
+        violation.textToReplace.split("\n").length -
+        1;
+
+      return {
+        ...violation,
+        endLine,
+        linesWithFix:
+          violation.textToReplace === "undefined" ? undefined : replacedContent,
+        linesWithoutFix,
+      };
+    })
+    .filter(notEmpty);
 
   const response: PostReviewResponse = {
     path,
@@ -122,9 +150,11 @@ async function handler({
     cached: false,
     model: completion.model,
     usage: completion.usage,
-    code: rule.code,
-    level: rule.level,
-    description: rule.description,
+    rule: {
+      code: rule.code,
+      level: rule.level,
+      description: rule.description,
+    },
   };
 
   // Cache for 1 week

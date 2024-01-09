@@ -151,8 +151,8 @@ async function run() {
      */
     newViolations.forEach(async (violation) => {
       const body = `${violation.description}\n${
-        violation.suggestedFix
-          ? `\`\`\`suggestion\n${violation.suggestedFix}\n\`\`\``
+        violation.linesWithFix
+          ? `\`\`\`suggestion\n${violation.linesWithFix}\n\`\`\``
           : ""
       }`;
 

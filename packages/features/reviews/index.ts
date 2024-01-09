@@ -84,7 +84,7 @@ export async function getReviewsByFile(evalutationsByFile: EvalutationsByFile) {
               // Map rule to each violation. This is useful later on for logging
               violations: review.data?.violations.map((v) => ({
                 ...v,
-                ...rule,
+                rule,
                 cached: review.data?.cached,
               })),
             },
@@ -117,10 +117,10 @@ export function getErrorsByFile(
         return {
           errors:
             acc.errors +
-            review.violations.filter((v) => v.level === "error").length,
+            review.violations.filter((v) => v.rule.level === "error").length,
           warnings:
             acc.warnings +
-            review.violations.filter((v) => v.level === "warn").length,
+            review.violations.filter((v) => v.rule.level === "warn").length,
         };
       },
       {

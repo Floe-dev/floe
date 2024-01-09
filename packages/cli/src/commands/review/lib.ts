@@ -66,28 +66,32 @@ export async function logViolations(
             return [...accumulator2];
           }
 
-          const icon = violation.level === "error" ? "❌" : "⚠️ ";
+          const icon = violation.rule.level === "error" ? "❌" : "⚠️ ";
 
           /**
            * Log violation code and description
            */
           console.log(
             chalk.bold(
-              `${icon} ${violation.code} @@${violation.startLine},${
+              `${icon} ${violation.rule.code} @@${violation.startLine},${
                 violation.endLine
               }${violation.cached ? " (cache)" : ""}:`
             )
           );
+          console.log(chalk.italic(violation.description));
 
-          if (!violation.suggestedFix) {
-            console.log("➖", chalk.dim(violation.content));
+          if (!violation.linesWithFix) {
+            console.log("➖", chalk.dim(violation.linesWithoutFix));
             console.log("➕", "No fix available");
             console.log();
 
             return [...accumulator2];
           }
 
-          const diff = diffWords(violation.content, violation.suggestedFix);
+          const diff = diffWords(
+            violation.linesWithoutFix,
+            violation.linesWithFix
+          );
 
           let consoleStrAdded = "";
           let consoleStrRemoved = "";
@@ -122,7 +126,8 @@ export async function logViolations(
                 path,
                 violation.startLine,
                 violation.endLine,
-                violation.suggestedFix
+                violation.textToReplace,
+                violation.replaceTextWithFix
               );
             }
 
