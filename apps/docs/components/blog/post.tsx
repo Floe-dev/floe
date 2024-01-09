@@ -1,6 +1,7 @@
-import { ArrowLeftIcon } from "@heroicons/react/20/solid";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useConfig } from "nextra-theme-docs";
+import { ArrowLeftIcon } from "@heroicons/react/20/solid";
 import { Authors } from "~/components/authors";
 import type { Frontmatter } from "~/types/frontmatter";
 
@@ -15,7 +16,6 @@ export function BlogPost({ children }: BlogPostProps) {
 
   return (
     <div className="flex flex-col">
-      {/* Date */}
       <div className="relative flex flex-col gap-2">
         <button
           aria-label="Go back to posts"
@@ -39,6 +39,19 @@ export function BlogPost({ children }: BlogPostProps) {
           })}
         </time>
       </div>
+
+      {/* Image */}
+      {(frontMatter as Frontmatter).image ? (
+        <div className="relative w-full mt-6 overflow-hidden rounded-lg h-96">
+          <Image
+            alt={frontMatter.title}
+            className="object-cover w-full h-full"
+            layout="fill"
+            src={frontMatter.image}
+          />
+        </div>
+      ) : null}
+
       {/* Match docs theme from Nextra */}
       <h1 className="!text-left !text-4xl sm:!text-5xl !my-6 nx-font-bold nx-tracking-tight nx-text-slate-900 dark:nx-text-slate-100">
         {frontMatter.title}

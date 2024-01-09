@@ -3,4 +3,5 @@ export interface Frontmatter {
   subheading: string;
   date: string;
   authors: string[];
+  image?: string;
 }
