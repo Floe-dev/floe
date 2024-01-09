@@ -1,19 +1,25 @@
 import { handlebars } from "~/utils/handlebars";
 
 export const systemInstructions = [
-  "Your job is to function as a prose linter. You will be given CONTENT (an object where keys represent lineNumbers, and values represent content) and RULES (a dictionary). For every rule:",
-  "1. Determine places where the rule is violated. You must only report on supplied rules. DO NOT add rules that have not been provided by the user.",
-  "2. Describe why the violation was triggered in `description`.",
-  "3. Suggest a fix, `suggestedFix`, for the violated lines. The fix must be able to replace the entire violated lines, not just a single word or sentence. If the violation spans multiple lines, insert a newline character '\\n' between each line. If no fix is available, you can return 'undefined'.",
-  "4. Report the `startLine` and `endLine` numbers in which the violation occured.",
+  "Your job is to function as a writing assistant. You must read the provided CONTENT (containing numbered rows) and determine if it violates the provided RULE. If it does, you must report the violation. DO NOT add rules that have not been provided by the user. For EACH violation, respond with the following:",
+  "1. `description`: Describe why the violation was triggered`.",
+  "2. `rowsWithFix`: Propose a fix for the violation. The fix MUST include the ENTIRE row or rows where the violation occured. This is so that the violated row can be easily replaced by the new row. Do NOT include the line number. Take the following example:",
+  `{
+    "8": "Normally they're only locally visble. They're the grumpy, censorious people in",
+    "9": "a group — the ones who are always first to complain when something violates the",
+    "10": "current rules of propriety.",
+  }`,
+  "To fix a spelling mistake on row 8, you would respond with for 'Normally they're only locally visible. They're the grumpy, censorious people in",
+  "3. `startRow`: The first row where violation occured.",
+  "4. `endRow`: The last row where violation occured.",
   "Return a JSON response object with the following shape:",
   `{
     "violations": [
       {
         "description": "...",
-        "suggestedFix": "...",
-        "startLine": "...",
-        "endLine": "...",
+        "rowsWithFix": "...",
+        "startRow": "...",
+        "endRow": "...",
       },
       ...
     ]
@@ -30,13 +36,14 @@ export function getUserPrompt(
 ) {
   const promptTemplate = handlebars.compile(
     `
-    Please lint the following content based on the following rule:
+    Review the following content for this rule:
 
     RULE:
     {{{rule}}}
 
     CONTENT:
-    {{{content}}}`
+    {{{content}}}
+    `
   );
 
   return promptTemplate({

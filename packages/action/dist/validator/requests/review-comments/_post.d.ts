@@ -9,7 +9,7 @@ export declare const querySchema: z.ZodObject<
     commitId: z.ZodString;
     pullNumber: z.ZodNumber;
     line: z.ZodOptional<z.ZodNumber>;
-    startLine: z.ZodOptional<z.ZodNumber>;
+    startRow: z.ZodOptional<z.ZodNumber>;
     side: z.ZodOptional<z.ZodEnum<["LEFT", "RIGHT"]>>;
     startSide: z.ZodOptional<z.ZodEnum<["LEFT", "RIGHT"]>>;
   },
@@ -23,7 +23,7 @@ export declare const querySchema: z.ZodObject<
     path: string;
     commitId: string;
     line?: number | undefined;
-    startLine?: number | undefined;
+    startRow?: number | undefined;
     side?: "LEFT" | "RIGHT" | undefined;
     startSide?: "LEFT" | "RIGHT" | undefined;
   },
@@ -35,7 +35,7 @@ export declare const querySchema: z.ZodObject<
     path: string;
     commitId: string;
     line?: number | undefined;
-    startLine?: number | undefined;
+    startRow?: number | undefined;
     side?: "LEFT" | "RIGHT" | undefined;
     startSide?: "LEFT" | "RIGHT" | undefined;
   }

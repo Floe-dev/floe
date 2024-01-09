@@ -98,9 +98,9 @@ export function files(program: Command) {
           evaluations: file.matchingRulesets.flatMap((ruleset) =>
             ruleset.rules.flatMap((rule) => ({
               rule,
-              // A hunk is an entire file when using 'review files'. This means that startLine is always 1.
+              // A hunk is an entire file when using 'review files'. This means that startRow is always 1.
               hunk: {
-                startLine: 1,
+                startRow: 1,
                 content: file.content,
               },
             }))

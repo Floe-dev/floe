@@ -73,13 +73,13 @@ export async function logViolations(
            */
           console.log(
             chalk.bold(
-              `${icon} ${violation.code} @@${violation.startLine},${
-                violation.endLine
+              `${icon} ${violation.code} @@${violation.startRow},${
+                violation.endRow
               }${violation.cached ? " (cache)" : ""}:`
             )
           );
 
-          if (!violation.suggestedFix) {
+          if (!violation.rowsWithFix) {
             console.log("➖", chalk.dim(violation.content));
             console.log("➕", "No fix available");
             console.log();
@@ -87,7 +87,7 @@ export async function logViolations(
             return [...accumulator2];
           }
 
-          const diff = diffWords(violation.content, violation.suggestedFix);
+          const diff = diffWords(violation.content, violation.rowsWithFix);
 
           let consoleStrAdded = "";
           let consoleStrRemoved = "";
@@ -120,9 +120,9 @@ export async function logViolations(
             if (answer) {
               updateLines(
                 path,
-                violation.startLine,
-                violation.endLine,
-                violation.suggestedFix
+                violation.startRow,
+                violation.endRow,
+                violation.rowsWithFix
               );
             }
 

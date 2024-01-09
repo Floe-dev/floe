@@ -1,23 +1,24 @@
 export const exampleContent = {
-  "1": "These are my top 5 favourite movies of all time:",
-  "2": "a. The Matrix",
-  "3": "b. Babe: Pig in the City",
-  "4": "c. Titanic",
+  "1": "It's much the same as if you committed a crime. No matter how virtuously you've",
+  "2": "lived, if you commit a crime, you must still sufer the penalty of the law.",
+  "3": "Having lived a previously blameless life might mitigate the punishment, but it",
+  "4": "doesn't affect whether you're guilty or not.",
 };
 
 export const exampleRule = {
-  code: "no-lettered-lists",
+  code: "spelling-mistakes",
   level: "warn",
-  description: "Do not use lettered lists. Use numbered lists instead.",
+  description: "No spelling mistakes.",
 };
 
 export const exampleOutput = {
   violations: [
     {
-      description: "A lettered list is used. Use a numbered list instead.",
-      suggestedFix: "1. The Matrix\n2. Babe: Pig in the City\n3. Titanic",
-      startLine: 2,
-      endLine: 4,
+      description: "The word 'suffer' was misspelled.",
+      stringToReplace:
+        "lived, if you commit a crime, you must still suffer the penalty of the law.",
+      startRow: 2,
+      endRow: 2,
     },
   ],
 };

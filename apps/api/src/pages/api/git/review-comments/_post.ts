@@ -35,7 +35,7 @@ async function handler({
       owner: parsed.owner,
       pull_number: parsed.pullNumber,
       line: parsed.line,
-      start_line: parsed.startLine,
+      start_line: parsed.startRow,
       side: parsed.side,
       start_side: parsed.startSide,
       path: parsed.path,

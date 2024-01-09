@@ -5,7 +5,7 @@ import { api } from "../api";
 export const querySchema = z.object({
   path: z.string(),
   content: z.string(),
-  startLine: z.coerce.number().optional().default(1),
+  startRow: z.coerce.number().optional().default(1),
   rule: z.object({
     code: z.string(),
     level: z.union([z.literal("error"), z.literal("warn")]),
@@ -17,9 +17,9 @@ export type PostReviewResponse =
   | {
       violations: {
         description: string | undefined;
-        suggestedFix: string | undefined;
-        startLine: number;
-        endLine: number;
+        rowsWithFix: string | undefined;
+        startRow: number;
+        endRow: number;
         content: string;
       }[];
       level: "error" | "warn" | undefined;
@@ -36,14 +36,14 @@ export type PostReviewInput = z.infer<typeof querySchema>;
 export async function createReview({
   path,
   content,
-  startLine,
+  startRow,
   rule,
 }: PostReviewInput) {
   return api.post<PostReviewResponse>("/api/v1/review", {
     params: {
       path,
       content,
-      startLine,
+      startRow,
       rule,
     },
   });

@@ -126,7 +126,7 @@ async function run() {
             const existingComment = comments.data.find((comment) => {
               return (
                 comment.path === reviews.path &&
-                comment.position === violation.endLine &&
+                comment.position === violation.endRow &&
                 comment.body.includes(violation.description) &&
                 comment.user.login ===
                   (process.env.FLOE_BOT_NAME ?? "floe-app[bot]")
@@ -151,8 +151,8 @@ async function run() {
      */
     newViolations.forEach(async (violation) => {
       const body = `${violation.description}\n${
-        violation.suggestedFix
-          ? `\`\`\`suggestion\n${violation.suggestedFix}\n\`\`\``
+        violation.rowsWithFix
+          ? `\`\`\`suggestion\n${violation.rowsWithFix}\n\`\`\``
           : ""
       }`;
 
@@ -163,11 +163,11 @@ async function run() {
         owner,
         repo,
         pullNumber,
-        line: violation.endLine,
+        line: violation.endRow,
         side: "RIGHT",
-        ...(violation.endLine !== violation.startLine && {
+        ...(violation.endRow !== violation.startRow && {
           startSide: "RIGHT",
-          startLine: violation.startLine,
+          startRow: violation.startRow,
         }),
       });
 

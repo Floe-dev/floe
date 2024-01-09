@@ -17,14 +17,14 @@ type OpenAIOptions =
 
 type Violation = Pick<
   NonNullable<PostReviewResponse>["violations"][number],
-  "suggestedFix" | "description" | "startLine" | "endLine"
+  "rowsWithFix" | "description" | "startRow" | "endRow"
 >;
 
 async function handler({
   body,
   workspace,
 }: NextApiRequestExtension): Promise<PostReviewResponse> {
-  const { content, startLine, rule, path } = zParse(
+  const { content, startRow, rule, path } = zParse(
     querySchema,
     body.params as Record<string, unknown>
   );
@@ -32,10 +32,11 @@ async function handler({
   /**
    * Convert to lines object that is more LLM friendly
    */
-  const lines = stringToLines(content, startLine);
+  const lines = stringToLines(content, startRow);
 
   const openAICompletionOptions: OpenAIOptions = {
     model: "gpt-4-1106-preview",
+    // model: "gpt-3.5-turbo-1106",
     temperature: 0,
     response_format: { type: "json_object" },
     // Last updated date
@@ -102,16 +103,16 @@ async function handler({
   const violations = responseJson.violations.map((violation) => {
     let c = "";
 
-    for (let i = violation.startLine; i <= violation.endLine; i++) {
-      c += `${lines[i]}${i !== violation.endLine ? "\n" : ""}`;
+    for (let i = violation.startRow; i <= violation.endRow; i++) {
+      c += `${lines[i]}${i !== violation.endRow ? "\n" : ""}`;
     }
 
     return {
       ...violation,
-      suggestedFix:
-        violation.suggestedFix === "undefined"
+      rowsWithFix:
+        violation.rowsWithFix === "undefined"
           ? undefined
-          : violation.suggestedFix,
+          : violation.rowsWithFix,
       content: c,
     };
   });

@@ -7,8 +7,8 @@ export type AiLintDiffResponse =
           code: string;
           description: string;
           fix: string | undefined;
-          startLine: number;
-          endLine: number;
+          startRow: number;
+          endRow: number;
           lineContent: string;
         }[];
         filename: string;

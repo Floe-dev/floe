@@ -10,7 +10,7 @@ export const querySchema = z.object({
   commitId: z.string(),
   pullNumber: z.coerce.number(),
   line: z.coerce.number().optional(),
-  startLine: z.coerce.number().optional(),
+  startRow: z.coerce.number().optional(),
   side: z.enum(["LEFT", "RIGHT"]).optional(),
   startSide: z.enum(["LEFT", "RIGHT"]).optional(),
 });
@@ -28,7 +28,7 @@ export async function createGitReviewComment({
   commitId,
   pullNumber,
   line,
-  startLine,
+  startRow,
   side,
   startSide,
 }: PostReviewCommentsInput) {
@@ -43,7 +43,7 @@ export async function createGitReviewComment({
         commitId,
         pullNumber,
         line,
-        startLine,
+        startRow,
         side,
         startSide,
       },

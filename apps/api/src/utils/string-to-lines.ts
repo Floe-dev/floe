@@ -1,11 +1,11 @@
 export function stringToLines(
   string: string,
-  startLine = 1
+  startRow = 1
 ): Record<string, string> {
   return string.split("\n").reduce((acc, line, index) => {
     return {
       ...acc,
-      [`${index + startLine}`]: line,
+      [`${index + startRow}`]: line,
     };
   }, {});
 }

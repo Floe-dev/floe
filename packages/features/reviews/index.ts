@@ -13,7 +13,7 @@ export type EvalutationsByFile = {
       description: string;
     };
     hunk: {
-      startLine: number;
+      startRow: number;
       content: string;
     };
   }[];
@@ -74,7 +74,7 @@ export async function getReviewsByFile(evalutationsByFile: EvalutationsByFile) {
           const review = await createReview({
             path,
             content: hunk.content,
-            startLine: hunk.startLine,
+            startRow: hunk.startRow,
             rule,
           });
 
