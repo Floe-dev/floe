@@ -1,6 +1,7 @@
 import { ArrowLeftIcon } from "@heroicons/react/20/solid";
 import { useRouter } from "next/navigation";
 import { useConfig } from "nextra-theme-docs";
+import { Authors } from "~/components/authors";
 import type { Frontmatter } from "~/types/frontmatter";
 
 interface BlogPostProps {
@@ -27,7 +28,7 @@ export function BlogPost({ children }: BlogPostProps) {
           <ArrowLeftIcon className="w-5 h-5" />
         </button>
         <time
-          className="mt-2 nx-text-sm nx-text-gray-500 dark:nx-text-gray-400"
+          className="mt-2 nx-text-gray-500 dark:nx-text-gray-400"
           dateTime={date.toLocaleString()}
           suppressHydrationWarning
         >
@@ -46,6 +47,9 @@ export function BlogPost({ children }: BlogPostProps) {
         {frontMatter.title}
       </h3>
       {children}
+      <div className="pt-8 mt-8 border-t">
+        <Authors authors={frontMatter.authors.split(",")} />
+      </div>
     </div>
   );
 }
