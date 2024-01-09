@@ -22,9 +22,11 @@ export type PostReviewResponse =
         endLine: number;
         content: string;
       }[];
-      level: "error" | "warn" | undefined;
-      code: string;
-      description: string;
+      rule: {
+        level: "error" | "warn" | undefined;
+        code: string;
+        description: string;
+      };
       path: string;
       cached: boolean;
       model: string;

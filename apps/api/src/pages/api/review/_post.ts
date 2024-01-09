@@ -27,7 +27,7 @@ async function handler({
   /**
    * Convert to lines object that is more LLM friendly
    */
-  const lines = stringToLines(content, startLine as number);
+  const lines = stringToLines(content, startLine);
 
   const openAICompletionOptions: OpenAIOptions = {
     model: "gpt-4-1106-preview",
@@ -131,9 +131,11 @@ async function handler({
     cached: false,
     model: completion.model,
     usage: completion.usage,
-    code: rule.code,
-    level: rule.level,
-    description: rule.description,
+    rule: {
+      code: rule.code,
+      level: rule.level,
+      description: rule.description,
+    },
   };
 
   // Cache for 1 week
