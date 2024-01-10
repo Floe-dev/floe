@@ -5,10 +5,17 @@
     "maxDiffEvaluations": 20
   },
   "rulesets": {
-    "blog": {
+    "docs": {
       "include": ["apps/web/pages/blog/**.*mdx"],
       "rules": {
         "spelling-and-grammar": "error"
+      }
+    },
+    "blog": {
+      "include": ["apps/web/pages/blog/**.*mdx"],
+      "rules": {
+        "spelling-and-grammar": "error",
+        "blog-style": "warn"
       }
     }
   }
