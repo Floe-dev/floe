@@ -9,19 +9,19 @@ export const querySchema = z.object({
   commentId: z.coerce.number(),
 });
 
-export type PatchGitReviewCommentsResponse =
-  Endpoints["PATCH /repos/{owner}/{repo}/pulls/comments/{comment_id}"]["response"]["data"];
+export type PatchGitIssueCommentsResponse =
+  Endpoints["PATCH /repos/{owner}/{repo}/issues/comments/{comment_id}"]["response"]["data"];
 
-export type PatchReviewCommentsInput = z.infer<typeof querySchema>;
+export type PatchIssueCommentsInput = z.infer<typeof querySchema>;
 
-export async function updateGitReviewComment({
+export async function updateGitIssueComment({
   body,
   repo,
   owner,
   commentId,
-}: PatchReviewCommentsInput) {
-  return api.patch<PatchGitReviewCommentsResponse>(
-    "/api/v1/git/review-comments",
+}: PatchIssueCommentsInput) {
+  return api.patch<PatchGitIssueCommentsResponse>(
+    "/api/v1/git/issue-comments",
     {
       params: {
         body,
