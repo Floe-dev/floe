@@ -89,7 +89,7 @@ export default async function Workspace({
                     className="flex items-center gap-1 mt-1 font-medium text-blue-600 hover:text-blue-800 visited:text-purple-600 hover:underline"
                     href={`/${workspace.slug}/developers`}
                   >
-                    Developers <ArrowUpRightIcon className="h-5" />
+                    Developers
                   </Link>
                 </div>
               </div>
@@ -117,7 +117,7 @@ export default async function Workspace({
                     className="flex items-center gap-1 mt-1 font-medium text-blue-600 hover:text-blue-800 visited:text-purple-600 hover:underline"
                     href={`/${workspace.slug}/integrations`}
                   >
-                    Integrations <ArrowUpRightIcon className="h-5" />
+                    Integrations
                   </Link>
                 </div>
               </div>

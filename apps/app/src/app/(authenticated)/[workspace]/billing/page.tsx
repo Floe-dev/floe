@@ -1,8 +1,8 @@
 import { db } from "@floe/db";
 import { Button, Pill } from "@floe/ui";
 import { CheckCircleIcon } from "@heroicons/react/20/solid";
-import { createStripeCheckoutSession, createPortalLink } from "./actions";
 import { Header } from "~/app/_components/header";
+import { createStripeCheckoutSession, createPortalLink } from "./actions";
 
 async function getWorkspaceWithSubscription(slug: string) {
   const workspace = await db.workspace.findUnique({
