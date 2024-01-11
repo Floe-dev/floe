@@ -49922,7 +49922,6 @@ async function run() {
             .flatMap((reviews) => {
             return reviews.evaluationsResponse.flatMap((evaluationResponse) => {
                 return evaluationResponse.review.violations?.flatMap((violation) => {
-                    console.log(1111, violation);
                     const existingComment = comments.data.find((comment) => {
                         return (comment.path === reviews.path &&
                             comment.original_line === violation.endLine &&
@@ -49941,7 +49940,6 @@ async function run() {
             });
         })
             .filter(notEmpty);
-        console.log("newViolations", newViolations);
         /**
          * Create comments for new violations
          */
