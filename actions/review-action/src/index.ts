@@ -44,6 +44,7 @@ async function run() {
     const basehead = `origin/${baseRef}..origin/${headRef}`;
     /**
      * Fetch all branches. This is needed to get the correct diff.
+     * This breaks locally, and isn't needed. So be sure to FLOE_TEST_MODE=1.
      */
     if (!process.env.FLOE_TEST_MODE) {
       await simpleGit().fetch();
@@ -124,7 +125,6 @@ async function run() {
         return reviews.evaluationsResponse.flatMap((evaluationResponse) => {
           return evaluationResponse.review.violations?.flatMap((violation) => {
             const existingComment = comments.data.find((comment) => {
-              console.log(1111111, comment);
               return (
                 comment.path === reviews.path &&
                 comment.line === violation.endLine &&
@@ -146,6 +146,8 @@ async function run() {
         });
       })
       .filter(notEmpty);
+
+    console.log("newViolations", newViolations);
 
     /**
      * Create comments for new violations

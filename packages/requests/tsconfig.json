@@ -1,10 +1,5 @@
 {
   "extends": "tsconfig/base.json",
-  "compilerOptions": {
-    "paths": {
-      "~/*": ["./*"]
-    }
-  },
   "include": ["."],
   "exclude": ["dist", "build", "node_modules"]
 }

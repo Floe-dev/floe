@@ -1,6 +1,6 @@
 import { z } from "zod";
 import type { Endpoints } from "@octokit/types";
-import { api } from "~/api";
+import { api } from "../../api";
 
 export const querySchema = z.object({
   owner: z.string(),
