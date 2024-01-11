@@ -49915,6 +49915,7 @@ async function run() {
             repo,
             pullNumber,
         });
+        const getCommentBody = (code, description, linesWithFix) => `**${code}:** ${description ?? ""}\n${linesWithFix ? `\`\`\`suggestion\n${linesWithFix}\n\`\`\`` : ""}`;
         /**
          * Check if comments already exist for a violation
          */
@@ -49923,11 +49924,11 @@ async function run() {
             return reviews.evaluationsResponse.flatMap((evaluationResponse) => {
                 return evaluationResponse.review.violations?.flatMap((violation) => {
                     const existingComment = comments.data.find((comment) => {
-                        console.log(11111, comment.path === reviews.path, comment.original_line === violation.endLine, comment.body.includes(violation.rule.code), comment.user.login ===
+                        console.log(11111, comment.path === reviews.path, comment.original_line === violation.endLine, comment.body.includes(getCommentBody(violation.rule.code, violation.description, violation.linesWithFix)), comment.user.login ===
                             (process.env.FLOE_BOT_NAME ?? "floe-app[bot]"));
                         return (comment.path === reviews.path &&
                             comment.original_line === violation.endLine &&
-                            comment.body.includes(violation.rule.code) &&
+                            comment.body.includes(getCommentBody(violation.rule.code, violation.description, violation.linesWithFix)) &&
                             comment.user.login ===
                                 (process.env.FLOE_BOT_NAME ?? "floe-app[bot]"));
                     });
@@ -49946,9 +49947,7 @@ async function run() {
          * Create comments for new violations
          */
         newViolations.forEach(async (violation) => {
-            const body = `${violation.rule.code}: ${violation.description ?? ""}\n${violation.linesWithFix
-                ? `\`\`\`suggestion\n${violation.linesWithFix}\n\`\`\``
-                : ""}`;
+            const body = getCommentBody(violation.rule.code, violation.description, violation.linesWithFix);
             const newComment = await createGitReviewComment({
                 path: violation.path,
                 commitId: headSha,

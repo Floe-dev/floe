@@ -117,6 +117,15 @@ async function run() {
       pullNumber,
     });
 
+    const getCommentBody = (
+      code: string,
+      description: string | undefined,
+      linesWithFix: string | undefined
+    ) =>
+      `**${code}:** ${description ?? ""}\n${
+        linesWithFix ? `\`\`\`suggestion\n${linesWithFix}\n\`\`\`` : ""
+      }`;
+
     /**
      * Check if comments already exist for a violation
      */
@@ -129,7 +138,13 @@ async function run() {
                 11111,
                 comment.path === reviews.path,
                 comment.original_line === violation.endLine,
-                comment.body.includes(violation.rule.code),
+                comment.body.includes(
+                  getCommentBody(
+                    violation.rule.code,
+                    violation.description,
+                    violation.linesWithFix
+                  )
+                ),
                 comment.user.login ===
                   (process.env.FLOE_BOT_NAME ?? "floe-app[bot]")
               );
@@ -137,7 +152,13 @@ async function run() {
               return (
                 comment.path === reviews.path &&
                 comment.original_line === violation.endLine &&
-                comment.body.includes(violation.rule.code) &&
+                comment.body.includes(
+                  getCommentBody(
+                    violation.rule.code,
+                    violation.description,
+                    violation.linesWithFix
+                  )
+                ) &&
                 comment.user.login ===
                   (process.env.FLOE_BOT_NAME ?? "floe-app[bot]")
               );
@@ -160,11 +181,11 @@ async function run() {
      * Create comments for new violations
      */
     newViolations.forEach(async (violation) => {
-      const body = `${violation.rule.code}: ${violation.description ?? ""}\n${
+      const body = getCommentBody(
+        violation.rule.code,
+        violation.description,
         violation.linesWithFix
-          ? `\`\`\`suggestion\n${violation.linesWithFix}\n\`\`\``
-          : ""
-      }`;
+      );
 
       const newComment = await createGitReviewComment({
         path: violation.path,
