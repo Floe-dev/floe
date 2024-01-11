@@ -49826,7 +49826,28 @@ async function createGitReviewComment({ path, repo, owner, body, commitId, pullN
     });
 }
 
+;// CONCATENATED MODULE: ../../packages/requests/git/issue-comments/_post.ts
+
+
+const issue_comments_post_querySchema = z.object({
+    repo: z.string(),
+    body: z.string(),
+    owner: z.string(),
+    issueNumber: z.coerce.number(),
+});
+async function createGitIssueComment({ repo, owner, body, issueNumber, }) {
+    return api.post("/api/v1/git/issue-comments", {
+        params: {
+            repo,
+            owner,
+            body,
+            issueNumber,
+        },
+    });
+}
+
 ;// CONCATENATED MODULE: ./src/index.ts
+
 
 
 
@@ -49971,6 +49992,12 @@ async function run() {
         }), {
             errors: 0,
             warnings: 0,
+        });
+        await createGitIssueComment({
+            repo,
+            owner,
+            body: `Floe review completed with ${combinedErrorsAndWarnings.errors} errors and ${combinedErrorsAndWarnings.warnings} warnings.`,
+            issueNumber: pullNumber,
         });
         if (combinedErrorsAndWarnings.errors > 0) {
             core.setFailed(`Floe review failed with ${combinedErrorsAndWarnings.errors} errors.`);

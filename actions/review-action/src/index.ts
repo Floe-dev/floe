@@ -14,6 +14,7 @@ import * as github from "@actions/github";
 import { parseDiffToFileHunks } from "@floe/lib/diff-parser";
 import { fetchGitReviewComments } from "@floe/requests/git/review-comments/_get";
 import { createGitReviewComment } from "@floe/requests/git/review-comments/_post";
+import { createGitIssueComment } from "@floe/requests/git/issue-comments/_post";
 
 async function run() {
   try {
@@ -217,6 +218,13 @@ async function run() {
         warnings: 0,
       }
     );
+
+    await createGitIssueComment({
+      repo,
+      owner,
+      body: `Floe review completed with ${combinedErrorsAndWarnings.errors} errors and ${combinedErrorsAndWarnings.warnings} warnings.`,
+      issueNumber: pullNumber,
+    });
 
     if (combinedErrorsAndWarnings.errors > 0) {
       core.setFailed(

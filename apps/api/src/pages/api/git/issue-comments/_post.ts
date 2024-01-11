@@ -1,6 +1,8 @@
 import { HttpError } from "@floe/lib/http-error";
-import { querySchema } from "@floe/requests/git/review-comments/_post";
-import type { PostGitReviewCommentsResponse } from "@floe/requests/git/review-comments/_post";
+import {
+  querySchema,
+  type PostGitIssueCommentsResponse,
+} from "@floe/requests/git/issue-comments/_post";
 import type { NextApiRequestExtension } from "~/types/private-middleware";
 import { getOctokit } from "~/lib/github/octokit";
 import { defaultResponder } from "~/lib/helpers/default-responder";
@@ -9,7 +11,7 @@ import { zParse } from "~/utils/z-parse";
 async function handler({
   body,
   workspace,
-}: NextApiRequestExtension): Promise<PostGitReviewCommentsResponse> {
+}: NextApiRequestExtension): Promise<PostGitIssueCommentsResponse> {
   const parsed = zParse(querySchema, body.params as Record<string, unknown>);
 
   if (workspace.gitlabIntegration) {
