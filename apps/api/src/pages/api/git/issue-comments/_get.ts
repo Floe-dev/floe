@@ -13,6 +13,7 @@ async function handler({
   workspace,
 }: NextApiRequestExtension): Promise<GetGitIssueCommentsResponse> {
   const parsed = zParse(querySchema, queryObj);
+  console.log(555555);
 
   if (workspace.gitlabIntegration) {
     throw new HttpError({
