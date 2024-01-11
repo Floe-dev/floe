@@ -1,5 +1,11 @@
 # @floe/cli
 
+## 0.1.0-beta.11
+
+### Patch Changes
+
+- Fix issue where Floe CLI would not exit after encountering too many files in CLI.
+
 ## 0.1.0-beta.10
 
 ### Minor Changes

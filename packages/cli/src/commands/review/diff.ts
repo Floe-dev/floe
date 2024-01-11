@@ -93,6 +93,8 @@ export function diff(program: Command) {
         if (error instanceof Error) {
           console.log(chalk.red(error.message));
         }
+
+        process.exit(1);
       }
 
       /**
