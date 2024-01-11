@@ -126,8 +126,8 @@ async function run() {
             const existingComment = comments.data.find((comment) => {
               return (
                 comment.path === reviews.path &&
-                comment.position === violation.endLine &&
-                comment.body.includes(violation.description) &&
+                comment.line === violation.endLine &&
+                comment.body.includes(violation.rule.code) &&
                 comment.user.login ===
                   (process.env.FLOE_BOT_NAME ?? "floe-app[bot]")
               );
@@ -150,7 +150,7 @@ async function run() {
      * Create comments for new violations
      */
     newViolations.forEach(async (violation) => {
-      const body = `${violation.description}\n${
+      const body = `${violation.rule.code}: ${violation.description ?? ""}\n${
         violation.linesWithFix
           ? `\`\`\`suggestion\n${violation.linesWithFix}\n\`\`\``
           : ""
