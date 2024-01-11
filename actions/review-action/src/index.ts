@@ -124,6 +124,7 @@ async function run() {
         return reviews.evaluationsResponse.flatMap((evaluationResponse) => {
           return evaluationResponse.review.violations?.flatMap((violation) => {
             const existingComment = comments.data.find((comment) => {
+              console.log(1111111, comment);
               return (
                 comment.path === reviews.path &&
                 comment.line === violation.endLine &&
