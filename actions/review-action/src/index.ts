@@ -124,10 +124,11 @@ async function run() {
       .flatMap((reviews) => {
         return reviews.evaluationsResponse.flatMap((evaluationResponse) => {
           return evaluationResponse.review.violations?.flatMap((violation) => {
+            console.log(1111, violation);
             const existingComment = comments.data.find((comment) => {
               return (
                 comment.path === reviews.path &&
-                comment.line === violation.endLine &&
+                comment.original_line === violation.endLine &&
                 comment.body.includes(violation.rule.code) &&
                 comment.user.login ===
                   (process.env.FLOE_BOT_NAME ?? "floe-app[bot]")
