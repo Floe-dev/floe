@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useCallback } from "react";
 
-const TITLE = "Write Docs That Scale. Automatically.";
+const TITLE = "Write Docs\n That Scale.\n Automatically.";
 
 export function Title() {
   const [text, setText] = useState("");
@@ -31,11 +31,20 @@ export function Title() {
 
   return (
     <h1
-      className={`pr-8 min-h-[180px] sm:min-h-[216px] sm:max-w-[400px] mt-2 text-6xl font-garamond text-zinc-900 sm:text-7xl after:absolute sm:after:h-14 sm:after:w-7 after:h-12 after:w-6 after:bg-zinc-900 after:mt-2 after:animate-pulse ${
-        isDone ? "after:hidden" : ""
-      } ${text.length === 0 ? "" : "after:ml-4"}`}
+      className={`relative inline-block w-min mt-2 text-6xl font-garamond text-zinc-900 sm:text-7xl ${
+        text.length === 0 ? "" : "after:ml-4"
+      }`}
     >
-      {text}
+      <span aria-hidden className="invisible">
+        {TITLE}
+      </span>
+      <span
+        className={`absolute top-0 left-0 after:absolute sm:after:h-14 sm:after:w-7 after:h-12 after:w-6 after:bg-zinc-900 after:mt-2 after:animate-pulse ${
+          isDone ? "after:hidden" : ""
+        } ${text.length === 0 ? "" : "after:ml-4"}`}
+      >
+        {text}
+      </span>
     </h1>
   );
 }

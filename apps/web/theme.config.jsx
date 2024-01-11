@@ -5,6 +5,10 @@ import { Footer } from "./components/footer";
 
 const config = {
   darkMode: false,
+  nextThemes: {
+    defaultTheme: "light",
+    forcedTheme: "light",
+  },
   docsRepositoryBase: "https://github.com/Floe-dev/floe/tree/main/apps/docs",
   project: {
     link: "https://github.com/Floe-dev/floe",
