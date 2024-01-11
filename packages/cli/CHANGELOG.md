@@ -1,5 +1,17 @@
 # @floe/cli
 
+## 0.1.0-beta.10
+
+### Minor Changes
+
+- Give Floe init a success status.
+
+### Patch Changes
+
+- Updated dependencies [2cae03a]
+  - @floe/requests@0.1.0-beta.4
+  - @floe/features@0.1.0-beta.3
+
 ## 0.1.0-beta.9
 
 ### Minor Changes

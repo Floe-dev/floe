@@ -1,5 +1,12 @@
 # @floe/embeddings-action
 
+## 0.1.0-beta.5
+
+### Patch Changes
+
+- Updated dependencies [2cae03a]
+  - @floe/requests@0.1.0-beta.4
+
 ## 0.1.0-beta.4
 
 ### Patch Changes

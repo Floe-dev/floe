@@ -1,5 +1,11 @@
 # @floe/requests
 
+## 0.1.0-beta.4
+
+### Minor Changes
+
+- 2cae03a: Make @floe/requests public.
+
 ## 0.1.0-beta.3
 
 ### Minor Changes

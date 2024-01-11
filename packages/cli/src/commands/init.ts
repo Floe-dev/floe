@@ -6,6 +6,8 @@ import type { Config } from "@floe/config";
 import { defaultConfig } from "@floe/config";
 import { checkIfValidRoot } from "@floe/lib/check-if-valid-root";
 
+const chalkImport = import("chalk").then((m) => m.default);
+
 export function init(program: Command) {
   program
     .command("init")
@@ -15,6 +17,8 @@ export function init(program: Command) {
        * Exit if not a valid git root
        */
       checkIfValidRoot(true);
+
+      const chalk = await chalkImport;
 
       if (fs.existsSync(".floe")) {
         const overwriteAnswer = await confirm({
@@ -57,5 +61,7 @@ export function init(program: Command) {
         resolve(".floe/config.json"),
         JSON.stringify(config, null, 2)
       );
+
+      console.log(chalk.green("✔ Floe initialized successfully!"));
     });
 }
