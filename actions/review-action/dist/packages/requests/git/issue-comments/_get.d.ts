@@ -1,24 +1,21 @@
 import { z } from "zod";
 import type { Endpoints } from "@octokit/types";
 export declare const querySchema: z.ZodObject<{
-    repo: z.ZodString;
-    body: z.ZodString;
     owner: z.ZodString;
+    repo: z.ZodString;
     issueNumber: z.ZodNumber;
 }, "strip", z.ZodTypeAny, {
     owner: string;
     repo: string;
     issueNumber: number;
-    body: string;
 }, {
     owner: string;
     repo: string;
     issueNumber: number;
-    body: string;
 }>;
-export type PostGitIssueCommentsResponse = Endpoints["POST /repos/{owner}/{repo}/issues/{issue_number}/comments"]["response"]["data"];
-export type PostIssueCommentsInput = z.infer<typeof querySchema>;
-export declare function createGitIssueComment({ repo, owner, body, issueNumber, }: PostIssueCommentsInput): Promise<import("axios").AxiosResponse<{
+export type GetGitIssueCommentsResponse = Endpoints["GET /repos/{owner}/{repo}/issues/comments"]["response"]["data"];
+export type GetIssueCommentsInput = z.infer<typeof querySchema>;
+export declare function fetchGitIssueComments({ owner, repo, issueNumber, }: GetIssueCommentsInput): Promise<import("axios").AxiosResponse<{
     id: number;
     node_id: string;
     url: string;
@@ -113,5 +110,5 @@ export declare function createGitIssueComment({ repo, owner, body, issueNumber, 
         eyes: number;
         rocket: number;
     } | undefined;
-}, any>>;
-//# sourceMappingURL=_post.d.ts.map
+}[], any>>;
+//# sourceMappingURL=_get.d.ts.map

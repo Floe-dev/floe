@@ -9,8 +9,5 @@ export default withPrivateMiddleware()(
     POST: {
       1: import("./_post"),
     },
-    PATCH: {
-      1: import("./[comment_id]/_patch"),
-    },
   })
 );

@@ -30,7 +30,7 @@ async function handler({
 
   const octokit = await getOctokit(workspace.githubIntegration.installationId);
 
-  const comments = await octokit.rest.issues
+  const comment = await octokit.rest.issues
     .createComment({
       body: parsed.body,
       repo: parsed.repo,
@@ -46,7 +46,9 @@ async function handler({
       });
     });
 
-  return comments.data;
+  console.log(222222, comment);
+
+  return comment.data;
 }
 
 export default defaultResponder(handler);

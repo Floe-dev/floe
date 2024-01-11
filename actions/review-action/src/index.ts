@@ -15,6 +15,7 @@ import { parseDiffToFileHunks } from "@floe/lib/diff-parser";
 import { fetchGitReviewComments } from "@floe/requests/git/review-comments/_get";
 import { createGitReviewComment } from "@floe/requests/git/review-comments/_post";
 import { createGitIssueComment } from "@floe/requests/git/issue-comments/_post";
+import { fetchGitIssueComments } from "@floe/requests/git/issue-comments/_get";
 
 async function run() {
   try {
@@ -135,21 +136,6 @@ async function run() {
         return reviews.evaluationsResponse.flatMap((evaluationResponse) => {
           return evaluationResponse.review.violations?.flatMap((violation) => {
             const existingComment = comments.data.find((comment) => {
-              console.log(
-                11111,
-                comment.path === reviews.path,
-                comment.original_line === violation.endLine,
-                comment.body.includes(
-                  getCommentBody(
-                    violation.rule.code,
-                    violation.description,
-                    violation.linesWithFix
-                  )
-                ),
-                comment.user.login ===
-                  (process.env.FLOE_BOT_NAME ?? "floe-app[bot]")
-              );
-
               return (
                 comment.path === reviews.path &&
                 comment.original_line === violation.endLine &&
@@ -219,12 +205,38 @@ async function run() {
       }
     );
 
-    await createGitIssueComment({
-      repo,
+    const issueComments = await fetchGitIssueComments({
       owner,
-      body: `Floe review completed with ${combinedErrorsAndWarnings.errors} errors and ${combinedErrorsAndWarnings.warnings} warnings.`,
+      repo,
       issueNumber: pullNumber,
     });
+
+    /**
+     * Check to see if Floe summary comment already exists
+     */
+    const floeSummaryComment = issueComments.data.find((comment) => {
+      if (!comment.body || !comment.user) {
+        return false;
+      }
+
+      return (
+        comment.body.includes(
+          `Floe review completed with ${combinedErrorsAndWarnings.errors} errors and ${combinedErrorsAndWarnings.warnings} warnings.`
+        ) &&
+        comment.user.login === (process.env.FLOE_BOT_NAME ?? "floe-app[bot]")
+      );
+    });
+
+    if (!floeSummaryComment) {
+      await createGitIssueComment({
+        repo,
+        owner,
+        body: `Floe review completed with ${combinedErrorsAndWarnings.errors} errors and ${combinedErrorsAndWarnings.warnings} warnings.`,
+        issueNumber: pullNumber,
+      });
+    } else {
+      // Update
+    }
 
     if (combinedErrorsAndWarnings.errors > 0) {
       core.setFailed(
