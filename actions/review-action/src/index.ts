@@ -218,8 +218,6 @@ async function run() {
       }
     );
 
-    // TODO: Add comment summary
-
     if (combinedErrorsAndWarnings.errors > 0) {
       core.setFailed(
         `Floe review failed with ${combinedErrorsAndWarnings.errors} errors.`
