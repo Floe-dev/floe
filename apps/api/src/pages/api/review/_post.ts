@@ -1,3 +1,4 @@
+import { z } from "zod";
 import { kv } from "@vercel/kv";
 import type OpenAI from "openai";
 import { notEmpty } from "@floe/lib/not-empty";
@@ -80,6 +81,17 @@ async function handler({
   }
   console.log("Cache miss");
 
+  const completionResponseSchema = z.object({
+    violations: z.array(
+      z.object({
+        description: z.string(),
+        startLine: z.coerce.number(),
+        textToReplace: z.string(),
+        replaceTextWithFix: z.string(),
+      })
+    ),
+  });
+
   const completion = await createCompletion({
     name: "review",
     provider: "openai",
@@ -88,6 +100,7 @@ async function handler({
     metadata: {
       slug: workspace.slug,
     },
+    completionResponseSchema,
   }).catch(() => {
     throw new HttpError({
       statusCode: 500,
@@ -95,18 +108,7 @@ async function handler({
     });
   });
 
-  const responseJson = JSON.parse(
-    completion.choices[0].message.content ?? "{}"
-  ) as {
-    violations: {
-      description: string;
-      startLine: number;
-      textToReplace: string;
-      replaceTextWithFix: string;
-    }[];
-  };
-
-  const violations = responseJson.violations
+  const violations = completion.choices[0].message.content.violations
     .map((violation) => {
       // 1) Get the lines of content we want to replace
       const linesWithoutFix = content
