@@ -16,5 +16,6 @@
     "type": "separator",
     "title": "Developer guide"
   },
-  "prerequisites": "Prerequisites"
+  "prerequisites": "Prerequisites",
+  "installation": "Installation"
 }
