@@ -1,0 +1,117 @@
+import { Steps } from 'nextra/components'
+import { FileTree } from 'nextra/components'
+
+# Installation
+
+## Account setup
+
+<Steps>
+### Fork and clone the repository
+```bash copy
+git@github.com:<OWNER>/floe.git
+cd floe
+```
+
+### Install dependencies
+```bash copy
+pnpm i
+```
+
+### Register a GitHub app
+- Follow the [Registering a GitHub App docs](https://docs.github.com/en/apps/creating-github-apps/registering-a-github-app/registering-a-github-app)
+- Enable the following settings:
+  - Set the callback URL to `http://localhost:3001/api/installation-callback`
+  - Check ON `Request user authorization (OAuth) during installation` and `Enable Device Flow`
+  - Enable the following permissions:
+    - Contents: Read-only
+    - Issues: Read & write
+    - Metadata: Read-only
+    - Pull requests: Read & write
+    - Members: Read-only
+- Keep this page open. You will need to get your `App ID`, `Client ID`, `Client secret`, and `Private key` handy for later
+
+### Create your database
+- If you haven't already, create a PlanetScale database. You can do it through their dashboard.
+- Remember the database name for later.
+
+### Setup Vercel
+- In Vercel, create a Project. You can create it from the GitHub repository you just forked.
+- Setup a Redis KV store. You can do this through the Vercel dashboard on the `Storage` page.
+- Keep your environment variables handy for later.
+
+</Steps>
+
+## Setup environment variables
+
+Next, we need to setup our environment variables.
+
+<Steps>
+### Copy .env.example files
+Create a `.env` by copying the `.env.example` file in the following directories:
+<FileTree>
+  <FileTree.Folder name="Root" defaultOpen>
+    <FileTree.File name=".env.example" />
+    <FileTree.Folder name="apps" defaultOpen>
+      <FileTree.Folder name="app" defaultOpen>
+        <FileTree.File name=".env.example" />
+      </FileTree.Folder>
+      <FileTree.Folder name="api" defaultOpen>
+        <FileTree.File name=".env.example" />
+      </FileTree.Folder>
+    </FileTree.Folder>
+    <FileTree.Folder name="act" defaultOpen>
+      <FileTree.File name=".env.example" />
+    </FileTree.Folder>
+  </FileTree.Folder>
+</FileTree>
+
+### `DATABASE_URL`
+- Set the `DATABASE_URL` to `mysql://root@127.0.0.1:3309/<DATABASE_NAME>?connection_limit=100`
+- Replace `<DATABASE_NAME>` with the name of the database you created earlier
+
+### `NEXTAUTH_SECRET`
+- Generate a cryptographically secure string and set it as the
+  `NEXTAUTH_SECRET`. The easiest way to do this is to run `openssl rand -base64
+  32` in your terminal.
+
+### `FLOE_SECRET_IV` and `FLOE_SECRET_KEY`
+- Generate a 16 and 32 character cryptographically string and set them as the `FLOE_SECRET_IV` and
+  `FLOE_SECRET_KEY` respectively. The easiest way to do this is to run `openssl
+  rand -base64 16` and `openssl rand -base64 32` in your terminal.
+
+### Remaining variables
+- You should be able to fill most other variables if you followed the Prerequisites and Installation steps.
+- You will not yet have created keys for `FLOE_API_WORKSPACE` or `FLOE_API_SECRET` yet.
+
+</Steps>
+
+## Running the app
+<Steps>
+### Connect to PlanetScale and push the schema
+Connect to your PlanetScale database.
+```bash copy
+pscale connect <DATABASE_NAME> initial-setup --port 3309
+```
+Now push your schema.
+```bash copy
+npx prisma db push
+```
+
+### Start the app
+Let's start the app (finally 🎉)!
+
+```bash copy
+pnpm dev
+```
+
+This should have started 3 dev servers:
+- Website: http://localhost:3000
+- Dashboard: http://localhost:3001
+- API: http://localhost:4000
+
+### Create a user
+Go to http://localhost:3001 and signup. Assuming you setup your `SENDGRID_API`
+(and everything else), you should receive an email with a link to verify your
+account. That's it!
+
+</Steps>

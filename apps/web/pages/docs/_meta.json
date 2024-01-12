@@ -1,8 +1,21 @@
 {
   "index": "Overview",
+  "-- Getting started": {
+    "type": "separator",
+    "title": "Getting started"
+  },
   "quick-start": "Quick start",
   "usage": "Basic usage",
   "configuration": "Configuration",
-  "api-reference": "API reference",
-  "ci": "CI/CD (coming soon)"
+  "-- API reference": {
+    "type": "separator",
+    "title": "API reference"
+  },
+  "cli": "CLI",
+  "-- Developer guide": {
+    "type": "separator",
+    "title": "Developer guide"
+  },
+  "prerequisites": "Prerequisites",
+  "installation": "Installation"
 }
