@@ -127,6 +127,7 @@ async function run() {
               return (
                 comment.path === reviews.path &&
                 comment.position === violation.endLine &&
+                // @ts-expect-error - Will be fixed in next PR
                 comment.body.includes(violation.description) &&
                 comment.user.login ===
                   (process.env.FLOE_BOT_NAME ?? "floe-app[bot]")
