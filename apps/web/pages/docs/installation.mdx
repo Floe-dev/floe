@@ -32,7 +32,7 @@ pnpm i
 - If you haven't already, create a PlanetScale database. You can do it through their dashboard.
 - Remember the database name for later.
 
-### Vercel setup
+### Setup Vercel
 - In Vercel, create a Project. You can create it from the GitHub repository you just forked.
 - Setup a Redis KV store. You can do this through the Vercel dashboard on the `Storage` page.
 - Keep your environment variables handy for later.
@@ -61,17 +61,17 @@ Create a `.env` by copying the `.env.example` file in the following directories:
   </FileTree.Folder>
 </FileTree>
 
-### DATABASE_URL
+### `DATABASE_URL`
 - Set the `DATABASE_URL` to `mysql://root@127.0.0.1:3309/<DATABASE_NAME>?connection_limit=100`
 - Replace `<DATABASE_NAME>` with the name of the database you created earlier
 
-### NEXTAUTH_SECRET
-- Generate a cryptographically secure random string and set it as the
+### `NEXTAUTH_SECRET`
+- Generate a cryptographically secure string and set it as the
   `NEXTAUTH_SECRET`. The easiest way to do this is to run `openssl rand -base64
   32` in your terminal.
 
-### FLOE_SECRET_IV and FLOE_SECRET_KEY
-- Create a 16 and 32 character string and set them as the `FLOE_SECRET_IV` and
+### `FLOE_SECRET_IV` and `FLOE_SECRET_KEY`
+- Generate a 16 and 32 character cryptographically string and set them as the `FLOE_SECRET_IV` and
   `FLOE_SECRET_KEY` respectively. The easiest way to do this is to run `openssl
   rand -base64 16` and `openssl rand -base64 32` in your terminal.
 
