@@ -8,13 +8,13 @@ export declare const querySchema: z.ZodObject<{
 }, "strip", z.ZodTypeAny, {
     owner: string;
     repo: string;
-    issueNumber: number;
     body: string;
+    issueNumber: number;
 }, {
     owner: string;
     repo: string;
-    issueNumber: number;
     body: string;
+    issueNumber: number;
 }>;
 export type PostGitIssueCommentsResponse = Endpoints["POST /repos/{owner}/{repo}/issues/{issue_number}/comments"]["response"]["data"];
 export type PostIssueCommentsInput = z.infer<typeof querySchema>;
