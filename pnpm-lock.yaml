@@ -12,70 +12,18 @@ importers:
         specifier: ^2.27.1
         version: 2.27.1
     devDependencies:
+      '@floe/tsconfig':
+        specifier: workspace:*
+        version: link:packages/tsconfig
       eslint:
         specifier: ^8.48.0
         version: 8.48.0
       prettier:
         specifier: ^3.0.3
         version: 3.0.3
-      tsconfig:
-        specifier: workspace:*
-        version: link:packages/tsconfig
       turbo:
         specifier: latest
         version: 1.11.1
-
-  actions/review-action:
-    dependencies:
-      '@actions/core':
-        specifier: ^1.10.1
-        version: 1.10.1
-      '@actions/github':
-        specifier: ^6.0.0
-        version: 6.0.0
-      '@floe/features':
-        specifier: workspace:*
-        version: link:../../packages/features
-      '@floe/lib':
-        specifier: workspace:*
-        version: link:../../packages/lib
-      '@floe/requests':
-        specifier: workspace:*
-        version: link:../../packages/requests
-      axios:
-        specifier: ^1.6.0
-        version: 1.6.0
-      glob:
-        specifier: ^10.3.10
-        version: 10.3.10
-      simple-git:
-        specifier: ^3.20.0
-        version: 3.20.0
-      uuid:
-        specifier: ^9.0.1
-        version: 9.0.1
-    devDependencies:
-      '@types/get-installed-path':
-        specifier: ^4.0.3
-        version: 4.0.3
-      '@types/node':
-        specifier: ^20.8.10
-        version: 20.9.0
-      '@types/uuid':
-        specifier: ^9.0.7
-        version: 9.0.7
-      '@vercel/ncc':
-        specifier: ^0.38.1
-        version: 0.38.1
-      eslint-config-custom:
-        specifier: workspace:*
-        version: link:../../packages/eslint-config-custom
-      tsconfig:
-        specifier: workspace:*
-        version: link:../../packages/tsconfig
-      typescript:
-        specifier: ^5.3.2
-        version: 5.3.2
 
   apps/api:
     dependencies:
@@ -152,6 +100,12 @@ importers:
         specifier: ^2.1.0
         version: 2.1.0(zod@3.22.4)
     devDependencies:
+      '@floe/eslint-config-custom':
+        specifier: workspace:*
+        version: link:../../packages/eslint-config-custom
+      '@floe/tsconfig':
+        specifier: workspace:*
+        version: link:../../packages/tsconfig
       '@octokit/types':
         specifier: ^12.3.0
         version: 12.3.0
@@ -170,12 +124,6 @@ importers:
       '@types/request-ip':
         specifier: ^0.0.41
         version: 0.0.41
-      eslint-config-custom:
-        specifier: workspace:*
-        version: link:../../packages/eslint-config-custom
-      tsconfig:
-        specifier: workspace:*
-        version: link:../../packages/tsconfig
 
   apps/app:
     dependencies:
@@ -246,9 +194,15 @@ importers:
         specifier: ^3.22.4
         version: 3.22.4
     devDependencies:
+      '@floe/eslint-config-custom':
+        specifier: workspace:*
+        version: link:../../packages/eslint-config-custom
       '@floe/tailwind':
         specifier: workspace:*
         version: link:../../packages/tailwind
+      '@floe/tsconfig':
+        specifier: workspace:*
+        version: link:../../packages/tsconfig
       '@prisma/nextjs-monorepo-workaround-plugin':
         specifier: ^5.3.1
         version: 5.3.1
@@ -276,9 +230,6 @@ importers:
       eslint:
         specifier: ^8.47.0
         version: 8.48.0
-      eslint-config-custom:
-        specifier: workspace:*
-        version: link:../../packages/eslint-config-custom
       prisma:
         specifier: ^5.1.1
         version: 5.1.1
@@ -288,9 +239,6 @@ importers:
       tailwindcss:
         specifier: ^3.3.3
         version: 3.3.3
-      tsconfig:
-        specifier: workspace:*
-        version: link:../../packages/tsconfig
       typescript:
         specifier: ^5.1.6
         version: 5.1.6
@@ -334,9 +282,15 @@ importers:
         specifier: ^3.22.4
         version: 3.22.4
     devDependencies:
+      '@floe/eslint-config-custom':
+        specifier: workspace:*
+        version: link:../../packages/eslint-config-custom
       '@floe/tailwind':
         specifier: workspace:*
         version: link:../../packages/tailwind
+      '@floe/tsconfig':
+        specifier: workspace:*
+        version: link:../../packages/tsconfig
       '@next/eslint-plugin-next':
         specifier: ^13.4.19
         version: 13.4.19
@@ -352,67 +306,15 @@ importers:
       autoprefixer:
         specifier: ^10.4.16
         version: 10.4.16(postcss@8.4.31)
-      eslint-config-custom:
-        specifier: workspace:*
-        version: link:../../packages/eslint-config-custom
       postcss:
         specifier: ^8.4.31
         version: 8.4.31
       tailwindcss:
         specifier: ^3.3.3
         version: 3.3.3
-      tsconfig:
-        specifier: workspace:*
-        version: link:../../packages/tsconfig
       typescript:
         specifier: ^4.5.3
         version: 4.9.5
-
-  packages/action:
-    dependencies:
-      '@actions/core':
-        specifier: ^1.10.1
-        version: 1.10.1
-      '@actions/github':
-        specifier: ^6.0.0
-        version: 6.0.0
-      '@floe/lib':
-        specifier: workspace:*
-        version: link:../lib
-      '@floe/requests':
-        specifier: workspace:*
-        version: link:../requests
-      axios:
-        specifier: ^1.6.0
-        version: 1.6.0
-      glob:
-        specifier: ^10.3.10
-        version: 10.3.10
-      uuid:
-        specifier: ^9.0.1
-        version: 9.0.1
-    devDependencies:
-      '@types/get-installed-path':
-        specifier: ^4.0.3
-        version: 4.0.3
-      '@types/node':
-        specifier: ^20.8.10
-        version: 20.9.0
-      '@types/uuid':
-        specifier: ^9.0.7
-        version: 9.0.7
-      '@vercel/ncc':
-        specifier: ^0.38.1
-        version: 0.38.1
-      eslint-config-custom:
-        specifier: workspace:*
-        version: link:../eslint-config-custom
-      tsconfig:
-        specifier: workspace:*
-        version: link:../tsconfig
-      typescript:
-        specifier: ^5.3.2
-        version: 5.3.2
 
   packages/cli:
     dependencies:
@@ -465,6 +367,12 @@ importers:
         specifier: ^4.7.1
         version: 4.7.1
     devDependencies:
+      '@floe/eslint-config-custom':
+        specifier: workspace:*
+        version: link:../eslint-config-custom
+      '@floe/tsconfig':
+        specifier: workspace:*
+        version: link:../tsconfig
       '@types/diff':
         specifier: ^5.0.9
         version: 5.0.9
@@ -474,12 +382,6 @@ importers:
       esbuild:
         specifier: ^0.19.5
         version: 0.19.5
-      eslint-config-custom:
-        specifier: workspace:*
-        version: link:../eslint-config-custom
-      tsconfig:
-        specifier: workspace:*
-        version: link:../tsconfig
 
   packages/config:
     dependencies:
@@ -490,18 +392,18 @@ importers:
         specifier: ^1.3.0
         version: 1.3.0
     devDependencies:
+      '@floe/eslint-config-custom':
+        specifier: workspace:*
+        version: link:../eslint-config-custom
+      '@floe/tsconfig':
+        specifier: workspace:*
+        version: link:../tsconfig
       '@types/node':
         specifier: ^20.8.2
         version: 20.8.10
-      eslint-config-custom:
-        specifier: workspace:*
-        version: link:../eslint-config-custom
       ts-node:
         specifier: ^10.9.1
         version: 10.9.1(@types/node@20.8.10)(typescript@5.3.2)
-      tsconfig:
-        specifier: workspace:*
-        version: link:../tsconfig
       typescript:
         specifier: ^5.2.2
         version: 5.3.2
@@ -512,21 +414,21 @@ importers:
         specifier: ^5.3.1
         version: 5.3.1(prisma@5.3.1)
     devDependencies:
+      '@floe/eslint-config-custom':
+        specifier: workspace:*
+        version: link:../eslint-config-custom
+      '@floe/tsconfig':
+        specifier: workspace:*
+        version: link:../tsconfig
       '@types/node':
         specifier: ^20.5.9
         version: 20.5.9
-      eslint-config-custom:
-        specifier: workspace:*
-        version: link:../eslint-config-custom
       prisma:
         specifier: ^5.3.1
         version: 5.3.1
       ts-node:
         specifier: ^10.9.1
         version: 10.9.1(@types/node@20.5.9)(typescript@5.2.2)
-      tsconfig:
-        specifier: workspace:*
-        version: link:../tsconfig
       typescript:
         specifier: ^5.2.2
         version: 5.2.2
@@ -555,15 +457,15 @@ importers:
         specifier: ^9.0.3
         version: 9.0.3
     devDependencies:
+      '@floe/eslint-config-custom':
+        specifier: workspace:*
+        version: link:../eslint-config-custom
+      '@floe/tsconfig':
+        specifier: workspace:*
+        version: link:../tsconfig
       '@types/node':
         specifier: ^20.8.10
         version: 20.9.0
-      eslint-config-custom:
-        specifier: workspace:*
-        version: link:../eslint-config-custom
-      tsconfig:
-        specifier: workspace:*
-        version: link:../tsconfig
 
   packages/lib:
     dependencies:
@@ -583,15 +485,15 @@ importers:
       '@floe/config':
         specifier: workspace:*
         version: link:../config
+      '@floe/eslint-config-custom':
+        specifier: workspace:*
+        version: link:../eslint-config-custom
+      '@floe/tsconfig':
+        specifier: workspace:*
+        version: link:../tsconfig
       '@types/node':
         specifier: ^20.8.10
         version: 20.8.10
-      eslint-config-custom:
-        specifier: workspace:*
-        version: link:../eslint-config-custom
-      tsconfig:
-        specifier: workspace:*
-        version: link:../tsconfig
 
   packages/requests:
     dependencies:
@@ -605,21 +507,21 @@ importers:
         specifier: ^3.22.4
         version: 3.22.4
     devDependencies:
+      '@floe/eslint-config-custom':
+        specifier: workspace:*
+        version: link:../eslint-config-custom
+      '@floe/tsconfig':
+        specifier: workspace:*
+        version: link:../tsconfig
       '@octokit/types':
         specifier: ^12.3.0
         version: 12.3.0
       '@types/node':
         specifier: ^20.8.10
         version: 20.9.0
-      eslint-config-custom:
-        specifier: workspace:*
-        version: link:../eslint-config-custom
       openai:
         specifier: ^4.19.0
         version: 4.19.0
-      tsconfig:
-        specifier: workspace:*
-        version: link:../tsconfig
 
   packages/tailwind:
     devDependencies:
@@ -647,9 +549,15 @@ importers:
         specifier: ^2.0.18
         version: 2.0.18(react@18.2.0)
     devDependencies:
+      '@floe/eslint-config-custom':
+        specifier: workspace:*
+        version: link:../eslint-config-custom
       '@floe/tailwind':
         specifier: workspace:*
         version: link:../tailwind
+      '@floe/tsconfig':
+        specifier: workspace:*
+        version: link:../tsconfig
       '@turbo/gen':
         specifier: ^1.10.12
         version: 1.10.12(@types/node@20.5.2)(typescript@4.9.5)
@@ -668,9 +576,6 @@ importers:
       classnames:
         specifier: ^2.3.2
         version: 2.3.2
-      eslint-config-custom:
-        specifier: workspace:*
-        version: link:../eslint-config-custom
       postcss:
         specifier: ^8.4.31
         version: 8.4.31
@@ -680,9 +585,6 @@ importers:
       tailwindcss:
         specifier: ^3.3.3
         version: 3.3.3
-      tsconfig:
-        specifier: workspace:*
-        version: link:../tsconfig
       typescript:
         specifier: ^4.5.2
         version: 4.9.5
@@ -693,29 +595,6 @@ packages:
     resolution: {integrity: sha512-1Yjs2SvM8TflER/OD3cOjhWWOZb58A2t7wpE2S9XfBYTiIl+XFhQG2bjy4Pu1I+EAlCNUzRDYDdFwFYUKvXcIA==}
     engines: {node: '>=0.10.0'}
     dev: true
-
-  /@actions/core@1.10.1:
-    resolution: {integrity: sha512-3lBR9EDAY+iYIpTnTIXmWcNbX3T2kCkAEQGIQx4NVQ0575nk2k3GRZDTPQG+vVtS2izSLmINlxXf0uLtnrTP+g==}
-    dependencies:
-      '@actions/http-client': 2.2.0
-      uuid: 8.3.2
-    dev: false
-
-  /@actions/github@6.0.0:
-    resolution: {integrity: sha512-alScpSVnYmjNEXboZjarjukQEzgCRmjMv6Xj47fsdnqGS73bjJNDpiiXmp8jr0UZLdUB6d9jW63IcmddUP+l0g==}
-    dependencies:
-      '@actions/http-client': 2.2.0
-      '@octokit/core': 5.0.1
-      '@octokit/plugin-paginate-rest': 9.1.2(@octokit/core@5.0.1)
-      '@octokit/plugin-rest-endpoint-methods': 10.1.2(@octokit/core@5.0.1)
-    dev: false
-
-  /@actions/http-client@2.2.0:
-    resolution: {integrity: sha512-q+epW0trjVUUHboliPb4UF9g2msf+w61b32tAkFEwL/IwP0DQWgbCMM0Hbe3e3WXSKz5VcUXbzJQgy8Hkra/Lg==}
-    dependencies:
-      tunnel: 0.0.6
-      undici: 5.28.2
-    dev: false
 
   /@alloc/quick-lru@5.2.0:
     resolution: {integrity: sha512-UrcABB+4bUrFABwbluTIBErXwvbsU/V7TZWfmbgJfbkwiBuziS9gxdODUyuiecfdGQ85jglMW6juS3+z5TsKLw==}
@@ -1590,11 +1469,6 @@ packages:
     resolution: {integrity: sha512-ZSjtmelB7IJfWD2Fvb7+Z+ChTIKWq6kjda95fLcQKNS5aheVHn4IkfgRQE3sIIzTcSLwLcLZUD9UBt+V7+h+Pw==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     dev: true
-
-  /@fastify/busboy@2.1.0:
-    resolution: {integrity: sha512-+KpH+QxZU7O4675t3mnkQKcZZg56u+K/Ct2K+N2AZYNVK8kyeo/bI18tI8aPm3tvNNRyTWfj6s5tnGNlcbQRsA==}
-    engines: {node: '>=14'}
-    dev: false
 
   /@headlessui/react@1.7.16(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-2MphIAZdSUacZBT6EXk8AJkj+EuvaaJbtCyHTJrPsz8inhzCl7qeNPI1uk1AUvCgWylVtdN8cVVmnhUDPxPy3g==}
@@ -3335,10 +3209,6 @@ packages:
   /@types/estree@1.0.3:
     resolution: {integrity: sha512-CS2rOaoQ/eAgAfcTfq6amKG7bsN+EMcgGY4FAFQdvSj2y1ixvOZTUA9mOtCai7E1SYu283XNw7urKK30nP3wkQ==}
 
-  /@types/get-installed-path@4.0.3:
-    resolution: {integrity: sha512-Xe6nTuvKO3dumMspsmf1ewkre85fhmQmM1yIv2fkyZRYqXU1ONYAH9b2HMDiykPvdjFUheud4pizBEpI7t6OUw==}
-    dev: true
-
   /@types/glob@7.2.0:
     resolution: {integrity: sha512-ZUxbzKl0IfJILTS6t7ip5fQQM/J3TJYubDm3nMbgubNNYS62eXeUpoLUC8/7fJNiFYHTrGPQn7hspDUzIHX3UA==}
     dependencies:
@@ -3521,10 +3391,6 @@ packages:
   /@types/unist@3.0.2:
     resolution: {integrity: sha512-dqId9J8K/vGi5Zr7oo212BGii5m3q5Hxlkwy3WpYuKPklmBEvsbMYYyLxAQpSffdLl/gdW0XUpKWFvYmyoWCoQ==}
     dev: false
-
-  /@types/uuid@9.0.7:
-    resolution: {integrity: sha512-WUtIVRUZ9i5dYXefDEAI7sh9/O7jGvHg7Df/5O/gtH3Yabe5odI3UWopVR1qbPXQtvOxWu3mM4XxlYeZtMWF4g==}
-    dev: true
 
   /@types/wrap-ansi@3.0.0:
     resolution: {integrity: sha512-ltIpx+kM7g/MLRZfkbL7EsCEjfzCcScLpkg37eXEtx5kmrAKBkTJwd1GIAjDSL8wTpM6Hzn5YO4pSb91BEwu1g==}
@@ -3868,11 +3734,6 @@ packages:
     dependencies:
       '@upstash/redis': 1.25.1
     dev: false
-
-  /@vercel/ncc@0.38.1:
-    resolution: {integrity: sha512-IBBb+iI2NLu4VQn3Vwldyi2QwaXt5+hTyh58ggAMoCGE6DJmPvwL3KPBWcJl1m9LYPChBLE980Jw+CS4Wokqxw==}
-    hasBin: true
-    dev: true
 
   /@vercel/style-guide@5.0.0(eslint@8.48.0)(prettier@3.0.3)(typescript@4.9.5):
     resolution: {integrity: sha512-z8EbEyZm5Zn6AOa+XJ7dOja94m5Hm6cgCuTRK74qxKFWi7qQYUJoEkU27wYgOplZSAYVLB8mHfe51RGZMyqiUw==}
@@ -11143,11 +11004,6 @@ packages:
       yargs: 17.7.2
     dev: false
 
-  /tunnel@0.0.6:
-    resolution: {integrity: sha512-1h/Lnq9yajKY2PEbBadPXj3VxsDDu844OnaAo52UVmIzIvwwtBPIuNvkjuzBlTWpfJyUbG3ez0KSBibQkj4ojg==}
-    engines: {node: '>=0.6.11 <=0.7.0 || >=0.7.3'}
-    dev: false
-
   /turbo-darwin-64@1.11.1:
     resolution: {integrity: sha512-JmwL8kcfxncDf2SZFioSa6dUvpMq/HbMcurh9mGm6BxWLQoB0d3fP/q3HizgCSbOE4ihScXoQ+c/C2xhl6Ngjg==}
     cpu: [x64]
@@ -11330,13 +11186,6 @@ packages:
 
   /undici-types@5.26.5:
     resolution: {integrity: sha512-JlCMO+ehdEIKqlFxk6IfVoAUVmgz7cU7zD/h9XZ0qzeosSHmUJVOzSQvvYSYWXkFXC+IfLKSIffhv0sVZup6pA==}
-
-  /undici@5.28.2:
-    resolution: {integrity: sha512-wh1pHJHnUeQV5Xa8/kyQhO7WFa8M34l026L5P/+2TYiakvGy5Rdc8jWZVyG7ieht/0WgJLEd3kcU5gKx+6GC8w==}
-    engines: {node: '>=14.0'}
-    dependencies:
-      '@fastify/busboy': 2.1.0
-    dev: false
 
   /unified@10.1.2:
     resolution: {integrity: sha512-pUSWAi/RAnVy1Pif2kAoeWNBa3JVrx0MId2LASj8G+7AiHWoKZNTomq6LG326T68U7/e263X6fTdcXIy7XnF7Q==}

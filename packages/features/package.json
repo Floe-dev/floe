@@ -9,8 +9,8 @@
   },
   "devDependencies": {
     "@types/node": "^20.8.10",
-    "eslint-config-custom": "workspace:*",
-    "tsconfig": "workspace:*"
+    "@floe/eslint-config-custom": "workspace:*",
+    "@floe/tsconfig": "workspace:*"
   },
   "publishConfig": {
     "access": "public"

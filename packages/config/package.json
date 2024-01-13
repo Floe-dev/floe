@@ -19,9 +19,9 @@
   "license": "ISC",
   "devDependencies": {
     "@types/node": "^20.8.2",
-    "eslint-config-custom": "workspace:*",
+    "@floe/eslint-config-custom": "workspace:*",
     "ts-node": "^10.9.1",
-    "tsconfig": "workspace:*",
+    "@floe/tsconfig": "workspace:*",
     "typescript": "^5.2.2"
   },
   "dependencies": {

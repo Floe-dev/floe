@@ -1,10 +1,12 @@
 {
-  "name": "eslint-config-custom",
+  "name": "@floe/eslint-config-custom",
   "version": "0.1.0-beta.1",
-  "private": true,
   "devDependencies": {
     "@vercel/style-guide": "^5.0.0",
     "eslint-config-turbo": "^1.10.12",
     "typescript": "^4.5.3"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

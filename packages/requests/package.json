@@ -10,8 +10,8 @@
     "@octokit/types": "^12.3.0",
     "@types/node": "^20.8.10",
     "openai": "^4.19.0",
-    "eslint-config-custom": "workspace:*",
-    "tsconfig": "workspace:*"
+    "@floe/eslint-config-custom": "workspace:*",
+    "@floe/tsconfig": "workspace:*"
   },
   "publishConfig": {
     "access": "public"

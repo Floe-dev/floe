@@ -44,7 +44,7 @@
     "@types/memory-cache": "^0.2.5",
     "@types/qs": "^6.9.10",
     "@types/request-ip": "^0.0.41",
-    "eslint-config-custom": "workspace:*",
-    "tsconfig": "workspace:*"
+    "@floe/eslint-config-custom": "workspace:*",
+    "@floe/tsconfig": "workspace:*"
   }
 }

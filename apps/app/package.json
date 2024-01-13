@@ -46,11 +46,11 @@
     "@typescript-eslint/eslint-plugin": "^6.3.0",
     "@typescript-eslint/parser": "^6.3.0",
     "eslint": "^8.47.0",
-    "eslint-config-custom": "workspace:*",
+    "@floe/eslint-config-custom": "workspace:*",
     "prisma": "^5.1.1",
     "react-hook-form": "^7.47.0",
     "tailwindcss": "^3.3.3",
-    "tsconfig": "workspace:*",
+    "@floe/tsconfig": "workspace:*",
     "typescript": "^5.1.6"
   }
 }

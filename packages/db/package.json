@@ -19,8 +19,8 @@
     "prisma": "^5.3.1",
     "ts-node": "^10.9.1",
     "typescript": "^5.2.2",
-    "eslint-config-custom": "workspace:*",
-    "tsconfig": "workspace:*"
+    "@floe/eslint-config-custom": "workspace:*",
+    "@floe/tsconfig": "workspace:*"
   },
   "dependencies": {
     "@prisma/client": "^5.3.1"

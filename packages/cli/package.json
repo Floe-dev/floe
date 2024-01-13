@@ -22,8 +22,8 @@
     "@types/diff": "^5.0.9",
     "@types/node": "^20.8.10",
     "esbuild": "^0.19.5",
-    "eslint-config-custom": "workspace:*",
-    "tsconfig": "workspace:*"
+    "@floe/eslint-config-custom": "workspace:*",
+    "@floe/tsconfig": "workspace:*"
   },
   "dependencies": {
     "@floe/config": "workspace:*",

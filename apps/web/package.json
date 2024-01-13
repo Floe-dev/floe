@@ -33,10 +33,10 @@
     "@types/react": "^18.0.22",
     "@types/react-dom": "^18.0.7",
     "autoprefixer": "^10.4.16",
-    "eslint-config-custom": "workspace:*",
+    "@floe/eslint-config-custom": "workspace:*",
     "postcss": "^8.4.31",
     "tailwindcss": "^3.3.3",
-    "tsconfig": "workspace:*",
+    "@floe/tsconfig": "workspace:*",
     "typescript": "^4.5.3"
   }
 }
