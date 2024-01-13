@@ -13,4 +13,4 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Review
-        uses: ./actions/review-action
+        uses: Floe-dev/@floe/review-action
