@@ -1,1 +1,0 @@
-declare function run(): void;
