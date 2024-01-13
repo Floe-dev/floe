@@ -51,11 +51,9 @@ export async function createReview({
   rule,
 }: PostReviewInput) {
   return api.post<PostReviewResponse>("/api/v1/review", {
-    params: {
-      path,
-      content,
-      startLine,
-      rule,
-    },
+    path,
+    content,
+    startLine,
+    rule,
   });
 }

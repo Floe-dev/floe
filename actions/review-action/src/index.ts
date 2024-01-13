@@ -14,6 +14,8 @@ import * as github from "@actions/github";
 import { parseDiffToFileHunks } from "@floe/lib/diff-parser";
 import { fetchGitReviewComments } from "@floe/requests/git/review-comments/_get";
 import { createGitReviewComment } from "@floe/requests/git/review-comments/_post";
+// import { createGitIssueComment } from "@floe/requests/git/issue-comments/_post";
+// import { fetchGitIssueComments } from "@floe/requests/git/issue-comments/_get";
 
 async function run() {
   try {
@@ -44,6 +46,7 @@ async function run() {
     const basehead = `origin/${baseRef}..origin/${headRef}`;
     /**
      * Fetch all branches. This is needed to get the correct diff.
+     * This breaks locally, and isn't needed. So be sure to FLOE_TEST_MODE=1.
      */
     if (!process.env.FLOE_TEST_MODE) {
       await simpleGit().fetch();
@@ -116,6 +119,15 @@ async function run() {
       pullNumber,
     });
 
+    const getCommentBody = (
+      code: string,
+      description: string | undefined,
+      linesWithFix: string | undefined
+    ) =>
+      `**${code}:** ${description ?? ""}\n${
+        linesWithFix ? `\`\`\`suggestion\n${linesWithFix}\n\`\`\`` : ""
+      }`;
+
     /**
      * Check if comments already exist for a violation
      */
@@ -151,13 +163,13 @@ async function run() {
      * Create comments for new violations
      */
     newViolations.forEach(async (violation) => {
-      const body = `${violation.description}\n${
+      const body = getCommentBody(
+        violation.rule.code,
+        violation.description,
         violation.linesWithFix
-          ? `\`\`\`suggestion\n${violation.linesWithFix}\n\`\`\``
-          : ""
-      }`;
+      );
 
-      const newComment = await createGitReviewComment({
+      await createGitReviewComment({
         path: violation.path,
         commitId: headSha,
         body,
@@ -171,8 +183,6 @@ async function run() {
           startLine: violation.startLine,
         }),
       });
-
-      console.log("Response: ", newComment.data);
     });
 
     const errorsByFile = getErrorsByFile(reviewsByFile);
@@ -188,7 +198,41 @@ async function run() {
       }
     );
 
-    // TODO: Add comment summary
+    /**
+     * TODO: Introduce summary comments
+     */
+    // const issueComments = await fetchGitIssueComments({
+    //   owner,
+    //   repo,
+    //   issueNumber: pullNumber,
+    // });
+
+    /**
+     * Check to see if Floe summary comment already exists
+     */
+    // const floeSummaryComment = issueComments.data.find((comment) => {
+    //   if (!comment.body || !comment.user) {
+    //     return false;
+    //   }
+
+    //   return (
+    //     comment.body.includes(
+    //       `Floe review completed with ${combinedErrorsAndWarnings.errors} errors and ${combinedErrorsAndWarnings.warnings} warnings.`
+    //     ) &&
+    //     comment.user.login === (process.env.FLOE_BOT_NAME ?? "floe-app[bot]")
+    //   );
+    // });
+
+    // if (!floeSummaryComment) {
+    //   await createGitIssueComment({
+    //     repo,
+    //     owner,
+    //     body: `Floe review completed with ${combinedErrorsAndWarnings.errors} errors and ${combinedErrorsAndWarnings.warnings} warnings.`,
+    //     issueNumber: pullNumber,
+    //   });
+    // } else {
+    //   // Update
+    // }
 
     if (combinedErrorsAndWarnings.errors > 0) {
       core.setFailed(

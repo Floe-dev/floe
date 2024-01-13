@@ -1,6 +1,8 @@
 import { HttpError } from "@floe/lib/http-error";
-import { querySchema } from "@floe/requests/git/review-comments/_post";
-import type { PostGitReviewCommentsResponse } from "@floe/requests/git/review-comments/_post";
+import {
+  querySchema,
+  type PostGitIssueCommentsResponse,
+} from "@floe/requests/git/issue-comments/_post";
 import type { NextApiRequestExtension } from "~/types/private-middleware";
 import { getOctokit } from "~/lib/github/octokit";
 import { defaultResponder } from "~/lib/helpers/default-responder";
@@ -9,7 +11,7 @@ import { zParse } from "~/utils/z-parse";
 async function handler({
   body,
   workspace,
-}: NextApiRequestExtension): Promise<PostGitReviewCommentsResponse> {
+}: NextApiRequestExtension): Promise<PostGitIssueCommentsResponse> {
   const parsed = zParse(querySchema, body as Record<string, unknown>);
 
   if (workspace.gitlabIntegration) {
@@ -28,18 +30,12 @@ async function handler({
 
   const octokit = await getOctokit(workspace.githubIntegration.installationId);
 
-  const comments = await octokit.rest.pulls
-    .createReviewComment({
+  const comment = await octokit.rest.issues
+    .createComment({
       body: parsed.body,
       repo: parsed.repo,
       owner: parsed.owner,
-      pull_number: parsed.pullNumber,
-      line: parsed.line,
-      start_line: parsed.startLine,
-      side: parsed.side,
-      start_side: parsed.startSide,
-      path: parsed.path,
-      commit_id: parsed.commitId,
+      issue_number: parsed.issueNumber,
     })
     .catch((e) => {
       console.error(e.message);
@@ -50,7 +46,9 @@ async function handler({
       });
     });
 
-  return comments.data;
+  console.log(222222, comment);
+
+  return comment.data;
 }
 
 export default defaultResponder(handler);

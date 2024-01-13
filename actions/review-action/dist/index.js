@@ -45486,12 +45486,10 @@ const querySchema = z.object({
 });
 async function createReview({ path, content, startLine, rule, }) {
     return api.post("/api/v1/review", {
-        params: {
-            path,
-            content,
-            startLine,
-            rule,
-        },
+        path,
+        content,
+        startLine,
+        rule,
     });
 }
 
@@ -49811,18 +49809,16 @@ const _post_querySchema = z.object({
 });
 async function createGitReviewComment({ path, repo, owner, body, commitId, pullNumber, line, startLine, side, startSide, }) {
     return api.post("/api/v1/git/review-comments", {
-        params: {
-            path,
-            repo,
-            owner,
-            body,
-            commitId,
-            pullNumber,
-            line,
-            startLine,
-            side,
-            startSide,
-        },
+        path,
+        repo,
+        owner,
+        body,
+        commitId,
+        pullNumber,
+        line,
+        startLine,
+        side,
+        startSide,
     });
 }
 
@@ -49838,6 +49834,8 @@ async function createGitReviewComment({ path, repo, owner, body, commitId, pullN
 
 
 
+// import { createGitIssueComment } from "@floe/requests/git/issue-comments/_post";
+// import { fetchGitIssueComments } from "@floe/requests/git/issue-comments/_get";
 async function run() {
     try {
         const headRef = process.env.GITHUB_HEAD_REF;
@@ -49862,6 +49860,7 @@ async function run() {
         const basehead = `origin/${baseRef}..origin/${headRef}`;
         /**
          * Fetch all branches. This is needed to get the correct diff.
+         * This breaks locally, and isn't needed. So be sure to FLOE_TEST_MODE=1.
          */
         if (!process.env.FLOE_TEST_MODE) {
             await esm_default().fetch();
@@ -49914,6 +49913,7 @@ async function run() {
             repo,
             pullNumber,
         });
+        const getCommentBody = (code, description, linesWithFix) => `**${code}:** ${description ?? ""}\n${linesWithFix ? `\`\`\`suggestion\n${linesWithFix}\n\`\`\`` : ""}`;
         /**
          * Check if comments already exist for a violation
          */
@@ -49944,10 +49944,8 @@ async function run() {
          * Create comments for new violations
          */
         newViolations.forEach(async (violation) => {
-            const body = `${violation.description}\n${violation.linesWithFix
-                ? `\`\`\`suggestion\n${violation.linesWithFix}\n\`\`\``
-                : ""}`;
-            const newComment = await createGitReviewComment({
+            const body = getCommentBody(violation.rule.code, violation.description, violation.linesWithFix);
+            await createGitReviewComment({
                 path: violation.path,
                 commitId: headSha,
                 body,
@@ -49961,7 +49959,6 @@ async function run() {
                     startLine: violation.startLine,
                 }),
             });
-            console.log("Response: ", newComment.data);
         });
         const errorsByFile = getErrorsByFile(reviewsByFile);
         const combinedErrorsAndWarnings = errorsByFile.reduce((acc, { errors, warnings }) => ({
@@ -49971,7 +49968,38 @@ async function run() {
             errors: 0,
             warnings: 0,
         });
-        // TODO: Add comment summary
+        /**
+         * TODO: Introduce summary comments
+         */
+        // const issueComments = await fetchGitIssueComments({
+        //   owner,
+        //   repo,
+        //   issueNumber: pullNumber,
+        // });
+        /**
+         * Check to see if Floe summary comment already exists
+         */
+        // const floeSummaryComment = issueComments.data.find((comment) => {
+        //   if (!comment.body || !comment.user) {
+        //     return false;
+        //   }
+        //   return (
+        //     comment.body.includes(
+        //       `Floe review completed with ${combinedErrorsAndWarnings.errors} errors and ${combinedErrorsAndWarnings.warnings} warnings.`
+        //     ) &&
+        //     comment.user.login === (process.env.FLOE_BOT_NAME ?? "floe-app[bot]")
+        //   );
+        // });
+        // if (!floeSummaryComment) {
+        //   await createGitIssueComment({
+        //     repo,
+        //     owner,
+        //     body: `Floe review completed with ${combinedErrorsAndWarnings.errors} errors and ${combinedErrorsAndWarnings.warnings} warnings.`,
+        //     issueNumber: pullNumber,
+        //   });
+        // } else {
+        //   // Update
+        // }
         if (combinedErrorsAndWarnings.errors > 0) {
             core.setFailed(`Floe review failed with ${combinedErrorsAndWarnings.errors} errors.`);
         }

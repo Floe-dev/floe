@@ -11,7 +11,7 @@ import { parseGitHubInstallationCallback } from "~/lib/features/github-installat
 const schema = z
   .object({
     code: z.string(),
-    state: z.string(),
+    state: z.string().optional(),
     installationId: z.number(),
     setupAction: z.literal("install"),
   })
