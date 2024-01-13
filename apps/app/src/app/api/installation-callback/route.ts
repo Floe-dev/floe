@@ -20,8 +20,6 @@ const schema = z
 const handler = async (req) => {
   const searchParams = req.nextUrl.searchParams;
 
-  console.log(111111, searchParams.get("state"));
-
   const { code, state, installationId } = schema.parse({
     code: searchParams.get("code"),
     state: searchParams.get("state"),
