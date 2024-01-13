@@ -49923,9 +49923,8 @@ async function run() {
                 return evaluationResponse.review.violations?.flatMap((violation) => {
                     const existingComment = comments.data.find((comment) => {
                         return (comment.path === reviews.path &&
-                            comment.position === violation.endLine &&
-                            // @ts-expect-error - Will be fixed in next PR
-                            comment.body.includes(violation.description) &&
+                            comment.original_line === violation.endLine &&
+                            comment.body.includes(getCommentBody(violation.rule.code, violation.description, violation.linesWithFix)) &&
                             comment.user.login ===
                                 (process.env.FLOE_BOT_NAME ?? "floe-app[bot]"));
                     });
