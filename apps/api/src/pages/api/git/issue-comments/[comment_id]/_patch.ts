@@ -9,12 +9,16 @@ import { defaultResponder } from "~/lib/helpers/default-responder";
 import { zParse } from "~/utils/z-parse";
 
 async function handler({
-  queryObj,
+  query,
   body,
   workspace,
 }: NextApiRequestExtension): Promise<PatchGitIssueCommentsResponse> {
-  console.log(555555, queryObj, body.params);
-  const parsed = zParse(querySchema, body as Record<string, unknown>);
+  const parsed = zParse(querySchema, {
+    body: body.body,
+    repo: body.repo,
+    owner: body.owner,
+    commentId: query.comment_id,
+  });
 
   if (workspace.gitlabIntegration) {
     throw new HttpError({
