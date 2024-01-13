@@ -1,5 +1,17 @@
 # @floe/features
 
+## 0.1.0-beta.5
+
+### Minor Changes
+
+- Create public release for tsconfig and eslint packages.
+
+### Patch Changes
+
+- Updated dependencies
+  - @floe/requests@0.1.0-beta.6
+  - @floe/lib@0.1.0-beta.4
+
 ## 0.1.0-beta.4
 
 ### Patch Changes

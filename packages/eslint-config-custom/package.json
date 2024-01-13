@@ -1,6 +1,6 @@
 {
   "name": "@floe/eslint-config-custom",
-  "version": "0.1.0-beta.1",
+  "version": "0.1.0-beta.2",
   "devDependencies": {
     "@vercel/style-guide": "^5.0.0",
     "eslint-config-turbo": "^1.10.12",

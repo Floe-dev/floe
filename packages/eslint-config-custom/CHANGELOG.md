@@ -1,5 +1,11 @@
 # eslint-config-custom
 
+## 0.1.0-beta.2
+
+### Minor Changes
+
+- Create public release for tsconfig and eslint packages.
+
 ## 0.1.0-beta.1
 
 ### Minor Changes

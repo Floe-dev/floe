@@ -17,13 +17,16 @@
     "tsconfig": "0.1.0-alpha.0",
     "@floe/ui": "0.1.0-alpha.1",
     "@floe/review-action": "0.1.0-beta.1",
-    "@floe/features": "0.1.0-beta.1"
+    "@floe/features": "0.1.0-beta.1",
+    "@floe/eslint-config-custom": "0.1.0-beta.1",
+    "@floe/tsconfig": "0.1.0-beta.1"
   },
   "changesets": [
     "bright-ducks-help",
     "clean-drinks-laugh",
     "dull-buttons-draw",
     "dull-yaks-worry",
+    "empty-lizards-repair",
     "fast-coins-unite",
     "hot-kangaroos-dream",
     "kind-pugs-study",

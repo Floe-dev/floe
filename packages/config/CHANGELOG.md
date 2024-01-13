@@ -1,5 +1,11 @@
 # @floe/config
 
+## 0.1.0-beta.13
+
+### Minor Changes
+
+- Create public release for tsconfig and eslint packages.
+
 ## 0.1.0-beta.7
 
 ### Minor Changes
