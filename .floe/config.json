@@ -8,7 +8,7 @@
     "docs": {
       "include": ["**/*.md", "**/*.mdx"],
       "rules": {
-        "spelling-and-grammar": "warn"
+        "spelling-and-grammar": "error"
       }
     }
   }
