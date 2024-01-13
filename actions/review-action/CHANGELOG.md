@@ -1,5 +1,11 @@
 # @floe/review-action
 
+## 0.1.0-beta.5
+
+### Minor Changes
+
+- Cut a new release.
+
 ## 0.1.0-beta.4
 
 ### Minor Changes
