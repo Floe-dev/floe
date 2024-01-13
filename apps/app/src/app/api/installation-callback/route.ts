@@ -11,7 +11,7 @@ import { parseGitHubInstallationCallback } from "~/lib/features/github-installat
 const schema = z
   .object({
     code: z.string(),
-    state: z.string(),
+    state: z.string().optional(),
     installationId: z.number(),
     setupAction: z.literal("install"),
   })
@@ -19,6 +19,8 @@ const schema = z
 
 const handler = async (req) => {
   const searchParams = req.nextUrl.searchParams;
+
+  console.log(111111, searchParams.get("state"));
 
   const { code, state, installationId } = schema.parse({
     code: searchParams.get("code"),

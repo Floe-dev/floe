@@ -14,8 +14,8 @@ import * as github from "@actions/github";
 import { parseDiffToFileHunks } from "@floe/lib/diff-parser";
 import { fetchGitReviewComments } from "@floe/requests/git/review-comments/_get";
 import { createGitReviewComment } from "@floe/requests/git/review-comments/_post";
-import { createGitIssueComment } from "@floe/requests/git/issue-comments/_post";
-import { fetchGitIssueComments } from "@floe/requests/git/issue-comments/_get";
+// import { createGitIssueComment } from "@floe/requests/git/issue-comments/_post";
+// import { fetchGitIssueComments } from "@floe/requests/git/issue-comments/_get";
 
 async function run() {
   try {
@@ -169,7 +169,7 @@ async function run() {
         violation.linesWithFix
       );
 
-      const newComment = await createGitReviewComment({
+      await createGitReviewComment({
         path: violation.path,
         commitId: headSha,
         body,
@@ -183,8 +183,6 @@ async function run() {
           startLine: violation.startLine,
         }),
       });
-
-      console.log("Response: ", newComment.data);
     });
 
     const errorsByFile = getErrorsByFile(reviewsByFile);
@@ -200,38 +198,41 @@ async function run() {
       }
     );
 
-    const issueComments = await fetchGitIssueComments({
-      owner,
-      repo,
-      issueNumber: pullNumber,
-    });
+    /**
+     * TODO: Introduce summary comments
+     */
+    // const issueComments = await fetchGitIssueComments({
+    //   owner,
+    //   repo,
+    //   issueNumber: pullNumber,
+    // });
 
     /**
      * Check to see if Floe summary comment already exists
      */
-    const floeSummaryComment = issueComments.data.find((comment) => {
-      if (!comment.body || !comment.user) {
-        return false;
-      }
+    // const floeSummaryComment = issueComments.data.find((comment) => {
+    //   if (!comment.body || !comment.user) {
+    //     return false;
+    //   }
 
-      return (
-        comment.body.includes(
-          `Floe review completed with ${combinedErrorsAndWarnings.errors} errors and ${combinedErrorsAndWarnings.warnings} warnings.`
-        ) &&
-        comment.user.login === (process.env.FLOE_BOT_NAME ?? "floe-app[bot]")
-      );
-    });
+    //   return (
+    //     comment.body.includes(
+    //       `Floe review completed with ${combinedErrorsAndWarnings.errors} errors and ${combinedErrorsAndWarnings.warnings} warnings.`
+    //     ) &&
+    //     comment.user.login === (process.env.FLOE_BOT_NAME ?? "floe-app[bot]")
+    //   );
+    // });
 
-    if (!floeSummaryComment) {
-      await createGitIssueComment({
-        repo,
-        owner,
-        body: `Floe review completed with ${combinedErrorsAndWarnings.errors} errors and ${combinedErrorsAndWarnings.warnings} warnings.`,
-        issueNumber: pullNumber,
-      });
-    } else {
-      // Update
-    }
+    // if (!floeSummaryComment) {
+    //   await createGitIssueComment({
+    //     repo,
+    //     owner,
+    //     body: `Floe review completed with ${combinedErrorsAndWarnings.errors} errors and ${combinedErrorsAndWarnings.warnings} warnings.`,
+    //     issueNumber: pullNumber,
+    //   });
+    // } else {
+    //   // Update
+    // }
 
     if (combinedErrorsAndWarnings.errors > 0) {
       core.setFailed(
