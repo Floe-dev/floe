@@ -1,5 +1,7 @@
 import OpenAI from "openai";
 import { Langfuse } from "langfuse";
+import type { z, AnyZodObject } from "zod";
+import { zParse } from "~/utils/z-parse";
 
 interface ProviderOptions {
   openai: OpenAI.Chat.Completions.ChatCompletionCreateParamsNonStreaming;
@@ -8,18 +10,20 @@ interface ProviderOptions {
 /**
  * Generate a chat completion and log to Langfuse
  */
-export async function createCompletion({
+export async function createCompletion<T extends AnyZodObject>({
   name,
   userId,
   metadata,
   provider,
   providerOptions,
+  completionResponseSchema,
 }: {
   name: string;
   userId: string;
   metadata: Record<string, string>;
   provider: keyof ProviderOptions;
   providerOptions: ProviderOptions[typeof provider];
+  completionResponseSchema: T;
 }) {
   if (!process.env.LANGFUSE_SECRET_KEY || !process.env.LANGFUSE_PUBLIC_KEY) {
     throw new Error("Missing LANGFUSE_SECRET_KEY or LANGFUSE_PUBLIC_KEY");
@@ -67,5 +71,29 @@ export async function createCompletion({
 
   await langfuse.shutdownAsync();
 
-  return chatCompletion;
+  /**
+   * Safely parse the response from the LLM
+   */
+  const parsedJson = JSON.parse(
+    chatCompletion.choices[0].message.content ?? "{}"
+  ) as Record<string, unknown>;
+
+  const parsedResponseContent: z.infer<T> = zParse(
+    completionResponseSchema,
+    parsedJson
+  );
+
+  return {
+    ...chatCompletion,
+    // Only pick the first choice since we will lock n at 1
+    choices: [
+      {
+        ...chatCompletion.choices[0],
+        message: {
+          ...chatCompletion.choices[0].message,
+          content: parsedResponseContent,
+        },
+      },
+    ],
+  };
 }
