@@ -45486,12 +45486,10 @@ const querySchema = z.object({
 });
 async function createReview({ path, content, startLine, rule, }) {
     return api.post("/api/v1/review", {
-        params: {
-            path,
-            content,
-            startLine,
-            rule,
-        },
+        path,
+        content,
+        startLine,
+        rule,
     });
 }
 
@@ -49811,56 +49809,16 @@ const _post_querySchema = z.object({
 });
 async function createGitReviewComment({ path, repo, owner, body, commitId, pullNumber, line, startLine, side, startSide, }) {
     return api.post("/api/v1/git/review-comments", {
-        params: {
-            path,
-            repo,
-            owner,
-            body,
-            commitId,
-            pullNumber,
-            line,
-            startLine,
-            side,
-            startSide,
-        },
-    });
-}
-
-;// CONCATENATED MODULE: ../../packages/requests/git/issue-comments/_post.ts
-
-
-const issue_comments_post_querySchema = z.object({
-    repo: z.string(),
-    body: z.string(),
-    owner: z.string(),
-    issueNumber: z.coerce.number(),
-});
-async function createGitIssueComment({ repo, owner, body, issueNumber, }) {
-    return api.post("/api/v1/git/issue-comments", {
-        params: {
-            repo,
-            owner,
-            body,
-            issueNumber,
-        },
-    });
-}
-
-;// CONCATENATED MODULE: ../../packages/requests/git/issue-comments/_get.ts
-
-
-const issue_comments_get_querySchema = z.object({
-    owner: z.string(),
-    repo: z.string(),
-    issueNumber: z.coerce.number(),
-});
-async function fetchGitIssueComments({ owner, repo, issueNumber, }) {
-    return api.get("/api/v1/git/issue-comments", {
-        params: {
-            owner,
-            repo,
-            issueNumber,
-        },
+        path,
+        repo,
+        owner,
+        body,
+        commitId,
+        pullNumber,
+        line,
+        startLine,
+        side,
+        startSide,
     });
 }
 
@@ -49876,8 +49834,8 @@ async function fetchGitIssueComments({ owner, repo, issueNumber, }) {
 
 
 
-
-
+// import { createGitIssueComment } from "@floe/requests/git/issue-comments/_post";
+// import { fetchGitIssueComments } from "@floe/requests/git/issue-comments/_get";
 async function run() {
     try {
         const headRef = process.env.GITHUB_HEAD_REF;
@@ -49987,7 +49945,7 @@ async function run() {
          */
         newViolations.forEach(async (violation) => {
             const body = getCommentBody(violation.rule.code, violation.description, violation.linesWithFix);
-            const newComment = await createGitReviewComment({
+            await createGitReviewComment({
                 path: violation.path,
                 commitId: headSha,
                 body,
@@ -50001,7 +49959,6 @@ async function run() {
                     startLine: violation.startLine,
                 }),
             });
-            console.log("Response: ", newComment.data);
         });
         const errorsByFile = getErrorsByFile(reviewsByFile);
         const combinedErrorsAndWarnings = errorsByFile.reduce((acc, { errors, warnings }) => ({
@@ -50011,32 +49968,38 @@ async function run() {
             errors: 0,
             warnings: 0,
         });
-        const issueComments = await fetchGitIssueComments({
-            owner,
-            repo,
-            issueNumber: pullNumber,
-        });
+        /**
+         * TODO: Introduce summary comments
+         */
+        // const issueComments = await fetchGitIssueComments({
+        //   owner,
+        //   repo,
+        //   issueNumber: pullNumber,
+        // });
         /**
          * Check to see if Floe summary comment already exists
          */
-        const floeSummaryComment = issueComments.data.find((comment) => {
-            if (!comment.body || !comment.user) {
-                return false;
-            }
-            return (comment.body.includes(`Floe review completed with ${combinedErrorsAndWarnings.errors} errors and ${combinedErrorsAndWarnings.warnings} warnings.`) &&
-                comment.user.login === (process.env.FLOE_BOT_NAME ?? "floe-app[bot]"));
-        });
-        if (!floeSummaryComment) {
-            await createGitIssueComment({
-                repo,
-                owner,
-                body: `Floe review completed with ${combinedErrorsAndWarnings.errors} errors and ${combinedErrorsAndWarnings.warnings} warnings.`,
-                issueNumber: pullNumber,
-            });
-        }
-        else {
-            // Update
-        }
+        // const floeSummaryComment = issueComments.data.find((comment) => {
+        //   if (!comment.body || !comment.user) {
+        //     return false;
+        //   }
+        //   return (
+        //     comment.body.includes(
+        //       `Floe review completed with ${combinedErrorsAndWarnings.errors} errors and ${combinedErrorsAndWarnings.warnings} warnings.`
+        //     ) &&
+        //     comment.user.login === (process.env.FLOE_BOT_NAME ?? "floe-app[bot]")
+        //   );
+        // });
+        // if (!floeSummaryComment) {
+        //   await createGitIssueComment({
+        //     repo,
+        //     owner,
+        //     body: `Floe review completed with ${combinedErrorsAndWarnings.errors} errors and ${combinedErrorsAndWarnings.warnings} warnings.`,
+        //     issueNumber: pullNumber,
+        //   });
+        // } else {
+        //   // Update
+        // }
         if (combinedErrorsAndWarnings.errors > 0) {
             core.setFailed(`Floe review failed with ${combinedErrorsAndWarnings.errors} errors.`);
         }

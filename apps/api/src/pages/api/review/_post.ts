@@ -23,7 +23,7 @@ async function handler({
 }: NextApiRequestExtension): Promise<PostReviewResponse> {
   const { content, startLine, rule, path } = zParse(
     querySchema,
-    body.params as Record<string, unknown>
+    body as Record<string, unknown>
   );
 
   /**

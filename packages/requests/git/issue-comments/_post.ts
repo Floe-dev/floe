@@ -21,11 +21,9 @@ export async function createGitIssueComment({
   issueNumber,
 }: PostIssueCommentsInput) {
   return api.post<PostGitIssueCommentsResponse>("/api/v1/git/issue-comments", {
-    params: {
-      repo,
-      owner,
-      body,
-      issueNumber,
-    },
+    repo,
+    owner,
+    body,
+    issueNumber,
   });
 }

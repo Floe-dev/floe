@@ -35,18 +35,16 @@ export async function createGitReviewComment({
   return api.post<PostGitReviewCommentsResponse>(
     "/api/v1/git/review-comments",
     {
-      params: {
-        path,
-        repo,
-        owner,
-        body,
-        commitId,
-        pullNumber,
-        line,
-        startLine,
-        side,
-        startSide,
-      },
+      path,
+      repo,
+      owner,
+      body,
+      commitId,
+      pullNumber,
+      line,
+      startLine,
+      side,
+      startSide,
     }
   );
 }

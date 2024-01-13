@@ -21,14 +21,11 @@ export async function updateGitIssueComment({
   commentId,
 }: PatchIssueCommentsInput) {
   return api.patch<PatchGitIssueCommentsResponse>(
-    "/api/v1/git/issue-comments",
+    `/api/v1/git/issue-comments/${commentId}`,
     {
-      params: {
-        body,
-        repo,
-        owner,
-        commentId,
-      },
+      body,
+      repo,
+      owner,
     }
   );
 }

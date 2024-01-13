@@ -1,16 +1,20 @@
 import { HttpError } from "@floe/lib/http-error";
-import { querySchema } from "@floe/requests/git/review-comments/_patch";
-import type { PatchGitReviewCommentsResponse } from "@floe/requests/git/review-comments/_patch";
+import {
+  querySchema,
+  type PatchGitIssueCommentsResponse,
+} from "@floe/requests/git/issue-comments/[comment_id]/_patch";
 import type { NextApiRequestExtension } from "~/types/private-middleware";
 import { getOctokit } from "~/lib/github/octokit";
 import { defaultResponder } from "~/lib/helpers/default-responder";
 import { zParse } from "~/utils/z-parse";
 
 async function handler({
+  queryObj,
   body,
   workspace,
-}: NextApiRequestExtension): Promise<PatchGitReviewCommentsResponse> {
-  const parsed = zParse(querySchema, body.params as Record<string, unknown>);
+}: NextApiRequestExtension): Promise<PatchGitIssueCommentsResponse> {
+  console.log(555555, queryObj, body.params);
+  const parsed = zParse(querySchema, body as Record<string, unknown>);
 
   if (workspace.gitlabIntegration) {
     throw new HttpError({
@@ -28,8 +32,8 @@ async function handler({
 
   const octokit = await getOctokit(workspace.githubIntegration.installationId);
 
-  const comments = await octokit.rest.pulls
-    .updateReviewComment({
+  const comments = await octokit.rest.issues
+    .updateComment({
       body: parsed.body,
       repo: parsed.repo,
       owner: parsed.owner,
