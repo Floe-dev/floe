@@ -196,12 +196,10 @@ model GithubIntegration {
     workspaceId    String            @unique
     installationId Int?
     status         IntegrationStatus @default(installed)
-    owner          String?
     createdAt      DateTime          @default(now())
     updatedAt      DateTime          @updatedAt
 
     @@index([workspaceId])
-    @@index([owner])
 }
 
 model GitlabIntegration {
