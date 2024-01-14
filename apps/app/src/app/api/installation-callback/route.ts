@@ -3,101 +3,121 @@ import { db } from "@floe/db";
 import { HttpError } from "@floe/lib/http-error";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
-import { Octokit } from "octokit";
-import { env } from "~/env.mjs";
 import { authOptions } from "~/server/auth";
 import { parseGitHubInstallationCallback } from "~/lib/features/github-installation";
+import { getOctokit } from "./get-octokit";
 
-const schema = z
-  .object({
-    code: z.string(),
-    state: z.string().optional(),
-    installationId: z.number(),
-    setupAction: z.literal("install"),
-  })
-  .required();
+const schema = z.object({
+  code: z.string(),
+  state: z.string().optional(),
+  installationId: z.coerce.number().optional(),
+  setupAction: z.enum(["install", "request"]),
+});
 
 const handler = async (req) => {
   const searchParams = req.nextUrl.searchParams;
 
-  const { code, state, installationId } = schema.parse({
+  const { code, state, installationId, setupAction } = schema.parse({
     code: searchParams.get("code"),
     state: searchParams.get("state"),
     setupAction: searchParams.get("setup_action"),
-    installationId: parseInt(searchParams.get("installation_id") as string, 10),
+    installationId: searchParams.get("installation_id"),
   });
 
-  const session = await getServerSession(authOptions);
-
-  if (!session) {
-    throw new HttpError({
-      message: "Unauthorized",
-      statusCode: 401,
-    });
-  }
-
-  const { id, slug, path, url } = parseGitHubInstallationCallback(state);
-
-  if (!path || !slug || !id) {
-    throw new HttpError({
-      message: "Invalid state",
-      statusCode: 400,
-    });
-  }
-
-  const queryParams = new URLSearchParams({
-    code,
-    client_id: env.GITHUB_CLIENT_ID,
-    client_secret: env.GITHUB_CLIENT_SECRET,
-  }).toString();
-
   /**
-   * Exchange the code for an access token.
+   * Handle request install action.
+   * This happens when a GitHub app needs to go through approval.
    */
-  const resp = await fetch(
-    `https://github.com/login/oauth/access_token?${queryParams}`,
-    {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-      },
+  if (setupAction === "request") {
+    const session = await getServerSession(authOptions);
+
+    if (!session) {
+      throw new HttpError({
+        message: "Unauthorized",
+        statusCode: 401,
+      });
     }
-  );
 
-  if (!resp.ok) {
-    console.log(
-      "Installation error. Failed to get access token with: ",
-      resp.status,
-      resp.statusText
-    );
-    redirect(`${url}?installation_error=1`);
+    if (!state) {
+      throw new HttpError({
+        message: "Invalid state",
+        statusCode: 400,
+      });
+    }
+
+    const { id, slug, path, url } = parseGitHubInstallationCallback(state);
+
+    if (!path || !slug || !id) {
+      throw new HttpError({
+        message: "Invalid state",
+        statusCode: 400,
+      });
+    }
+
+    try {
+      await db.githubIntegration.upsert({
+        where: {
+          workspaceId: id,
+          workspace: {
+            members: {
+              some: {
+                userId: session.user.id,
+              },
+            },
+          },
+        },
+        create: {
+          workspaceId: id,
+          status: "pending",
+        },
+        update: {
+          status: "pending",
+        },
+      });
+    } catch (e) {
+      console.log("Installation error. Failed to update workspace with: ", e);
+      redirect(`${url}?installation_error=1`);
+    }
+
+    redirect(url);
   }
 
-  const { access_token: auth } = await resp.json();
-
-  const octokit = new Octokit({
-    auth,
-  });
-
-  const installationsResp = await octokit.request("GET /user/installations", {
-    headers: {
-      "X-GitHub-Api-Version": "2022-11-28",
-    },
-  });
+  return;
 
   /**
-   * Verify user has access to installation
-   * https://roadie.io/blog/avoid-leaking-github-org-data/
+   * If not request, then it's an install action.
    */
-  if (
-    !installationsResp.data.installations.some(
-      (installation) => installation.id === installationId
-    )
-  ) {
-    console.log(
-      "Installation error. User does not have access to installation."
-    );
-    redirect(`${url}?installation_error=1`);
+  if (state) {
+    const { id, slug, path, url } = parseGitHubInstallationCallback(state);
+
+    if (!path || !slug || !id) {
+      throw new HttpError({
+        message: "Invalid state",
+        statusCode: 400,
+      });
+    }
+
+    const octokit = await getOctokit(code);
+    const installationsResp = await octokit.request("GET /user/installations", {
+      headers: {
+        "X-GitHub-Api-Version": "2022-11-28",
+      },
+    });
+
+    /**
+     * Verify user has access to installation
+     * https://roadie.io/blog/avoid-leaking-github-org-data/
+     */
+    if (
+      !installationsResp.data.installations.some(
+        (installation) => installation.id === installationId
+      )
+    ) {
+      console.log(
+        "Installation error. User does not have access to installation."
+      );
+      redirect(`${url}?installation_error=1`);
+    }
   }
 
   /**

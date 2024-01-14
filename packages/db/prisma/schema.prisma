@@ -185,15 +185,23 @@ model Subscription {
     @@index([priceId])
 }
 
+enum IntegrationStatus {
+    pending
+    installed
+}
+
 model GithubIntegration {
-    id             String    @id @default(cuid())
-    workspace      Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
-    workspaceId    String    @unique
-    installationId Int
-    createdAt      DateTime  @default(now())
-    updatedAt      DateTime  @updatedAt
+    id             String            @id @default(cuid())
+    workspace      Workspace         @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+    workspaceId    String            @unique
+    installationId Int?
+    status         IntegrationStatus @default(installed)
+    owner          String?
+    createdAt      DateTime          @default(now())
+    updatedAt      DateTime          @updatedAt
 
     @@index([workspaceId])
+    @@index([owner])
 }
 
 model GitlabIntegration {
