@@ -27,6 +27,14 @@ export async function compare(
    * Can only have githubIntegration or gitlabIntegration, not both
    */
   if (workspace.githubIntegration) {
+    if (!workspace.githubIntegration.installationId) {
+      res.status(400).json({
+        error: "The GitHub integration is pending approval",
+      });
+
+      return;
+    }
+
     const octokit = await getOctokit(
       workspace.githubIntegration.installationId
     );
