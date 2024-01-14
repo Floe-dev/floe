@@ -96,7 +96,7 @@ export default async function Workspace({
               <div className="flex items-start justify-between py-6">
                 <div className="flex gap-4">
                   <div className="flex items-center justify-center w-8 h-8 m-0 rounded-full bg-amber-100 text-amber-800">
-                    {workspace.githubIntegration ||
+                    {workspace.githubIntegration?.installationId ||
                     workspace.gitlabIntegration ? (
                       <CheckIcon className="h-5" />
                     ) : (
