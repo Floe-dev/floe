@@ -171,21 +171,27 @@ const handler = async (req: NextRequest) => {
    * This workflow is not supported by GitHub yet:
    * https://github.com/orgs/community/discussions/42351 SO, we cannot
    * programtically set the installation. Instead, we can just direct the
-   * installer (a GitHub admin) to a confirmation page which includes an email
-   * link to request access. I then need to manually set the installation and
-   * set the status to "installed".
+   * installer (a GitHub admin) to a confirmation page. I then need to manually
+   * set the installation and set the status to "installed".
    */
   if (installationId) {
     const octokit = await getOctokit(code);
-    const installation = await octokit.request(
-      "GET /app/installations/{installation_id}",
-      {
-        installation_id: installationId,
-        headers: {
-          "X-GitHub-Api-Version": "2022-11-28",
-        },
-      }
+    const installationsResp = await octokit.request("GET /user/installations", {
+      headers: {
+        "X-GitHub-Api-Version": "2022-11-28",
+      },
+    });
+
+    const installation = installationsResp.data.installations.find(
+      (i) => i.id === installationId
     );
+
+    if (!installation) {
+      throw new HttpError({
+        message: "Unauthorized",
+        statusCode: 400,
+      });
+    }
 
     /**
      * Email
@@ -205,7 +211,9 @@ const handler = async (req: NextRequest) => {
         content: [
           {
             type: "text/plain",
-            value: `Installation request for\nInstallation ID:${installationId}\nGitHub Account Name:${installation.data.account?.name}`,
+            value: `Installation request for\n\nInstallation ID: ${installationId}\nGitHub Account Info:${JSON.stringify(
+              installation.account
+            )}`,
           },
         ],
       }),
