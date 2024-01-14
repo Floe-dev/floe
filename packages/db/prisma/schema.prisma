@@ -191,13 +191,13 @@ enum IntegrationStatus {
 }
 
 model GithubIntegration {
-    id             String            @id @default(cuid())
-    workspace      Workspace         @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
-    workspaceId    String            @unique
+    id             String    @id @default(cuid())
+    workspace      Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+    workspaceId    String    @unique
+    // If no installationId, the integration is pending approval.
     installationId Int?
-    status         IntegrationStatus @default(installed)
-    createdAt      DateTime          @default(now())
-    updatedAt      DateTime          @updatedAt
+    createdAt      DateTime  @default(now())
+    updatedAt      DateTime  @updatedAt
 
     @@index([workspaceId])
 }

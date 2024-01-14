@@ -56,23 +56,30 @@ const handler = async (req: NextRequest) => {
     }
 
     try {
-      await db.githubIntegration.upsert({
+      const workspace = await db.workspace.findUnique({
         where: {
-          workspaceId: id,
-          workspace: {
-            members: {
-              some: {
-                userId: session.user.id,
-              },
+          id,
+          members: {
+            some: {
+              userId: session.user.id,
             },
           },
         },
-        create: {
+      });
+
+      if (!workspace) {
+        throw new HttpError({
+          message: "Unauthorized",
+          statusCode: 401,
+        });
+      }
+
+      /**
+       * Create githubIntegration record
+       */
+      await db.githubIntegration.create({
+        data: {
           workspaceId: id,
-          status: "pending",
-        },
-        update: {
-          status: "pending",
         },
       });
     } catch (e) {
@@ -146,14 +153,14 @@ const handler = async (req: NextRequest) => {
             },
           },
         },
+        // This should always trigger the 'create'. But, if it doesn't, we
+        // should still update the installationId.
         create: {
           workspaceId: id,
           installationId,
-          status: "installed",
         },
         update: {
           installationId,
-          status: "installed",
         },
       });
     } catch (e) {

@@ -43,7 +43,7 @@ export function GitHubButton({ workspace }: GitHubButtonProps) {
       }}
     >
       {workspace.githubIntegration
-        ? workspace.githubIntegration.status === "pending"
+        ? !workspace.githubIntegration.installationId
           ? "Pending approval"
           : "Linked"
         : "Link account"}

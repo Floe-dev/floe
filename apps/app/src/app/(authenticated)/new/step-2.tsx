@@ -36,7 +36,7 @@ export function Step2() {
             }}
           >
             {workspace.githubIntegration
-              ? workspace.githubIntegration.status === "pending"
+              ? !workspace.githubIntegration.installationId
                 ? "Pending approval"
                 : "Linked"
               : "Link account"}
