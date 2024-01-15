@@ -42,7 +42,11 @@ export function GitHubButton({ workspace }: GitHubButtonProps) {
         window.open(installationUrl);
       }}
     >
-      {workspace.githubIntegration ? "Linked" : "Link account"}
+      {workspace.githubIntegration
+        ? !workspace.githubIntegration.installationId
+          ? "Pending approval"
+          : "Linked"
+        : "Link account"}
     </Button>
   );
 }

@@ -185,11 +185,17 @@ model Subscription {
     @@index([priceId])
 }
 
+enum IntegrationStatus {
+    pending
+    installed
+}
+
 model GithubIntegration {
     id             String    @id @default(cuid())
     workspace      Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
     workspaceId    String    @unique
-    installationId Int
+    // If no installationId, the integration is pending approval.
+    installationId Int?
     createdAt      DateTime  @default(now())
     updatedAt      DateTime  @updatedAt
 
