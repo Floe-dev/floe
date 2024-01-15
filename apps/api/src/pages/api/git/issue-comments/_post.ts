@@ -5,7 +5,7 @@ import {
 } from "@floe/requests/git/issue-comments/_post";
 import type { NextApiRequestExtension } from "~/types/middleware";
 import { getOctokit } from "~/lib/github/octokit";
-import { defaultResponder } from "~/lib/helpers/default-responder";
+import { defaultResponder } from "~/lib/middleware/default-responder";
 import { zParse } from "~/utils/z-parse";
 
 async function handler({

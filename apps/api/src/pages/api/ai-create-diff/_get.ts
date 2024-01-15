@@ -2,7 +2,7 @@ import { z } from "zod";
 import OpenAI from "openai";
 import type { AiCreateDiffResponse } from "@floe/requests/ai-create-diff/_get";
 import type { NextApiRequestExtension } from "~/types/middleware";
-import { defaultResponder } from "~/lib/helpers/default-responder";
+import { defaultResponder } from "~/lib/middleware/default-responder";
 import { getHandlebarsVariables, handlebars } from "~/utils/handlebars";
 import { compare } from "~/lib/normalizedGitProviders/compare";
 import {

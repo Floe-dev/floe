@@ -7,7 +7,7 @@ import type { PostReviewResponse } from "@floe/requests/review/_post";
 import { querySchema } from "@floe/requests/review/_post";
 import { createChecksum } from "~/utils/checksum";
 import type { NextApiRequestExtension } from "~/types/middleware";
-import { defaultResponder } from "~/lib/helpers/default-responder";
+import { defaultResponder } from "~/lib/middleware/default-responder";
 import { getCacheKey } from "~/utils/get-cache-key";
 import { stringToLines } from "~/utils/string-to-lines";
 import { zParse } from "~/utils/z-parse";

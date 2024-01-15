@@ -1,5 +1,5 @@
-import { defaultHandler } from "~/lib/helpers/default-handler";
-import { withMiddleware } from "~/lib/helpers/with-middlware";
+import { defaultHandler } from "~/lib/middleware/default-handler";
+import { withMiddleware } from "~/lib/middleware/with-middlware";
 
 export default withMiddleware()(
   defaultHandler({
