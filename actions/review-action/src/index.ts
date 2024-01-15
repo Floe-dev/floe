@@ -43,6 +43,8 @@ async function run() {
 
     const config = getFloeConfig();
 
+    core.debug(JSON.stringify(github.context.payload.pull_request));
+
     const basehead = `${baseRef}..${headRef}`;
 
     /**
