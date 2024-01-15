@@ -12,10 +12,10 @@ export declare const querySchema: z.ZodObject<{
     side: z.ZodOptional<z.ZodEnum<["LEFT", "RIGHT"]>>;
     startSide: z.ZodOptional<z.ZodEnum<["LEFT", "RIGHT"]>>;
 }, "strip", z.ZodTypeAny, {
+    path: string;
     owner: string;
     repo: string;
     pullNumber: number;
-    path: string;
     body: string;
     commitId: string;
     line?: number | undefined;
@@ -23,10 +23,10 @@ export declare const querySchema: z.ZodObject<{
     side?: "LEFT" | "RIGHT" | undefined;
     startSide?: "LEFT" | "RIGHT" | undefined;
 }, {
+    path: string;
     owner: string;
     repo: string;
     pullNumber: number;
-    path: string;
     body: string;
     commitId: string;
     line?: number | undefined;
