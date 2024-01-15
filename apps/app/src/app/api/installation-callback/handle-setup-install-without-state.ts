@@ -47,7 +47,9 @@ export async function handleSetupInstallWithoutState(
           type: "text/plain",
           value: `Installation request for\n\nInstallation ID: ${installationId}\nGitHub Account Login:${JSON.stringify(
             // @ts-expect-error - login is defined
-            installation.account.login
+            installation.account?.login ??
+              installation.account?.name ??
+              "Name not found"
           )}`,
         },
       ],
