@@ -57,11 +57,16 @@ floe init
 <Callout emoji="💡"> If you are installing into a monorepo, run in the same directory as your `.git` file.</Callout>
 
 ### Copy environment variables
-Copy into the root `.env` file of your project. Be sure to not commit this file!
+Copy into the root `.env` file of your project with the following environment variables:
+
+* `FLOE_API_WORKSPACE`: The slug for your Floe workspace. You can find this value in the URL for your workspace, such as `https://app.floe.dev/<slug>` or on the **Developers** page where you created the API key.
+* `FLOW_API_SECRET`: The secret token of the API key that you created before you began. To create an API key, visit the **Developers** page in your Floe workspace.
+
+<Callout emoji="⚠️">Be sure to not commit this file! For example, to avoid committing it, you can add the `.env` file to the `.gitignore` file for the repository.</Callout>
 
 ```bash copy filename=".env"
 FLOE_API_WORKSPACE="<WORKSPACE_SLUG>"
-FLOE_API_SECRET="secret_..."
+FLOE_API_SECRET="<secret_...>"
 ```
 
 ### Try it out!

@@ -45579,18 +45579,27 @@ async function run() {
                 .join(", ")}`);
         }
         const config = getFloeConfig();
-        const diff = await github.getOctokit(githubToken).rest.pulls.get({
-            owner,
-            repo,
-            pull_number: pullNumber,
-            mediaType: {
-                format: "diff",
-            },
-        });
+        let diff;
+        try {
+            diff = (await github.getOctokit(githubToken).rest.pulls.get({
+                owner,
+                repo,
+                pull_number: pullNumber,
+                mediaType: {
+                    format: "diff",
+                },
+            })).data;
+        }
+        catch (error) {
+            if (error instanceof Error) {
+                core.setFailed(error.message);
+            }
+            return;
+        }
         /**
          * Parse git diff to more useable format
          */
-        const files = parseDiffToFileHunks(diff.data);
+        const files = parseDiffToFileHunks(diff);
         /**
          * Get rules from Floe config
          */
