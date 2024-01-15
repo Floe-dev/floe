@@ -20,12 +20,21 @@ async function run() {
   try {
     const headRef = process.env.GITHUB_HEAD_REF;
     const baseRef = process.env.GITHUB_BASE_REF;
+    const githubToken = process.env.GITHUB_TOKEN;
     const repo = github.context.payload.repository?.name;
     const owner = github.context.payload.repository?.owner.login;
     const headSha = github.context.payload.pull_request?.head.sha;
     const pullNumber = github.context.payload.pull_request?.number;
 
-    if (!headRef || !baseRef || !headSha || !owner || !repo || !pullNumber) {
+    if (
+      !headRef ||
+      !baseRef ||
+      !headSha ||
+      !owner ||
+      !repo ||
+      !pullNumber ||
+      !githubToken
+    ) {
       throw new Error(
         `The following values are missing: ${[
           !headRef && "headRef",
@@ -34,6 +43,7 @@ async function run() {
           !owner && "owner",
           !repo && "repo",
           !pullNumber && "pullNumber",
+          !githubToken && "githubToken",
         ]
           .filter(notEmpty)
           .join(", ")}`
@@ -42,16 +52,14 @@ async function run() {
 
     const config = getFloeConfig();
 
-    const diff = await github
-      .getOctokit(process.env.GITHUB_TOKEN!)
-      .rest.pulls.get({
-        owner,
-        repo,
-        pull_number: pullNumber,
-        mediaType: {
-          format: "diff",
-        },
-      });
+    const diff = await github.getOctokit(githubToken).rest.pulls.get({
+      owner,
+      repo,
+      pull_number: pullNumber,
+      mediaType: {
+        format: "diff",
+      },
+    });
 
     /**
      * Parse git diff to more useable format
