@@ -22,7 +22,7 @@ const handler = async (req: NextRequest) => {
    * This happens when a GitHub app needs to go through approval.
    */
   if (parsedSchema.setupAction === "request") {
-    if (!parsedSchema.state) {
+    if (parsedSchema.state) {
       return handleSetupRequestWithState(parsedSchema);
     }
 
