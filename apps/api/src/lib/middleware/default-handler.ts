@@ -2,7 +2,7 @@ import type {
   NextApiHandler,
   NextApiRequestExtension,
   NextApiResponseExtension,
-} from "~/types/private-middleware";
+} from "~/types/middleware";
 
 type Handlers = {
   [method in "GET" | "POST" | "PATCH" | "PUT" | "DELETE"]?: {
@@ -42,10 +42,5 @@ export const defaultHandler =
       return;
     }
 
-    try {
-      await handler(req, res);
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ message: "Something went wrong" });
-    }
+    await handler(req, res);
   };

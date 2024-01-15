@@ -35,7 +35,11 @@ export function Step2() {
               window.open(installationUrl);
             }}
           >
-            {workspace.githubIntegration ? "Linked" : "Link account"}
+            {workspace.githubIntegration
+              ? !workspace.githubIntegration.installationId
+                ? "Pending approval"
+                : "Linked"
+              : "Link account"}
           </Button>
         </div>
 

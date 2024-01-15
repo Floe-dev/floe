@@ -1,134 +1,78 @@
-import { z } from "zod";
-import { db } from "@floe/db";
 import { HttpError } from "@floe/lib/http-error";
-import { getServerSession } from "next-auth";
-import { redirect } from "next/navigation";
-import { Octokit } from "octokit";
-import { env } from "~/env.mjs";
-import { authOptions } from "~/server/auth";
-import { parseGitHubInstallationCallback } from "~/lib/features/github-installation";
+import type { NextRequest } from "next/server";
+import { schema } from "./schema";
+import { handleSetupRequestWithState } from "./handle-setup-request-with-state";
+import { handleSetupInstallWithState } from "./handle-setup-install-with-state";
+import { handleSetupInstallWithoutState } from "./handle-setup-install-without-state";
+import { handleSetupRequestWithoutState } from "./handle-setup-request-without-state";
 
-const schema = z
-  .object({
-    code: z.string(),
-    state: z.string().optional(),
-    installationId: z.number(),
-    setupAction: z.literal("install"),
-  })
-  .required();
-
-const handler = async (req) => {
+const handler = async (req: NextRequest) => {
   const searchParams = req.nextUrl.searchParams;
 
-  const { code, state, installationId } = schema.parse({
+  const parsedSchema = schema.parse({
     code: searchParams.get("code"),
     state: searchParams.get("state"),
     setupAction: searchParams.get("setup_action"),
-    installationId: parseInt(searchParams.get("installation_id") as string, 10),
+    installationId: searchParams.get("installation_id"),
   });
 
-  const session = await getServerSession(authOptions);
-
-  if (!session) {
-    throw new HttpError({
-      message: "Unauthorized",
-      statusCode: 401,
-    });
-  }
-
-  const { id, slug, path, url } = parseGitHubInstallationCallback(state);
-
-  if (!path || !slug || !id) {
-    throw new HttpError({
-      message: "Invalid state",
-      statusCode: 400,
-    });
-  }
-
-  const queryParams = new URLSearchParams({
-    code,
-    client_id: env.GITHUB_CLIENT_ID,
-    client_secret: env.GITHUB_CLIENT_SECRET,
-  }).toString();
-
   /**
-   * Exchange the code for an access token.
+   * REQUEST ACTION
+   * Handle request install action.
+   * This happens when a GitHub app needs to go through approval.
    */
-  const resp = await fetch(
-    `https://github.com/login/oauth/access_token?${queryParams}`,
-    {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-      },
+  if (parsedSchema.setupAction === "request") {
+    if (!parsedSchema.state) {
+      return handleSetupRequestWithState(parsedSchema);
     }
-  );
 
-  if (!resp.ok) {
-    console.log(
-      "Installation error. Failed to get access token with: ",
-      resp.status,
-      resp.statusText
-    );
-    redirect(`${url}?installation_error=1`);
-  }
-
-  const { access_token: auth } = await resp.json();
-
-  const octokit = new Octokit({
-    auth,
-  });
-
-  const installationsResp = await octokit.request("GET /user/installations", {
-    headers: {
-      "X-GitHub-Api-Version": "2022-11-28",
-    },
-  });
-
-  /**
-   * Verify user has access to installation
-   * https://roadie.io/blog/avoid-leaking-github-org-data/
-   */
-  if (
-    !installationsResp.data.installations.some(
-      (installation) => installation.id === installationId
-    )
-  ) {
-    console.log(
-      "Installation error. User does not have access to installation."
-    );
-    redirect(`${url}?installation_error=1`);
+    /**
+     * This can happen is a user chooses to request installation directly from
+     * the Floe Github page (ie.
+     * https://github.com/apps/floe-app/installations/select_target)
+     */
+    handleSetupRequestWithoutState();
+    return;
   }
 
   /**
-   * Set the githubIntegrationId on the workspace
+   * INSTALL ACTION
+   * If not request, then it's an install action.
    */
-  try {
-    await db.githubIntegration.upsert({
-      where: {
-        workspaceId: id,
-        workspace: {
-          members: {
-            some: {
-              userId: session.user.id,
-            },
-          },
-        },
-      },
-      create: {
-        workspaceId: id,
-        installationId,
-      },
-      update: {
-        installationId,
-      },
+
+  /**
+   * If there is state, this was triggered from a workflow where the approval
+   * flow was not required (eg. when the user is the owner)
+   */
+  if (parsedSchema.state) {
+    return handleSetupInstallWithState({
+      ...parsedSchema,
+      state: parsedSchema.state,
     });
-  } catch (e) {
-    console.log("Installation error. Failed to update workspace with: ", e);
-    redirect(`${url}?installation_error=1`);
   }
 
-  redirect(url);
+  /**
+   * If there is no state, this was triggered from a workflow where the approval
+   * flow was required (eg. when the user is not the owner).
+   *
+   * This workflow is not supported by GitHub yet:
+   * https://github.com/orgs/community/discussions/42351 SO, we cannot
+   * programtically set the installation. Instead, we can just direct the
+   * installer (a GitHub admin) to a confirmation page. I then need to manually
+   * set the installation and set the status to "installed".
+   */
+  if (parsedSchema.installationId) {
+    return handleSetupInstallWithoutState(parsedSchema);
+  }
+
+  /**
+   * If we got here, something is wrong.
+   */
+  throw new HttpError({
+    message: "Invalid request",
+    statusCode: 400,
+    log: true,
+  });
 };
 
 export { handler as GET, handler as POST };

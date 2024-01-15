@@ -3,9 +3,9 @@ import {
   querySchema,
   type PatchGitIssueCommentsResponse,
 } from "@floe/requests/git/issue-comments/[comment_id]/_patch";
-import type { NextApiRequestExtension } from "~/types/private-middleware";
+import type { NextApiRequestExtension } from "~/types/middleware";
 import { getOctokit } from "~/lib/github/octokit";
-import { defaultResponder } from "~/lib/helpers/default-responder";
+import { defaultResponder } from "~/lib/middleware/default-responder";
 import { zParse } from "~/utils/z-parse";
 
 async function handler({
@@ -28,6 +28,13 @@ async function handler({
   }
 
   if (!workspace.githubIntegration) {
+    throw new HttpError({
+      message: "You must first setup your GitHub integration.",
+      statusCode: 400,
+    });
+  }
+
+  if (!workspace.githubIntegration.installationId) {
     throw new HttpError({
       message: "You must first setup your GitHub integration.",
       statusCode: 400,

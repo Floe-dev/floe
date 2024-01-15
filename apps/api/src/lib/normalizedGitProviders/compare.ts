@@ -1,8 +1,6 @@
+import { HttpError } from "@floe/lib/http-error";
 import { decryptData } from "@floe/lib/encryption";
-import type {
-  NextApiResponseExtension,
-  Workspace,
-} from "~/types/private-middleware";
+import type { Workspace } from "~/types/middleware";
 import type { CompareInfo } from "~/types/compare";
 import { getGitHubGitDiff } from "../github/compare";
 import { getOctokit } from "../github/octokit";
@@ -18,8 +16,7 @@ export async function compare(
     baseSha: string;
     headSha: string;
   },
-  workspace: Workspace,
-  res: NextApiResponseExtension
+  workspace: Workspace
 ) {
   let compareInfo: CompareInfo | null = null;
 
@@ -27,6 +24,13 @@ export async function compare(
    * Can only have githubIntegration or gitlabIntegration, not both
    */
   if (workspace.githubIntegration) {
+    if (!workspace.githubIntegration.installationId) {
+      throw new HttpError({
+        statusCode: 400,
+        message: "The GitHub integration is pending approval",
+      });
+    }
+
     const octokit = await getOctokit(
       workspace.githubIntegration.installationId
     );
@@ -67,8 +71,9 @@ export async function compare(
       diffs: response.diffs,
     };
   } else {
-    res.status(400).json({
-      error: "Workspace does not have a GitHub or GitLab integration",
+    throw new HttpError({
+      statusCode: 400,
+      message: "Workspace does not have a GitHub or GitLab integration",
     });
   }
 

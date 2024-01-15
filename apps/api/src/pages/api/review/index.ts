@@ -1,7 +1,10 @@
-import { defaultHandler } from "~/lib/helpers/default-handler";
-import { withPrivateMiddleware } from "~/lib/helpers/with-private-middlware";
+import { defaultHandler } from "~/lib/middleware/default-handler";
+import { withMiddleware } from "~/lib/middleware/with-middlware";
 
-export default withPrivateMiddleware()(
+export default withMiddleware(
+  "authenticate",
+  "aiRateLimiter"
+)(
   defaultHandler({
     POST: {
       1: import("./_post"),

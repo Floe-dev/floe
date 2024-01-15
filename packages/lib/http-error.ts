@@ -14,8 +14,13 @@ type StatusCode =
 export class HttpError extends Error {
   public readonly statusCode: StatusCode;
   public readonly message: string;
+  public readonly log: boolean;
 
-  constructor(opts: { statusCode: StatusCode; message: string }) {
+  constructor(opts: {
+    statusCode: StatusCode;
+    message: string;
+    log?: boolean;
+  }) {
     super(opts.message);
 
     Object.setPrototypeOf(this, HttpError.prototype);
@@ -23,5 +28,6 @@ export class HttpError extends Error {
 
     this.statusCode = opts.statusCode;
     this.message = opts.message;
+    this.log = opts.log || false;
   }
 }
