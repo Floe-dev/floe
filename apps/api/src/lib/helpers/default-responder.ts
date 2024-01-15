@@ -13,7 +13,13 @@ export function defaultResponder<T>(f: Handle<T>) {
     req: NextApiRequestExtension,
     res: NextApiResponseExtension
   ) => {
-    const result = (await f(req, res)) as unknown;
-    if (result) res.json(result);
+    try {
+      const result = (await f(req, res)) as unknown;
+      if (result) res.json(result);
+    } catch (err) {
+      console.error(err);
+      res.statusCode = err.statusCode;
+      res.json({ message: err.message });
+    }
   };
 }

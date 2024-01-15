@@ -26,13 +26,6 @@ async function handler({
     });
   }
 
-  if (!workspace.githubIntegration.installationId) {
-    throw new HttpError({
-      message: "The GitHub integration is pending approval.",
-      statusCode: 400,
-    });
-  }
-
   const octokit = await getOctokit(workspace.githubIntegration.installationId);
 
   const comments = await octokit

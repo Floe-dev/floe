@@ -21,7 +21,7 @@ async function handler({
     });
   }
 
-  if (!workspace.githubIntegration?.installationId) {
+  if (!workspace.githubIntegration) {
     throw new HttpError({
       message: "You must first setup your GitHub integration.",
       statusCode: 400,

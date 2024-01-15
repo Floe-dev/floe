@@ -8,23 +8,18 @@ export const captureErrors: Middleware = async (_req, res, next) => {
     // middleware and the API route handler
     await next();
   } catch (error) {
+    Sentry.captureException(error);
+
     if (error instanceof HttpError) {
       res.status(error.statusCode).json({ message: error.message, error });
       return;
     }
 
-    /**
-     * TODO: Handle other errors here for better error messages.
-     * Eg. Zod errors
-     */
+    if (error instanceof Error) {
+      res.status(400).json({ message: error.message, error });
+      return;
+    }
 
-    /**
-     * If we get here, it means that we have an unhandled error
-     */
-    Sentry.captureException(error);
-
-    res.status(500).json({
-      message: `Unhandled error of type '${typeof error}'. Please reach out for our customer support.`,
-    });
+    res.status(400).json({ message: "Something went wrong", error });
   }
 };
