@@ -42,28 +42,10 @@ importers:
       '@floe/requests':
         specifier: workspace:*
         version: link:../../packages/requests
-      axios:
-        specifier: ^1.6.0
-        version: 1.6.0
-      glob:
-        specifier: ^10.3.10
-        version: 10.3.10
-      simple-git:
-        specifier: ^3.20.0
-        version: 3.20.0
-      uuid:
-        specifier: ^9.0.1
-        version: 9.0.1
     devDependencies:
-      '@types/get-installed-path':
-        specifier: ^4.0.3
-        version: 4.0.3
       '@types/node':
         specifier: ^20.8.10
         version: 20.9.0
-      '@types/uuid':
-        specifier: ^9.0.7
-        version: 9.0.7
       '@vercel/ncc':
         specifier: ^0.38.1
         version: 0.38.1
@@ -367,52 +349,6 @@ importers:
       typescript:
         specifier: ^4.5.3
         version: 4.9.5
-
-  packages/action:
-    dependencies:
-      '@actions/core':
-        specifier: ^1.10.1
-        version: 1.10.1
-      '@actions/github':
-        specifier: ^6.0.0
-        version: 6.0.0
-      '@floe/lib':
-        specifier: workspace:*
-        version: link:../lib
-      '@floe/requests':
-        specifier: workspace:*
-        version: link:../requests
-      axios:
-        specifier: ^1.6.0
-        version: 1.6.0
-      glob:
-        specifier: ^10.3.10
-        version: 10.3.10
-      uuid:
-        specifier: ^9.0.1
-        version: 9.0.1
-    devDependencies:
-      '@types/get-installed-path':
-        specifier: ^4.0.3
-        version: 4.0.3
-      '@types/node':
-        specifier: ^20.8.10
-        version: 20.9.0
-      '@types/uuid':
-        specifier: ^9.0.7
-        version: 9.0.7
-      '@vercel/ncc':
-        specifier: ^0.38.1
-        version: 0.38.1
-      eslint-config-custom:
-        specifier: workspace:*
-        version: link:../eslint-config-custom
-      tsconfig:
-        specifier: workspace:*
-        version: link:../tsconfig
-      typescript:
-        specifier: ^5.3.2
-        version: 5.3.2
 
   packages/cli:
     dependencies:
@@ -3335,10 +3271,6 @@ packages:
   /@types/estree@1.0.3:
     resolution: {integrity: sha512-CS2rOaoQ/eAgAfcTfq6amKG7bsN+EMcgGY4FAFQdvSj2y1ixvOZTUA9mOtCai7E1SYu283XNw7urKK30nP3wkQ==}
 
-  /@types/get-installed-path@4.0.3:
-    resolution: {integrity: sha512-Xe6nTuvKO3dumMspsmf1ewkre85fhmQmM1yIv2fkyZRYqXU1ONYAH9b2HMDiykPvdjFUheud4pizBEpI7t6OUw==}
-    dev: true
-
   /@types/glob@7.2.0:
     resolution: {integrity: sha512-ZUxbzKl0IfJILTS6t7ip5fQQM/J3TJYubDm3nMbgubNNYS62eXeUpoLUC8/7fJNiFYHTrGPQn7hspDUzIHX3UA==}
     dependencies:
@@ -3521,10 +3453,6 @@ packages:
   /@types/unist@3.0.2:
     resolution: {integrity: sha512-dqId9J8K/vGi5Zr7oo212BGii5m3q5Hxlkwy3WpYuKPklmBEvsbMYYyLxAQpSffdLl/gdW0XUpKWFvYmyoWCoQ==}
     dev: false
-
-  /@types/uuid@9.0.7:
-    resolution: {integrity: sha512-WUtIVRUZ9i5dYXefDEAI7sh9/O7jGvHg7Df/5O/gtH3Yabe5odI3UWopVR1qbPXQtvOxWu3mM4XxlYeZtMWF4g==}
-    dev: true
 
   /@types/wrap-ansi@3.0.0:
     resolution: {integrity: sha512-ltIpx+kM7g/MLRZfkbL7EsCEjfzCcScLpkg37eXEtx5kmrAKBkTJwd1GIAjDSL8wTpM6Hzn5YO4pSb91BEwu1g==}
