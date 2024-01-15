@@ -43,9 +43,8 @@ async function run() {
 
     const config = getFloeConfig();
 
-    console.log(11111, baseRef, headRef);
-
     const basehead = `${baseRef}..${headRef}`;
+
     /**
      * Fetch all branches. This is needed to get the correct diff.
      * This breaks locally, and isn't needed. So be sure to FLOE_TEST_MODE=1.
