@@ -50,7 +50,10 @@ export async function handleSetupInstallWithoutState(
             installation.account?.login ??
               installation.account?.name ??
               "Name not found"
-          )}`,
+          )}\nGitHub Account Email: ${
+            // @ts-expect-error - login is defined
+            installation.account?.email ?? "Email not found"
+          }`,
         },
       ],
     }),
