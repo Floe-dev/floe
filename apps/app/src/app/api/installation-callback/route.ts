@@ -1,9 +1,10 @@
 import { HttpError } from "@floe/lib/http-error";
 import type { NextRequest } from "next/server";
 import { schema } from "./schema";
-import { handleSetupRequest } from "./handle-setup-request";
+import { handleSetupRequestWithState } from "./handle-setup-request-with-state";
 import { handleSetupInstallWithState } from "./handle-setup-install-with-state";
 import { handleSetupInstallWithoutState } from "./handle-setup-install-without-state";
+import { handleSetupRequestWithoutState } from "./handle-setup-request-without-state";
 
 const handler = async (req: NextRequest) => {
   const searchParams = req.nextUrl.searchParams;
@@ -21,7 +22,17 @@ const handler = async (req: NextRequest) => {
    * This happens when a GitHub app needs to go through approval.
    */
   if (parsedSchema.setupAction === "request") {
-    return handleSetupRequest(parsedSchema);
+    if (!parsedSchema.state) {
+      return handleSetupRequestWithState(parsedSchema);
+    }
+
+    /**
+     * This can happen is a user chooses to request installation directly from
+     * the Floe Github page (ie.
+     * https://github.com/apps/floe-app/installations/select_target)
+     */
+    handleSetupRequestWithoutState();
+    return;
   }
 
   /**

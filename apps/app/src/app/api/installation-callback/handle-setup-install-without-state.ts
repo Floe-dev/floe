@@ -65,5 +65,5 @@ export async function handleSetupInstallWithoutState(
     method: "POST",
   });
 
-  redirect("/installation-confirmed");
+  redirect("/installation/confirmed");
 }

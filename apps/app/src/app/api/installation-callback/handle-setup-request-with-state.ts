@@ -7,7 +7,9 @@ import { parseGitHubInstallationCallback } from "~/lib/features/github-installat
 import { authOptions } from "~/server/auth";
 import type { schema } from "./schema";
 
-export async function handleSetupRequest(parsedSchema: z.infer<typeof schema>) {
+export async function handleSetupRequestWithState(
+  parsedSchema: z.infer<typeof schema>
+) {
   const { state } = parsedSchema;
   const session = await getServerSession(authOptions);
 
