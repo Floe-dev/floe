@@ -1,5 +1,6 @@
 import { inspect } from "node:util";
 import { getRulesets } from "@floe/lib/rules";
+import fs from "node:fs";
 import {
   getErrorsByFile,
   getReviewsByFile,
@@ -43,9 +44,12 @@ async function run() {
 
     const config = getFloeConfig();
 
-    core.debug(JSON.stringify(github.context.payload.pull_request));
+    const diff = fs.readFileSync(process.env.GITHUB_EVENT_PATH!, "utf8");
+    core.info("DIFF: ");
+    core.info(diff);
 
-    const basehead = `${baseRef}..${headRef}`;
+    await simpleGit().addRemote("fork", `git@github.com:artberger/floe.git`);
+    const basehead = `origin/${baseRef}..fork/artberger:patch-1`;
 
     /**
      * Fetch all branches. This is needed to get the correct diff.

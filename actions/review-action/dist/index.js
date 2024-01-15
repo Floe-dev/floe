@@ -49834,6 +49834,7 @@ async function createGitReviewComment({ path, repo, owner, body, commitId, pullN
 
 
 
+
 // import { createGitIssueComment } from "@floe/requests/git/issue-comments/_post";
 // import { fetchGitIssueComments } from "@floe/requests/git/issue-comments/_get";
 async function run() {
@@ -49857,8 +49858,11 @@ async function run() {
                 .join(", ")}`);
         }
         const config = getFloeConfig();
-        core.debug(JSON.stringify(github.context.payload.pull_request));
-        const basehead = `${baseRef}..${headRef}`;
+        const diff = external_node_fs_default().readFileSync(process.env.GITHUB_EVENT_PATH, "utf8");
+        core.info("DIFF: ");
+        core.info(diff);
+        await esm_default().addRemote("fork", `git@github.com:artberger/floe.git`);
+        const basehead = `origin/${baseRef}..fork/artberger:patch-1`;
         /**
          * Fetch all branches. This is needed to get the correct diff.
          * This breaks locally, and isn't needed. So be sure to FLOE_TEST_MODE=1.
