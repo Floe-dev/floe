@@ -34,6 +34,13 @@ async function handler({
     });
   }
 
+  if (!workspace.githubIntegration.installationId) {
+    throw new HttpError({
+      message: "You must first setup your GitHub integration.",
+      statusCode: 400,
+    });
+  }
+
   const octokit = await getOctokit(workspace.githubIntegration.installationId);
 
   const comments = await octokit.rest.issues
