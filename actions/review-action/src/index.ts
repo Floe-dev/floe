@@ -43,7 +43,7 @@ async function run() {
 
     const config = getFloeConfig();
 
-    const basehead = `${baseRef}..${headRef}`;
+    const basehead = `${owner}/${repo}:${baseRef}..${owner}/${repo}:${headRef}`;
 
     /**
      * Fetch all branches. This is needed to get the correct diff.
