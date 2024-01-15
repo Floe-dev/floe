@@ -48,6 +48,8 @@ async function run() {
     const eventJSON = JSON.parse(event);
     const diffUrl = eventJSON.diff_url as string;
 
+    core.info(process.env.GITHUB_TOKEN!);
+
     const diff = await github
       .getOctokit(process.env.GITHUB_TOKEN!)
       .rest.pulls.get({

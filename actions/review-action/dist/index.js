@@ -49861,6 +49861,7 @@ async function run() {
         const event = external_node_fs_default().readFileSync(process.env.GITHUB_EVENT_PATH, "utf8");
         const eventJSON = JSON.parse(event);
         const diffUrl = eventJSON.diff_url;
+        core.info(process.env.GITHUB_TOKEN);
         const diff = await github.getOctokit(process.env.GITHUB_TOKEN)
             .rest.pulls.get({
             owner,
