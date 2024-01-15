@@ -18,22 +18,22 @@ export declare const querySchema: z.ZodObject<{
         description: string;
     }>;
 }, "strip", z.ZodTypeAny, {
+    content: string;
     path: string;
     rule: {
         code: string;
         level: "error" | "warn";
         description: string;
     };
-    content: string;
     startLine: number;
 }, {
+    content: string;
     path: string;
     rule: {
         code: string;
         level: "error" | "warn";
         description: string;
     };
-    content: string;
     startLine?: number | undefined;
 }>;
 export type PostReviewResponse = {

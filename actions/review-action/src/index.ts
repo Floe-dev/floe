@@ -44,12 +44,25 @@ async function run() {
 
     const config = getFloeConfig();
 
-    const diff = fs.readFileSync(process.env.GITHUB_EVENT_PATH!, "utf8");
-    core.info("DIFF: ");
-    core.info(diff);
+    const event = fs.readFileSync(process.env.GITHUB_EVENT_PATH!, "utf8");
+    const eventJSON = JSON.parse(event);
+    const diffUrl = eventJSON.diff_url as string;
 
-    await simpleGit().addRemote("fork", `git@github.com:artberger/floe.git`);
-    const basehead = `origin/${baseRef}..fork/artberger:patch-1`;
+    const diff = await github
+      .getOctokit(process.env.GITHUB_TOKEN!)
+      .rest.pulls.get({
+        owner,
+        repo,
+        pull_number: pullNumber,
+        mediaType: {
+          format: "diff",
+        },
+      });
+
+    core.info(JSON.stringify(diff.data));
+    core.info(diffUrl);
+
+    const basehead = `${baseRef}..${headRef}`;
 
     /**
      * Fetch all branches. This is needed to get the correct diff.

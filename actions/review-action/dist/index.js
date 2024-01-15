@@ -49858,11 +49858,21 @@ async function run() {
                 .join(", ")}`);
         }
         const config = getFloeConfig();
-        const diff = external_node_fs_default().readFileSync(process.env.GITHUB_EVENT_PATH, "utf8");
-        core.info("DIFF: ");
-        core.info(diff);
-        await esm_default().addRemote("fork", `git@github.com:artberger/floe.git`);
-        const basehead = `origin/${baseRef}..fork/artberger:patch-1`;
+        const event = external_node_fs_default().readFileSync(process.env.GITHUB_EVENT_PATH, "utf8");
+        const eventJSON = JSON.parse(event);
+        const diffUrl = eventJSON.diff_url;
+        const diff = await github.getOctokit(process.env.GITHUB_TOKEN)
+            .rest.pulls.get({
+            owner,
+            repo,
+            pull_number: pullNumber,
+            mediaType: {
+                format: "diff",
+            },
+        });
+        core.info(JSON.stringify(diff.data));
+        core.info(diffUrl);
+        const basehead = `${baseRef}..${headRef}`;
         /**
          * Fetch all branches. This is needed to get the correct diff.
          * This breaks locally, and isn't needed. So be sure to FLOE_TEST_MODE=1.
