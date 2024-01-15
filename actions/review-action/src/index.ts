@@ -1,6 +1,5 @@
 import { inspect } from "node:util";
 import { getRulesets } from "@floe/lib/rules";
-import fs from "node:fs";
 import {
   getErrorsByFile,
   getReviewsByFile,
@@ -9,7 +8,6 @@ import {
 } from "@floe/features/reviews";
 import { notEmpty } from "@floe/lib/not-empty";
 import { getFloeConfig } from "@floe/lib/get-floe-config";
-import simpleGit from "simple-git";
 import * as core from "@actions/core";
 import * as github from "@actions/github";
 import { parseDiffToFileHunks } from "@floe/lib/diff-parser";
@@ -44,12 +42,6 @@ async function run() {
 
     const config = getFloeConfig();
 
-    const event = fs.readFileSync(process.env.GITHUB_EVENT_PATH!, "utf8");
-    const eventJSON = JSON.parse(event);
-    const diffUrl = eventJSON.diff_url as string;
-
-    core.info(process.env.GITHUB_TOKEN!);
-
     const diff = await github
       .getOctokit(process.env.GITHUB_TOKEN!)
       .rest.pulls.get({
@@ -61,25 +53,10 @@ async function run() {
         },
       });
 
-    core.info(JSON.stringify(diff.data));
-    core.info(diffUrl);
-
-    const basehead = `${baseRef}..${headRef}`;
-
-    /**
-     * Fetch all branches. This is needed to get the correct diff.
-     * This breaks locally, and isn't needed. So be sure to FLOE_TEST_MODE=1.
-     */
-    if (!process.env.FLOE_TEST_MODE) {
-      await simpleGit().fetch();
-    }
-
-    const diffOutput = await simpleGit().diff([basehead]);
-
     /**
      * Parse git diff to more useable format
      */
-    const files = parseDiffToFileHunks(diffOutput);
+    const files = parseDiffToFileHunks(diff.data as unknown as string);
 
     /**
      * Get rules from Floe config
