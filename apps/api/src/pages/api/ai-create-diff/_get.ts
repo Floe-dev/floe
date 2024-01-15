@@ -1,10 +1,7 @@
 import { z } from "zod";
 import OpenAI from "openai";
 import type { AiCreateDiffResponse } from "@floe/requests/ai-create-diff/_get";
-import type {
-  NextApiRequestExtension,
-  NextApiResponseExtension,
-} from "~/types/middleware";
+import type { NextApiRequestExtension } from "~/types/middleware";
 import { defaultResponder } from "~/lib/helpers/default-responder";
 import { getHandlebarsVariables, handlebars } from "~/utils/handlebars";
 import { compare } from "~/lib/normalizedGitProviders/compare";
@@ -85,10 +82,10 @@ function generateUserPrompt(
 /**
  * Response Handler
  */
-async function handler(
-  { queryObj, workspace }: NextApiRequestExtension,
-  res: NextApiResponseExtension
-): Promise<AiCreateDiffResponse> {
+async function handler({
+  queryObj,
+  workspace,
+}: NextApiRequestExtension): Promise<AiCreateDiffResponse> {
   const parsed = zParse(querySchema, queryObj);
 
   const openai = new OpenAI({
@@ -105,12 +102,12 @@ async function handler(
     "3. When evaluating content, you MUST follow the instructions in the braces, and the list of GLOBAL RULES.",
   ].join("\n");
 
-  const compareInfo = await compare(parsed, workspace, res);
+  const compareInfo = await compare(parsed, workspace);
 
   if (!compareInfo) {
-    res.status(400).json({
-      error: "Could not fetch commits or diffs",
-    });
+    // res.status(400).json({
+    //   error: "Could not fetch commits or diffs",
+    // });
 
     return;
   }
