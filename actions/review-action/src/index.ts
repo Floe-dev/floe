@@ -51,20 +51,30 @@ async function run() {
     }
 
     const config = getFloeConfig();
+    let diff: string;
 
-    const diff = await github.getOctokit(githubToken).rest.pulls.get({
-      owner,
-      repo,
-      pull_number: pullNumber,
-      mediaType: {
-        format: "diff",
-      },
-    });
+    try {
+      diff = (
+        await github.getOctokit(githubToken).rest.pulls.get({
+          owner,
+          repo,
+          pull_number: pullNumber,
+          mediaType: {
+            format: "diff",
+          },
+        })
+      ).data as unknown as string;
+    } catch (error) {
+      if (error instanceof Error) {
+        core.setFailed(error.message);
+      }
+      return;
+    }
 
     /**
      * Parse git diff to more useable format
      */
-    const files = parseDiffToFileHunks(diff.data as unknown as string);
+    const files = parseDiffToFileHunks(diff);
 
     /**
      * Get rules from Floe config
