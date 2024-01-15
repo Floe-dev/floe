@@ -45596,6 +45596,7 @@ async function run() {
             }
             return;
         }
+        core.debug(`Diff: ${diff}`);
         /**
          * Parse git diff to more useable format
          */
