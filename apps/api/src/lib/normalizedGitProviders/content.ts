@@ -1,7 +1,4 @@
-import type {
-  Workspace,
-  NextApiResponseExtension,
-} from "~/types/private-middleware";
+import type { Workspace, NextApiResponseExtension } from "~/types/middleware";
 import { getOctokit } from "../github/octokit";
 import { getGitHubContents } from "../github/contents";
 

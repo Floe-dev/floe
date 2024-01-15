@@ -3,7 +3,7 @@ import {
   querySchema,
   type GetGitIssueCommentsResponse,
 } from "@floe/requests/git/issue-comments/_get";
-import type { NextApiRequestExtension } from "~/types/private-middleware";
+import type { NextApiRequestExtension } from "~/types/middleware";
 import { getOctokit } from "~/lib/github/octokit";
 import { defaultResponder } from "~/lib/helpers/default-responder";
 import { zParse } from "~/utils/z-parse";

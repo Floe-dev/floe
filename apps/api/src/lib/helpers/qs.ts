@@ -1,5 +1,5 @@
 import { parse } from "qs";
-import type { CustomMiddleware } from "~/types/private-middleware";
+import type { CustomMiddleware } from "~/types/middleware";
 
 /**
  * This is used to parse the query string from the url instead of the built in req.query

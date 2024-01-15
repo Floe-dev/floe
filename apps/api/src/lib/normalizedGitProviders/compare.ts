@@ -1,8 +1,5 @@
 import { decryptData } from "@floe/lib/encryption";
-import type {
-  NextApiResponseExtension,
-  Workspace,
-} from "~/types/private-middleware";
+import type { NextApiResponseExtension, Workspace } from "~/types/middleware";
 import type { CompareInfo } from "~/types/compare";
 import { getGitHubGitDiff } from "../github/compare";
 import { getOctokit } from "../github/octokit";

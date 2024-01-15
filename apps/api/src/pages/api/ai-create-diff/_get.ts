@@ -4,7 +4,7 @@ import type { AiCreateDiffResponse } from "@floe/requests/ai-create-diff/_get";
 import type {
   NextApiRequestExtension,
   NextApiResponseExtension,
-} from "~/types/private-middleware";
+} from "~/types/middleware";
 import { defaultResponder } from "~/lib/helpers/default-responder";
 import { getHandlebarsVariables, handlebars } from "~/utils/handlebars";
 import { compare } from "~/lib/normalizedGitProviders/compare";

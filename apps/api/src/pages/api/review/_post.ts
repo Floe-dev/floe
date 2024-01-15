@@ -6,7 +6,7 @@ import { HttpError } from "@floe/lib/http-error";
 import type { PostReviewResponse } from "@floe/requests/review/_post";
 import { querySchema } from "@floe/requests/review/_post";
 import { createChecksum } from "~/utils/checksum";
-import type { NextApiRequestExtension } from "~/types/private-middleware";
+import type { NextApiRequestExtension } from "~/types/middleware";
 import { defaultResponder } from "~/lib/helpers/default-responder";
 import { getCacheKey } from "~/utils/get-cache-key";
 import { stringToLines } from "~/utils/string-to-lines";

@@ -4,14 +4,9 @@ import { authenticate } from "./authenticate";
 import { captureErrors } from "./capture-errors";
 import { aiRateLimiter } from "./ai-rate-limiter";
 import { ipRateLimiter } from "./ip-rate-limiter";
-import { HTTP_DELETE, HTTP_GET, HTTP_PATCH, HTTP_POST } from "./http-methods";
 
-const withPrivateMiddleware = label(
+const withMiddleware = label(
   {
-    HTTP_GET,
-    HTTP_PATCH,
-    HTTP_POST,
-    HTTP_DELETE,
     qs,
     authenticate,
     captureErrors,
@@ -19,7 +14,7 @@ const withPrivateMiddleware = label(
     ipRateLimiter,
   },
   // The order matters
-  ["qs", "captureErrors", "ipRateLimiter", "authenticate", "aiRateLimiter"]
+  ["qs", "captureErrors", "ipRateLimiter"]
 );
 
-export { withPrivateMiddleware };
+export { withMiddleware };

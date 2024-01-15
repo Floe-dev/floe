@@ -1,4 +1,4 @@
-import type { CustomMiddleware } from "~/types/private-middleware";
+import type { CustomMiddleware } from "~/types/middleware";
 
 export const apiID: CustomMiddleware = async (req, res, next) => {
   const slug = req.headers["x-api-workspace"] as string | undefined;

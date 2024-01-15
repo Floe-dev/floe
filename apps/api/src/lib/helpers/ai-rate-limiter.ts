@@ -1,8 +1,7 @@
+import { HttpError } from "@floe/lib/http-error";
 import { Ratelimit } from "@upstash/ratelimit";
 import { kv } from "@vercel/kv";
-import type { CustomMiddleware } from "~/types/private-middleware";
-
-const aiEndpoints = ["/api/v1/review"];
+import type { CustomMiddleware } from "~/types/middleware";
 
 const ratelimit = {
   freeMinute: new Ratelimit({
@@ -31,11 +30,6 @@ const ratelimit = {
   }),
 };
 export const aiRateLimiter: CustomMiddleware = async (req, res, next) => {
-  if (req.url && !aiEndpoints.includes(req.url)) {
-    await next();
-    return;
-  }
-
   const hasSubscription = req.workspace.subscription;
   const { success: successMinute } = hasSubscription
     ? await ratelimit.proMinute.limit(req.workspace.id)
@@ -46,13 +40,10 @@ export const aiRateLimiter: CustomMiddleware = async (req, res, next) => {
     : await ratelimit.freeDay.limit(req.workspace.id);
 
   if (!successMinute || !successDay) {
-    /**
-     * By not throwing an error directly we avoid logging the error in Sentry
-     */
-    res.status(429).json({
+    throw new HttpError({
+      statusCode: 429,
       message: "Too Many Requests.",
     });
-    return;
   }
 
   await next();
