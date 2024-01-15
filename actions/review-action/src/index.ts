@@ -8,7 +8,6 @@ import {
 } from "@floe/features/reviews";
 import { notEmpty } from "@floe/lib/not-empty";
 import { getFloeConfig } from "@floe/lib/get-floe-config";
-import simpleGit from "simple-git";
 import * as core from "@actions/core";
 import * as github from "@actions/github";
 import { parseDiffToFileHunks } from "@floe/lib/diff-parser";
@@ -21,12 +20,21 @@ async function run() {
   try {
     const headRef = process.env.GITHUB_HEAD_REF;
     const baseRef = process.env.GITHUB_BASE_REF;
+    const githubToken = process.env.GITHUB_TOKEN;
     const repo = github.context.payload.repository?.name;
     const owner = github.context.payload.repository?.owner.login;
     const headSha = github.context.payload.pull_request?.head.sha;
     const pullNumber = github.context.payload.pull_request?.number;
 
-    if (!headRef || !baseRef || !headSha || !owner || !repo || !pullNumber) {
+    if (
+      !headRef ||
+      !baseRef ||
+      !headSha ||
+      !owner ||
+      !repo ||
+      !pullNumber ||
+      !githubToken
+    ) {
       throw new Error(
         `The following values are missing: ${[
           !headRef && "headRef",
@@ -35,6 +43,7 @@ async function run() {
           !owner && "owner",
           !repo && "repo",
           !pullNumber && "pullNumber",
+          !githubToken && "githubToken",
         ]
           .filter(notEmpty)
           .join(", ")}`
@@ -43,20 +52,19 @@ async function run() {
 
     const config = getFloeConfig();
 
-    const basehead = `origin/${baseRef}..origin/${headRef}`;
-    /**
-     * Fetch all branches. This is needed to get the correct diff.
-     * This breaks locally, and isn't needed. So be sure to FLOE_TEST_MODE=1.
-     */
-    if (!process.env.FLOE_TEST_MODE) {
-      await simpleGit().fetch();
-    }
-    const diffOutput = await simpleGit().diff([basehead]);
+    const diff = await github.getOctokit(githubToken).rest.pulls.get({
+      owner,
+      repo,
+      pull_number: pullNumber,
+      mediaType: {
+        format: "diff",
+      },
+    });
 
     /**
      * Parse git diff to more useable format
      */
-    const files = parseDiffToFileHunks(diffOutput);
+    const files = parseDiffToFileHunks(diff.data as unknown as string);
 
     /**
      * Get rules from Floe config

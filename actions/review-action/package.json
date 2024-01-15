@@ -12,16 +12,10 @@
     "@actions/github": "^6.0.0",
     "@floe/features": "workspace:*",
     "@floe/lib": "workspace:*",
-    "@floe/requests": "workspace:*",
-    "axios": "^1.6.0",
-    "glob": "^10.3.10",
-    "simple-git": "^3.20.0",
-    "uuid": "^9.0.1"
+    "@floe/requests": "workspace:*"
   },
   "devDependencies": {
-    "@types/get-installed-path": "^4.0.3",
     "@types/node": "^20.8.10",
-    "@types/uuid": "^9.0.7",
     "@vercel/ncc": "^0.38.1",
     "eslint-config-custom": "workspace:*",
     "tsconfig": "workspace:*",
