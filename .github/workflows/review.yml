@@ -18,7 +18,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: Floe-dev/floe
-          ref: "@floe/review-action@0.1.0-beta"
+          ref: "@floe/review-action@0.1.0-beta.*"
           path: ./.github/actions/floe-actions
 
       # Run the review action
