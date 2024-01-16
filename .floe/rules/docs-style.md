@@ -1,1 +1,1 @@
-- Don't use we or I. Use the third person.
+- Don't use "we" or "I"
