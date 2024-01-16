@@ -9,7 +9,7 @@ const config = {
     defaultTheme: "light",
     forcedTheme: "light",
   },
-  docsRepositoryBase: "https://github.com/Floe-dev/floe/tree/main/apps/docs",
+  docsRepositoryBase: "https://github.com/Floe-dev/floe/tree/main/apps/web",
   project: {
     link: "https://github.com/Floe-dev/floe",
   },
