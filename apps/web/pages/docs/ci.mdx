@@ -30,6 +30,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      # Checkout the Floe repository
       - name: Checkout Floe
         uses: actions/checkout@v4
         with:
@@ -37,6 +38,13 @@ jobs:
           ref: "@floe/review-action@0.1.0-beta.5"
           path: ./.github/actions/floe-actions
 
+      # Run the review action
       - name: Review
         uses: ./.github/actions/floe-actions/actions/review-action
 ```
+
+## Versioning
+
+The Floe Review GitHub Action is verisoned using the `ref` attribute and passing
+a git tag. You can find the latest `@floe/review-action`
+[here](https://github.com/Floe-dev/floe/tags).
