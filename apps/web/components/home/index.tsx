@@ -21,7 +21,7 @@ export default function Home(): JSX.Element {
         <section className="lg:flex lg:items-center lg:gap-x-10">
           <div className="flex flex-col max-w-2xl mx-auto lg:mx-0 lg:flex-auto">
             <span className="flex-grow-0">
-              <Pill text="Coming soon" />
+              <Pill text="Early access" />
             </span>
             <Title />
             <p className="mt-4 mb-10 text-xl leading-8 sm:text-2xl sm:mt-6 sm:mb-10 text-zinc-600">
