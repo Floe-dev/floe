@@ -1,5 +1,11 @@
 # @floe/review-action
 
+## 0.1.0-beta.6
+
+### Minor Changes
+
+- b7e69cc: Modify diff lookup strategy to support forked braches in PRs.
+
 ## 0.1.0-beta.5
 
 ### Minor Changes
