@@ -7,6 +7,7 @@
   "quick-start": "Quick start",
   "usage": "Basic usage",
   "configuration": "Configuration",
+  "ci": "CI",
   "-- API reference": {
     "type": "separator",
     "title": "API reference"

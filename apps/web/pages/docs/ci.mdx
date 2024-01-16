@@ -1,0 +1,42 @@
+import { Callout } from 'nextra/components'
+
+# CI
+
+Using the Floe Reviews GitHub Action is the easiest way to integrate Floe
+Reviews into your CI pipeline. The action will automatically review your pull
+request diffs and leave comments for issues and suggested fixes.
+
+## Usage
+
+Copy the following workflow into your repository's `.github/workflows` directory.
+
+<Callout emoji="💡">Be sure to set `FLOE_API_WORKSPACE` and
+`FLOE_API_SECRET` on the "Actions secrets and variables" page in your GitHub
+settings. `GITHUB_TOKEN` is available by default.</Callout>
+
+```yaml copy filename=".github/workflows/floe-review.yml"
+name: "Floe Review"
+on:
+  pull_request:
+
+jobs:
+  Review:
+    env:
+      FLOE_API_WORKSPACE: ${{ secrets.FLOE_API_WORKSPACE }}
+      FLOE_API_SECRET: ${{ secrets.FLOE_API_SECRET }}
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Checkout Floe
+        uses: actions/checkout@v4
+        with:
+          repository: Floe-dev/floe
+          ref: "@floe/review-action@0.1.0-beta.5"
+          path: ./.github/actions/floe-actions
+
+      - name: Review
+        uses: ./.github/actions/floe-actions/actions/review-action
+```
