@@ -13,5 +13,14 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      # Checkout the Floe repository
+      - name: Checkout Floe
+        uses: actions/checkout@v4
+        with:
+          repository: Floe-dev/floe
+          ref: "@floe/review-action@0.1.0-beta.6"
+          path: ./.github/actions/floe-actions
+
+      # Run the review action
       - name: Review
-        uses: ./actions/review-action
+        uses: ./.github/actions/floe-actions/actions/review-action
