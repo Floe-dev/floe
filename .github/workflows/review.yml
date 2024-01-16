@@ -7,20 +7,10 @@ jobs:
     env:
       FLOE_API_WORKSPACE: ${{ secrets.FLOE_API_WORKSPACE }}
       FLOE_API_SECRET: ${{ secrets.FLOE_API_SECRET }}
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      # Checkout the Floe repository
-      - name: Checkout Floe
-        uses: actions/checkout@v4
-        with:
-          repository: Floe-dev/floe
-          ref: "@floe/review-action@0.1.0-beta.6"
-          path: ./.github/actions/floe-actions
-
-      # Run the review action
       - name: Review
-        uses: ./.github/actions/floe-actions/actions/review-action
+        uses: ./actions/review-action
