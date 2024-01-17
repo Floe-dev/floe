@@ -1,45 +1,27 @@
-import { db } from "@floe/db";
+import * as tokenUsage from "@floe/db/models/token-usage";
 import { Card } from "@floe/ui";
-import { Flex, ProgressBar, CategoryBar, Text } from "@tremor/react";
-import { getMonthYearTimestamp } from "@floe/lib/get-month-year";
-
-const MAX_USAGE = 1000000;
-
-function getUsage(workspaceId: string) {
-  const monthYear = getMonthYearTimestamp();
-
-  return db.tokenUsage.findUnique({
-    where: {
-      workspaceId_monthYear: {
-        monthYear,
-        workspaceId,
-      },
-    },
-  });
-}
+import { Flex, ProgressBar, Text } from "@tremor/react";
 
 export async function Usage({ workspaceId }: { workspaceId: string }) {
-  const usage = await getUsage(workspaceId);
+  const usage = await tokenUsage.findOne(workspaceId);
 
   // if (!usage) {
   //   return null;
   // }
 
-  const totalProUsage =
-    (usage?.proCompletionTokens ?? 0) + (usage?.proPromptTokens ?? 0);
+  const proPercentage = Math.floor(
+    (((usage?.proCompletionTokens ?? 0) + (usage?.proPromptTokens ?? 0)) /
+      tokenUsage.FREE_PRO_TOKEN_LIMIT) *
+      100
+  );
 
   return (
     <Card className="max-w-sm" title="Usage">
       <Flex>
         <Text>$ 9,012 &bull; 45%</Text>
-        <Text>$ 20,000</Text>
+        <Text>{tokenUsage.FREE_PRO_TOKEN_LIMIT}</Text>
       </Flex>
-      <CategoryBar
-        className="mt-4"
-        colors={["blue", "cyan", "amber", "pink"]}
-        showAnimation
-        values={[20, 10, 60, 20]}
-      />
+      <ProgressBar className="mt-4" color="indigo" value={proPercentage} />
     </Card>
   );
 }
