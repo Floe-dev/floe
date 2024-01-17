@@ -96,7 +96,7 @@ async function handler({
     name: "review",
     provider: "openai",
     providerOptions: openAICompletionOptions,
-    userId: workspace.id,
+    workspaceId: workspace.id,
     metadata: {
       slug: workspace.slug,
     },

@@ -1,27 +1,75 @@
 import OpenAI from "openai";
+import { db } from "@floe/db";
 import { Langfuse } from "langfuse";
+import * as Sentry from "@sentry/nextjs";
 import type { z, AnyZodObject } from "zod";
+import { HttpError } from "@floe/lib/http-error";
 import { zParse } from "~/utils/z-parse";
+import { getMonthYearTimestamp } from "~/utils/get-month-year";
 
 interface ProviderOptions {
   openai: OpenAI.Chat.Completions.ChatCompletionCreateParamsNonStreaming;
 }
 
+async function persistTokenUsage({
+  workspaceId,
+  promptTokens,
+  completionTokens,
+  proModel,
+}: {
+  workspaceId: string;
+  promptTokens: number;
+  completionTokens: number;
+  proModel: boolean;
+}) {
+  const monthYear = getMonthYearTimestamp();
+  const promptKey = proModel ? "proPromptTokens" : "basePromptTokens";
+  const completionKey = proModel
+    ? "proCompletionTokens"
+    : "baseCompletionTokens";
+
+  await db.tokenUsage.upsert({
+    where: {
+      workspaceId_monthYear: {
+        workspaceId,
+        monthYear,
+      },
+    },
+    create: {
+      monthYear,
+      workspaceId,
+      [promptKey]: promptTokens,
+      [completionKey]: completionTokens,
+    },
+    update: {
+      [promptKey]: {
+        increment: promptTokens,
+      },
+      [completionKey]: {
+        increment: completionTokens,
+      },
+    },
+  });
+}
+
+const PRO_MODELS = ["gpt-4-1106-preview", "gpt-4"];
+
 /**
- * Generate a chat completion and log to Langfuse
+ * Generate a chat completion and log to DB and Langfuse.
+ * This function must be used to make all AI requests for tracking purposes.
  */
 export async function createCompletion<T extends AnyZodObject>({
   name,
-  userId,
   metadata,
   provider,
+  workspaceId,
   providerOptions,
   completionResponseSchema,
 }: {
   name: string;
-  userId: string;
   metadata: Record<string, string>;
   provider: keyof ProviderOptions;
+  workspaceId: string;
   providerOptions: ProviderOptions[typeof provider];
   completionResponseSchema: T;
 }) {
@@ -40,7 +88,7 @@ export async function createCompletion<T extends AnyZodObject>({
 
   const trace = langfuse.trace({
     name,
-    userId,
+    userId: workspaceId,
     metadata: {
       env: process.env.NODE_ENV,
       ...metadata,
@@ -58,11 +106,21 @@ export async function createCompletion<T extends AnyZodObject>({
     input: providerOptions.messages,
   });
 
+  let chatCompletion: OpenAI.Chat.Completions.ChatCompletion;
+
   /**
    * Call the LLM
    * Eventually we may want to make calls to other providers here
    */
-  const chatCompletion = await openai.chat.completions.create(providerOptions);
+  try {
+    chatCompletion = await openai.chat.completions.create(providerOptions);
+  } catch (error) {
+    throw new HttpError({
+      statusCode: 500,
+      message: "Failed to get completion from LLM.",
+    });
+  }
+  const { usage } = chatCompletion;
 
   // End generation - sets endTime
   generation.end({
@@ -70,6 +128,22 @@ export async function createCompletion<T extends AnyZodObject>({
   });
 
   await langfuse.shutdownAsync();
+
+  try {
+    await persistTokenUsage({
+      workspaceId,
+      promptTokens: usage?.prompt_tokens ?? 0,
+      completionTokens: usage?.completion_tokens ?? 0,
+      proModel: PRO_MODELS.includes(providerOptions.model),
+    });
+  } catch (error) {
+    /**
+     * We've gotten this far and have a generated response, so we don't want to
+     * throw an error here. Instead, we'll just log the error and continue.
+     */
+    Sentry.captureException(error);
+    console.error(error);
+  }
 
   /**
    * Safely parse the response from the LLM
