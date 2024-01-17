@@ -31,8 +31,7 @@ pnpm i
 - Keep this page open. You will need to get your `App ID`, `Client ID`, `Client secret`, and `Private key` handy for later
 
 ### Create your database
-- If you haven't already, create a PlanetScale database. You can do it through their dashboard.
-- Remember the database name for later.
+- Setup a MySQL database. You can do this locally or through a cloud provider. Floe uses PlanetScale.
 
 ### Setup Vercel
 - In Vercel, create a Project. You can create it from the GitHub repository you just forked.
@@ -66,8 +65,10 @@ Create a `.env` by copying the `.env.example` file in the following directories:
 </FileTree>
 
 ### `DATABASE_URL`
+- Set the `DATABASE_URL` to your MySQL database. If you are using PlanetScale,
+  you can get this by running `pscale connect <DATABASE_NAME> --port 3309` and
+  copying the `DATABASE_URL` from the output.
 - Set the `DATABASE_URL` to `mysql://root@127.0.0.1:3309/<DATABASE_NAME>?connection_limit=100`
-- Replace `<DATABASE_NAME>` with the name of the database you created earlier
 
 ### `NEXTAUTH_SECRET`
 - Generate a cryptographically secure string and set it as the
@@ -87,15 +88,18 @@ Create a `.env` by copying the `.env.example` file in the following directories:
 
 ## Running the app
 <Steps>
-### Connect to PlanetScale and push the schema
-Connect to your PlanetScale database.
-```bash copy
-pscale connect <DATABASE_NAME> initial-setup --port 3309
-```
-Now push your schema.
+### Sync your database
+Run this from the `packages/db` directory.
 ```bash copy
 npx prisma db push
 ```
+
+### Seed your database
+Run this from the `packages/db` directory.
+```bash copy
+npx prisma db seed
+```
+Copy the output at the end. This will be needed to login.
 
 ### Start the app
 Let's start the app (finally 🎉)!
@@ -109,9 +113,10 @@ This should have started 3 dev servers:
 - Dashboard: http://localhost:3001
 - API: http://localhost:4000
 
-### Create a user
-Go to http://localhost:3001 and signup. Assuming you setup your `SENDGRID_API`
-(and everything else), you should receive an email with a link to verify your
-account. That's it!
+### Login
+Go to http://localhost:3001 and enter the auth cookie you copied earlier into
+your console. Or, if you entered a `SENDGRID_API` key you can enter an email to
+signup manually. You should receive an email with a link to verify your account.
+That's it!
 
 </Steps>
