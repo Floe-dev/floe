@@ -99,6 +99,7 @@ model WorkspaceMembership {
     createdAt   DateTime       @default(now())
     updatedAt   DateTime       @updatedAt
 
+    @@unique([workspaceId, userId])
     @@index([userId])
     @@index([workspaceId])
 }
