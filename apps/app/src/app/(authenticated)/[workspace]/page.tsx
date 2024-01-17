@@ -151,7 +151,7 @@ export default async function Workspace({
         </div>
 
         <div className="">
-          <Usage />
+          <Usage workspaceId={workspace.id} />
         </div>
         <div className="">
           <h3 className="mb-2 text-sm font-medium text-zinc-500">
