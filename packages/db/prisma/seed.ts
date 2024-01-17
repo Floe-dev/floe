@@ -44,15 +44,20 @@ async function main() {
 
   const fakeSession = randomBytes(16).toString("hex");
 
+  // Date 1 month from now
+  const currentDate = new Date();
+  const futureDate = new Date();
+  futureDate.setMonth(currentDate.getMonth() + 1);
+
   const session = await prisma.session.upsert({
     where: { sessionToken: fakeSession },
     update: {
-      expires: new Date("2030-03-25"),
+      expires: futureDate,
     },
     create: {
       sessionToken: fakeSession,
       userId: user.id,
-      expires: new Date("2030-03-25"),
+      expires: futureDate,
     },
   });
 
