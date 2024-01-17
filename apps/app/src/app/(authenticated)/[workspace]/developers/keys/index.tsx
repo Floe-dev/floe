@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { Card } from "@floe/ui";
+import { ActionCard } from "@floe/ui";
 import type { Prisma } from "@floe/db";
 import { KeyModal } from "./key-modal";
 import { Table } from "./table";
@@ -24,7 +24,7 @@ function Keys({ workspace }: KeyProps) {
 
   return (
     <div className="mt-4">
-      <Card
+      <ActionCard
         actions={[
           {
             text: "New key",
@@ -38,7 +38,7 @@ function Keys({ workspace }: KeyProps) {
       >
         <Table workspace={workspace} />
         <KeyModal open={open} setOpen={setOpen} workspace={workspace} />
-      </Card>
+      </ActionCard>
     </div>
   );
 }
