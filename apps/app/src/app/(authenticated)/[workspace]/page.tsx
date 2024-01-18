@@ -40,6 +40,15 @@ async function getWorkspace(workspaceSlug: string) {
           createdAt: true,
         },
       },
+      subscription: {
+        include: {
+          price: {
+            include: {
+              product: true,
+            },
+          },
+        },
+      },
     },
   });
 }

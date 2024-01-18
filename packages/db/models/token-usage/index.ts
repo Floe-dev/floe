@@ -1,22 +1,13 @@
-import type { Prisma } from "../..";
 import { db } from "../..";
+import type { TokenUsage } from "../..";
 import { getMonthYearTimestamp } from "./get-month-year";
 
-export function findOne(workspaceId: string): Prisma.Prisma__TokenUsageClient<
-  {
-    id: number;
-    monthYear: Date;
-    basePromptTokens: number;
-    baseCompletionTokens: number;
-    proPromptTokens: number;
-    proCompletionTokens: number;
-    workspaceId: string;
-  } | null,
-  null
-> {
+export type FindOneResult = TokenUsage | null;
+
+export async function findOne(workspaceId: string): Promise<FindOneResult> {
   const monthYear = getMonthYearTimestamp();
 
-  return db.tokenUsage.findUnique({
+  const tokenUsage = await db.tokenUsage.findUnique({
     where: {
       workspaceId_monthYear: {
         monthYear,
@@ -24,6 +15,8 @@ export function findOne(workspaceId: string): Prisma.Prisma__TokenUsageClient<
       },
     },
   });
+
+  return tokenUsage;
 }
 
 export * from "./constants";
