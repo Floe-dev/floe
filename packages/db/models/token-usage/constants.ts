@@ -1,2 +1,2 @@
-export const FREE_BASE_TOKEN_LIMIT = Infinity;
+export const FREE_BASE_TOKEN_LIMIT = 1000000;
 export const FREE_PRO_TOKEN_LIMIT = 25000;
