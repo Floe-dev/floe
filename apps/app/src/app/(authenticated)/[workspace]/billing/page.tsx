@@ -2,10 +2,10 @@ import { db } from "@floe/db";
 import { Button, Pill } from "@floe/ui";
 import { price } from "@floe/db/models";
 import { CheckCircleIcon } from "@heroicons/react/20/solid";
+import Link from "next/link";
 import { Header } from "~/app/_components/header";
 import { env } from "~/env.mjs";
 import { createStripeCheckoutSession, createPortalLink } from "./actions";
-import Link from "next/link";
 
 async function getWorkspaceWithSubscription(slug: string) {
   const workspace = await db.workspace.findUnique({
@@ -33,9 +33,20 @@ export default async function Billing({
 }: {
   params: { workspace: string };
 }) {
+  const workspaceWithSubscription = await getWorkspaceWithSubscription(
+    params.workspace
+  );
   const proPrice = await price.findOne(env.STRIPE_PRO_PRICE_ID, {
     product: true,
   });
+  const customPrice = workspaceWithSubscription?.availableCustomPriceId
+    ? await price.findOne(
+        workspaceWithSubscription.availableCustomPriceId as string,
+        {
+          product: true,
+        }
+      )
+    : null;
   const freeTierFeature = [
     "25K Pro tokens",
     "1M Basic tokens",
@@ -56,9 +67,6 @@ export default async function Billing({
     "Highest rate limits",
   ];
 
-  const workspaceWithSubscription = await getWorkspaceWithSubscription(
-    params.workspace
-  );
   const createPortalLinkWithSlug = createPortalLink.bind(
     null,
     params.workspace
@@ -67,7 +75,14 @@ export default async function Billing({
     null,
     params.workspace
   );
-
+  const proCheckoutSession = createStripeCheckoutSessionWithSlug.bind(
+    null,
+    env.STRIPE_PRO_PRICE_ID
+  );
+  const customCheckoutSession = createStripeCheckoutSessionWithSlug.bind(
+    null,
+    workspaceWithSubscription?.availableCustomPriceId as string
+  );
   const hasSubscription = workspaceWithSubscription?.subscription;
   const hasProSubscription =
     workspaceWithSubscription?.subscription?.priceId ===
@@ -85,10 +100,10 @@ export default async function Billing({
           <Pill
             color="black"
             text={
-              hasProSubscription
-                ? "Pro"
-                : hasCustomSubscription
-                ? "Custom"
+              hasProSubscription && proPrice
+                ? proPrice.product.name
+                : hasCustomSubscription && customPrice
+                ? customPrice.product.name
                 : "Free"
             }
           />{" "}
@@ -195,10 +210,7 @@ export default async function Billing({
                   </Button>
                 </form>
               ) : (
-                <form
-                  action={createStripeCheckoutSessionWithSlug}
-                  method="POST"
-                >
+                <form action={proCheckoutSession} method="POST">
                   <Button className="w-full px-3 py-2 mt-6" type="submit">
                     Buy plan
                   </Button>
@@ -224,12 +236,19 @@ export default async function Billing({
           {/* Custom tier */}
           <div className="px-8 pt-16 lg:pt-0 xl:px-14">
             <h3 className="text-base font-semibold leading-7 text-zinc-900">
-              Business
+              {customPrice ? customPrice.product.name : "Business"}
             </h3>
             <p className="flex items-baseline mt-6 gap-x-1">
               <span className="text-4xl font-bold tracking-tight text-zinc-900">
-                Custom
+                {customPrice?.unitAmount
+                  ? customPrice.unitAmount / 100
+                  : "Custom"}
               </span>
+              {customPrice ? (
+                <span className="text-sm font-semibold leading-6 text-zinc-600">
+                  /month ({customPrice.currency.toUpperCase()})
+                </span>
+              ) : null}
             </p>
             {hasCustomSubscription && willBeCanceled ? (
               <form action={createPortalLinkWithSlug} method="POST">
@@ -241,6 +260,12 @@ export default async function Billing({
               <Button className="w-full px-3 py-2 mt-6" disabled>
                 Current plan
               </Button>
+            ) : customPrice ? (
+              <form action={customCheckoutSession} method="POST">
+                <Button className="w-full px-3 py-2 mt-6" type="submit">
+                  Buy plan
+                </Button>
+              </form>
             ) : (
               <Link href="https://cal.com/nic-haley/30min">
                 <Button className="w-full px-3 py-2 mt-6" color="secondary">

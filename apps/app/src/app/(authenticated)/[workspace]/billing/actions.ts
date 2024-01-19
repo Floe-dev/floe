@@ -3,11 +3,13 @@
 import { redirect } from "next/navigation";
 import { createOrRetrieveCustomer, stripe } from "~/lib/stripe";
 import { getURL } from "~/utils/url";
-import { env } from "~/env.mjs";
 
 const url = getURL();
 
-export async function createStripeCheckoutSession(slug: string) {
+export async function createStripeCheckoutSession(
+  slug: string,
+  priceId: string
+) {
   // Retrieve or create the customer in Stripe
   const customer = await createOrRetrieveCustomer({
     workspaceSlug: slug,
@@ -21,7 +23,7 @@ export async function createStripeCheckoutSession(slug: string) {
     },
     line_items: [
       {
-        price: env.STRIPE_PRO_PRICE_ID,
+        price: priceId,
         quantity: 1,
       },
     ],
