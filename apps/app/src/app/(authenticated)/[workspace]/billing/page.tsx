@@ -69,6 +69,10 @@ export default async function Billing({
   );
 
   const hasSubscription = workspaceWithSubscription?.subscription;
+  const hasProSubscription =
+    workspaceWithSubscription?.subscription?.priceId ===
+    env.STRIPE_PRO_PRICE_ID;
+  const hasCustomSubscription = hasSubscription && !hasProSubscription;
   const willBeCanceled =
     workspaceWithSubscription?.subscription?.cancelAtPeriodEnd;
 
@@ -78,7 +82,17 @@ export default async function Billing({
       <div className="prose prose-zinc">
         <p>
           You are currently on the{" "}
-          <Pill color="black" text={hasSubscription ? "Pro" : "Free"} /> tier.
+          <Pill
+            color="black"
+            text={
+              hasProSubscription
+                ? "Pro"
+                : hasCustomSubscription
+                ? "Custom"
+                : "Free"
+            }
+          />{" "}
+          tier.
         </p>
       </div>
       <div className="flow-root mt-6">
@@ -157,16 +171,29 @@ export default async function Billing({
               {/* <p className="mt-3 text-sm leading-6 text-zinc-500">
               {tier.price.annually} per month if paid annually
             </p> */}
-              {willBeCanceled ? (
+              {hasProSubscription && willBeCanceled ? (
                 <form action={createPortalLinkWithSlug} method="POST">
                   <Button className="w-full px-3 py-2 mt-6" type="submit">
                     Renew
                   </Button>
                 </form>
-              ) : hasSubscription ? (
+              ) : hasProSubscription ? (
                 <Button className="w-full px-3 py-2 mt-6" disabled>
                   Current plan
                 </Button>
+              ) : hasCustomSubscription ? (
+                <form
+                  action={createStripeCheckoutSessionWithSlug}
+                  method="POST"
+                >
+                  <Button
+                    className="w-full px-3 py-2 mt-6"
+                    color="gray"
+                    type="submit"
+                  >
+                    Downgrade
+                  </Button>
+                </form>
               ) : (
                 <form
                   action={createStripeCheckoutSessionWithSlug}
@@ -204,25 +231,25 @@ export default async function Billing({
                 Custom
               </span>
             </p>
-            {willBeCanceled ? (
+            {hasCustomSubscription && willBeCanceled ? (
               <form action={createPortalLinkWithSlug} method="POST">
                 <Button className="w-full px-3 py-2 mt-6" type="submit">
                   Renew
                 </Button>
               </form>
-            ) : hasSubscription ? (
+            ) : hasCustomSubscription ? (
               <Button className="w-full px-3 py-2 mt-6" disabled>
                 Current plan
               </Button>
             ) : (
               <Link href="https://cal.com/nic-haley/30min">
-                <Button className="w-full px-3 py-2 mt-6">
+                <Button className="w-full px-3 py-2 mt-6" color="secondary">
                   Let&apos;s talk
                 </Button>
               </Link>
             )}
             <p className="mt-10 text-sm font-semibold leading-6 text-zinc-900">
-              Features for professionals and teams.
+              Features for large teams and enterprises.
             </p>
             <ul className="mt-6 space-y-3 text-sm leading-6 text-zinc-600">
               {customTierFeature.map((feature) => (
