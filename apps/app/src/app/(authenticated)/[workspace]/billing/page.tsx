@@ -5,6 +5,7 @@ import { CheckCircleIcon } from "@heroicons/react/20/solid";
 import { Header } from "~/app/_components/header";
 import { env } from "~/env.mjs";
 import { createStripeCheckoutSession, createPortalLink } from "./actions";
+import Link from "next/link";
 
 async function getWorkspaceWithSubscription(slug: string) {
   const workspace = await db.workspace.findUnique({
@@ -35,12 +36,24 @@ export default async function Billing({
   const proPrice = await price.findOne(env.STRIPE_PRO_PRICE_ID, {
     product: true,
   });
-  const freeTierFeature = ["Unlimited GPT-3.5 Turbo tokens", "Rate limited"];
+  const freeTierFeature = [
+    "25K Pro tokens",
+    "1M Basic tokens",
+    "Slack support",
+  ];
 
   const proTierFeature = [
-    "Unlimited GPT-4 Turbo tokens",
+    `2M Pro tokens`,
+    "Unlimited Basic tokens",
     "Priority support",
-    "Teams (Coming soon)",
+    "Higher rate limits",
+  ];
+
+  const customTierFeature = [
+    "BYOK (Bring your own key)",
+    "Unlimited Pro tokens",
+    "Dedicated support channel",
+    "Highest rate limits",
   ];
 
   const workspaceWithSubscription = await getWorkspaceWithSubscription(
@@ -63,19 +76,13 @@ export default async function Billing({
     <div className="max-w-screen-lg">
       <Header description="Manage your subscription." title="Billing" />
       <div className="prose prose-zinc">
-        {/* <p>
+        <p>
           You are currently on the{" "}
           <Pill color="black" text={hasSubscription ? "Pro" : "Free"} /> tier.
-        </p> */}
-        <p>
-          You are on the <Pill color="black" text="Beta" /> tier.
-        </p>
-        <p>
-          Following the Floe Beta this plan will be downgraded to the Free tier.
         </p>
       </div>
       <div className="flow-root mt-6">
-        <div className="grid grid-cols-1 py-8 bg-white divide-y shadow rounded-xl divide-zinc-200 isolate gap-y-16 sm:mx-auto lg:max-w-none lg:grid-cols-2 lg:divide-x lg:divide-y-0">
+        <div className="grid grid-cols-1 py-8 bg-white divide-y shadow rounded-xl divide-zinc-200 isolate gap-y-16 sm:mx-auto lg:max-w-none lg:grid-cols-3 lg:divide-x lg:divide-y-0">
           {/* Free tier */}
           <div className="px-8 xl:px-14">
             <h3 className="text-base font-semibold leading-7 text-zinc-900">
@@ -171,7 +178,7 @@ export default async function Billing({
                 </form>
               )}
               <p className="mt-10 text-sm font-semibold leading-6 text-zinc-900">
-                Features for professionals and teams.
+                Features for professionals and small teams.
               </p>
               <ul className="mt-6 space-y-3 text-sm leading-6 text-zinc-600">
                 {proTierFeature.map((feature) => (
@@ -186,6 +193,49 @@ export default async function Billing({
               </ul>
             </div>
           ) : null}
+
+          {/* Custom tier */}
+          <div className="px-8 pt-16 lg:pt-0 xl:px-14">
+            <h3 className="text-base font-semibold leading-7 text-zinc-900">
+              Business
+            </h3>
+            <p className="flex items-baseline mt-6 gap-x-1">
+              <span className="text-4xl font-bold tracking-tight text-zinc-900">
+                Custom
+              </span>
+            </p>
+            {willBeCanceled ? (
+              <form action={createPortalLinkWithSlug} method="POST">
+                <Button className="w-full px-3 py-2 mt-6" type="submit">
+                  Renew
+                </Button>
+              </form>
+            ) : hasSubscription ? (
+              <Button className="w-full px-3 py-2 mt-6" disabled>
+                Current plan
+              </Button>
+            ) : (
+              <Link href="https://cal.com/nic-haley/30min">
+                <Button className="w-full px-3 py-2 mt-6">
+                  Let&apos;s talk
+                </Button>
+              </Link>
+            )}
+            <p className="mt-10 text-sm font-semibold leading-6 text-zinc-900">
+              Features for professionals and teams.
+            </p>
+            <ul className="mt-6 space-y-3 text-sm leading-6 text-zinc-600">
+              {customTierFeature.map((feature) => (
+                <li className="flex gap-x-3" key={feature}>
+                  <CheckCircleIcon
+                    aria-hidden="true"
+                    className="flex-none w-5 h-6 text-amber-600"
+                  />
+                  {feature}
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       </div>
     </div>
