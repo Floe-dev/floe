@@ -1,20 +1,21 @@
 import { Card } from "@floe/ui";
 import { ProgressBar } from "@tremor/react";
-import { tokenUsage } from "@floe/db/models";
+import { tokenUsage, subscription } from "@floe/db/models";
 
 export async function Usage({ workspaceId }: { workspaceId: string }) {
   const usage = await tokenUsage.findOne(workspaceId);
+  const limits = await subscription.getTokenLimits(workspaceId);
 
   const totalProTokens =
     (usage?.proCompletionTokens ?? 0) + (usage?.proPromptTokens ?? 0);
   const proPercentage = Math.floor(
-    (totalProTokens / tokenUsage.FREE_PRO_TOKEN_LIMIT) * 100
+    (totalProTokens / limits.proTokenLimit) * 100
   );
 
   const totalBasicTokens =
     (usage?.baseCompletionTokens ?? 0) + (usage?.basePromptTokens ?? 0);
   const basicPercentage = Math.floor(
-    (totalBasicTokens / tokenUsage.FREE_BASE_TOKEN_LIMIT) * 100
+    (totalBasicTokens / limits.baseTokenLimit) * 100
   );
 
   return (
@@ -25,7 +26,7 @@ export async function Usage({ workspaceId }: { workspaceId: string }) {
             {totalProTokens.toLocaleString()} &bull; {proPercentage}%
           </div>
           <div className="font-mono text-zinc-500">
-            {tokenUsage.FREE_PRO_TOKEN_LIMIT.toLocaleString()}
+            {limits.proTokenLimit.toLocaleString()}
           </div>
         </div>
         <ProgressBar className="mt-4" color="indigo" value={proPercentage} />
@@ -40,7 +41,7 @@ export async function Usage({ workspaceId }: { workspaceId: string }) {
             {totalBasicTokens.toLocaleString()} &bull; {basicPercentage}%
           </div>
           <div className="font-mono text-zinc-500">
-            {tokenUsage.FREE_BASE_TOKEN_LIMIT.toLocaleString()}
+            {limits.baseTokenLimit.toLocaleString()}
           </div>
         </div>
         <ProgressBar className="mt-4" color="zinc" value={basicPercentage} />

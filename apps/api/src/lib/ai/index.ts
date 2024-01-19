@@ -1,5 +1,6 @@
 import OpenAI from "openai";
 import { db } from "@floe/db";
+import { tokenUsage, subscription } from "@floe/db/models";
 import { Langfuse } from "langfuse";
 import * as Sentry from "@sentry/nextjs";
 import type { z, AnyZodObject } from "zod";
@@ -77,6 +78,42 @@ export async function createCompletion<T extends AnyZodObject>({
     throw new Error("Missing LANGFUSE_SECRET_KEY or LANGFUSE_PUBLIC_KEY");
   }
 
+  const isUsingProModel = PRO_MODELS.includes(providerOptions.model);
+
+  const result = await Promise.all([
+    tokenUsage.findOne(workspaceId),
+    subscription.getTokenLimits(workspaceId),
+  ]);
+
+  const usedTokens = result[0];
+  const tokenLimits = result[1];
+
+  if (!usedTokens) {
+    throw new Error("Could not get token usage or token limits.");
+  }
+
+  const totalProTokens =
+    usedTokens.proCompletionTokens + usedTokens.proPromptTokens;
+  const totalBaseTokens =
+    usedTokens.baseCompletionTokens + usedTokens.basePromptTokens;
+
+  /**
+   * Check if the workspace has exceeded their token limit
+   */
+  if (isUsingProModel) {
+    if (totalProTokens >= tokenLimits.proTokenLimit) {
+      throw new HttpError({
+        statusCode: 402,
+        message: "You have exceeded your pro token limit.",
+      });
+    }
+  } else if (totalBaseTokens >= tokenLimits.baseTokenLimit) {
+    throw new HttpError({
+      statusCode: 402,
+      message: "You have exceeded your base token limit.",
+    });
+  }
+
   const openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY,
   });
@@ -134,7 +171,7 @@ export async function createCompletion<T extends AnyZodObject>({
       workspaceId,
       promptTokens: usage?.prompt_tokens ?? 0,
       completionTokens: usage?.completion_tokens ?? 0,
-      proModel: PRO_MODELS.includes(providerOptions.model),
+      proModel: isUsingProModel,
     });
   } catch (error) {
     /**
