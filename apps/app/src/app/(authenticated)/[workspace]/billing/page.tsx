@@ -201,10 +201,11 @@ export default async function Billing({
                 <form action={proCheckoutSession} method="POST">
                   <Button
                     className="w-full px-3 py-2 mt-6"
+                    color={hasCustomSubscription ? "gray" : "primary"}
                     disabled={Boolean(hasCustomSubscription)}
                     type="submit"
                   >
-                    Buy plan
+                    {hasCustomSubscription ? "Contact support" : "Buy plan"}
                   </Button>
                 </form>
               )}
@@ -259,10 +260,11 @@ export default async function Billing({
               <form action={customCheckoutSession} method="POST">
                 <Button
                   className="w-full px-3 py-2 mt-6"
+                  color={hasProSubscription ? "gray" : "primary"}
                   disabled={Boolean(hasProSubscription)}
                   type="submit"
                 >
-                  Buy plan
+                  {hasProSubscription ? "Contact support" : "Buy plan"}
                 </Button>
               </form>
             ) : (
