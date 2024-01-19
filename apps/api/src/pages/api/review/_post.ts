@@ -2,7 +2,6 @@ import { z } from "zod";
 import { kv } from "@vercel/kv";
 import type OpenAI from "openai";
 import { notEmpty } from "@floe/lib/not-empty";
-import { HttpError } from "@floe/lib/http-error";
 import type { PostReviewResponse } from "@floe/requests/review/_post";
 import { querySchema } from "@floe/requests/review/_post";
 import { createChecksum } from "~/utils/checksum";
@@ -22,7 +21,7 @@ async function handler({
   body,
   workspace,
 }: NextApiRequestExtension): Promise<PostReviewResponse> {
-  const { content, startLine, rule, path } = zParse(
+  const { content, startLine, rule, path, model } = zParse(
     querySchema,
     body as Record<string, unknown>
   );
@@ -33,7 +32,10 @@ async function handler({
   const lines = stringToLines(content, startLine);
 
   const openAICompletionOptions: OpenAIOptions = {
-    model: "gpt-4-1106-preview",
+    // Eventually, Pro and Basic models will be configurable through the
+    // dashboard. The Workspace will be able to select from a list of models in
+    // each category.
+    model: model === "pro" ? "gpt-4-1106-preview" : "gpt-3.5-turbo-1106",
     temperature: 0,
     response_format: { type: "json_object" },
     // Last updated date
@@ -101,11 +103,6 @@ async function handler({
       slug: workspace.slug,
     },
     completionResponseSchema,
-  }).catch(() => {
-    throw new HttpError({
-      statusCode: 500,
-      message: "Failed to get completion from LLM.",
-    });
   });
 
   const violations = completion.choices[0].message.content.violations

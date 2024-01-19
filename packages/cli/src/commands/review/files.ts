@@ -1,5 +1,5 @@
 import fs from "node:fs";
-import type { Command } from "commander";
+import { Option, type Command } from "commander";
 import { getRulesets } from "@floe/lib/rules";
 import { glob } from "glob";
 import { minimatch } from "minimatch";
@@ -24,15 +24,28 @@ export function files(program: Command) {
     .option("--ignore <ignore...>", "Ignore pattern")
     .option("--ruleset <ruleset>", "Ruleset to evaluate against")
     .option("--fix", "Fix issues")
+    .addOption(
+      new Option("-m, --model <model>", "Use Pro or Basic model").choices([
+        "pro",
+        "basic",
+      ])
+    )
     .action(
       async (
         filesArg?: string[],
-        options: { ignore?: string[]; fix?: boolean; ruleset?: string } = {}
+        options: {
+          ignore?: string[];
+          fix?: boolean;
+          ruleset?: string;
+          model?: "pro" | "basic";
+        } = {}
       ) => {
         /**
          * Exit if not a valid Floe root
          */
         checkIfValidRoot();
+
+        console.log(11111, options.model);
 
         /**
          * Import ESM modules
@@ -125,13 +138,13 @@ export function files(program: Command) {
          */
         const spinner = ora("Reviewing content...").start();
 
-        const reviewsByFile = await getReviewsByFile(evalutationsByFile).catch(
-          async (e) => {
-            spinner.stop();
-            await logAxiosError(e);
-            process.exit(1);
-          }
-        );
+        const reviewsByFile = await getReviewsByFile(evalutationsByFile, {
+          model: options.model,
+        }).catch(async (e) => {
+          spinner.stop();
+          await logAxiosError(e);
+          process.exit(1);
+        });
 
         /**
          * Rules fetched. We can stop the spinner.

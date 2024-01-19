@@ -66,7 +66,10 @@ export function checkIfUnderEvaluationLimit(
  * Generate a review for each hunk and rule.
  * Output is an array of reviews grouped by file.
  */
-export async function getReviewsByFile(evalutationsByFile: EvalutationsByFile) {
+export async function getReviewsByFile(
+  evalutationsByFile: EvalutationsByFile,
+  options?: Pick<Parameters<typeof createReview>[0], "model">
+) {
   return Promise.all(
     evalutationsByFile.map(async ({ path, evaluations }) => {
       const evaluationsResponse = await Promise.all(
@@ -76,6 +79,7 @@ export async function getReviewsByFile(evalutationsByFile: EvalutationsByFile) {
             content: hunk.content,
             startLine: hunk.startLine,
             rule,
+            model: options?.model,
           });
 
           return {
