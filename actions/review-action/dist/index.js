@@ -45334,19 +45334,21 @@ const api = lib_axios.create({
 const querySchema = z.object({
     path: z.string(),
     content: z.string(),
-    startLine: z.coerce.number().optional().default(1),
+    startLine: z.coerce.number().default(1),
     rule: z.object({
         code: z.string(),
         level: z.union([z.literal("error"), z.literal("warn")]),
         description: z.string(),
     }),
+    model: z.union([z.literal("pro"), z.literal("basic")]).default("pro"),
 });
-async function createReview({ path, content, startLine, rule, }) {
+async function createReview({ path, content, startLine, rule, model, }) {
     return api.post("/api/v1/review", {
         path,
         content,
         startLine,
         rule,
+        model,
     });
 }
 
@@ -45390,7 +45392,7 @@ function checkIfUnderEvaluationLimit(evalutationsByFile, limit) {
  * Generate a review for each hunk and rule.
  * Output is an array of reviews grouped by file.
  */
-async function getReviewsByFile(evalutationsByFile) {
+async function getReviewsByFile(evalutationsByFile, options) {
     return Promise.all(evalutationsByFile.map(async ({ path, evaluations }) => {
         const evaluationsResponse = await Promise.all(evaluations.map(async ({ rule, hunk }) => {
             const review = await createReview({
@@ -45398,6 +45400,7 @@ async function getReviewsByFile(evalutationsByFile) {
                 content: hunk.content,
                 startLine: hunk.startLine,
                 rule,
+                model: options?.model,
             });
             return {
                 review: {

@@ -40,12 +40,9 @@ export default async function Billing({
     product: true,
   });
   const customPrice = workspaceWithSubscription?.availableCustomPriceId
-    ? await price.findOne(
-        workspaceWithSubscription.availableCustomPriceId as string,
-        {
-          product: true,
-        }
-      )
+    ? await price.findOne(workspaceWithSubscription.availableCustomPriceId, {
+        product: true,
+      })
     : null;
   const freeTierFeature = [
     "25K Pro tokens",
@@ -81,7 +78,7 @@ export default async function Billing({
   );
   const customCheckoutSession = createStripeCheckoutSessionWithSlug.bind(
     null,
-    workspaceWithSubscription?.availableCustomPriceId as string
+    workspaceWithSubscription?.availableCustomPriceId
   );
   const hasSubscription = workspaceWithSubscription?.subscription;
   const hasProSubscription =
