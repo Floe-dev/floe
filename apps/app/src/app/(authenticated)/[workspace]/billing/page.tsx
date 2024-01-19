@@ -114,8 +114,9 @@ export default async function Billing({
         <div className="grid grid-cols-1 py-8 bg-white divide-y shadow rounded-xl divide-zinc-200 isolate gap-y-16 sm:mx-auto lg:max-w-none lg:grid-cols-3 lg:divide-x lg:divide-y-0">
           {/* Free tier */}
           <div className="px-8 xl:px-14">
-            <h3 className="text-base font-semibold leading-7 text-zinc-900">
+            <h3 className="flex items-center gap-2 text-base font-semibold leading-7 text-zinc-900">
               Free
+              {hasSubscription ? null : <Pill color="black" text="Active" />}
             </h3>
             <p className="flex items-baseline mt-6 gap-x-1">
               <span className="text-4xl font-bold tracking-tight text-zinc-900">
@@ -172,8 +173,11 @@ export default async function Billing({
           {/* Pro tier */}
           {proPrice?.active && proPrice.unitAmount ? (
             <div className="px-8 pt-16 lg:pt-0 xl:px-14">
-              <h3 className="text-base font-semibold leading-7 text-zinc-900">
+              <h3 className="flex items-center gap-2 text-base font-semibold leading-7 text-zinc-900">
                 {proPrice.product.name}
+                {hasProSubscription ? (
+                  <Pill color="black" text="Active" />
+                ) : null}
               </h3>
               <p className="flex items-baseline mt-6 gap-x-1">
                 <span className="text-4xl font-bold tracking-tight text-zinc-900">
@@ -196,22 +200,13 @@ export default async function Billing({
                 <Button className="w-full px-3 py-2 mt-6" disabled>
                   Current plan
                 </Button>
-              ) : hasCustomSubscription ? (
-                <form
-                  action={createStripeCheckoutSessionWithSlug}
-                  method="POST"
-                >
-                  <Button
-                    className="w-full px-3 py-2 mt-6"
-                    color="gray"
-                    type="submit"
-                  >
-                    Downgrade
-                  </Button>
-                </form>
               ) : (
                 <form action={proCheckoutSession} method="POST">
-                  <Button className="w-full px-3 py-2 mt-6" type="submit">
+                  <Button
+                    className="w-full px-3 py-2 mt-6"
+                    disabled={Boolean(hasCustomSubscription)}
+                    type="submit"
+                  >
                     Buy plan
                   </Button>
                 </form>
@@ -235,8 +230,11 @@ export default async function Billing({
 
           {/* Custom tier */}
           <div className="px-8 pt-16 lg:pt-0 xl:px-14">
-            <h3 className="text-base font-semibold leading-7 text-zinc-900">
+            <h3 className="flex items-center gap-2 text-base font-semibold leading-7 text-zinc-900">
               {customPrice ? customPrice.product.name : "Business"}
+              {hasCustomSubscription ? (
+                <Pill color="black" text="Active" />
+              ) : null}
             </h3>
             <p className="flex items-baseline mt-6 gap-x-1">
               <span className="text-4xl font-bold tracking-tight text-zinc-900">
@@ -262,7 +260,11 @@ export default async function Billing({
               </Button>
             ) : customPrice ? (
               <form action={customCheckoutSession} method="POST">
-                <Button className="w-full px-3 py-2 mt-6" type="submit">
+                <Button
+                  className="w-full px-3 py-2 mt-6"
+                  disabled={Boolean(hasProSubscription)}
+                  type="submit"
+                >
                   Buy plan
                 </Button>
               </form>
