@@ -1,6 +1,6 @@
-import * as tokenUsage from "@floe/db/models/token-usage";
 import { Card } from "@floe/ui";
 import { ProgressBar } from "@tremor/react";
+import { tokenUsage } from "@floe/db/models";
 
 export async function Usage({ workspaceId }: { workspaceId: string }) {
   const usage = await tokenUsage.findOne(workspaceId);

@@ -1,7 +1,9 @@
 import { db } from "@floe/db";
 import { Button, Pill } from "@floe/ui";
+import { price } from "@floe/db/models";
 import { CheckCircleIcon } from "@heroicons/react/20/solid";
 import { Header } from "~/app/_components/header";
+import { env } from "~/env.mjs";
 import { createStripeCheckoutSession, createPortalLink } from "./actions";
 
 async function getWorkspaceWithSubscription(slug: string) {
@@ -30,6 +32,9 @@ export default async function Billing({
 }: {
   params: { workspace: string };
 }) {
+  const proPrice = await price.findOne(env.STRIPE_PRO_PRICE_ID, {
+    product: true,
+  });
   const freeTierFeature = ["Unlimited GPT-3.5 Turbo tokens", "Rate limited"];
 
   const proTierFeature = [
@@ -129,53 +134,58 @@ export default async function Billing({
           </div>
 
           {/* Pro tier */}
-          <div className="px-8 pt-16 lg:pt-0 xl:px-14">
-            <h3 className="text-base font-semibold leading-7 text-zinc-900">
-              Pro
-            </h3>
-            <p className="flex items-baseline mt-6 gap-x-1">
-              <span className="text-4xl font-bold tracking-tight text-zinc-900">
-                $390
-              </span>
-              <span className="text-sm font-semibold leading-6 text-zinc-600">
-                /month
-              </span>
-            </p>
-            {/* <p className="mt-3 text-sm leading-6 text-zinc-500">
+          {proPrice?.active && proPrice.unitAmount ? (
+            <div className="px-8 pt-16 lg:pt-0 xl:px-14">
+              <h3 className="text-base font-semibold leading-7 text-zinc-900">
+                {proPrice.product.name}
+              </h3>
+              <p className="flex items-baseline mt-6 gap-x-1">
+                <span className="text-4xl font-bold tracking-tight text-zinc-900">
+                  ${proPrice.unitAmount / 100}
+                </span>
+                <span className="text-sm font-semibold leading-6 text-zinc-600">
+                  /month ({proPrice.currency.toUpperCase()})
+                </span>
+              </p>
+              {/* <p className="mt-3 text-sm leading-6 text-zinc-500">
               {tier.price.annually} per month if paid annually
             </p> */}
-            {willBeCanceled ? (
-              <form action={createPortalLinkWithSlug} method="POST">
-                <Button className="w-full px-3 py-2 mt-6" type="submit">
-                  Renew
+              {willBeCanceled ? (
+                <form action={createPortalLinkWithSlug} method="POST">
+                  <Button className="w-full px-3 py-2 mt-6" type="submit">
+                    Renew
+                  </Button>
+                </form>
+              ) : hasSubscription ? (
+                <Button className="w-full px-3 py-2 mt-6" disabled>
+                  Current plan
                 </Button>
-              </form>
-            ) : hasSubscription ? (
-              <Button className="w-full px-3 py-2 mt-6" disabled>
-                Current plan
-              </Button>
-            ) : (
-              <form action={createStripeCheckoutSessionWithSlug} method="POST">
-                <Button className="w-full px-3 py-2 mt-6" type="submit">
-                  Buy plan
-                </Button>
-              </form>
-            )}
-            <p className="mt-10 text-sm font-semibold leading-6 text-zinc-900">
-              Features for professionals and teams.
-            </p>
-            <ul className="mt-6 space-y-3 text-sm leading-6 text-zinc-600">
-              {proTierFeature.map((feature) => (
-                <li className="flex gap-x-3" key={feature}>
-                  <CheckCircleIcon
-                    aria-hidden="true"
-                    className="flex-none w-5 h-6 text-amber-600"
-                  />
-                  {feature}
-                </li>
-              ))}
-            </ul>
-          </div>
+              ) : (
+                <form
+                  action={createStripeCheckoutSessionWithSlug}
+                  method="POST"
+                >
+                  <Button className="w-full px-3 py-2 mt-6" type="submit">
+                    Buy plan
+                  </Button>
+                </form>
+              )}
+              <p className="mt-10 text-sm font-semibold leading-6 text-zinc-900">
+                Features for professionals and teams.
+              </p>
+              <ul className="mt-6 space-y-3 text-sm leading-6 text-zinc-600">
+                {proTierFeature.map((feature) => (
+                  <li className="flex gap-x-3" key={feature}>
+                    <CheckCircleIcon
+                      aria-hidden="true"
+                      className="flex-none w-5 h-6 text-amber-600"
+                    />
+                    {feature}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ) : null}
         </div>
       </div>
     </div>
