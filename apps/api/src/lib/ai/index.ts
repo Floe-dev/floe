@@ -85,12 +85,15 @@ export async function createCompletion<T extends AnyZodObject>({
     subscription.getTokenLimits(workspaceId),
   ]);
 
-  const usedTokens = result[0];
+  // If there is no tokenUsage, it means that this is the first time the user
+  // has made a request.
+  const usedTokens = result[0] ?? {
+    baseCompletionTokens: 0,
+    basePromptTokens: 0,
+    proCompletionTokens: 0,
+    proPromptTokens: 0,
+  };
   const tokenLimits = result[1];
-
-  if (!usedTokens) {
-    throw new Error("Could not get token usage or token limits.");
-  }
 
   const totalProTokens =
     usedTokens.proCompletionTokens + usedTokens.proPromptTokens;
