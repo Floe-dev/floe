@@ -20,7 +20,7 @@ export async function Usage({ workspaceId }: { workspaceId: string }) {
 
   return (
     <div className="flex flex-col gap-8 md:gap-4 md:flex-row">
-      <Card className="flex-1" title="Pro Token usage">
+      <Card className="flex-1" title="Pro token usage">
         <div className="flex justify-between">
           <div className="font-mono text-zinc-500">
             {totalProTokens.toLocaleString()} &bull; {proPercentage}%
@@ -31,11 +31,11 @@ export async function Usage({ workspaceId }: { workspaceId: string }) {
         </div>
         <ProgressBar className="mt-4" color="indigo" value={proPercentage} />
         <p className="mt-4 text-sm text-zinc-400">
-          Monthly limit for Pro Tokens. Pro Tokens use more advanced models and
+          Monthly limit for Pro tokens. Pro tokens use more advanced models and
           achieve better results.
         </p>
       </Card>
-      <Card className="flex-1" title="Basic Token usage">
+      <Card className="flex-1" title="Basic token usage">
         <div className="flex justify-between">
           <div className="font-mono text-zinc-500">
             {totalBasicTokens.toLocaleString()} &bull; {basicPercentage}%
@@ -46,8 +46,8 @@ export async function Usage({ workspaceId }: { workspaceId: string }) {
         </div>
         <ProgressBar className="mt-4" color="zinc" value={basicPercentage} />
         <p className="mt-4 text-sm text-zinc-400">
-          Monthly limit for Basic Tokens. Basic Tokens accrue once you use up
-          your pro tokens.
+          Monthly limit for Basic tokens. Basic tokens are less accurate but
+          good for high volume tasks.
         </p>
       </Card>
     </div>
