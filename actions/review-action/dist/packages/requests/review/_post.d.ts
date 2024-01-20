@@ -3,7 +3,7 @@ import type OpenAI from "openai";
 export declare const querySchema: z.ZodObject<{
     path: z.ZodString;
     content: z.ZodString;
-    startLine: z.ZodDefault<z.ZodOptional<z.ZodNumber>>;
+    startLine: z.ZodDefault<z.ZodNumber>;
     rule: z.ZodObject<{
         code: z.ZodString;
         level: z.ZodUnion<[z.ZodLiteral<"error">, z.ZodLiteral<"warn">]>;
@@ -17,6 +17,7 @@ export declare const querySchema: z.ZodObject<{
         level: "error" | "warn";
         description: string;
     }>;
+    model: z.ZodDefault<z.ZodUnion<[z.ZodLiteral<"pro">, z.ZodLiteral<"basic">]>>;
 }, "strip", z.ZodTypeAny, {
     path: string;
     content: string;
@@ -26,6 +27,7 @@ export declare const querySchema: z.ZodObject<{
         level: "error" | "warn";
         description: string;
     };
+    model: "pro" | "basic";
 }, {
     path: string;
     content: string;
@@ -35,6 +37,7 @@ export declare const querySchema: z.ZodObject<{
         description: string;
     };
     startLine?: number | undefined;
+    model?: "pro" | "basic" | undefined;
 }>;
 export type PostReviewResponse = {
     violations: {
@@ -56,6 +59,6 @@ export type PostReviewResponse = {
     model: string;
     usage: OpenAI.Completions.CompletionUsage | undefined;
 } | undefined;
-export type PostReviewInput = z.infer<typeof querySchema>;
-export declare function createReview({ path, content, startLine, rule, }: PostReviewInput): Promise<import("axios").AxiosResponse<PostReviewResponse, any>>;
+export type PostReviewInput = z.input<typeof querySchema>;
+export declare function createReview({ path, content, startLine, rule, model, }: PostReviewInput): Promise<import("axios").AxiosResponse<PostReviewResponse, any>>;
 //# sourceMappingURL=_post.d.ts.map

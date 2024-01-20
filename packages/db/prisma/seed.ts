@@ -37,6 +37,7 @@ async function main() {
     create: {
       workspaceId: workspace.id,
       userId: user.id,
+      role: "OWNER",
     },
   });
 

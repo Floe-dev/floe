@@ -68,19 +68,43 @@ model EncryptedKey {
 }
 
 model Workspace {
-    id                String                @id @default(cuid())
-    name              String
-    slug              String                @unique
-    docsOwner         String?
-    docsRepository    String?
-    docsBranch        String?
-    docsPath          String?
-    stripeCustomerId  String?               @unique
-    members           WorkspaceMembership[]
-    encrytpedKeys     EncryptedKey[]
-    githubIntegration GithubIntegration?
-    gitlabIntegration GitlabIntegration?
-    subscription      Subscription?
+    id                     String                @id @default(cuid())
+    name                   String
+    slug                   String                @unique
+    docsOwner              String?
+    docsRepository         String?
+    docsBranch             String?
+    docsPath               String?
+    stripeCustomerId       String?               @unique
+    // If set, allows this Workspace to subscribe to a custom price. This is
+    // used for custom pricing for enterprise customers. To enable it, I need to
+    // create a Custom Proudct + Price in Stripe, then save the priceId here.
+    availableCustomPriceId String?
+    members                WorkspaceMembership[]
+    encrytpedKeys          EncryptedKey[]
+    tokenUsages            TokenUsage[]
+    githubIntegration      GithubIntegration?
+    gitlabIntegration      GitlabIntegration?
+    subscription           Subscription?
+}
+
+// Each Workspace has a TokenUsage record for each month of every year. This is
+// used to track the number of tokens used each month.
+model TokenUsage {
+    id                   Int       @id @default(autoincrement())
+    // The datetime representing the month and year for the TokenUsage record.
+    monthYear            DateTime
+    // For low cost AI models like 3.5 turbo
+    basePromptTokens     Int       @default(0)
+    baseCompletionTokens Int       @default(0)
+    // For high cost AI models like 4 turbo
+    proPromptTokens      Int       @default(0)
+    proCompletionTokens  Int       @default(0)
+    workspace            Workspace @relation(fields: [workspaceId], references: [id])
+    workspaceId          String
+
+    @@unique([workspaceId, monthYear])
+    @@index([workspaceId])
 }
 
 enum MembershipRole {

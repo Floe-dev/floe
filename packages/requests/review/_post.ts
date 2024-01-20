@@ -5,12 +5,13 @@ import { api } from "../api";
 export const querySchema = z.object({
   path: z.string(),
   content: z.string(),
-  startLine: z.coerce.number().optional().default(1),
+  startLine: z.coerce.number().default(1),
   rule: z.object({
     code: z.string(),
     level: z.union([z.literal("error"), z.literal("warn")]),
     description: z.string(),
   }),
+  model: z.union([z.literal("pro"), z.literal("basic")]).default("pro"),
 });
 
 export type PostReviewResponse =
@@ -42,18 +43,20 @@ export type PostReviewResponse =
       usage: OpenAI.Completions.CompletionUsage | undefined;
     }
   | undefined;
-export type PostReviewInput = z.infer<typeof querySchema>;
+export type PostReviewInput = z.input<typeof querySchema>;
 
 export async function createReview({
   path,
   content,
   startLine,
   rule,
+  model,
 }: PostReviewInput) {
   return api.post<PostReviewResponse>("/api/v1/review", {
     path,
     content,
     startLine,
     rule,
+    model,
   });
 }

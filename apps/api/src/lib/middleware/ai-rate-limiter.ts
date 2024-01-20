@@ -4,38 +4,55 @@ import { kv } from "@vercel/kv";
 import type { CustomMiddleware } from "~/types/middleware";
 
 const ratelimit = {
+  // Free
   freeMinute: new Ratelimit({
     redis: kv,
     analytics: true,
-    prefix: "ai-ratelimit:free",
+    prefix: "ai-ratelimit:free:minute",
     limiter: Ratelimit.slidingWindow(100, "60s"), // Temporarily increased to 100 during beta
+    // limiter: Ratelimit.slidingWindow(5, "60s"),
   }),
   freeDay: new Ratelimit({
     redis: kv,
     analytics: true,
-    prefix: "ai-ratelimit:free",
+    prefix: "ai-ratelimit:free:day",
     limiter: Ratelimit.slidingWindow(1000, "86400s"), // Temporarily increased to 1000 during beta
+    // limiter: Ratelimit.slidingWindow(200, "86400s"),
   }),
+
+  // Pro
   proMinute: new Ratelimit({
     redis: kv,
     analytics: true,
-    prefix: "ai-ratelimit:pro",
-    limiter: Ratelimit.slidingWindow(100, "60s"),
+    prefix: "ai-ratelimit:pro:minute",
+    limiter: Ratelimit.slidingWindow(50, "60s"),
   }),
   proDay: new Ratelimit({
     redis: kv,
     analytics: true,
-    prefix: "ai-ratelimit:pro",
-    limiter: Ratelimit.slidingWindow(1000, "86400s"),
+    prefix: "ai-ratelimit:pro:day ",
+    limiter: Ratelimit.slidingWindow(2000, "86400s"),
   }),
+
+  // Team For team, just rely on the IP rate limiter. If this gets out of hand
+  // other rate limiters can be
 };
+
 export const aiRateLimiter: CustomMiddleware = async (req, res, next) => {
-  const hasSubscription = req.workspace.subscription;
-  const { success: successMinute } = hasSubscription
+  const subscription = req.workspace.subscription;
+  const hasProSubscription =
+    subscription?.priceId === process.env.STRIPE_PRO_PRICE_ID;
+
+  // Has a custom team tier, so can ignore these rate limits
+  if (subscription && !hasProSubscription) {
+    await next();
+  }
+
+  const { success: successMinute } = subscription
     ? await ratelimit.proMinute.limit(req.workspace.id)
     : await ratelimit.freeMinute.limit(req.workspace.id);
 
-  const { success: successDay } = hasSubscription
+  const { success: successDay } = subscription
     ? await ratelimit.proDay.limit(req.workspace.id)
     : await ratelimit.freeDay.limit(req.workspace.id);
 

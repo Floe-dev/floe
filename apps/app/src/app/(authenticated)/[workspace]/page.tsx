@@ -12,6 +12,7 @@ import {
 import { ArrowUpRightIcon, CheckIcon } from "@heroicons/react/20/solid";
 import { authOptions } from "~/server/auth";
 import { Header } from "~/app/_components/header";
+import { Usage } from "./usage";
 
 async function getWorkspace(workspaceSlug: string) {
   const session = await getServerSession(authOptions);
@@ -37,6 +38,15 @@ async function getWorkspace(workspaceSlug: string) {
           name: true,
           slug: true,
           createdAt: true,
+        },
+      },
+      subscription: {
+        include: {
+          price: {
+            include: {
+              product: true,
+            },
+          },
         },
       },
     },
@@ -147,6 +157,10 @@ export default async function Workspace({
               </div>
             </div>
           </div>
+        </div>
+
+        <div className="">
+          <Usage workspaceId={workspace.id} />
         </div>
         <div className="">
           <h3 className="mb-2 text-sm font-medium text-zinc-500">
