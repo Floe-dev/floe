@@ -1,5 +1,18 @@
 # @floe/review-action
 
+## 0.1.0-beta.7
+
+### Minor Changes
+
+- 5f84851: Add support for token usage and pro / basic models.
+
+### Patch Changes
+
+- Updated dependencies [5f84851]
+  - @floe/features@0.1.0-beta.5
+  - @floe/requests@0.1.0-beta.6
+  - @floe/lib@0.1.0-beta.4
+
 ## 0.1.0-beta.6
 
 ### Minor Changes
