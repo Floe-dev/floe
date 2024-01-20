@@ -229,7 +229,7 @@ export default async function Billing({
           {/* Custom tier */}
           <div className="px-8 pt-16 lg:pt-0 xl:px-14">
             <h3 className="flex items-center gap-2 text-base font-semibold leading-7 text-zinc-900">
-              {customPrice ? customPrice.product.name : "Business"}
+              {customPrice ? customPrice.product.name : "Team"}
               {hasCustomSubscription ? (
                 <Pill color="black" text="Active" />
               ) : null}
