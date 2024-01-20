@@ -45,8 +45,6 @@ export function files(program: Command) {
          */
         checkIfValidRoot();
 
-        console.log(11111, options.model);
-
         /**
          * Import ESM modules
          */

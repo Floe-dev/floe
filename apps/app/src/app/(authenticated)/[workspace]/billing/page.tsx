@@ -46,20 +46,20 @@ export default async function Billing({
     : null;
   const freeTierFeature = [
     "25K Pro tokens",
-    "1M Basic tokens",
+    "500K Basic tokens",
     "Slack support",
   ];
 
   const proTierFeature = [
     `2M Pro tokens`,
-    "Unlimited Basic tokens",
+    "10M Basic tokens",
     "Priority support",
     "Higher rate limits",
   ];
 
   const customTierFeature = [
-    "BYOK (Bring your own key)",
-    "Unlimited Pro tokens",
+    "Option to BYOK (bring your own key)",
+    "Custom token limits",
     "Dedicated support channel",
     "Highest rate limits",
   ];

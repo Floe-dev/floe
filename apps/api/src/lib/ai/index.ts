@@ -104,13 +104,13 @@ export async function createCompletion<T extends AnyZodObject>({
     if (totalProTokens >= tokenLimits.proTokenLimit) {
       throw new HttpError({
         statusCode: 402,
-        message: "You have exceeded your pro token limit.",
+        message: "You have exceeded your Pro token limit.",
       });
     }
   } else if (totalBaseTokens >= tokenLimits.baseTokenLimit) {
     throw new HttpError({
       statusCode: 402,
-      message: "You have exceeded your base token limit.",
+      message: "You have exceeded your Basic token limit.",
     });
   }
 
