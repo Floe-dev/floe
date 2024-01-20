@@ -92,23 +92,7 @@ export default async function Billing({
   return (
     <div className="max-w-screen-lg">
       <Header description="Manage your subscription." title="Billing" />
-      <div className="prose prose-zinc">
-        <p>
-          You are currently on the{" "}
-          <Pill
-            color="black"
-            text={
-              hasProSubscription && proPrice
-                ? proPrice.product.name
-                : hasCustomSubscription && customPrice
-                ? customPrice.product.name
-                : "Free"
-            }
-          />{" "}
-          tier.
-        </p>
-      </div>
-      <div className="flow-root mt-6">
+      <div className="flow-root">
         <div className="grid grid-cols-1 py-8 bg-white divide-y shadow rounded-xl divide-zinc-200 isolate gap-y-16 sm:mx-auto lg:max-w-none lg:grid-cols-3 lg:divide-x lg:divide-y-0">
           {/* Free tier */}
           <div className="px-8 xl:px-14">
