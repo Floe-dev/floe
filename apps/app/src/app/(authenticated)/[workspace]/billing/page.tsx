@@ -58,8 +58,9 @@ export default async function Billing({
   ];
 
   const customTierFeature = [
-    "Option to BYOK (bring your own key)",
+    "Option to bring your own key",
     "Custom token limits",
+    "White-glove onboarding support",
     "Dedicated support channel",
     "Highest rate limits",
   ];
@@ -152,7 +153,7 @@ export default async function Billing({
             )}
 
             <p className="mt-10 text-sm font-semibold leading-6 text-zinc-900">
-              Everything necessary to get started.
+              Everything necessary to get started. No credit card required.
             </p>
             <ul className="mt-6 space-y-3 text-sm leading-6 text-zinc-600">
               {freeTierFeature.map((feature) => (
