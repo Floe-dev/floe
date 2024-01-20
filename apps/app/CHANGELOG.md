@@ -1,5 +1,18 @@
 # @floe/app
 
+## 0.1.0-beta.5
+
+### Minor Changes
+
+- Add support for token usage and pro / basic models.
+
+### Patch Changes
+
+- Updated dependencies
+  - @floe/db@0.1.0-beta.3
+  - @floe/lib@0.1.0-beta.5
+  - @floe/ui@0.1.0-beta.4
+
 ## 0.1.0-beta.4
 
 ### Minor Changes

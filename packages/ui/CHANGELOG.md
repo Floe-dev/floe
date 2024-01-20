@@ -1,5 +1,16 @@
 # @floe/ui
 
+## 0.1.0-beta.4
+
+### Minor Changes
+
+- Add support for token usage and pro / basic models.
+
+### Patch Changes
+
+- Updated dependencies
+  - @floe/lib@0.1.0-beta.5
+
 ## 0.1.0-beta.3
 
 ### Minor Changes

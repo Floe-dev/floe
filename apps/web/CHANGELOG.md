@@ -1,5 +1,12 @@
 # @floe/docs
 
+## 0.1.0-beta.3
+
+### Patch Changes
+
+- Updated dependencies
+  - @floe/ui@0.1.0-beta.4
+
 ## 0.1.0-beta.2
 
 ### Patch Changes

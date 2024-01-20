@@ -1,5 +1,18 @@
 # @floe/cli
 
+## 0.1.0-beta.14
+
+### Minor Changes
+
+- Add support for token usage and pro / basic models.
+
+### Patch Changes
+
+- Updated dependencies
+  - @floe/features@0.1.0-beta.6
+  - @floe/lib@0.1.0-beta.5
+  - @floe/requests@0.1.0-beta.7
+
 ## 0.1.0-beta.13
 
 ### Minor Changes
