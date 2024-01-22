@@ -1,10 +1,12 @@
 "use client";
 
+import Video from "next-video";
 import Image from "next/image";
 import { useCallback, useEffect, useState } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import Example1 from "public/example-1.png";
-import Example2 from "public/example-2.png";
+import Video1 from "videos/rule-create-high-fps.mp4";
+import Video2 from "videos/rule-review.mp4";
 
 export function Carousel() {
   const [emblaRef, emblaApi] = useEmblaCarousel();
@@ -40,16 +42,16 @@ export function Carousel() {
       <div className="overflow-hidden" ref={emblaRef}>
         <div className="flex">
           <div className="relative flex-[0_0_100%]">
-            <div className="absolute px-3 py-2 text-white transform -translate-x-1/2 rounded left-1/2 bottom-20 bg-zinc-900/50 backdrop-filter backdrop-blur-lg">
+            <div className="absolute z-10 px-3 py-2 text-white transform -translate-x-1/2 rounded left-1/2 bottom-20 bg-zinc-900/50 backdrop-filter backdrop-blur-lg">
               ✅ Customize rules with AI-powered linting.
             </div>
-            <Image alt="Demo example 1" src={Example1} />
+            <Video src={Video1} />
           </div>
           <div className="relative flex-[0_0_100%]">
-            <div className="absolute px-3 py-2 text-white transform -translate-x-1/2 rounded left-1/2 bottom-20 bg-zinc-900/50 backdrop-filter backdrop-blur-lg">
+            <div className="absolute z-10 px-3 py-2 text-white transform -translate-x-1/2 rounded left-1/2 bottom-20 bg-zinc-900/50 backdrop-filter backdrop-blur-lg">
               🚀 Automatically create and update content.
             </div>
-            <Image alt="Demo example 1" src={Example2} />
+            <Video src={Video2} />
           </div>
         </div>
       </div>
