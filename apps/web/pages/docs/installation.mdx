@@ -22,20 +22,20 @@ pnpm i
 - Enable the following settings:
   - Set the callback URL to `http://localhost:3001/api/installation-callback`
   - Check ON `Request user authorization (OAuth) during installation` and `Enable Device Flow`
-  - Enable the following permissions:
+  - Enable the following permisions:
     - Contents: Read-only
     - Issues: Read & write
     - Metadata: Read-only
     - Pull requests: Read & write
     - Members: Read-only
-- Keep this page open. You will need to get your `App ID`, `Client ID`, `Client secret`, and `Private key` handy for later
+- Keep this page open. You will need to get your `App ID`, `Client ID`, `Client secret` and `Private key` handy for later
 
 ### Create your database
 - Setup a MySQL database. You can do this locally or through a cloud provider. Floe uses PlanetScale.
 
 ### Setup Vercel
 - In Vercel, create a Project. You can create it from the GitHub repository you just forked.
-- Setup a Redis KV store. You can do this through the Vercel dashboard on the `Storage` page.
+- Setup a Redis KV store. You can do this through the Vercel dashboard on the 'Storage' page.
 - Keep your environment variables handy for later.
 
 </Steps>

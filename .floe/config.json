@@ -9,7 +9,7 @@
       "include": ["apps/web/pages/docs/**/*.{md,mdx}"],
       "rules": {
         "spelling-and-grammar": "warn",
-        "docs-style": "warn"
+        "style-guide": "warn"
       }
     }
   }

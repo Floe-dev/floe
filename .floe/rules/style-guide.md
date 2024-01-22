@@ -1,0 +1,2 @@
+- Use the Oxford comma
+- Use double quotes instead of single quotes
