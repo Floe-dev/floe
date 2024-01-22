@@ -3,8 +3,8 @@ import Image from "next/image";
 import { useCallback, useEffect, useState } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import CIExample from "public/ci-example.png";
-import Video1 from "videos/rule-create-high-fps.mp4";
-import Video2 from "videos/rule-review.mp4";
+import Video1 from "videos/custom-rules.mp4";
+import Video2 from "videos/review-fix.mp4";
 
 const media = [
   {
