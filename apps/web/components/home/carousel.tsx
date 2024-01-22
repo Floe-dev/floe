@@ -61,11 +61,11 @@ export function Carousel() {
 
   return (
     <div className="-mx-6 md:mx-0">
-      <div className="overflow-hidden shadow-xl rounded-xl" ref={emblaRef}>
+      <div className="overflow-hidden shadow-xl sm:rounded-xl" ref={emblaRef}>
         <div className="flex">
           {media.map((item) => (
             <div className="relative flex-[0_0_100%]" key={item.key}>
-              <div className="absolute z-10 px-3 py-2 text-white transform -translate-x-1/2 rounded left-1/2 bottom-20 bg-zinc-900/50 backdrop-filter backdrop-blur-lg">
+              <div className="absolute top-0 z-10 w-full px-3 py-2 text-sm text-center text-white sm:text-md h-fit bg-zinc-900/50 backdrop-filter backdrop-blur-lg">
                 {item.description}
               </div>
               {item.element}
