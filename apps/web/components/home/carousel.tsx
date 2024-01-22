@@ -15,7 +15,7 @@ const media = [
   {
     key: "2",
     element: <Video className="inline" src={Video2} />,
-    description: "🔧 Apply suggested fixes automatically.",
+    description: "🔧 Review and apply fixes automatically.",
   },
   {
     key: "3",
