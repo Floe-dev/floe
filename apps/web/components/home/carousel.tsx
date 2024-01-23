@@ -1,20 +1,37 @@
 import Video from "next-video";
 import Image from "next/image";
-import { useCallback, useEffect, useState } from "react";
+import { Suspense, useCallback, useEffect, useState } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import CIExample from "public/ci-example.png";
 import Video1 from "videos/custom-rules.mp4";
 import Video2 from "videos/review-fix.mp4";
+import colors from "tailwindcss/colors";
 
 const media = [
   {
     key: "1",
-    element: <Video className="inline" src={Video1} />,
+    element: (
+      <Suspense fallback={<div>Loading...</div>}>
+        <Video
+          accentColor={colors.amber[500]}
+          className="inline"
+          src={Video1}
+        />
+      </Suspense>
+    ),
     description: "✍️ Write your own custom rules. In plain English.",
   },
   {
     key: "2",
-    element: <Video className="inline" src={Video2} />,
+    element: (
+      <Suspense fallback={<div>Loading...</div>}>
+        <Video
+          accentColor={colors.amber[500]}
+          className="inline"
+          src={Video2}
+        />
+      </Suspense>
+    ),
     description: "🔧 Review and apply fixes automatically.",
   },
   {
