@@ -11,14 +11,14 @@ const media = [
   {
     key: "1",
     element: (
-      <Video accentColor={colors.amber[500]} className="inline" src={Video1} />
+      <Video accentColor={colors.amber[500]} className="flex" src={Video1} />
     ),
     description: "✍️ Write your own custom rules. In plain English.",
   },
   {
     key: "2",
     element: (
-      <Video accentColor={colors.amber[500]} className="inline" src={Video2} />
+      <Video accentColor={colors.amber[500]} className="flex" src={Video2} />
     ),
     description: "🔧 Review and apply fixes automatically.",
   },
@@ -70,10 +70,10 @@ export function Carousel() {
         <div className="flex gap-4">
           {media.map((item) => (
             <div
-              className="relative flex-[0_0_100%] py-8 sm:px-8"
+              className="relative h-full flex-[0_0_100%] py-8 sm:px-8"
               key={item.key}
             >
-              <div className="relative grid overflow-hidden shadow-lg sm:rounded-xl">
+              <div className="relative overflow-hidden shadow-lg sm:rounded-xl">
                 <div className="absolute top-0 z-10 w-full px-3 py-2 text-sm text-center text-white sm:text-md h-fit bg-zinc-900/50 backdrop-filter backdrop-blur-lg">
                   {item.description}
                 </div>
