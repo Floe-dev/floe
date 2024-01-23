@@ -3,6 +3,7 @@ import Image from "next/image";
 import { Button, Pill } from "@floe/ui";
 import PencilArt from "public/pencil-art.png";
 import {
+  StarIcon,
   DocumentCheckIcon,
   DocumentDuplicateIcon,
   ArrowPathIcon,
@@ -10,8 +11,7 @@ import {
 } from "@heroicons/react/24/solid";
 import { Blob } from "./blob";
 import { Title } from "./title";
-import { Card } from "./card";
-import { BetaCard } from "./beta-card";
+import { FeatureCard } from "./feature-card";
 import { Carousel } from "./carousel";
 
 export default function Home(): JSX.Element {
@@ -31,14 +31,14 @@ export default function Home(): JSX.Element {
             <div className="flex justify-center gap-4 sm:justify-start">
               <Link
                 className="flex items-center gap-x-1"
-                href="https://cal.com/nic-haley/book-a-demo"
+                href="https://app.floe.dev"
                 target="_blank"
               >
-                <Button size="xl">Book a demo</Button>
+                <Button size="xl">Get started</Button>
               </Link>
-              <Link href="mailto:nic@floe.dev?subject=👋 I'd like to learn more about Floe">
+              <Link href="https://github.com/Floe-dev/floe">
                 <Button color="secondary" size="xl" variant="text">
-                  Contact us
+                  <StarIcon className="w-5 h-5" /> Star on GitHub
                 </Button>
               </Link>
             </div>
@@ -47,7 +47,7 @@ export default function Home(): JSX.Element {
             <Blob />
           </div>
         </section>
-        <section className="my-20 sm:my-40">
+        <section className="mb-20 sm:my-40">
           <div className="m-auto sm:w-5/6">
             <Carousel />
           </div>
@@ -67,7 +67,44 @@ export default function Home(): JSX.Element {
               writing assistant to every pull request.
             </h4>
           </div>
-          <div className="grid gap-4 lg:items-center xl:grid-cols-4 lg:grid-cols-2">
+          <FeatureCard
+            description="Floe Reviews is like having a supercharged linter. \nWrite your own rules and let the language model do the rest."
+            pillText="Now available"
+            title="Reviews"
+          >
+            <div className="overflow-hidden font-mono rounded-lg bg-black/70">
+              <div className="px-4 py-2 text-xs text-left text-amber-50 bg-black/60">
+                .floe/rules/style-guide.md
+              </div>
+              <div className="p-4 text-sm text-left text-white text">
+                - Use the Oxford comma
+                <br />
+                - Use active voice, not passive voice
+                <br />
+              </div>
+            </div>
+          </FeatureCard>
+
+          <div className="mt-10">
+            <FeatureCard
+              description="Generate content automatically from"
+              pillText="Coming soon"
+              title="Content Generation"
+            >
+              <div className="overflow-hidden font-mono rounded-lg bg-black/70">
+                <div className="px-4 py-2 text-xs text-left text-amber-50 bg-black/60">
+                  .floe/rules/style-guide.md
+                </div>
+                <div className="p-4 text-sm text-left text-white text">
+                  - Use the Oxford comma
+                  <br />
+                  - Use active voice, not passive voice
+                  <br />
+                </div>
+              </div>
+            </FeatureCard>
+          </div>
+          {/* <div className="grid gap-4 lg:items-center xl:grid-cols-4 lg:grid-cols-2">
             <Card
               description="Floe analyzes your codebase, diffs and commits to ensure every change is captured."
               icon={DocumentMagnifyingGlassIcon}
@@ -88,11 +125,9 @@ export default function Home(): JSX.Element {
               icon={DocumentDuplicateIcon}
               title="Consistent by design"
             />
-          </div>
+          </div> */}
         </section>
-        <section className="my-20 sm:my-40">
-          <BetaCard />
-        </section>
+        <section className="my-20 sm:my-40"></section>
       </div>
     </div>
   );

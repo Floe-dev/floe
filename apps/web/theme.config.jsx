@@ -67,10 +67,10 @@ const config = {
     extraContent: (
       <Link
         className="flex items-center gap-x-1"
-        href="https://cal.com/nic-haley/book-a-demo"
+        href="https://app.floe.dev"
         target="_blank"
       >
-        <Button size="md">Book a demo</Button>
+        <Button size="md">Get started</Button>
       </Link>
     ),
   },

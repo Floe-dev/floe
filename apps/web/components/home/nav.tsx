@@ -28,10 +28,10 @@ export function Nav() {
           </Link>
           <Link
             className="flex items-center gap-x-1"
-            href="https://cal.com/nic-haley/book-a-demo"
+            href="https://app.foe.dev"
             target="_blank"
           >
-            <Button size="md">Book a demo</Button>
+            <Button size="md">Get started</Button>
           </Link>
         </div>
       </nav>
