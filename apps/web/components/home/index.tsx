@@ -67,26 +67,28 @@ export default function Home(): JSX.Element {
               writing assistant to every pull request.
             </h4>
           </div>
-          <FeatureCard
-            description="Floe Reviews is like having a supercharged linter. \nWrite your own rules and let the language model do the rest."
-            pillText="Now available"
-            title="Reviews"
-          >
-            <div className="overflow-hidden font-mono rounded-lg bg-black/70">
-              <div className="px-4 py-2 text-xs text-left text-amber-50 bg-black/60">
-                .floe/rules/style-guide.md
-              </div>
-              <div className="p-4 text-sm text-left text-white text">
-                - Use the Oxford comma
-                <br />
-                - Use active voice, not passive voice
-                <br />
-              </div>
-            </div>
-          </FeatureCard>
-
-          <div className="mt-10">
+          <div className="flex gap-8">
             <FeatureCard
+              color="amber"
+              description="Floe Reviews is like having a supercharged linter. \nWrite your own rules and let the language model do the rest."
+              pillText="Now available"
+              title="Reviews"
+            >
+              <div className="overflow-hidden font-mono rounded-lg bg-black/70">
+                <div className="px-4 py-2 text-xs text-left text-amber-50 bg-black/60">
+                  .floe/rules/style-guide.md
+                </div>
+                <div className="p-4 text-sm text-left text-white text">
+                  - Use the Oxford comma
+                  <br />
+                  - Use active voice, not passive voice
+                  <br />
+                </div>
+              </div>
+            </FeatureCard>
+
+            <FeatureCard
+              color="rose"
               description="Generate content automatically from"
               pillText="Coming soon"
               title="Content Generation"
