@@ -20,7 +20,7 @@ export function BlogList() {
         ).map((page) => {
           if (!page.frontMatter) return null;
 
-          const date = new Date(page.frontMatter.date);
+          const date = new Date(page.frontMatter.date as string);
           const timeEl = (
             <time
               className="mt-2 text-gray-500 text-md"

@@ -5,7 +5,7 @@
   "private": true,
   "main": "index.js",
   "scripts": {
-    "dev": "next -p 3000",
+    "dev": "next -p 3000 & npx next-video sync -w",
     "build": "next build",
     "start": "next start"
   },
@@ -17,9 +17,11 @@
     "@headlessui/react": "^1.7.16",
     "@heroicons/react": "^2.0.18",
     "@vercel/analytics": "^1.1.1",
+    "@vercel/blob": "^0.19.0",
     "classnames": "^2.3.2",
     "embla-carousel-react": "8.0.0-rc14",
     "next": "^14.0.2",
+    "next-video": "^0.11.2",
     "nextra": "^2.13.2",
     "nextra-theme-docs": "^2.13.2",
     "react": "^18.2.0",
@@ -37,6 +39,6 @@
     "postcss": "^8.4.31",
     "tailwindcss": "^3.3.3",
     "tsconfig": "workspace:*",
-    "typescript": "^4.5.3"
+    "typescript": "^5.3.3"
   }
 }
