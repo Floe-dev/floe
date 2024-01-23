@@ -51,6 +51,20 @@ export const rollKey = async (name: string, workspaceId: string) => {
     });
   });
 
-  revalidatePath(`/floe`);
+  revalidatePath(`/${workspaceId}/developers`);
+
   return token;
+};
+
+export const deleteKey = async (slug: string, workspaceId: string) => {
+  await db.encryptedKey.delete({
+    where: {
+      workspaceId_slug: {
+        slug,
+        workspaceId,
+      },
+    },
+  });
+
+  revalidatePath(`/${workspaceId}/developers`);
 };
