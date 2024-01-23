@@ -1,20 +1,30 @@
 "use client";
-
+import { useState } from "react";
 import { signIn } from "next-auth/react";
 import { Button, Input } from "@floe/ui";
 import Image from "next/image";
 import type { FormEvent } from "react";
+import { Spinner } from "@floe/ui";
 import { useSearchParams } from "next/navigation";
 import logo from "public/logo.png";
 
 function Form() {
   const searchParams = useSearchParams();
+  const [loading, setLoading] = useState(false);
   const callbackUrl = searchParams.get("callbackUrl") || "/";
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+
+    if (loading) {
+      return;
+    }
+
     const email = event.currentTarget.email.value;
-    void signIn("sendgrid", { email, callbackUrl });
+    setLoading(true);
+    await signIn("sendgrid", { email, callbackUrl }).finally(() => {
+      setLoading(false);
+    });
   }
 
   return (
@@ -39,8 +49,8 @@ function Form() {
               type="email"
             />
           </div>
-          <Button className="w-full" type="submit">
-            Continue with email
+          <Button className="w-full" disabled={loading} type="submit">
+            {loading ? <Spinner /> : "Continue with email"}
           </Button>
         </form>
       </div>
