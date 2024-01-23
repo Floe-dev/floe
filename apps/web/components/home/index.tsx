@@ -48,7 +48,7 @@ export default function Home(): JSX.Element {
           </div>
         </section>
         <section className="my-20 sm:my-40">
-          <div className="m-auto sm:w-4/5">
+          <div className="m-auto sm:w-5/6">
             <Carousel />
           </div>
         </section>
