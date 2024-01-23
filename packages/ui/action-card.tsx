@@ -55,7 +55,7 @@ export function ActionCard({
           </div>
         </div>
       </div>
-      <div className="px-6 py-5">{children}</div>
+      <div className="px-6 py-5 overflow-x-auto">{children}</div>
       {bottomActions?.length ? (
         <div className="px-6 py-3 border-t rounded-b-xl bg-zinc-100 border-zinc-200">
           <div className="flex items-center justify-between -mt-2 -ml-4 flex-nowrap">
