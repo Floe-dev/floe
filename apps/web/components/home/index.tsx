@@ -2,13 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Button, Pill } from "@floe/ui";
 import PencilArt from "public/pencil-art.png";
-import {
-  StarIcon,
-  DocumentCheckIcon,
-  DocumentDuplicateIcon,
-  ArrowPathIcon,
-  DocumentMagnifyingGlassIcon,
-} from "@heroicons/react/24/solid";
+import { StarIcon } from "@heroicons/react/24/solid";
 import { Blob } from "./blob";
 import { Title } from "./title";
 import { FeatureCard } from "./feature-card";
@@ -160,30 +154,28 @@ export default function Home(): JSX.Element {
               </div>
             </FeatureCard>
           </div>
-          {/* <div className="grid gap-4 lg:items-center xl:grid-cols-4 lg:grid-cols-2">
-            <Card
-              description="Floe analyzes your codebase, diffs and commits to ensure every change is captured."
-              icon={DocumentMagnifyingGlassIcon}
-              title="Your content, in context"
-            />
-            <Card
-              description="Integrate with CI to automatically create new files and update existing ones."
-              icon={ArrowPathIcon}
-              title="Write, update, automate"
-            />
-            <Card
-              description="Floe's AI-powered linter allows you to specify rules for anything, from spelling to tone."
-              icon={DocumentCheckIcon}
-              title="Prose linting, supercharged"
-            />
-            <Card
-              description="Floe ships with best practice templates and style guides based on the Good Docs Project."
-              icon={DocumentDuplicateIcon}
-              title="Consistent by design"
-            />
-          </div> */}
         </section>
-        <section className="my-20 sm:my-40"></section>
+        <section className="my-20 sm:my-40">
+          <div className="mb-10 text-center sm:mb-20">
+            <h2 className="mb-4 text-4xl sm:text-5xl font-garamond">
+              Install and run
+            </h2>
+            <div className="sm:max-w-[560px] p-4 -mx-6 font-mono text-left rounded-none shadow-lg sm:rounded-lg sm:mx-auto text-md text-zinc-50 bg-zinc-950/80">
+              <div className="text-zinc-500"># Step 1: Install</div>
+              <span className="text-green-500">npm</span> i -g @floe/cli@latest
+              <br />
+              <div className="text-zinc-500"># Step 2: Initialize Floe</div>
+              <span className="text-green-500">floe</span> init
+              <br />
+              <div className="text-zinc-500">
+                # Step 3: Add environment variables
+                <br /># ...
+              </div>
+              <div className="text-zinc-500"># Step 4: Profit</div>
+              <span className="text-green-500">floe</span> review files
+            </div>
+          </div>
+        </section>
       </div>
     </div>
   );
