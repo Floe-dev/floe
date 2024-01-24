@@ -11,7 +11,7 @@ import { Carousel } from "./carousel";
 export default function Home(): JSX.Element {
   return (
     <div className="relative overflow-x-hidden bg-white isolate bg-noise after:bg-gradient-to-b after:from-white after:opacity-50 after:-z-30 after:absolute after:inset-0">
-      <div className="px-6 pt-20 mx-auto max-w-7xl sm:pt-28 lg:px-8 lg:pt-32">
+      <div className="px-6 pt-10 mx-auto max-w-7xl sm:pt-20 lg:px-8">
         <section className="lg:flex lg:items-center lg:gap-x-10">
           <div className="flex flex-col max-w-2xl mx-auto lg:mx-0 lg:flex-auto">
             <span className="flex-grow-0">
@@ -41,7 +41,7 @@ export default function Home(): JSX.Element {
             <Blob />
           </div>
         </section>
-        <section className="mb-20 sm:my-40">
+        <section className="my-10 mb-20 sm:my-20">
           <div className="m-auto sm:w-5/6">
             <Carousel />
           </div>
