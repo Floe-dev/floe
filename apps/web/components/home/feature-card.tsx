@@ -23,7 +23,7 @@ export function FeatureCard({
 }) {
   return (
     <div
-      className={`relative ${colors[color]} z-10 px-10 py-8 -mx-10 text-center rounded-lg shadow-lg md:mx-auto sm:w-2/3 bg-gradient-to-t after:absolute after:bg-noise after:inset-0 after:opacity-60 after:-z-10`}
+      className={`relative ${colors[color]} z-10 px-10 py-8 -mx-10 text-center rounded-lg shadow-lg md:mx-auto md:w-2/3 bg-gradient-to-t after:absolute after:bg-noise after:inset-0 after:opacity-60 after:-z-10`}
     >
       <Pill color="black" text={pillText} />
       <h3 className="mt-3 mb-3 text-4xl sm:text-5xl font-garamond">{title}</h3>

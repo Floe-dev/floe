@@ -67,41 +67,95 @@ export default function Home(): JSX.Element {
               writing assistant to every pull request.
             </h4>
           </div>
-          <div className="flex gap-8">
+          <div className="flex flex-col gap-8 md:flex-row">
             <FeatureCard
               color="amber"
-              description="Floe Reviews is like having a supercharged linter. \nWrite your own rules and let the language model do the rest."
+              description="Write your own rules. \nFind and fix issues other linters can't."
               pillText="Now available"
               title="Reviews"
             >
-              <div className="overflow-hidden font-mono rounded-lg bg-black/70">
-                <div className="px-4 py-2 text-xs text-left text-amber-50 bg-black/60">
-                  .floe/rules/style-guide.md
+              <div className="p-1 rounded-lg bg-white/60">
+                <div className="overflow-hidden font-mono rounded-lg shadow-lg bg-black/70">
+                  <div className="px-4 py-2 text-xs text-left text-amber-50 bg-black/60">
+                    .floe/rules/style-guide.md
+                  </div>
+                  <div className="p-4 text-sm text-left text-white text">
+                    - Use the Oxford comma
+                    <br />
+                    - Use inclusive language. Use &apos;they&apos; instead of
+                    &apos;he&apos; or &apos;she&apos;
+                    <br />
+                  </div>
                 </div>
-                <div className="p-4 text-sm text-left text-white text">
-                  - Use the Oxford comma
+                <div className="p-4 font-mono text-sm text-left ">
+                  <div className="flex">
+                    <span className="px-4 mr-2 font-semibold text-white bg-yellow-600">
+                      WARN
+                    </span>
+                    📂 docs/prerequisites.mdx
+                  </div>
                   <br />
-                  - Use active voice, not passive voice
+                  <div className="my-1 font-semibold">style-guide @@8,8:</div>
+                  <div className="italic">
+                    The Oxford comma is missing before &apos;and&apos; in a list
+                    of items.
+                  </div>
+                  <div className="text-zinc-500">
+                    ➖ macOS, Windows and Linux are supported.
+                  </div>
+                  <div className="">
+                    ➕ macOS, Windows<span className="text-green-600">,</span>{" "}
+                    and Linux are supported.
+                  </div>
                   <br />
+                  <div className="my-1 font-semibold">style-guide @@20,20:</div>
+                  <div className="italic">
+                    The word &apos;he&apos; is not inclusive.
+                  </div>
+                  <div className="text-zinc-500">
+                    ➖ <span className="text-red-600">He</span> can then install
+                    the package.
+                  </div>
+                  <div className="">
+                    ➕ <span className="text-green-600">They</span> can then
+                    install the package.
+                  </div>
                 </div>
               </div>
             </FeatureCard>
 
             <FeatureCard
               color="rose"
-              description="Generate content automatically from"
+              description="Write content, consistently. \nGenerate your first draft in seconds."
               pillText="Coming soon"
-              title="Content Generation"
+              title="First Draft"
             >
-              <div className="overflow-hidden font-mono rounded-lg bg-black/70">
-                <div className="px-4 py-2 text-xs text-left text-amber-50 bg-black/60">
-                  .floe/rules/style-guide.md
+              <div className="p-1 rounded-lg bg-white/60">
+                <div className="overflow-hidden font-mono rounded-lg shadow-lg bg-black/70">
+                  <div className="px-4 py-2 text-xs text-left text-amber-50 bg-black/60">
+                    .floe/templates/changelog.md
+                  </div>
+                  <div className="p-4 text-sm text-left text-white text">
+                    # &#123;&#123;ai &quot;Write a short and simple
+                    title.&quot;&#125;&#125; <br />
+                    ## &#123;&#123;env.DATE&#125;&#125;
+                    <br />
+                    <br />
+                    &#123;&#123;ai &quot;Announce the major change. Don&apos;t
+                    use technical jargon. Your tone should be casual, but
+                    professional.&quot;&#125;&#125;
+                  </div>
                 </div>
-                <div className="p-4 text-sm text-left text-white text">
-                  - Use the Oxford comma
-                  <br />
-                  - Use active voice, not passive voice
-                  <br />
+                <div className="p-4 text-left">
+                  <div className="text-xl font-semibold">First Draft</div>
+                  <div className="text-lg text-znc-500">January 24, 2024</div>
+                  <div className="mt-2 text-md text-zinc-700">
+                    Today we&apos;re releasing First Draft. Create templates for
+                    a variety of use-cases: changelogs, release notes, API
+                    references, etc. When you create a PR, First Draft will
+                    automatically populate the template using contextual
+                    information and AI.
+                  </div>
                 </div>
               </div>
             </FeatureCard>
