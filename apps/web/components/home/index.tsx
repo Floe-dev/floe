@@ -10,7 +10,7 @@ import { Carousel } from "./carousel";
 
 export default function Home(): JSX.Element {
   return (
-    <div className="relative overflow-x-hidden bg-white isolate bg-noise after:bg-gradient-to-t after:from-zinc-900 after:opacity-20 after:-z-30 after:absolute after:inset-0">
+    <div className="relative overflow-x-hidden bg-white isolate bg-noise after:bg-gradient-to-b after:from-white after:opacity-50 after:-z-30 after:absolute after:inset-0">
       <div className="px-6 pt-20 mx-auto max-w-7xl sm:pt-28 lg:px-8 lg:pt-32">
         <section className="lg:flex lg:items-center lg:gap-x-10">
           <div className="flex flex-col max-w-2xl mx-auto lg:mx-0 lg:flex-auto">
@@ -156,24 +156,19 @@ export default function Home(): JSX.Element {
           </div>
         </section>
         <section className="my-20 sm:my-40">
-          <div className="mb-10 text-center sm:mb-20">
-            <h2 className="mb-4 text-4xl sm:text-5xl font-garamond">
-              Install and run
-            </h2>
-            <div className="sm:max-w-[560px] p-4 -mx-6 font-mono text-left rounded-none shadow-lg sm:rounded-lg sm:mx-auto text-md text-zinc-50 bg-zinc-950/80">
-              <div className="text-zinc-500"># Step 1: Install</div>
-              <span className="text-green-500">npm</span> i -g @floe/cli@latest
-              <br />
-              <div className="text-zinc-500"># Step 2: Initialize Floe</div>
-              <span className="text-green-500">floe</span> init
-              <br />
-              <div className="text-zinc-500">
-                # Step 3: Add environment variables
-                <br /># ...
-              </div>
-              <div className="text-zinc-500"># Step 4: Profit</div>
-              <span className="text-green-500">floe</span> review files
-            </div>
+          <div className="mb-10 text-center ">
+            <h2 className="mb-4 text-4xl sm:text-5xl font-garamond">Install</h2>
+            <h4 className="text-lg sm:text-xl text-zinc-600">
+              Get started in 5 minutes or less.
+            </h4>
+          </div>
+          <div className="sm:max-w-[560px] p-6 -mx-6 font-mono text-left rounded-none shadow-lg sm:rounded-lg sm:mx-auto text-md text-zinc-50 bg-zinc-950/80">
+            <span className="text-green-500">npm</span> i -g @floe/cli@latest
+            <br />
+            <span className="text-green-500">floe</span> init
+            <br />
+            <div className="text-zinc-500"># Add environment variables ...</div>
+            <span className="text-green-500">floe</span> review files
           </div>
         </section>
       </div>
