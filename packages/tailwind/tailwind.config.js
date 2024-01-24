@@ -5,6 +5,8 @@ module.exports = {
       animation: {
         "fade-in": "fade-in 0.2s ease",
         "fade-out": "fade-out 0.2s ease",
+        slideDown: "slideDown 300ms cubic-bezier(0.87, 0, 0.13, 1)",
+        slideUp: "slideUp 300ms cubic-bezier(0.87, 0, 0.13, 1)",
         slideUpAndFade: "slideUpAndFade 300ms cubic-bezier(0.16, 0, 0.13, 1)",
         slideDownAndFade:
           "slideDownAndFade 300ms cubic-bezier(0.16, 0, 0.13, 1)",
@@ -31,6 +33,16 @@ module.exports = {
           "100%": {
             opacity: 0,
           },
+        },
+
+        // For Accordion
+        slideDown: {
+          from: { height: 0 },
+          to: { height: "var(--radix-accordion-content-height)" },
+        },
+        slideUp: {
+          from: { height: "var(--radix-accordion-content-height)" },
+          to: { height: 0 },
         },
 
         slideUpAndFade: {

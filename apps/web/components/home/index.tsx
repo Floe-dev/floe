@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { Button, Pill } from "@floe/ui";
+import { Button, Pill, Accordion } from "@floe/ui";
 import PencilArt from "public/pencil-art.png";
 import { StarIcon } from "@heroicons/react/24/solid";
 import { Blob } from "./blob";
@@ -64,7 +64,7 @@ export default function Home(): JSX.Element {
           <div className="flex flex-col gap-8 md:flex-row">
             <FeatureCard
               color="amber"
-              description="Write your own rules. \nFind and fix issues other linters can't."
+              description="Write your own rules. \nFind and fix issues linters can't."
               pillText="Now available"
               title="Reviews"
             >
@@ -169,6 +169,128 @@ export default function Home(): JSX.Element {
             <br />
             <div className="text-zinc-500"># Add environment variables ...</div>
             <span className="text-green-500">floe</span> review files
+          </div>
+        </section>
+        <section className="my-20 sm:my-40">
+          <div className="mb-10 text-center ">
+            <h2 className="mb-4 text-4xl sm:text-5xl font-garamond">FAQ</h2>
+          </div>
+          <div className="mx-auto sm:w-4/5">
+            <Accordion
+              className="shadow-lg"
+              items={[
+                {
+                  title: "Do Floe Reviews replace my linter?",
+                  content: (
+                    <>
+                      Floe is not (yet) a linter replacement. It is helpful to
+                      think of Floe as more of a writing assistant than a
+                      linter. Floe completements your linter by fulfilling tasks
+                      that would be difficult to achieve with a linter alone.
+                      For example, you can use Floe to:
+                      <ul className="mt-4 list-disc list-inside">
+                        <li>
+                          Quickly write and evaluate rules with a simple
+                          interface
+                        </li>
+                        <li>
+                          Write and evaluate rules that would be complicated or
+                          impossible to express in a linter
+                        </li>
+                      </ul>
+                    </>
+                  ),
+                },
+                {
+                  title: "How many tokens does it take to perform a review?",
+                  content: (
+                    <>
+                      It depends.
+                      <br />
+                      <br />
+                      Running a review for a 1000 word file with one rule will
+                      consume ~2000 tokens. However, when running reviews
+                      against diffs you consume far fewer tokens.
+                      <br />
+                      <br />
+                      The number of tokens consumed is always returned in the
+                      CLI, and your total monthly usage can be tracked through
+                      the dashboard.
+                    </>
+                  ),
+                },
+                {
+                  title: "Can Floe review my code too?",
+                  content: (
+                    <>
+                      Yes! However, this usecase hasn&apos;t been as widely
+                      tested.
+                    </>
+                  ),
+                },
+                {
+                  title: "Are Floe Reviews deterministic?",
+                  content: (
+                    <>
+                      No.
+                      <br />
+                      <br />
+                      Because Floe Reviews are powered by AI,{" "}
+                      <a
+                        className="text-blue-600 dark:text-blue-500 hover:underline"
+                        href="https://platform.openai.com/docs/guides/text-generation/reproducible-outputs"
+                      >
+                        they are by default non-deterministic
+                      </a>
+                      . This means that Floe Reviews may produce different
+                      results for the same input. However, a few techniques are
+                      used to mitigate this as much as possible:
+                      <ul className="my-4 list-disc list-inside">
+                        <li>
+                          Using a{" "}
+                          <a
+                            className="text-blue-600 dark:text-blue-500 hover:underline"
+                            href="https://platform.openai.com/docs/api-reference/chat/create#chat-create-seed"
+                          >
+                            seed
+                          </a>{" "}
+                          value
+                        </li>
+                        <li>Consistent prompts</li>
+                        <li>Caching API responses</li>
+                      </ul>
+                      In the future,{" "}
+                      <a
+                        className="text-blue-600 dark:text-blue-500 hover:underline"
+                        href="https://platform.openai.com/docs/guides/fine-tuning"
+                      >
+                        fine-tuning
+                      </a>
+                      ,{" "}
+                      <a
+                        className="text-blue-600 dark:text-blue-500 hover:underline"
+                        href="https://platform.openai.com/docs/assistants/tools/tools-beta"
+                      >
+                        assistant tools
+                      </a>
+                      , and more will be added which should improve consistency.
+                    </>
+                  ),
+                },
+                {
+                  title: "Which language models do you support?",
+                  content: (
+                    <>
+                      Floe uses OpenAI gpt-1106-preview and gpt-3.5-turbo-1106.
+                    </>
+                  ),
+                },
+                {
+                  title: "Can I bring my own API key?",
+                  content: <>Yes, on a custom Team plan.</>,
+                },
+              ]}
+            />
           </div>
         </section>
       </div>
