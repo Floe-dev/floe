@@ -5,8 +5,9 @@
   <p align="center">
     AI writing assistants for docs and changelogs.
     <br />
-    <strong>✨ Now in open beta! ✨</strong>
     <a href="https://floe.dev"><strong>Learn more »</strong></a>
+    <br />
+    ✨ Now in open beta! ✨
     <br />
     <br />
     <a href="https://join.slack.com/t/floedev/shared_invite/zt-1okoncyuu-_v9KaY7AjEQfKNj6O6qvVg">Slack<a>
