@@ -5,6 +5,7 @@
   <p align="center">
     AI writing assistants for docs and changelogs.
     <br />
+    <strong>✨ Now in open beta! ✨</strong>
     <a href="https://floe.dev"><strong>Learn more »</strong></a>
     <br />
     <br />
@@ -16,9 +17,7 @@
   </p>
 </p>
 
-# Floe
-
-> ✨ Now in open beta! ✨
+## About Floe
 
 Floe is an AI writing assistant for your CLI / CI. Floe can help you to ship technical content, like docs and changelogs, with higher quality and less effort.
 
@@ -39,9 +38,7 @@ Floe ships with two core features:
 
 ## Getting started
 
-What are you doing in this
-
-[↗️ Website](https://www.floe.dev/)
+Go checkout the [Floe docs](https://floe.dev/docs) to get started.
 
 ## Contact us
 
