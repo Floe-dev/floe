@@ -186,24 +186,15 @@ export default function Home(): JSX.Element {
                       No. (Not yet anyways).
                       <br />
                       <br />
-                      You can think of Floe as more of a writing assistant than
-                      a linter. Floe completements your linter by fulfilling
-                      tasks that would be difficult to achieve with a linter
-                      alone. For example, you can use Floe to:
-                      <ul className="mt-4 list-disc list-inside">
-                        <li>
-                          Create actionable suggested fixes to complex problems
-                        </li>
-                        <li>
-                          Quickly write and evaluate rules with a simple
-                          interface
-                        </li>
-                        <li>
-                          Evaluate rules that would be complicated or impossible
-                          to express in a linter
-                        </li>
-                        <li>Write rules for any type of file</li>
-                      </ul>
+                      You can think of Floe as more of a personal writing
+                      assistant than a linter. Unlike linters, Floe can be
+                      easily instructed with plain English, and can resolve
+                      rules requiring complex logic and context. However, due to
+                      the nature of AI, Floe is less consistent than linters
+                      (which are deterministic in their evaluation). That being
+                      said, this aspect is being gradually improved (see
+                      &quot;Are Floe Reviews deterministic?&quot; for more
+                      info). We recommend using Floe alongside your linter.
                     </>
                   ),
                 },
@@ -211,9 +202,6 @@ export default function Home(): JSX.Element {
                   title: "How many tokens does it take to perform a review?",
                   content: (
                     <>
-                      It depends.
-                      <br />
-                      <br />
                       Running a review for a 1000 word file with one rule will
                       consume ~2000 tokens. However, when running reviews
                       against diffs in CI token usage may be somewhat less.
@@ -279,7 +267,8 @@ export default function Home(): JSX.Element {
                       >
                         assistant tools
                       </a>
-                      , and more will be added which should improve consistency.
+                      , refined caching techniques, and more will be added which
+                      should improve consistency.
                     </>
                   ),
                 },
