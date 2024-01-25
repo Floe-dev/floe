@@ -1,4 +1,7 @@
 <p align="center" style="margin-top: 120px">
+  <a href="https://github.com/calcom/cal.com">
+   <img src="https://github.com/Floe-dev/floe/assets/9045634/7cfff324-db6b-4e5a-b123-be6b7981eec5" alt="Logo">
+  </a>
 
   <h3 align="center">Floe</h3>
 
@@ -6,8 +9,6 @@
     AI writing assistants for docs and changelogs.
     <br />
     <a href="https://floe.dev"><strong>Learn more »</strong></a>
-    <br />
-    ✨ Now in open beta! ✨
     <br />
     <br />
     <a href="https://join.slack.com/t/floedev/shared_invite/zt-1okoncyuu-_v9KaY7AjEQfKNj6O6qvVg">Slack<a>
