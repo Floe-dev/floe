@@ -28,7 +28,7 @@ export default function Home(): JSX.Element {
                 href="https://app.floe.dev"
                 target="_blank"
               >
-                <Button size="xl">Get started</Button>
+                <Button size="xl">Get started for free</Button>
               </Link>
               <Link href="https://github.com/Floe-dev/floe">
                 <Button color="secondary" size="xl" variant="text">
