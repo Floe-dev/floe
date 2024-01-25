@@ -1,10 +1,9 @@
 "use client";
 import { useState } from "react";
 import { signIn } from "next-auth/react";
-import { Button, Input } from "@floe/ui";
+import { Button, Input, Spinner } from "@floe/ui";
 import Image from "next/image";
 import type { FormEvent } from "react";
-import { Spinner } from "@floe/ui";
 import { useSearchParams } from "next/navigation";
 import logo from "public/logo.png";
 

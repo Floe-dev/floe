@@ -6,4 +6,5 @@ export { Input } from "./input";
 export { Button } from "./button";
 export { Spinner } from "./spinner";
 export { Clipboard } from "./clipboard";
+export { Accordion } from "./accordion";
 export { ActionCard } from "./action-card";

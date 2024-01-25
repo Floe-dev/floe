@@ -46,19 +46,19 @@ export default async function Billing({
     : null;
   const freeTierFeature = [
     "25K Pro tokens",
-    "500K Basic tokens",
+    "250 Basic tokens",
     "Slack support",
   ];
 
   const proTierFeature = [
-    `2M Pro tokens`,
-    "10M Basic tokens",
+    `1M Pro tokens`,
+    "2M Basic tokens",
     "Priority support",
     "Higher rate limits",
   ];
 
   const customTierFeature = [
-    "Option to bring your own key",
+    "Option to bring your own OpenAI key",
     "Custom token limits",
     "White-glove onboarding support",
     "Dedicated support channel",
@@ -195,7 +195,7 @@ export default async function Billing({
                 </form>
               )}
               <p className="mt-10 text-sm font-semibold leading-6 text-zinc-900">
-                Features for professionals and small teams.
+                For professionals and small teams.
               </p>
               <ul className="mt-6 space-y-3 text-sm leading-6 text-zinc-600">
                 {proTierFeature.map((feature) => (
@@ -260,7 +260,7 @@ export default async function Billing({
               </Link>
             )}
             <p className="mt-10 text-sm font-semibold leading-6 text-zinc-900">
-              Features for large teams and enterprises.
+              For large teams and enterprises.
             </p>
             <ul className="mt-6 space-y-3 text-sm leading-6 text-zinc-600">
               {customTierFeature.map((feature) => (
