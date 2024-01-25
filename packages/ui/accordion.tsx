@@ -1,3 +1,5 @@
+"use client";
+
 import { forwardRef } from "react";
 import classNames from "classnames";
 import * as AccordionPrimitive from "@radix-ui/react-accordion";
