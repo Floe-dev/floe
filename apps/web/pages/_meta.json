@@ -7,6 +7,13 @@
       "layout": "raw"
     }
   },
+  "pricing": {
+    "title": "Pricing",
+    "type": "page",
+    "theme": {
+      "layout": "raw"
+    }
+  },
   "docs": {
     "title": "Docs",
     "type": "page"

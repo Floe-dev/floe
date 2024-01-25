@@ -6,7 +6,7 @@
   },
   "rulesets": {
     "docs": {
-      "include": ["apps/web/pages/docs/**/*.{md,mdx}"],
+      "include": ["apps/web/**/*.{md,mdx}"],
       "rules": {
         "spelling-and-grammar": "warn",
         "docs-style": "warn"
