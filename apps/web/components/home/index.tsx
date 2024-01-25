@@ -13,7 +13,7 @@ export default function Home(): JSX.Element {
     <div className="relative overflow-x-hidden bg-white isolate bg-noise after:bg-gradient-to-b after:from-white after:opacity-50 after:-z-30 after:absolute after:inset-0">
       <div className="px-6 pt-10 mx-auto max-w-7xl sm:pt-20 lg:px-8">
         <section className="lg:flex lg:items-center lg:gap-x-10">
-          <div className="flex flex-col max-w-2xl mx-auto lg:mx-0 lg:flex-auto">
+          <div className="flex flex-col items-center max-w-2xl mx-auto text-center sm:items-baseline sm:text-left lg:mx-0 lg:flex-auto">
             <span className="flex-grow-0">
               <Pill text="Early access" />
             </span>
@@ -22,7 +22,7 @@ export default function Home(): JSX.Element {
               Meet your new AI-powered writing assistant. Floe is the CICD
               platform for writing better docs without the headache.
             </p>
-            <div className="flex justify-center gap-4 sm:justify-start">
+            <div className="flex flex-col justify-center gap-4 sm:flex-row sm:justify-start">
               <Link
                 className="flex items-center gap-x-1"
                 href="https://app.floe.dev"
