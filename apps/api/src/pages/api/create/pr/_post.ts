@@ -1,6 +1,8 @@
-import { z } from "zod";
 import OpenAI from "openai";
-import type { AiCreateDiffResponse } from "@floe/requests/ai-create-diff/_get";
+import {
+  querySchema,
+  type CreatePRResponse,
+} from "@floe/requests/create/pr/_post";
 import type { NextApiRequestExtension } from "~/types/middleware";
 import { defaultResponder } from "~/lib/middleware/default-responder";
 import { getHandlebarsVariables, handlebars } from "~/utils/handlebars";
@@ -11,28 +13,18 @@ import {
 } from "~/lib/normalizedGitProviders/strings";
 import { zParse } from "~/utils/z-parse";
 
-const querySchema = z.object({
-  owner: z.string(),
-  repo: z.string(),
-  baseSha: z.string(),
-  headSha: z.string(),
-  template: z.string(),
-  rulesets: z.array(z.string().optional()).default([]),
-  expressions: z.record(z.string(), z.any()).optional(),
-});
-
 function compileTemplate(
   rawTemplate: string,
   commits: string,
   diffs: string,
-  expressions: Record<string, unknown> = {}
+  meta: Record<string, unknown> = {}
 ) {
   const template = handlebars.compile(rawTemplate);
   const templateVariablesArr = getHandlebarsVariables(rawTemplate);
   const templateVariables = templateVariablesArr.reduce(
     (acc, variable) => ({
       ...acc,
-      [variable]: expressions[variable] ?? "[NEEDS_HUMAN_INPUT]",
+      [variable]: meta[variable] ?? "[NEEDS_HUMAN_INPUT]",
     }),
     {}
   );
@@ -85,7 +77,7 @@ function generateUserPrompt(
 async function handler({
   queryObj,
   workspace,
-}: NextApiRequestExtension): Promise<AiCreateDiffResponse> {
+}: NextApiRequestExtension): Promise<CreatePRResponse> {
   const parsed = zParse(querySchema, queryObj);
 
   const openai = new OpenAI({
@@ -122,7 +114,7 @@ async function handler({
     parsed.template,
     commitsString,
     diffsString,
-    parsed.expressions
+    parsed.meta
   );
 
   /**
@@ -131,8 +123,7 @@ async function handler({
    */
   const response = await openai.chat.completions.create({
     // gpt-3.5-turbo-1106
-    // gpt-4-1106-preview
-    model: "gpt-4",
+    model: "gpt-4-1106-preview",
     temperature: 0.2,
     messages: [
       {

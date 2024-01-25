@@ -4,7 +4,7 @@ import { withMiddleware } from "~/lib/middleware/with-middlware";
 export default withMiddleware()(
   defaultHandler({
     GET: {
-      1: import("./_get"),
+      1: import("./_post"),
     },
   })
 );
