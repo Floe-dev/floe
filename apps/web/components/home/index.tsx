@@ -120,7 +120,7 @@ export default function Home(): JSX.Element {
 
             <FeatureCard
               color="rose"
-              description="Write content, consistently. \nGenerate your first draft in seconds."
+              description="Automatic content generation. \nWrite your first draft in seconds."
               pillText="Coming soon"
               title="First Draft"
             >
@@ -183,20 +183,26 @@ export default function Home(): JSX.Element {
                   title: "Do Floe Reviews replace my linter?",
                   content: (
                     <>
-                      Floe is not (yet) a linter replacement. It is helpful to
-                      think of Floe as more of a writing assistant than a
-                      linter. Floe completements your linter by fulfilling tasks
-                      that would be difficult to achieve with a linter alone.
-                      For example, you can use Floe to:
+                      No. (Not yet anyways).
+                      <br />
+                      <br />
+                      You can think of Floe as more of a writing assistant than
+                      a linter. Floe completements your linter by fulfilling
+                      tasks that would be difficult to achieve with a linter
+                      alone. For example, you can use Floe to:
                       <ul className="mt-4 list-disc list-inside">
+                        <li>
+                          Create actionable suggested fixes to complex problems
+                        </li>
                         <li>
                           Quickly write and evaluate rules with a simple
                           interface
                         </li>
                         <li>
-                          Write and evaluate rules that would be complicated or
-                          impossible to express in a linter
+                          Evaluate rules that would be complicated or impossible
+                          to express in a linter
                         </li>
+                        <li>Write rules for any type of file</li>
                       </ul>
                     </>
                   ),
@@ -210,7 +216,7 @@ export default function Home(): JSX.Element {
                       <br />
                       Running a review for a 1000 word file with one rule will
                       consume ~2000 tokens. However, when running reviews
-                      against diffs you consume far fewer tokens.
+                      against diffs in CI token usage may be somewhat less.
                       <br />
                       <br />
                       The number of tokens consumed is always returned in the
@@ -282,6 +288,8 @@ export default function Home(): JSX.Element {
                   content: (
                     <>
                       Floe uses OpenAI gpt-1106-preview and gpt-3.5-turbo-1106.
+                      More models may be added in the future if there is a
+                      compelling enough usecase.
                     </>
                   ),
                 },
