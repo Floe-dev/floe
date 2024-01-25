@@ -46,11 +46,14 @@ https://github.com/Floe-dev/floe/assets/9045634/7244688a-ea51-4cc6-880a-2075bd48
 - [Turborepo](https://turbo.build/repo/)
 - [NextAuth](https://next-auth.js.org/)
 
-## Getting started
+## Documentation
+Checkout the [Floe docs](https://floe.dev/docs) to get started.
 
-Go checkout the [Floe docs](https://floe.dev/docs) to get started.
+## Contributing
+Floe is open to contributions! Guidelines in progress.
 
-## Contact us
+## Contact
+You can get in touch with me by email, or feel free to book a call.
 
 [📅 Book a demo](https://cal.com/nic-haley/book-a-demo)
 
