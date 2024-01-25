@@ -20,14 +20,22 @@
 </p>
 
 ## About Floe
-
 Floe is an AI writing assistant for your CLI / CI. Floe can help you to ship technical content, like docs and changelogs, with higher quality and less effort.
 
 Floe ships with two core features:
 
 - **Reviews**: Write your own rules, in plain English, to check your content for a variety of issues. Floe will automatically review your content and provide feedback.
 
-- **First Draft**: Floe can generate a first draft of your content, based on PR context and templates you control.
+- **First Draft (Coming soon)**: Floe can generate a first draft of your content, based on PR context and templates you control.
+
+<br />
+
+https://github.com/Floe-dev/floe/assets/9045634/17d0691a-52d9-4bc3-9b2a-83756222eba8
+
+<br />
+
+https://github.com/Floe-dev/floe/assets/9045634/7244688a-ea51-4cc6-880a-2075bd4845b0
+
 
 ## Built-with
 
