@@ -1,6 +1,6 @@
 import { CheckCircleIcon } from "@heroicons/react/20/solid";
+import { Button } from "@floe/ui";
 import { Link } from "nextra-theme-docs";
-import { Button } from "nextra/components";
 
 const freeTierFeature = ["25K Pro tokens", "250 Basic tokens", "Slack support"];
 
@@ -47,9 +47,11 @@ export function Pricing() {
                 </span>
               </p>
 
-              <Button className="w-full px-3 py-2 mt-6" color="gray" disabled>
-                Get started
-              </Button>
+              <Link href="https://app.floe.dev">
+                <Button className="w-full px-3 py-2 mt-6" color="gray">
+                  Get started
+                </Button>
+              </Link>
 
               <p className="mt-10 text-sm font-semibold leading-6 text-zinc-900">
                 Everything necessary to get started. No credit card required.
@@ -80,7 +82,9 @@ export function Pricing() {
                 </span>
               </p>
 
-              <Button className="w-full px-3 py-2 mt-6">Get started</Button>
+              <Link href="https://app.floe.dev">
+                <Button className="w-full px-3 py-2 mt-6">Get started</Button>
+              </Link>
 
               <p className="mt-10 text-sm font-semibold leading-6 text-zinc-900">
                 For professionals and small teams.
