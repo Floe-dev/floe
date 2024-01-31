@@ -13,14 +13,29 @@ const schema = z
   .required();
 
 export async function createWorkspace(formData: FormData) {
-  const { name } = schema.parse({
+  const validatedFields = schema.safeParse({
     name: formData.get("name"),
   });
-  const slug = slugify(name);
+
+  // Return early if the form data is invalid
+  if (!validatedFields.success) {
+    return {
+      status: "error",
+      message:
+        validatedFields.error.flatten().fieldErrors.name?.join(", ") ??
+        "Invalid form data",
+      slug: null,
+    };
+  }
+
+  const slug = slugify(validatedFields.data.name);
 
   const session = await getServerSession(authOptions);
   const userId = session?.user.id;
 
+  /**
+   * This shouldn't happen
+   */
   if (!userId) {
     throw new Error("User not found");
   }
@@ -28,7 +43,7 @@ export async function createWorkspace(formData: FormData) {
   try {
     const workspace = await db.workspace.create({
       data: {
-        name,
+        name: validatedFields.data.name,
         slug,
         members: {
           createMany: {
