@@ -12,6 +12,7 @@ import {
   diffsToString,
 } from "~/lib/normalizedGitProviders/strings";
 import { zParse } from "~/utils/z-parse";
+import { WritingAssistant } from "~/lib/ai/writing-assistant";
 
 function compileTemplate(
   rawTemplate: string,
@@ -116,6 +117,17 @@ async function handler({
     diffsString,
     parsed.meta
   );
+
+  const assistant = new WritingAssistant({
+    workspaceId: workspace.id,
+    provider: "openai",
+    // providerOptions: {
+    //   model: "gpt-4-1106-preview",
+    // },
+  });
+
+  const thread = await assistant.createThread();
+  await assistant.appendMessage(thread.id, "");
 
   /**
    * TODO:

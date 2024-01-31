@@ -12,5 +12,12 @@
         "docs-style": "warn"
       }
     }
+  },
+  "templates": {
+    "changelog": {
+      "ai": {
+        "title": "Generate a changelog title."
+      }
+    }
   }
 }
